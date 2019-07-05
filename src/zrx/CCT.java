@@ -1,9 +1,6 @@
 package zrx;
 
-import com.sun.source.tree.CompilationUnitTree;
 import zrx.base.Vector3d;
-
-import java.util.function.DoubleBinaryOperator;
 
 /**
  * CCT 抽象类
@@ -29,7 +26,7 @@ public abstract class CCT {
         double rr = r.length();
 
         return Vector3d.dot(Vector3d.corss(p01, r),
-                I * 1e-7 * rr * rr * rr);
+                I * 1e-7 / rr / rr / rr);
     }
 
     /**
@@ -56,6 +53,22 @@ public abstract class CCT {
      */
     public abstract int getPointPerCircle();
 
+    /**
+     * 就是 return getN()*getPointPerCircle();
+     * 但是不希望每次都计算
+     * 务必第二次以后的调用，免去计算过程
+     *
+     * @return getN()*getPointPerCircle()
+     */
+    public abstract int getTotalNumber();
+
+    public abstract double getStartPoint();
+
+    /**
+     * 获得电流
+     *
+     * @return 电流
+     */
     public abstract double getI();
 
     /**
@@ -76,16 +89,30 @@ public abstract class CCT {
         Vector3d B = new Vector3d(0, 0, 0);
         double I = getI();
         double step = getStep();
-        int number = getN() * getPointPerCircle();
+        int number = getTotalNumber();
 
-        Vector3d p0 = point(0.0);
+        Vector3d p0 = point(0.0 + getStartPoint());
         Vector3d p1 = null;
+
+
         for (int i = 1; i <= number; i++) {
-            p1 = point(i * step);
+            p1 = point(i * step + getStartPoint());
             B.addSelf(dB(p0, p1, I, p));
             p0 = p1;
         }
 
         return B;
+    }
+
+    public Vector3d[] pathForPlot3() {
+        int number = getTotalNumber();
+        double step = getStep();
+        Vector3d[] vs = new Vector3d[number+1];
+
+        for (int i = 0; i <=number ; i++) {
+            vs[i] = point(i * step + getStartPoint());
+        }
+
+        return vs;
     }
 }
