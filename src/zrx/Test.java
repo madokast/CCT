@@ -1,15 +1,62 @@
 package zrx;
 
+import zrx.CCT.CCT;
+import zrx.CCT.CurvedCCT;
+import zrx.CCT.Solenoid;
+import zrx.CCT.StraightCCT;
 import zrx.Tools.Numpy;
 import zrx.Tools.Timer;
 import zrx.base.Vector3d;
-import zrx.python.Plot;
+import zrx.python.CCTPlot;
+import zrx.python.Plod2d;
+import zrx.python.Plot3d;
 
 public class Test {
     public static void main(String[] args) {
-        CurvedCCT cct = new CurvedCCT(1, 3, 5e-2, 30, 100, Math.PI / 6.0, 2, Math.PI / 180.0);
-        Plot.plot3(cct.pathForPlot3());
-        Plot.show();
+        CurvedCCT cct = new CurvedCCT(1, 3, 5e-2, 35, 100, Math.PI / 6.0, 2, Math.PI / 180.0);
+//        CCTPlot.plotCCT(cct);
+//        CCTPlot.plotStartAndEndPoint(cct);
+
+        Plod2d.plot2(cct.pointOnKsiPhiCoordinateSystem());
+        Plot3d.plot3(cct.coordinateSystemTransformateFromKsiPhiToXYZ(
+                cct.pointOnKsiPhiCoordinateSystem()
+        ));
+
+
+        CurvedCCT.reverseWinding(cct);
+        cct.setN(15);
+//        CCTPlot.plotCCT(cct);
+//        CCTPlot.plotStartAndEndPoint(cct);
+        Plod2d.plot2(cct.pointOnKsiPhiCoordinateSystem());
+        Plot3d.plot3(cct.coordinateSystemTransformateFromKsiPhiToXYZ(
+                cct.pointOnKsiPhiCoordinateSystem()
+        ));
+
+        CurvedCCT.reverseWinding(cct);
+        cct.setN(5);
+        Plod2d.plot2(cct.pointOnKsiPhiCoordinateSystem());
+        Plot3d.plot3(cct.coordinateSystemTransformateFromKsiPhiToXYZ(
+                cct.pointOnKsiPhiCoordinateSystem()
+        ));
+
+//        Vector3d.Line line1 = new Vector3d.Line(end1,dir1);
+//        Vector3d.Line line2 = new Vector3d.Line(end2,dir2);
+//        Vector3d[] intersection = Vector3d.nearestTwoPointsOnTheirLinesRespectively(line1,line2);
+
+//        Plot3d.plot3(line1.pathForPlot3(3),"");
+//        Plot3d.plot3(line2.pathForPlot3(3),"");
+//        Plot3d.plot3(intersection,",'r'");
+
+
+//        System.out.println("Vector3d.nearestDistanceOfTwoLines(line1,line2) = " +
+//                Vector3d.nearestDistanceOfTwoLines(line1, line2));
+//        System.out.println("dir1 = " + dir1);
+//        System.out.println("dir2 = " + dir2);
+
+
+        CCTPlot.setCube(1.5);
+        CCTPlot.showThread();
+        Plod2d.showThread();
     }
 
     private static void 弯曲CCT验收(){

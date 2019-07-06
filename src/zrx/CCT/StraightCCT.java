@@ -1,4 +1,4 @@
-package zrx;
+package zrx.CCT;
 
 import zrx.base.Constants;
 import zrx.base.Vector3d;
@@ -74,13 +74,19 @@ public class StraightCCT extends CCT {
     }
 
     @Override
+    public void setN(int N) {
+        this.n = N;
+        this.totalNumber = getPointPerCircle() * this.n;
+    }
+
+    @Override
     public double getStep() {
         return stepTheta;
     }
 
     @Override
-    public int getPointPerCircle() {
-        return (int) Math.round(2 * Math.PI / stepTheta);
+    public void setStep(double step) {
+        this.stepTheta = step;
     }
 
     @Override
@@ -89,7 +95,7 @@ public class StraightCCT extends CCT {
     }
 
     @Override
-    public double getStartPoint() {
+    public double getStartTheta() {
         return startPoint;
     }
 

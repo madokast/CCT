@@ -1,9 +1,7 @@
-package zrx;
+package zrx.CCT;
 
 import zrx.base.Constants;
 import zrx.base.Vector3d;
-
-import java.util.function.Consumer;
 
 public class Solenoid extends CCT {
     private double r;
@@ -33,14 +31,14 @@ public class Solenoid extends CCT {
         this.n = n;
         I = i;
         this.stepTheta = stepTheta;
-        this.p = new Vector3d(0.0,0.0,0.0);
+        this.p = new Vector3d(0.0, 0.0, 0.0);
         this.azim = 0.0;
         this.azimR = new double[][]{
-                {Math.cos(azim),0.0,Math.sin(azim)},
-                {0.0,1.0,0.0},
-                {-Math.sin(azim),0.0,Math.cos(azim)}
+                {Math.cos(azim), 0.0, Math.sin(azim)},
+                {0.0, 1.0, 0.0},
+                {-Math.sin(azim), 0.0, Math.cos(azim)}
         };
-        this.totalNumber = getPointPerCircle()*n;
+        this.totalNumber = getPointPerCircle() * n;
         this.startPoint = 0.0;
     }
 
@@ -51,9 +49,9 @@ public class Solenoid extends CCT {
     public void setAzimuth(double azim) {
         this.azim = azim;
         this.azimR = new double[][]{
-                {Math.cos(azim),0.0,Math.sin(azim)},
-                {0.0,1.0,0.0},
-                {-Math.sin(azim),0.0,Math.cos(azim)}
+                {Math.cos(azim), 0.0, Math.sin(azim)},
+                {0.0, 1.0, 0.0},
+                {-Math.sin(azim), 0.0, Math.cos(azim)}
         };
     }
 
@@ -62,7 +60,7 @@ public class Solenoid extends CCT {
     }
 
     @Override
-    public double getStartPoint() {
+    public double getStartTheta() {
         return startPoint;
     }
 
@@ -72,13 +70,19 @@ public class Solenoid extends CCT {
     }
 
     @Override
+    public void setN(int N) {
+        this.n = N;
+        this.totalNumber = getPointPerCircle() * this.n;
+    }
+
+    @Override
     public double getStep() {
         return this.stepTheta;
     }
 
     @Override
-    public int getPointPerCircle() {
-        return (int)Math.round(2*Math.PI/stepTheta);
+    public void setStep(double step) {
+        this.stepTheta = step;
     }
 
     @Override
@@ -93,20 +97,20 @@ public class Solenoid extends CCT {
 
     @Override
     public Vector3d point(double th) {
-        Vector3d p0 = new Vector3d(-r*Math.cos(th),
-                r*Math.sin(th),
-                w/(2*Math.PI)*th);
+        Vector3d p0 = new Vector3d(-r * Math.cos(th),
+                r * Math.sin(th),
+                w / (2 * Math.PI) * th);
         p0.selfMatmul(azimR);
         return p0;
     }
 
-    public static Solenoid demoInstance(){
+    public static Solenoid demoInstance() {
         double r = 0.1;
         double w = 0.01;
         int n = 400;
         double I = 1.0;
         double step = Math.PI / 180.0;
-        Solenoid solenoid = new Solenoid(r,w,n,I,step);
+        Solenoid solenoid = new Solenoid(r, w, n, I, step);
         return solenoid;
     }
 
@@ -122,7 +126,7 @@ public class Solenoid extends CCT {
                 ", p=" + p +
                 ", azim=" + azim +
                 '}');
-        sb.append("\n对应的无限长re螺线管的理论磁场Bz = "+ Constants.Miu0*I*n/w);
+        sb.append("\n对应的无限长re螺线管的理论磁场Bz = " + Constants.Miu0 * I * n / w);
 
         return sb.toString();
     }

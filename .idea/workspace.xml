@@ -2,22 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="adbdbf18-7308-48d0-9cef-6bef6a0ec861" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/jython_standalone_2_7_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/zrx/CurvedCCT.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/zrx/Solenoid.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/zrx/StraightCCT.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/zrx/Test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/zrx/Tools/Numpy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/zrx/Tools/Sleep.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/zrx/Tools/Timer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/zrx/python/Plot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/CCT.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CCT.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/zrx/base/Vector2d.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/zrx/python/CCTPlot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/zrx/python/Plod2d.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/zrx/python/Plot3d.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/CCT.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCT/zrx/CCT.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/CCT.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/CurvedCCT.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/Solenoid.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/StraightCCT.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCT/zrx/Test.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/base/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCT/zrx/base/Constants.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/base/Vector3d.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCT/zrx/base/Vector3d.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zrx/CCT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/python/Plot.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyScript/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyScript/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/CCT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/CCT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/CurvedCCT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/CurvedCCT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/Solenoid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/Solenoid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/StraightCCT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/StraightCCT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/base/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/base/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/zrx/base/Vector3d.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/base/Vector3d.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/python/Plot.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,27 +32,85 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DefaultGradleProjectSettings">
-    <option name="testRunner" value="GRADLE" />
-    <option name="delegatedBuild" value="true" />
+    <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/zrx/CCT.java">
+        <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CCT.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="115" column="18" selection-start-line="115" selection-start-column="18" selection-end-line="115" selection-end-column="18" />
+            <state relative-caret-position="1178">
+              <caret line="91" column="18" selection-start-line="91" selection-start-column="18" selection-end-line="91" selection-end-column="18" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#dB#0;class#CCT#0" />
+                <element signature="e#1285#1286#0" expanded="true" />
+                <element signature="e#1362#1363#0" expanded="true" />
+                <element signature="e#1877#1878#0" expanded="true" />
+                <element signature="e#2461#2462#0" expanded="true" />
+                <element signature="method#magnet#0;class#CCT#0" />
+                <element signature="e#2660#2661#0" expanded="true" />
+                <element signature="e#2711#2712#0" expanded="true" />
+                <element signature="method#getStartDirect#0;class#CCT#0" />
+                <element signature="method#getEndDirect#0;class#CCT#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/zrx/Test.java">
+        <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CurvedCCT.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+            <state relative-caret-position="302">
+              <caret line="202" column="51" selection-start-line="202" selection-start-column="51" selection-end-line="202" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#CurvedCCT#0;class#CurvedCCT#0" />
+                <element signature="method#setN#0;class#CurvedCCT#0" />
+                <element signature="method#setStep#0;class#CurvedCCT#0" />
+                <element signature="e#2854#2855#0" expanded="true" />
+                <element signature="e#2885#2886#0" expanded="true" />
+                <element signature="e#2927#2928#0" expanded="true" />
+                <element signature="e#2951#2952#0" expanded="true" />
+                <element signature="method#setTiltAngle#0;class#CurvedCCT#0" />
+                <element signature="e#4203#4204#0" expanded="true" />
+                <element signature="e#4240#4241#0" expanded="true" />
+                <element signature="e#4280#4281#0" expanded="true" />
+                <element signature="e#4312#4313#0" expanded="true" />
+                <element signature="e#4343#4344#0" expanded="true" />
+                <element signature="e#4370#4371#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/zrx/python/CCTPlot.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="428">
+              <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+              <folding>
+                <element signature="e#244#245#0" expanded="true" />
+                <element signature="e#302#303#0" expanded="true" />
+                <element signature="e#345#346#0" expanded="true" />
+                <element signature="e#397#398#0" expanded="true" />
+                <element signature="e#464#465#0" expanded="true" />
+                <element signature="e#527#528#0" expanded="true" />
+                <element signature="e#592#593#0" expanded="true" />
+                <element signature="e#653#654#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/zrx/Test.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="316">
+              <caret line="34" column="26" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="26" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#弯曲CCT验收#0;class#Test#0" />
                 <element signature="method#直线CCT验收2#0;class#Test#0" />
                 <element signature="method#直线CCT验收#0;class#Test#0" />
                 <element signature="method#螺线管验收#0;class#Test#0" />
@@ -56,49 +120,48 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/zrx/python/Plot.java">
+        <entry file="file://$PROJECT_DIR$/src/zrx/python/Plot3d.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+            <state relative-caret-position="946">
+              <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#plot3#0;class#Plot#0" />
-                <element signature="e#763#764#0" expanded="true" />
-                <element signature="e#802#803#0" expanded="true" />
-                <element signature="method#polt3MakeFile#0;class#Plot#0" />
-                <element signature="method#prepareHead#0;class#Plot#0" />
-                <element signature="method#show#0;class#Plot#0" />
-                <element signature="method#print#0;class#Plot#0" />
-                <element signature="method#demo1#0;class#Plot#0" />
-                <element signature="method#prinFomatPYtest#0;class#Plot#0" />
-                <element signature="method#demo#0;class#Plot#0" />
+                <element signature="e#940#941#0" expanded="true" />
+                <element signature="e#963#964#0" expanded="true" />
+                <element signature="method#show#0;class#Plot3d#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/zrx/CurvedCCT.java">
+        <entry file="file://$PROJECT_DIR$/src/zrx/python/Plod2d.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="840">
-              <caret line="30" column="52" selection-start-line="30" selection-start-column="52" selection-end-line="30" selection-end-column="52" />
+            <state relative-caret-position="506">
+              <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
               <folding>
-                <element signature="docComment;class#CurvedCCT#0" />
-                <element signature="e#1256#1257#0" expanded="true" />
-                <element signature="e#1300#1301#0" expanded="true" />
-                <element signature="e#368#369#0" expanded="true" />
-                <element signature="e#392#393#0" expanded="true" />
-                <element signature="e#437#438#0" expanded="true" />
-                <element signature="e#461#462#0" expanded="true" />
-                <element signature="e#513#514#0" expanded="true" />
-                <element signature="e#537#538#0" expanded="true" />
-                <element signature="e#586#587#0" expanded="true" />
-                <element signature="e#610#611#0" expanded="true" />
-                <element signature="e#661#662#0" expanded="true" />
-                <element signature="e#685#686#0" expanded="true" />
-                <element signature="e#727#728#0" expanded="true" />
-                <element signature="e#751#752#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="docComment;method#plot2#0;class#Plod2d#0" />
+                <element signature="e#893#894#0" expanded="true" />
+                <element signature="e#916#917#0" expanded="true" />
+                <element signature="docComment;method#plotPoint#0;class#Plod2d#0" />
+                <element signature="method#setBoxSize#0;class#Plod2d#0" />
+                <element signature="method#prepareHead#0;class#Plod2d#0" />
+                <element signature="method#show#0;class#Plod2d#0" />
+                <element signature="e#4107#4108#0" expanded="true" />
+                <element signature="e#4153#4154#0" expanded="true" />
+                <element signature="method#printFomatPY#0;class#Plod2d#0" />
+                <element signature="method#demo1#0;class#Plod2d#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/zrx/base/Vector2d.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
             </state>
           </provider>
         </entry>
@@ -112,6 +175,12 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>plot.py</find>
+      <find>p0 =</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -121,11 +190,9 @@
         <option value="$PROJECT_DIR$/src/CCT.java" />
         <option value="$PROJECT_DIR$/src/zrx/base/Magnet.java" />
         <option value="$PROJECT_DIR$/src/zrx/base/Point.java" />
-        <option value="$PROJECT_DIR$/src/zrx/base/Constants.java" />
         <option value="$PROJECT_DIR$/src/zrx/base/Solenoid.java" />
         <option value="$PROJECT_DIR$/src/zrx/base/Matrix.java" />
         <option value="$PROJECT_DIR$/src/zrx/Tools/Timer.java" />
-        <option value="$PROJECT_DIR$/src/zrx/base/Vector3d.java" />
         <option value="$PROJECT_DIR$/src/zrx/Solenoid.java" />
         <option value="$PROJECT_DIR$/src/zrx/Tools/Numpy.java" />
         <option value="$PROJECT_DIR$/src/zrx/StraightCCT.java" />
@@ -133,9 +200,23 @@
         <option value="$PROJECT_DIR$/src/zrx/python/learn/Test.java" />
         <option value="$PROJECT_DIR$/src/zrx/python/plot/Plot3.java" />
         <option value="$PROJECT_DIR$/src/zrx/Tools/Sleep.java" />
-        <option value="$PROJECT_DIR$/src/zrx/python/Plot.java" />
         <option value="$PROJECT_DIR$/src/zrx/CCT.java" />
+        <option value="$PROJECT_DIR$/src/zrx/CTT/CurvedCCT.java" />
+        <option value="$PROJECT_DIR$/src/zrx/base/Constants.java" />
+        <option value="$PROJECT_DIR$/src/zrx/CTT/CCT.java" />
+        <option value="$PROJECT_DIR$/src/zrx/base/Vector3d.java" />
+        <option value="$PROJECT_DIR$/src/zrx/base/Vecrot2d.java" />
+        <option value="$PROJECT_DIR$/src/zrx/CCT/Solenoid.java" />
+        <option value="$PROJECT_DIR$/src/zrx/CCT/StraightCCT.java" />
+        <option value="$PROJECT_DIR$/src/zrx/python/Plot.java" />
+        <option value="$PROJECT_DIR$/src/zrx/CCT/CCT.java" />
+        <option value="$PROJECT_DIR$/src/zrx/base/Vectot2d.java" />
+        <option value="$PROJECT_DIR$/src/zrx/base/Vector2d.java" />
+        <option value="$PROJECT_DIR$/src/zrx/python/CCTPlot.java" />
+        <option value="$PROJECT_DIR$/src/zrx/python/Plod2d.java" />
+        <option value="$PROJECT_DIR$/src/zrx/python/Plot3d.java" />
         <option value="$PROJECT_DIR$/src/zrx/Test.java" />
+        <option value="$PROJECT_DIR$/src/zrx/CCT/CurvedCCT.java" />
       </list>
     </option>
   </component>
@@ -164,6 +245,11 @@
             <path>
               <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
               <item name="CCT" type="462c0819:PsiDirectoryNode" />
+              <item name="pyScript" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -171,6 +257,34 @@
               <item name="CCT" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="zrx" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="zrx" type="462c0819:PsiDirectoryNode" />
+              <item name="base" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="zrx" type="462c0819:PsiDirectoryNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="zrx" type="462c0819:PsiDirectoryNode" />
+              <item name="python" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="zrx" type="462c0819:PsiDirectoryNode" />
+              <item name="Tools" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -182,12 +296,14 @@
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="ToolWindowRun.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="12" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -205,12 +321,12 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.Test">
-    <configuration name="Numpy" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="zrx.Tools.Numpy" />
+    <configuration name="Plod2d" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="zrx.python.Plod2d" />
       <module name="CCT" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="zrx.Tools.*" />
+          <option name="PATTERN" value="zrx.python.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -218,8 +334,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Plot" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="zrx.python.Plot" />
+    <configuration name="Plot3d" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="zrx.python.Plot3d" />
       <module name="CCT" />
       <extension name="coverage">
         <pattern>
@@ -249,7 +365,7 @@
       <module name="CCT" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="zrx.*" />
+          <option name="PATTERN" value="zrx.CCT.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -262,7 +378,7 @@
       <module name="CCT" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="zrx.*" />
+          <option name="PATTERN" value="zrx.CCT.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -273,10 +389,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Test" />
-        <item itemvalue="Application.Plot" />
-        <item itemvalue="Application.Test (1)" />
-        <item itemvalue="Application.Numpy" />
+        <item itemvalue="Application.Plod2d" />
         <item itemvalue="Application.Vector3d" />
+        <item itemvalue="Application.Plot3d" />
+        <item itemvalue="Application.Test (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -290,74 +406,65 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1562162506805</updated>
-      <workItem from="1562162508395" duration="23028000" />
+      <workItem from="1562162508395" duration="25922000" />
+      <workItem from="1562320088539" duration="27546000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23028000" />
+    <option name="totallyTimeSpent" value="53468000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Designer" />
-      <window_info id="Image Layers" />
-      <window_info id="Capture Tool" />
-      <window_info id="UI Designer" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19034852" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15616623" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" sideWeight="0.50067025" side_tool="true" weight="0.5184136" />
-      <window_info anchor="bottom" id="Statistic" weight="0.3286119" />
-      <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Messages" weight="0.3286119" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49932975" weight="0.11331445" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3286119" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49932975" weight="0.58498585" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Maven" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Database" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50067025" side_tool="true" weight="0.51768035" />
+      <window_info anchor="bottom" id="Statistic" order="10" weight="0.6586402" />
+      <window_info anchor="bottom" id="Database Changes" order="11" />
+      <window_info anchor="bottom" id="Version Control" order="12" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.3286119" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="3" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/Magnet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="2" column="33" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/Matrix.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="3" column="55" selection-start-line="3" selection-start-column="55" selection-end-line="3" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/base/Magnet.java" />
+    <entry file="file://$PROJECT_DIR$/src/zrx/base/Matrix.java" />
     <entry file="jar://D:/Program Files/jdk-12.0.1/lib/src.zip!/java.base/java/lang/Math.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="586">
@@ -369,23 +476,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="582">
           <caret line="425" column="30" selection-start-line="425" selection-start-column="30" selection-end-line="425" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/Vector3d.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="83" column="37" selection-start-line="83" selection-start-column="37" selection-end-line="83" selection-end-column="37" />
-          <folding>
-            <element signature="e#957#958#0" expanded="true" />
-            <element signature="e#1019#1020#0" expanded="true" />
-            <element signature="e#1081#1082#0" expanded="true" />
-            <element signature="e#1143#1144#0" expanded="true" />
-            <element signature="e#1544#1545#0" expanded="true" />
-            <element signature="e#1599#1600#0" expanded="true" />
-            <element signature="e#1994#1995#0" expanded="true" />
-            <element signature="e#2017#2018#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -403,96 +493,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/StraightCCT.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-232">
-          <caret line="30" column="19" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1383#1384#0" expanded="true" />
-            <element signature="e#1409#1410#0" expanded="true" />
-            <element signature="e#1533#1534#0" expanded="true" />
-            <element signature="e#1577#1578#0" expanded="true" />
-            <element signature="e#1819#1820#0" expanded="true" />
-            <element signature="e#1843#1844#0" expanded="true" />
-            <element signature="e#185#186#0" expanded="true" />
-            <element signature="e#209#210#0" expanded="true" />
-            <element signature="e#261#262#0" expanded="true" />
-            <element signature="e#285#286#0" expanded="true" />
-            <element signature="e#334#335#0" expanded="true" />
-            <element signature="e#358#359#0" expanded="true" />
-            <element signature="e#409#410#0" expanded="true" />
-            <element signature="e#433#434#0" expanded="true" />
-            <element signature="e#475#476#0" expanded="true" />
-            <element signature="e#499#500#0" expanded="true" />
-            <element signature="method#printTheoreticalValues#0;class#StraightCCT#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/Solenoid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="18" column="7" lean-forward="true" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1465#1466#0" expanded="true" />
-            <element signature="e#1509#1510#0" expanded="true" />
-            <element signature="e#1402#1403#0" expanded="true" />
-            <element signature="e#1426#1427#0" expanded="true" />
-            <element signature="e#1474#1475#0" expanded="true" />
-            <element signature="e#1533#1534#0" expanded="true" />
-            <element signature="e#1582#1583#0" expanded="true" />
-            <element signature="e#1606#1607#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/python/learn/Test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="9" column="3" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#272#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/python/plot/Plot3.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="5" column="28" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/python/learn/Test.java" />
+    <entry file="file://$PROJECT_DIR$/src/zrx/python/plot/Plot3.java" />
     <entry file="file://$PROJECT_DIR$/src/zrx/Tools/Sleep.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/CurvedCCT.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="30" column="52" selection-start-line="30" selection-start-column="52" selection-end-line="30" selection-end-column="52" />
-          <folding>
-            <element signature="docComment;class#CurvedCCT#0" />
-            <element signature="e#1256#1257#0" expanded="true" />
-            <element signature="e#1300#1301#0" expanded="true" />
-            <element signature="e#368#369#0" expanded="true" />
-            <element signature="e#392#393#0" expanded="true" />
-            <element signature="e#437#438#0" expanded="true" />
-            <element signature="e#461#462#0" expanded="true" />
-            <element signature="e#513#514#0" expanded="true" />
-            <element signature="e#537#538#0" expanded="true" />
-            <element signature="e#586#587#0" expanded="true" />
-            <element signature="e#610#611#0" expanded="true" />
-            <element signature="e#661#662#0" expanded="true" />
-            <element signature="e#685#686#0" expanded="true" />
-            <element signature="e#727#728#0" expanded="true" />
-            <element signature="e#751#752#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -510,42 +516,189 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/python/Plot.java">
+    <entry file="file://$PROJECT_DIR$/src/zrx/base/Vector3d.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+        <state relative-caret-position="384">
+          <caret line="292" column="23" selection-start-line="292" selection-start-column="23" selection-end-line="292" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#plot3#0;class#Plot#0" />
-            <element signature="e#763#764#0" expanded="true" />
-            <element signature="e#802#803#0" expanded="true" />
-            <element signature="method#polt3MakeFile#0;class#Plot#0" />
-            <element signature="method#prepareHead#0;class#Plot#0" />
-            <element signature="method#show#0;class#Plot#0" />
-            <element signature="method#print#0;class#Plot#0" />
-            <element signature="method#demo1#0;class#Plot#0" />
-            <element signature="method#prinFomatPYtest#0;class#Plot#0" />
-            <element signature="method#demo#0;class#Plot#0" />
+            <element signature="method#selfMatmul#0;class#Vector3d#0" />
+            <element signature="method#corss#0;class#Vector3d#0" />
+            <element signature="method#add#0;class#Vector3d#0" />
+            <element signature="method#subtract#0;class#Vector3d#0" />
+            <element signature="e#970#971#0" expanded="true" />
+            <element signature="e#1032#1033#0" expanded="true" />
+            <element signature="e#1094#1095#0" expanded="true" />
+            <element signature="e#1156#1157#0" expanded="true" />
+            <element signature="method#dot#2;class#Vector3d#0" />
+            <element signature="method#addSelf#0;class#Vector3d#0" />
+            <element signature="method#subtractSelf#0;class#Vector3d#0" />
+            <element signature="e#1557#1558#0" expanded="true" />
+            <element signature="e#1612#1613#0" expanded="true" />
+            <element signature="method#normal#0;class#Vector3d#0" />
+            <element signature="docComment;method#isCoplane#0;class#Vector3d#0" />
+            <element signature="method#isCoplane#0;class#Vector3d#0" />
+            <element signature="method#nearestDistanceOfTwoLines#0;class#Vector3d#0" />
+            <element signature="docComment;class#Line#0;class#Vector3d#0" />
+            <element signature="method#Vector3d#0;class#Vector3d#0" />
+            <element signature="method#Vector3d#1;class#Vector3d#0" />
+            <element signature="method#Vector3d#2;class#Vector3d#0" />
+            <element signature="e#4021#4078#1" />
+            <element signature="e#6794#6795#0" expanded="true" />
+            <element signature="method#test1#0;class#Vector3d#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/CCT.java">
+    <entry file="file://$PROJECT_DIR$/src/zrx/base/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="115" column="18" selection-start-line="115" selection-start-column="18" selection-end-line="115" selection-end-column="18" />
+        <state relative-caret-position="120">
+          <caret line="4" column="40" selection-start-line="4" selection-start-column="40" selection-end-line="4" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/StraightCCT.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="861">
+          <caret line="89" column="5" selection-start-line="89" selection-start-column="5" selection-end-line="89" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#StraightCCT#0;class#StraightCCT#0" />
+            <element signature="method#setAzim#0;class#StraightCCT#0" />
+            <element signature="method#point#0;class#StraightCCT#0" />
+            <element signature="method#printTheoreticalValues#0;class#StraightCCT#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/Solenoid.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-62">
+          <caret line="85" column="5" selection-start-line="85" selection-start-column="5" selection-end-line="85" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#Solenoid#0;class#Solenoid#0" />
+            <element signature="method#setAzimuth#0;class#Solenoid#0" />
+            <element signature="method#setN#0;class#Solenoid#0" />
+            <element signature="method#point#0;class#Solenoid#0" />
+            <element signature="method#demoInstance#0;class#Solenoid#0" />
+            <element signature="method#toString#0;class#Solenoid#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/base/Vector2d.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/python/Plod2d.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;method#plot2#0;class#Plod2d#0" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#916#917#0" expanded="true" />
+            <element signature="docComment;method#plotPoint#0;class#Plod2d#0" />
+            <element signature="method#setBoxSize#0;class#Plod2d#0" />
+            <element signature="method#prepareHead#0;class#Plod2d#0" />
+            <element signature="method#show#0;class#Plod2d#0" />
+            <element signature="e#4107#4108#0" expanded="true" />
+            <element signature="e#4153#4154#0" expanded="true" />
+            <element signature="method#printFomatPY#0;class#Plod2d#0" />
+            <element signature="method#demo1#0;class#Plod2d#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/python/Plot3d.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="946">
+          <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#940#941#0" expanded="true" />
+            <element signature="e#963#964#0" expanded="true" />
+            <element signature="method#show#0;class#Plot3d#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/zrx/Test.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+        <state relative-caret-position="316">
+          <caret line="34" column="26" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#弯曲CCT验收#0;class#Test#0" />
             <element signature="method#直线CCT验收2#0;class#Test#0" />
             <element signature="method#直线CCT验收#0;class#Test#0" />
             <element signature="method#螺线管验收#0;class#Test#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CCT.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1178">
+          <caret line="91" column="18" selection-start-line="91" selection-start-column="18" selection-end-line="91" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#dB#0;class#CCT#0" />
+            <element signature="e#1285#1286#0" expanded="true" />
+            <element signature="e#1362#1363#0" expanded="true" />
+            <element signature="e#1877#1878#0" expanded="true" />
+            <element signature="e#2461#2462#0" expanded="true" />
+            <element signature="method#magnet#0;class#CCT#0" />
+            <element signature="e#2660#2661#0" expanded="true" />
+            <element signature="e#2711#2712#0" expanded="true" />
+            <element signature="method#getStartDirect#0;class#CCT#0" />
+            <element signature="method#getEndDirect#0;class#CCT#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/python/CCTPlot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="428">
+          <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+          <folding>
+            <element signature="e#244#245#0" expanded="true" />
+            <element signature="e#302#303#0" expanded="true" />
+            <element signature="e#345#346#0" expanded="true" />
+            <element signature="e#397#398#0" expanded="true" />
+            <element signature="e#464#465#0" expanded="true" />
+            <element signature="e#527#528#0" expanded="true" />
+            <element signature="e#592#593#0" expanded="true" />
+            <element signature="e#653#654#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CurvedCCT.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="202" column="51" selection-start-line="202" selection-start-column="51" selection-end-line="202" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#CurvedCCT#0;class#CurvedCCT#0" />
+            <element signature="method#setN#0;class#CurvedCCT#0" />
+            <element signature="method#setStep#0;class#CurvedCCT#0" />
+            <element signature="e#2854#2855#0" expanded="true" />
+            <element signature="e#2885#2886#0" expanded="true" />
+            <element signature="e#2927#2928#0" expanded="true" />
+            <element signature="e#2951#2952#0" expanded="true" />
+            <element signature="method#setTiltAngle#0;class#CurvedCCT#0" />
+            <element signature="e#4203#4204#0" expanded="true" />
+            <element signature="e#4240#4241#0" expanded="true" />
+            <element signature="e#4280#4281#0" expanded="true" />
+            <element signature="e#4312#4313#0" expanded="true" />
+            <element signature="e#4343#4344#0" expanded="true" />
+            <element signature="e#4370#4371#0" expanded="true" />
           </folding>
         </state>
       </provider>

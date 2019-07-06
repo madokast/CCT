@@ -1,5 +1,12 @@
 package zrx.base;
 
+import zrx.Tools.Numpy;
+import zrx.python.Plot3d;
+
+/**
+ * 三维矢量
+ */
+
 public class Vector3d {
     public double x;
     public double y;
@@ -59,6 +66,161 @@ public class Vector3d {
         return Math.sqrt(x * x + y * y + z * z);
     }
 
+    public final void normal() {
+        double len = length();
+        double nx = this.x / len;
+        double ny = this.y / len;
+        double nz = this.z / len;
+
+        this.x = nx;
+        this.y = ny;
+        this.z = nz;
+    }
+
+    /**
+     * 判断两条线是否共面
+     *
+     * @param a 线1
+     * @param b 线2
+     * @return 是否共面
+     */
+    public static final boolean isCoplane(Vector3d a, Vector3d b) {
+        a.normal();
+        b.normal();
+        Vector3d n = Vector3d.corss(a, b);
+        n.normal();
+
+        double an = Vector3d.dot(a, n);
+        double bn = Vector3d.dot(b, n);
+
+        if (an < Constants.DX && bn < Constants.DX) {
+            return true;
+        } else
+            return false;
+    }
+
+    /**
+     * 返回空间中两条不相交的直线，它们最近距离时所对应的两个点
+     * 其实就是求空间中两条直线的交点，但是因为精度误差，不可能完美相交
+     * 若返回到两个点距离过大，那么这两条直线确实不相交呢
+     * 若这两条线平行？鬼知道会得到什么
+     *
+     * 也许测试通过了，忐忑不安 2019年7月5日
+     *
+     * @param line0 直线0
+     * @param line1 直线1
+     * @return 返回一个Vector3d数组，数组元素只有两个，p[0]∈line0， p[1]∈line1
+     */
+    public static final Vector3d[/*2 ONLY*/] nearestTwoPointsOnTheirLinesRespectively(final Line line0, final Line line1) {
+        Vector3d p0 = line0.pointOnThisLine;
+        Vector3d p1 = line1.pointOnThisLine;
+
+        Vector3d v0 = line0.directOfThisLine;
+        Vector3d v1 = line1.directOfThisLine;
+
+        double[][] A = new double[][]{
+                {Vector3d.dot(v0, v0), -Vector3d.dot(v0, v1)},
+                {-Vector3d.dot(v0, v1), Vector3d.dot(v1, v1)}
+        };
+        double[] b = new double[]{
+                Vector3d.dot(p1, v0) - Vector3d.dot(p0, v0),
+                Vector3d.dot(p0, v1) - Vector3d.dot(p1, v1)
+        };
+
+        double[] nm = linearEquationsWithTwoUnknowns(A, b);
+
+        Vector3d[] ps = new Vector3d[]{
+                Vector3d.add(p0, Vector3d.dot(nm[0], v0)),
+                Vector3d.add(p1, Vector3d.dot(nm[1], v1))
+        };
+
+        return ps;
+    }
+
+    /**
+     * 两直线最短距离
+     * <a href="https://baike.baidu.com/item/%E5%BC%82%E9%9D%A2%E7%9B%B4%E7%BA%BF%E7%9A%84%E8%B7%9D%E7%A6%BB/2074683?fr=aladdin">
+     *     两直线最短距离
+     * <a/>
+     * 忐忑不安
+     * @param line0 直线1
+     * @param line1 直线2
+     * @return 最短距离
+     */
+    public static double nearestDistanceOfTwoLines(Line line0,Line line1){
+        Vector3d p0 = line0.pointOnThisLine;
+        Vector3d p1 = line1.pointOnThisLine;
+        Vector3d r01 = Vector3d.subtract(p1,p0);
+
+        Vector3d v0 = line0.directOfThisLine;
+        Vector3d v1 = line1.directOfThisLine;
+
+        return Math.abs(
+                Vector3d.dot(Vector3d.corss(v0,v1),r01)
+        )/
+                Math.abs(
+                        Vector3d.corss(v0,v1).length()
+                );
+    }
+
+    /**
+     * 解二元一次方程组。行列式形式 Ax=b
+     * [a00 a01] [x0]  =  [b0]
+     * [a10 a11] [x1]     [b1]
+     * 感觉比较robust了 2019年7月5日 测试通过
+     *
+     * @param A 系数矩阵A
+     * @param b 列向量b
+     * @return 方程的解x
+     */
+    private static double[] linearEquationsWithTwoUnknowns(final double[][] A, final double[] b) {
+        if (Math.abs(A[0][0]) < Constants.DX && Math.abs(A[1][0]) < Constants.DX) {
+            throw new ArithmeticException("/ by zero");
+        }
+        double[] x = new double[2];
+
+        if (Math.abs(A[0][0]) < Math.abs(A[1][0])) {
+            x[1] = (b[0] - b[1] / A[1][0] * A[0][0]) /
+                    (A[0][1] - A[1][1] / A[1][0] * A[0][0]);
+            x[0] = (b[1] - A[1][1] * x[1]) / A[1][0];
+        } else {
+            x[1] = (b[1] - b[0] / A[0][0] * A[1][0]) /
+                    (A[1][1] - A[0][1] / A[0][0] * A[1][0]);
+            x[0] = (b[0] - A[0][1] * x[1]) / A[0][0];
+        }
+
+        return x;
+    }
+
+    /**
+     * 一条直线。具体含义 代码已自解释
+     */
+    public static class Line {
+        public final Vector3d pointOnThisLine;
+        public final Vector3d directOfThisLine;
+
+        public Line(Vector3d pointOnThisLine, Vector3d directOfThisLine) {
+            this.pointOnThisLine = pointOnThisLine;
+            this.directOfThisLine = directOfThisLine;
+        }
+
+        public Vector3d[] pathForPlot3(double len){
+            int num = 50;
+            double start = 0;
+            double end = len/ directOfThisLine.length()/2.0;
+            Vector3d[] ps = new Vector3d[2*num];
+            double[] ds = Numpy.linspace(start,end,num);
+            for (int i = 0; i < num; i++) {
+                ps[i] = Vector3d.add(pointOnThisLine,Vector3d.dot(ds[i],directOfThisLine));
+            }
+            for (int i = num; i < 2*num; i++) {
+                ps[i] = Vector3d.add(pointOnThisLine,Vector3d.dot(-ds[i-num],directOfThisLine));
+            }
+
+            return ps;
+        }
+    }
+
     @Deprecated
     public Vector3d() {
         this.x = 0;
@@ -81,7 +243,7 @@ public class Vector3d {
 
     @Override
     public String toString() {
-        return "["+x+' '+y+' '+z+']';
+        return "[" + x + ' ' + y + ' ' + z + ']';
     }
 
     /**
@@ -90,6 +252,55 @@ public class Vector3d {
      * @param args
      */
     public static void main(String[] args) {
+//        test1();
+        test2();
+//        test3();
+    }
+
+    private static void test2() {
+        double[][] A = new double[][]{{7, 2}, {3, 4}};
+        double[] b = new double[]{5, 6};
+        double[] x = linearEquationsWithTwoUnknowns(A, b);
+
+        System.out.println("x[0] = " + x[0]);
+        System.out.println("x[1] = " + x[1]);
+
+        System.out.println("---------------");
+
+        Vector3d p0 = new Vector3d(1,2,3);
+        Vector3d v0 = new Vector3d(5.2,4.7,8.2);
+        Line line1 = new Line(p0,v0);
+
+        Vector3d p1 = new Vector3d(3,2,1);
+        Vector3d v1 = new Vector3d(1.7,-5.1,3.3);
+        Line line2 = new Line(p1,v1);
+
+        Vector3d[] pp = nearestTwoPointsOnTheirLinesRespectively(line1,line2);
+        System.out.println("pp[0] = " + pp[0]);
+        System.out.println("pp[1] = " + pp[1]);
+        System.out.println("距离——");
+        System.out.println(Vector3d.subtract(pp[0],pp[1]).length());
+
+        System.out.println("额外计算的距离——");
+        System.out.println(nearestDistanceOfTwoLines(line1,line2));
+        System.out.println(nearestDistanceOfTwoLines(line2,line1));
+
+        Plot3d.plot3(line1.pathForPlot3(12),"");
+        Plot3d.plot3(line2.pathForPlot3(12),"");
+
+        Plot3d.plot3(pp,"");
+        Plot3d.show();
+
+        //pp[0] = [0.7676194053106598 1.789963693261558 2.6335536776052715]
+        //pp[1] = [3.113939959591246 1.6581801212262626 1.2211775686183006]
+        //距离——
+        //2.741786520963132
+        //额外计算的距离——
+        //2.7417865209631316
+        //2.7417865209631316
+    }
+
+    private static void test1() {
         Vector3d p1 = new Vector3d(1, 1, 1);
         Vector3d p2 = new Vector3d(1, 2, 3);
         System.out.println("p2 = " + p2);
@@ -107,5 +318,11 @@ public class Vector3d {
         double[][] doubles = {{1, 2, 3}, {2, 3, 4}, {3, 4, 5}};
         p2.selfMatmul(doubles);
         System.out.println("p2 = " + p2);
+        System.out.println("-----------------");
+
+        System.out.println(p1);
+        p1.normal();
+        System.out.println(p1);
+        System.out.println(1 / Math.sqrt(3));
     }
 }
