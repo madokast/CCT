@@ -44,6 +44,39 @@ public class Plod2d {
         plot2(new Vector2d[]{p},describe);
     }
 
+    /**
+     * 画矢量
+     * 画一个位于 p 的矢量，矢量方向为 v ，长度 len
+     * @param p 矢量原点
+     * @param v 矢量方向
+     * @param len 矢量长度
+     */
+    public static void plotVector(final Vector2d p,final Vector2d v,final double len){
+        Vector2d nv = Vector2d.normal(v);
+        Vector2d q = Vector2d.add(p,Vector2d.dot(len,nv));
+        plot2(new Vector2d[]{p,q},",'k'");
+        plotPoint(q,",'kv'");
+    }
+
+    /**
+     * 画矢量
+     * 画一个位于 原点 的矢量，矢量方向为 v ，长度 len
+     * @param v 矢量方向
+     * @param len 矢量长度
+     */
+    public static void plotVector(final Vector2d v,final double len){
+        plotVector(Vector2d.getZeros(),v,len);
+    }
+
+    /**
+     * 画矢量
+     * 画一个位于 原点 的矢量，矢量方向为 v ，长度 v.len
+     * @param v 矢量方向
+     */
+    public static void plotVector(final Vector2d v){
+        plotVector(Vector2d.getZeros(),v,v.length());
+    }
+
     public static void plot2(List<Double> xs, List<Double> ys,String describe) {
         polt2MakeFile(xs, ys,describe);
     }
@@ -119,6 +152,8 @@ public class Plod2d {
             System.exit(-1);
 
         try {
+
+            pyPrintWriter.println("plt.axis('equal')");
             pyPrintWriter.println("plt.show()");
             pyPrintWriter.println();
 

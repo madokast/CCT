@@ -123,6 +123,7 @@ public abstract class CCT {
      * 改变step的符号
      * 这会导致线圈绕制方向 逆时针/顺时针 的切换
      */
+    @Deprecated
     public void reverse() {
         setStep(-getStep());
     }
@@ -133,7 +134,8 @@ public abstract class CCT {
      * @param p 磁场
      * @return p 点磁场
      */
-    public Vector3d magnet(Vector3d p) {
+    @Deprecated
+    public Vector3d magnetDeprecated(Vector3d p) {
         Vector3d B = new Vector3d(0, 0, 0);
         double I = getI();
         double step = getStep();
@@ -158,6 +160,7 @@ public abstract class CCT {
      *
      * @return 一系列点
      */
+    @Deprecated
     public Vector3d[] pathForPlot3() {
         int number = getTotalNumber();
         double step = getStep();
@@ -175,6 +178,7 @@ public abstract class CCT {
      *
      * @return 起始点
      */
+    @Deprecated
     public Vector3d getStartPoint() {
         return point(0.0 + getStartTheta());
     }
@@ -184,6 +188,7 @@ public abstract class CCT {
      *
      * @return 起点方向
      */
+    @Deprecated
     public Vector3d getStartDirect() {
         Vector3d p0 = point(0.0 + getStartTheta());
         Vector3d p1 = point(0.0 + getStartTheta() + Math.PI / 180.0 * Constants.DX);
@@ -198,6 +203,7 @@ public abstract class CCT {
      *
      * @return 终点方向
      */
+    @Deprecated
     public Vector3d getEndDirect() {
         Vector3d p0 = point(getTotalNumber() * getStep() + getStartTheta());
         Vector3d p1 = point(getTotalNumber() * getStep() + getStartTheta() + Math.PI / 180.0 * Constants.DX);
@@ -212,6 +218,7 @@ public abstract class CCT {
      *
      * @return 线圈终点
      */
+    @Deprecated
     public Vector3d getEndPoint() {
         return point(getTotalNumber() * getStep() + getStartTheta());
     }

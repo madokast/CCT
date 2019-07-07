@@ -104,7 +104,7 @@ public class Vector3d {
      * 其实就是求空间中两条直线的交点，但是因为精度误差，不可能完美相交
      * 若返回到两个点距离过大，那么这两条直线确实不相交呢
      * 若这两条线平行？鬼知道会得到什么
-     *
+     * <p>
      * 也许测试通过了，忐忑不安 2019年7月5日
      *
      * @param line0 直线0
@@ -140,26 +140,27 @@ public class Vector3d {
     /**
      * 两直线最短距离
      * <a href="https://baike.baidu.com/item/%E5%BC%82%E9%9D%A2%E7%9B%B4%E7%BA%BF%E7%9A%84%E8%B7%9D%E7%A6%BB/2074683?fr=aladdin">
-     *     两直线最短距离
+     * 两直线最短距离
      * <a/>
      * 忐忑不安
+     *
      * @param line0 直线1
      * @param line1 直线2
      * @return 最短距离
      */
-    public static double nearestDistanceOfTwoLines(Line line0,Line line1){
+    public static double nearestDistanceOfTwoLines(Line line0, Line line1) {
         Vector3d p0 = line0.pointOnThisLine;
         Vector3d p1 = line1.pointOnThisLine;
-        Vector3d r01 = Vector3d.subtract(p1,p0);
+        Vector3d r01 = Vector3d.subtract(p1, p0);
 
         Vector3d v0 = line0.directOfThisLine;
         Vector3d v1 = line1.directOfThisLine;
 
         return Math.abs(
-                Vector3d.dot(Vector3d.corss(v0,v1),r01)
-        )/
+                Vector3d.dot(Vector3d.corss(v0, v1), r01)
+        ) /
                 Math.abs(
-                        Vector3d.corss(v0,v1).length()
+                        Vector3d.corss(v0, v1).length()
                 );
     }
 
@@ -204,17 +205,17 @@ public class Vector3d {
             this.directOfThisLine = directOfThisLine;
         }
 
-        public Vector3d[] pathForPlot3(double len){
+        public Vector3d[] pathForPlot3(double len) {
             int num = 50;
             double start = 0;
-            double end = len/ directOfThisLine.length()/2.0;
-            Vector3d[] ps = new Vector3d[2*num];
-            double[] ds = Numpy.linspace(start,end,num);
+            double end = len / directOfThisLine.length() / 2.0;
+            Vector3d[] ps = new Vector3d[2 * num];
+            double[] ds = Numpy.linspace(start, end, num);
             for (int i = 0; i < num; i++) {
-                ps[i] = Vector3d.add(pointOnThisLine,Vector3d.dot(ds[i],directOfThisLine));
+                ps[i] = Vector3d.add(pointOnThisLine, Vector3d.dot(ds[i], directOfThisLine));
             }
-            for (int i = num; i < 2*num; i++) {
-                ps[i] = Vector3d.add(pointOnThisLine,Vector3d.dot(-ds[i-num],directOfThisLine));
+            for (int i = num; i < 2 * num; i++) {
+                ps[i] = Vector3d.add(pointOnThisLine, Vector3d.dot(-ds[i - num], directOfThisLine));
             }
 
             return ps;
@@ -239,6 +240,14 @@ public class Vector3d {
         this.x = p.x;
         this.y = p.y;
         this.z = p.z;
+    }
+
+    /**
+     * 获得 原点 / 零矢量
+     * @return new Vector3d(0.0, 0.0, 0.0)
+     */
+    public static Vector3d getZeros() {
+        return new Vector3d(0.0, 0.0, 0.0);
     }
 
     @Override
@@ -267,28 +276,28 @@ public class Vector3d {
 
         System.out.println("---------------");
 
-        Vector3d p0 = new Vector3d(1,2,3);
-        Vector3d v0 = new Vector3d(5.2,4.7,8.2);
-        Line line1 = new Line(p0,v0);
+        Vector3d p0 = new Vector3d(1, 2, 3);
+        Vector3d v0 = new Vector3d(5.2, 4.7, 8.2);
+        Line line1 = new Line(p0, v0);
 
-        Vector3d p1 = new Vector3d(3,2,1);
-        Vector3d v1 = new Vector3d(1.7,-5.1,3.3);
-        Line line2 = new Line(p1,v1);
+        Vector3d p1 = new Vector3d(3, 2, 1);
+        Vector3d v1 = new Vector3d(1.7, -5.1, 3.3);
+        Line line2 = new Line(p1, v1);
 
-        Vector3d[] pp = nearestTwoPointsOnTheirLinesRespectively(line1,line2);
+        Vector3d[] pp = nearestTwoPointsOnTheirLinesRespectively(line1, line2);
         System.out.println("pp[0] = " + pp[0]);
         System.out.println("pp[1] = " + pp[1]);
         System.out.println("距离——");
-        System.out.println(Vector3d.subtract(pp[0],pp[1]).length());
+        System.out.println(Vector3d.subtract(pp[0], pp[1]).length());
 
         System.out.println("额外计算的距离——");
-        System.out.println(nearestDistanceOfTwoLines(line1,line2));
-        System.out.println(nearestDistanceOfTwoLines(line2,line1));
+        System.out.println(nearestDistanceOfTwoLines(line1, line2));
+        System.out.println(nearestDistanceOfTwoLines(line2, line1));
 
-        Plot3d.plot3(line1.pathForPlot3(12),"");
-        Plot3d.plot3(line2.pathForPlot3(12),"");
+        Plot3d.plot3(line1.pathForPlot3(12), "");
+        Plot3d.plot3(line2.pathForPlot3(12), "");
 
-        Plot3d.plot3(pp,"");
+        Plot3d.plot3(pp, "");
         Plot3d.show();
 
         //pp[0] = [0.7676194053106598 1.789963693261558 2.6335536776052715]

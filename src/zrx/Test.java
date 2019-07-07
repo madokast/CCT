@@ -1,57 +1,36 @@
 package zrx;
 
-import zrx.CCT.CCT;
-import zrx.CCT.CurvedCCT;
-import zrx.CCT.Solenoid;
-import zrx.CCT.StraightCCT;
-import zrx.Tools.Numpy;
-import zrx.Tools.Timer;
+import zrx.CCT.*;
+import zrx.base.Vector2d;
 import zrx.base.Vector3d;
-import zrx.python.CCTPlot;
+import zrx.CCT.CCTPlot;
 import zrx.python.Plod2d;
 import zrx.python.Plot3d;
 
 public class Test {
     public static void main(String[] args) {
         CurvedCCT cct = new CurvedCCT(1, 3, 5e-2, 35, 100, Math.PI / 6.0, 2, Math.PI / 180.0);
-//        CCTPlot.plotCCT(cct);
-//        CCTPlot.plotStartAndEndPoint(cct);
 
-        Plod2d.plot2(cct.pointOnKsiPhiCoordinateSystem());
-        Plot3d.plot3(cct.coordinateSystemTransformateFromKsiPhiToXYZ(
-                cct.pointOnKsiPhiCoordinateSystem()
-        ));
 
+        Vector2d[] cct12d = cct.pointsOnKsiPhiCoordinateSystem();
+        Plod2d.plot2(cct12d);
+        Vector3d[] cct13d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct12d);
+        Plot3d.plot3(cct13d);
 
         CurvedCCT.reverseWinding(cct);
         cct.setN(15);
-//        CCTPlot.plotCCT(cct);
-//        CCTPlot.plotStartAndEndPoint(cct);
-        Plod2d.plot2(cct.pointOnKsiPhiCoordinateSystem());
-        Plot3d.plot3(cct.coordinateSystemTransformateFromKsiPhiToXYZ(
-                cct.pointOnKsiPhiCoordinateSystem()
-        ));
+        Vector2d[] cct22d = cct.pointsOnKsiPhiCoordinateSystem();
+        Plod2d.plot2(cct22d);
+        Vector3d[] cct23d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct22d);
+        Plot3d.plot3(cct23d);
 
         CurvedCCT.reverseWinding(cct);
         cct.setN(5);
-        Plod2d.plot2(cct.pointOnKsiPhiCoordinateSystem());
-        Plot3d.plot3(cct.coordinateSystemTransformateFromKsiPhiToXYZ(
-                cct.pointOnKsiPhiCoordinateSystem()
-        ));
+        Vector2d[] cct32d = cct.pointsOnKsiPhiCoordinateSystem();
+        Plod2d.plot2(cct32d);
+        Vector3d[] cct33d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct32d);
+        Plot3d.plot3(cct33d);
 
-//        Vector3d.Line line1 = new Vector3d.Line(end1,dir1);
-//        Vector3d.Line line2 = new Vector3d.Line(end2,dir2);
-//        Vector3d[] intersection = Vector3d.nearestTwoPointsOnTheirLinesRespectively(line1,line2);
-
-//        Plot3d.plot3(line1.pathForPlot3(3),"");
-//        Plot3d.plot3(line2.pathForPlot3(3),"");
-//        Plot3d.plot3(intersection,",'r'");
-
-
-//        System.out.println("Vector3d.nearestDistanceOfTwoLines(line1,line2) = " +
-//                Vector3d.nearestDistanceOfTwoLines(line1, line2));
-//        System.out.println("dir1 = " + dir1);
-//        System.out.println("dir2 = " + dir2);
 
 
         CCTPlot.setCube(1.5);
@@ -59,9 +38,56 @@ public class Test {
         Plod2d.showThread();
     }
 
+    private static void 起点终点验收(){
+        CurvedCCT cct = new CurvedCCT(1, 3, 5e-2, 35, 100, Math.PI / 6.0, 2, Math.PI / 180.0);
+
+
+        Vector2d[] cct12d = cct.pointsOnKsiPhiCoordinateSystem();
+        Plod2d.plot2(cct12d);
+        Plod2d.plotPoint(cct12d[0],CCTPlot.DescribeForStartPoint);
+        Plod2d.plotPoint(cct12d[cct12d.length-1],CCTPlot.DescribeForEndPoint);
+        Vector3d[] cct13d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct12d);
+        Plot3d.plot3(cct13d);
+        Plot3d.plotPoint(cct13d[0],CCTPlot.DescribeForStartPoint);
+        Plot3d.plotPoint(cct13d[cct13d.length-1],CCTPlot.DescribeForEndPoint);
+
+
+        CurvedCCT.reverseWinding(cct);
+        cct.setN(15);
+        Vector2d[] cct22d = cct.pointsOnKsiPhiCoordinateSystem();
+        Plod2d.plot2(cct22d);
+        Plod2d.plotPoint(cct22d[0],CCTPlot.DescribeForStartPoint);
+        Plod2d.plotPoint(cct22d[cct22d.length-1],CCTPlot.DescribeForEndPoint);
+        Vector3d[] cct23d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct22d);
+        Plot3d.plot3(cct23d);
+        Plot3d.plotPoint(cct23d[0],CCTPlot.DescribeForStartPoint);
+        Plot3d.plotPoint(cct23d[cct23d.length-1],CCTPlot.DescribeForEndPoint);
+    }
+
+    /**
+     * 2019年7月7日
+     */
+    private static void 坐标转换法磁场验收(){
+        CurvedCCT cct = new CurvedCCT(1, 3, 5e-2, 35, 100, Math.PI / 6.0, 2, Math.PI / 180.0);
+
+        System.out.println("cct.magnetDeprecated(Vector3d.getZeros()) = " + cct.magnetDeprecated(Vector3d.getZeros()));
+//        cct.magnetDeprecated(Vector3d.getZeros()) = [-7.242430919427373E-6 6.010054595058614E-6 1.8866375020472344E-5]
+
+        Vector2d[] cct12d = cct.pointsOnKsiPhiCoordinateSystem();
+        Plod2d.plot2(cct12d);
+        Vector3d[] cct13d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct12d);
+        Plot3d.plot3(cct13d);
+
+        System.out.println("Magnet.magnetAtPoint(cct13d,cct.getI(),Vector3d.getZeros()) = " + Magnet.magnetAtPoint(cct13d, cct.getI(), Vector3d.getZeros()));
+//        Magnet.magnetAtPoint(cct13d,cct.getI(),Vector3d.getZeros()) = [-7.242430919427373E-6 6.010054595058614E-6 1.8866375020472344E-5]
+
+//        System.out.println("cct13d.length = " + cct13d.length);
+//        cct13d.length = 12601 成了
+    }
+
     private static void 弯曲CCT验收(){
-        CurvedCCT cct = new CurvedCCT(1, 3, 5e-2, 30, 100, Math.PI / 6.0, 2, Math.PI / 180.0);
-        System.out.println(cct.magnet(new Vector3d(1, 1, 1)));
+//        CurvedCCT cct = new CurvedCCT(1, 3, 5e-2, 30, 100, Math.PI / 6.0, 2, Math.PI / 180.0);
+//        System.out.println(cct.magnet(new Vector3d(1, 1, 1)));
 
         //py
         //10800
@@ -73,17 +99,17 @@ public class Test {
     }
 
     private static void 直线CCT验收2(){
-        Timer.invoke();
-        int[] steps = {30, 90, 120, 150, 180, 240, 360, 3600};
-        for (int step : steps) {
-            StraightCCT cct = new StraightCCT(25e-3, 6.96e-3, 75, 10000.0, Math.PI / 9.0, 1, Math.PI / step);
-            cct.printTheoreticalValues();
-            double[] nz = Numpy.linspace(0.25,0.251,3);
-            for(double i : nz){
-                System.out.println(cct.magnet(new Vector3d(0.0, 0.0, i)));
-            }
-        }
-        Timer.invoke();
+//        Timer.invoke();
+//        int[] steps = {30, 90, 120, 150, 180, 240, 360, 3600};
+//        for (int step : steps) {
+//            StraightCCT cct = new StraightCCT(25e-3, 6.96e-3, 75, 10000.0, Math.PI / 9.0, 1, Math.PI / step);
+//            cct.printTheoreticalValues();
+//            double[] nz = Numpy.linspace(0.25,0.251,3);
+//            for(double i : nz){
+//                System.out.println(cct.magnet(new Vector3d(0.0, 0.0, i)));
+//            }
+//        }
+//        Timer.invoke();
 
         // py 结果
         //.....
@@ -107,10 +133,10 @@ public class Test {
     }
 
     private static void 直线CCT验收() {
-        StraightCCT straightCCT = new StraightCCT(25e-3, 6.96e-3, 75, 10000.0, Math.PI / 9.0, 1, Math.PI / 180);
-        System.out.println(straightCCT.point(0.0));
-        System.out.println(straightCCT.point(1.0));
-        System.out.println(straightCCT.point(2.0));
+//        StraightCCT straightCCT = new StraightCCT(25e-3, 6.96e-3, 75, 10000.0, Math.PI / 9.0, 1, Math.PI / 180);
+//        System.out.println(straightCCT.point(0.0));
+//        System.out.println(straightCCT.point(1.0));
+//        System.out.println(straightCCT.point(2.0));
 
         //py计算结果
         //[-0.025  0.     0.   ]
@@ -122,10 +148,10 @@ public class Test {
         //[-0.013507557646703494 0.021036774620197415 0.05890578165106808]
         //[0.01040367091367856 0.022732435670642044 0.064672290502133]
 
-        StraightCCT cct = new StraightCCT(25e-3, 6.96e-3, 75, 10000.0, Math.PI / 9.0, 1, Math.PI / 180);
-        cct.printTheoreticalValues();
-        System.out.println(cct.point(20));
-        System.out.println(cct.magnet(new Vector3d(0.0, 0.0, 0.0)));
+//        StraightCCT cct = new StraightCCT(25e-3, 6.96e-3, 75, 10000.0, Math.PI / 9.0, 1, Math.PI / 180);
+//        cct.printTheoreticalValues();
+//        System.out.println(cct.point(20));
+//        System.out.println(cct.magnet(new Vector3d(0.0, 0.0, 0.0)));
 
         //java
         //这应该也许是个二极场CCT吧
@@ -144,16 +170,16 @@ public class Test {
     }
 
     private static void 螺线管验收() {
-        CCT cct = Solenoid.demoInstance();
-        System.out.println("cct = " + cct);
-//        System.out.println(CCT.dB(new Vector3d(0,0,0),new Vector3d(1,1,1),1.0,new Vector3d(0.9,0.9,0)));
-//        System.out.println("cct.magnet(new Vector3d(0.0,0.0,0.0)) = " + cct.magnet(new Vector3d(0.0, 0.0, 0.0)));
-        Timer.invoke();
-        System.out.println(cct.magnet(new Vector3d(0, 0, 0)));
-        System.out.println(cct.magnet(new Vector3d(0, 0, 0.1)));
-        System.out.println(cct.magnet(new Vector3d(0, 0, 0.2)));
-        System.out.println(cct.magnet(new Vector3d(0, 0, 0.3)));
-        System.out.println(cct.magnet(new Vector3d(0, 0, 0.4)));
-        Timer.invoke();
+//        CCT cct = Solenoid.demoInstance();
+//        System.out.println("cct = " + cct);
+////        System.out.println(CCT.dB(new Vector3d(0,0,0),new Vector3d(1,1,1),1.0,new Vector3d(0.9,0.9,0)));
+////        System.out.println("cct.magnet(new Vector3d(0.0,0.0,0.0)) = " + cct.magnet(new Vector3d(0.0, 0.0, 0.0)));
+//        Timer.invoke();
+//        System.out.println(cct.magnet(new Vector3d(0, 0, 0)));
+//        System.out.println(cct.magnet(new Vector3d(0, 0, 0.1)));
+//        System.out.println(cct.magnet(new Vector3d(0, 0, 0.2)));
+//        System.out.println(cct.magnet(new Vector3d(0, 0, 0.3)));
+//        System.out.println(cct.magnet(new Vector3d(0, 0, 0.4)));
+//        Timer.invoke();
     }
 }

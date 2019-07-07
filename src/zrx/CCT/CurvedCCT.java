@@ -31,6 +31,7 @@ public class CurvedCCT extends CCT {
     private double nth;
     private double stepKsi;
 
+    //以下为辅助量
     private int totalNumber; //即 n*2*pi/stepTheta 为了防止每次计算，所以作为属性，只计算一次
     private double startKsi; // 绕线开始点ksi0，弧度制，为了以后的需要。
     private double startPhi; // 注意这个值和φ0的区别。 φ0为绕制一周时，phi变化量。startPhi为起始点的phi值
@@ -67,6 +68,7 @@ public class CurvedCCT extends CCT {
 
     }
 
+    @Deprecated
     public void setStartKsi(double startPoint) {
         this.startKsi = startPoint;
         this.cn = 1.0 / (Math.tan(this.tiltAngle) * this.nth * Math.sinh(this.eta));
@@ -77,6 +79,15 @@ public class CurvedCCT extends CCT {
         this.startPhi = startPhi;
     }
 
+    public double getStartPhi() {
+        return startPhi;
+    }
+
+    /**
+     * 优秀函数
+     *
+     * @return 结束点的phi值
+     */
     public double getEndPhi() {
 //        double phi = this.startPhi + dphi * this.antiClockwise;
 //        double dphi = cn * Math.sin(this.nth * dksi) + this.phi0 * dksi / (2.0 * Math.PI);
@@ -105,6 +116,7 @@ public class CurvedCCT extends CCT {
     }
 
     @Override
+    @Deprecated
     public void setStep(double stepKsi) {
         this.stepKsi = stepKsi;
         this.antiClockwise = (this.stepKsi > 0) ? 1 : -1;
@@ -134,7 +146,15 @@ public class CurvedCCT extends CCT {
         return I;
     }
 
+    /**
+     * 作废!
+     * 被 二维=三维 变换替代
+     *
+     * @param ksi 自变量
+     * @return ksi对应的三维xyz空间的点
+     */
     @Override
+    @Deprecated
     public Vector3d point(double ksi) {
         //返回ξ位置 在笛卡尔坐标系中的坐标
         //ksi，即ξ，是弯曲CCT中的自变量
@@ -165,6 +185,7 @@ public class CurvedCCT extends CCT {
         return new Vector3d(x, y, z);
     }
 
+    @Deprecated
     public void setTiltAngle(double tiltAngle) {
         this.tiltAngle = tiltAngle;
         //辅助量
@@ -189,6 +210,7 @@ public class CurvedCCT extends CCT {
      * 将 CCT 反向绕线延长
      * 专用于AG-CCT建模
      * 注意是在传入的cct上修改
+     * 一般般 能用——不 是优秀代码
      *
      * @param cct 原来的 CCT
      */
@@ -200,12 +222,20 @@ public class CurvedCCT extends CCT {
         double phi0 = -cct.phi0;
 
         cct.startKsi = endKsi;
-        cct.startPhi = endPhi + Math.abs(cct.phi0);//这个代码写得非常差，我要打人了
+
+        //这个代码写得非常差 2019年7月6日
+        //应该先判断当前CCT的phi增长方向，然后确定是增加还是减少
+        //2019年7月7日
+        //step 正 phi 正 -> 右上方行走
+        //step 负 phi 正 -> 左下方行走
+        //step 负 phi 负 -> 左上方行走
+        //step 正 phi 负 -> 右下方行走
+        cct.setStartPhi(endPhi + Math.abs(cct.phi0));
+
         cct.stepKsi = step;
         cct.tiltAngle = tiltAngle;
         cct.phi0 = phi0;
 
-        System.out.println("endPhi = " + endPhi);
 
 //        cct.setStartKsi(cct.getEndTheta());
 //        cct.setStartPhi(endPhi + cct.getPhi0());
@@ -220,7 +250,7 @@ public class CurvedCCT extends CCT {
      *
      * @return (ξ, φ)坐标系下 弯曲cct路径
      */
-    public Vector2d[] pointOnKsiPhiCoordinateSystem() {
+    public Vector2d[] pointsOnKsiPhiCoordinateSystem() {
         Vector2d[] vs = new Vector2d[totalNumber + 1];
 
         for (int i = 0; i < totalNumber + 1; i++) {
@@ -238,9 +268,52 @@ public class CurvedCCT extends CCT {
 
     /**
      * 坐标变换 (ξ,φ) to (x, y, z)
-     * 用于验证
+     *
+     * @param v2 圆环坐标系 坐标 (ξ,φ)
+     * @return 空间直角坐标系 坐标 (x, y, z)
+     */
+    public Vector3d coordinateSystemTransformateFromKsiPhiToXYZ(Vector2d v2) {
+        //提取ksi phi
+        double ksi = v2.x;
+        double phi = v2.y;
+
+        // 首先确定双极坐标系(dx, dy)中位置
+        double k = Math.cosh(this.eta) - Math.cos(ksi);
+        double dx = this.a * Math.sinh(this.eta) / k;
+        double dy = this.a * Math.sin(ksi) / k;
+
+        // 变换到xyz直角坐标系
+        double x = Math.cos(phi) * dx;
+        double y = Math.sin(phi) * dx;
+        double z = dy;
+
+        return new Vector3d(x, y, z);
+    }
+
+    /**
+     * 坐标变换 (ξ,φ) to (x, y, z)
+     *
+     * @param v2s 圆环坐标系 坐标 (ξ,φ)
+     * @return 空间直角坐标系 坐标 (x, y, z)
      */
     public Vector3d[] coordinateSystemTransformateFromKsiPhiToXYZ(Vector2d[] v2s) {
+        int len = v2s.length;
+        Vector3d[] v3s = new Vector3d[len];
+        for (int i = 0; i < len; i++) {
+            v3s[i] = coordinateSystemTransformateFromKsiPhiToXYZ(v2s[i]);
+        }
+
+        return v3s;
+    }
+
+
+    /**
+     * 作废。耦合过深
+     * 坐标变换 (ξ,φ) to (x, y, z)
+     * 用于验证
+     */
+    @Deprecated
+    public Vector3d[] coordinateSystemTransformateFromKsiPhiToXYZ_OLD(Vector2d[] v2s) {
         int len = v2s.length;
         Vector3d[] v3s = new Vector3d[len];
 
@@ -262,5 +335,19 @@ public class CurvedCCT extends CCT {
         }
 
         return v3s;
+    }
+
+    /**
+     * @return 得到(ξ, φ)坐标系中的CCT开始点
+     */
+    public Vector2d getStartPointInKsiPhiCoordinateSystem() {
+        return new Vector2d(getStartTheta(), getStartPhi());
+    }
+
+    /**
+     * @return 得到(ξ,φ)坐标系中的CCT结束点
+     */
+    public Vector2d getEndPointInKsiPhiCoordinateSystem() {
+        return new Vector2d(getEndTheta(), getEndPhi());
     }
 }
