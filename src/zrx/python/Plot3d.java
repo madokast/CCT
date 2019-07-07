@@ -50,6 +50,14 @@ public class Plot3d {
         plot3(new Vector3d[]{p},describe);
     }
 
+    public static void plotFirstPoint(Vector3d[] vs,String describe){
+        plotPoint(vs[0],describe);
+    }
+
+    public static void plotLastPoint(Vector3d[] vs,String describe){
+        plotPoint(vs[vs.length-1],describe);
+    }
+
     public static void plot3(List<Double> xs, List<Double> ys, List<Double> zs,String describe) {
         polt3MakeFile(xs, ys, zs,describe);
     }

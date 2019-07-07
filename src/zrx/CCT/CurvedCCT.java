@@ -350,4 +350,32 @@ public class CurvedCCT extends CCT {
     public Vector2d getEndPointInKsiPhiCoordinateSystem() {
         return new Vector2d(getEndTheta(), getEndPhi());
     }
+
+    public Vector2d getStartDirectInKsiPhiCoordinateSystem(){
+        //求导
+        double dksi = 1.0;
+//        double dphi = cn * Math.sin(this.nth * dksi) + this.phi0 * dksi / (2.0 * Math.PI);
+        double dphi = this.cn*this.nth*Math.cos(this.nth*getStartTheta())+this.phi0/(2.0 * Math.PI);
+
+        Vector2d d = new Vector2d(dksi,dphi).normalSelfAndReturn();
+
+        if(this.stepKsi>0)
+            return d;
+        else
+            return d.reverseSelfAndReturn();
+    }
+
+    public Vector2d getEndDirectInKsiPhiCoordinateSystem(){
+        //求导
+        double dksi = 1.0 ;
+//        double dphi = cn * Math.sin(this.nth * dksi) + this.phi0 * dksi / (2.0 * Math.PI);
+        double dphi = this.cn*this.nth*Math.cos(this.nth*getEndTheta())+this.phi0/(2.0 * Math.PI);
+
+        Vector2d d = new Vector2d(dksi,dphi).normalSelfAndReturn();
+
+        if(this.stepKsi>0)
+            return d;
+        else
+            return d.reverseSelfAndReturn();
+    }
 }

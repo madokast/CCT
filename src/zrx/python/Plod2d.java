@@ -14,6 +14,22 @@ public class Plod2d {
     private static File pyFile;
     private static PrintWriter pyPrintWriter;
 
+    //describe
+    public static final String RED_POINT = ",'ro'";
+    public static final String BLACK_POINT = ",'ko'";
+    public static final String YELLOW_POINT = ",'yo'";
+    public static final String GREEN_POINT = ",'go'";
+    public static final String BLUE_POINT = ",'bo'";
+
+    public static final String BLUE_ADD = ",'b+'";
+
+
+    public static final String RED_LINE = ",'r'";
+    public static final String BLACK_LINE = ",'k'";
+    public static final String YELLOW_LINE = ",'y'";
+    public static final String GREEN_LINE = ",'g'";
+    public static final String BLUE_LINE = ",'b'";
+
     /**
      * 2d画图，传入一个Vector2d数组，从[0]依次画图
      * @param rs Vector2d数组
@@ -42,6 +58,22 @@ public class Plod2d {
      */
     public static void plotPoint(Vector2d p,String describe){
         plot2(new Vector2d[]{p},describe);
+    }
+
+    public static void plotFirstPoint(Vector2d[] vs,String describe){
+        plotPoint(vs[0],describe);
+    }
+
+    public static void plotLastPoint(Vector2d[] vs,String describe){
+        plotPoint(vs[vs.length-1],describe);
+    }
+
+    /**
+     * 画一个点
+     * @param p 点
+     */
+    public static void plotPoint(Vector2d p){
+        plot2(new Vector2d[]{p},"");
     }
 
     /**
@@ -147,13 +179,16 @@ public class Plod2d {
         }
     }
 
+    public static void equal(){
+        pyPrintWriter.println("plt.axis('equal')");
+    }
+
     public static void show() {
         if (!prepareHead)
             System.exit(-1);
 
         try {
 
-            pyPrintWriter.println("plt.axis('equal')");
             pyPrintWriter.println("plt.show()");
             pyPrintWriter.println();
 

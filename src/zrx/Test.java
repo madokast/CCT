@@ -7,8 +7,52 @@ import zrx.CCT.CCTPlot;
 import zrx.python.Plod2d;
 import zrx.python.Plot3d;
 
+import javax.swing.table.TableRowSorter;
+
 public class Test {
     public static void main(String[] args) {
+        CurvedCCT cct = new CurvedCCT(1, 3, 5e-2, 35, 100, Math.PI / 6.0, 2, Math.PI / 180.0);
+
+
+        Vector2d[] cct12d = cct.pointsOnKsiPhiCoordinateSystem();
+        Plod2d.plot2(cct12d);
+//        Vector3d[] cct13d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct12d);
+//        Plot3d.plot3(cct13d);
+
+        Vector2d cct1EndPoint = cct.getEndPointInKsiPhiCoordinateSystem();
+        Vector2d cct1EndDirect = cct.getEndDirectInKsiPhiCoordinateSystem();
+
+        CurvedCCT.reverseWinding(cct);
+        cct.setN(15);
+        Vector2d[] cct22d = cct.pointsOnKsiPhiCoordinateSystem();
+        Plod2d.plot2(cct22d);
+//        Vector3d[] cct23d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct22d);
+//        Plot3d.plot3(cct23d);
+
+        Vector2d cct2StartPoint = cct.getStartPointInKsiPhiCoordinateSystem();
+        Vector2d cct2StartDirect = cct.getStartDirectInKsiPhiCoordinateSystem();
+
+        Plod2d.plotPoint(cct1EndPoint,Plod2d.BLUE_ADD);
+        Plod2d.plotPoint(cct2StartPoint,Plod2d.BLUE_ADD);
+
+        Plod2d.plotVector(cct1EndPoint,cct1EndDirect,1);
+        Plod2d.plotVector(cct2StartPoint,cct2StartDirect,1);
+
+//        Vector2d[] connectionSegment2d = Vector2d.circularInterpolation(
+//                cct1EndPoint, cct1EndDirect, false,
+//                cct2StartPoint,cct2StartDirect,true,
+//                cct.getStep());
+//
+//        Plod2d.plot2(connectionSegment2d,Plod2d.RED_LINE);
+
+
+//        CCTPlot.setCube(1.5);
+//        CCTPlot.showThread();
+        Plod2d.equal();
+        Plod2d.showThread();
+    }
+
+    private static void mainTest(){
         CurvedCCT cct = new CurvedCCT(1, 3, 5e-2, 35, 100, Math.PI / 6.0, 2, Math.PI / 180.0);
 
 
@@ -70,7 +114,7 @@ public class Test {
     private static void 坐标转换法磁场验收(){
         CurvedCCT cct = new CurvedCCT(1, 3, 5e-2, 35, 100, Math.PI / 6.0, 2, Math.PI / 180.0);
 
-        System.out.println("cct.magnetDeprecated(Vector3d.getZeros()) = " + cct.magnetDeprecated(Vector3d.getZeros()));
+//        System.out.println("cct.magnetDeprecated(Vector3d.getZeros()) = " + cct.magnetDeprecated(Vector3d.getZeros()));
 //        cct.magnetDeprecated(Vector3d.getZeros()) = [-7.242430919427373E-6 6.010054595058614E-6 1.8866375020472344E-5]
 
         Vector2d[] cct12d = cct.pointsOnKsiPhiCoordinateSystem();
