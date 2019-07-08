@@ -1,6 +1,8 @@
 package zrx;
 
 import Jama.Matrix;
+import zrx.Tools.InterpolationOfPolarCoordinate;
+import zrx.Tools.PrintArray;
 
 public class JameTest {
     public static void main(String[] args) {
@@ -26,6 +28,9 @@ public class JameTest {
         Matrix x = A.solve(b);
 
         x.print(5,2);
+
+//        double[] arr = InterpolationOfPolarCoordinate.columnvVectorToArray(x);
+//        PrintArray.print(arr);
     }
 
     private static void 初始化() {

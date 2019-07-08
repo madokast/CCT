@@ -3,7 +3,7 @@ package zrx.base;
 import zrx.Tools.ArrayMerge;
 import zrx.Tools.Equal;
 import zrx.Tools.QuadraticEquationOfOneVariable;
-import zrx.python.Plod2d;
+import zrx.python.Plot2d;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,15 +98,15 @@ public class Vector2d {
         Vector2d n0 = Vector2d.rotate(v0, phi0).normalSelfAndReturn();
         Vector2d n1 = Vector2d.rotate(v1, phi1).normalSelfAndReturn();
 
-//        Plod2d.plotVector(p0, n0, 1);
-//        Plod2d.plotVector(p1, n1, 1);
+//        Plot2d.plotVector(p0, n0, 1);
+//        Plot2d.plotVector(p1, n1, 1);
 
         //得到圆心
         Vector2d c0 = Vector2d.add(p0, Vector2d.dot(r, n0));
         Vector2d c1 = Vector2d.add(p1, Vector2d.dot(r, n1));
 
-//        Plod2d.plotPoint(c0, ",'k+'");
-//        Plod2d.plotPoint(c1, ",'k+'");
+//        Plot2d.plotPoint(c0, ",'k+'");
+//        Plot2d.plotPoint(c1, ",'k+'");
 
 //        System.out.println("c0 = " + c0);
 
@@ -141,8 +141,8 @@ public class Vector2d {
         Vector2d n0 = Vector2d.rotate(v0, phi0).normalSelfAndReturn();
         Vector2d n1 = Vector2d.rotate(v1, phi1).normalSelfAndReturn();
 
-//        Plod2d.plotVector(p0, n0, 1);
-//        Plod2d.plotVector(p1, n1, 1);
+//        Plot2d.plotVector(p0, n0, 1);
+//        Plot2d.plotVector(p1, n1, 1);
 
         //得到圆心
         Vector2d c0 = Vector2d.add(p0, Vector2d.dot(r, n0));
@@ -198,20 +198,21 @@ public class Vector2d {
     }
 
     /**
-     *  详见 circularInterpolationPart()
-     *  仅仅是把两段合并起来了而已
-     * @param p0 起点
-     * @param v0 起点反向
+     * 详见 circularInterpolationPart()
+     * 仅仅是把两段合并起来了而已
+     *
+     * @param p0         起点
+     * @param v0         起点反向
      * @param clockwise0 第一段 顺时针还是逆时针旋转
-     * @param p1 终点
-     * @param v1 终点方向
+     * @param p1         终点
+     * @param v1         终点方向
      * @param clockwise1 第二段 顺时针还是逆时针旋转
-     * @param step 步长
+     * @param step       步长
      * @return 合并起来的插值轨迹
      */
     public static Vector2d[] circularInterpolation(Vector2d p0, Vector2d v0, boolean clockwise0, Vector2d p1, Vector2d v1, boolean clockwise1, double step) {
         Vector2d[][] vss = circularInterpolationPart(p0, v0, clockwise0, p1, v1, clockwise1, step);
-        return ArrayMerge.merge(vss[0],vss[1]);
+        return ArrayMerge.merge(vss[0], vss[1]);
     }
 
     /**
@@ -267,7 +268,7 @@ public class Vector2d {
      * @param v 矢量
      * @return 极角
      */
-    private static double polarAngle(Vector2d v) {
+    public static double polarAngle(Vector2d v) {
         if (v.length() < Constants.DX) {
             throw new ArithmeticException("Zero vector non-exists polar angle");
         }
@@ -279,7 +280,7 @@ public class Vector2d {
             if (y > 0)
                 return Math.PI / 2.0;
             else if ((y < 0))
-                return -3.0 * Math.PI / 2.0;
+                return 3.0 * Math.PI / 2.0;
 
             throw new ArithmeticException("Zero vector non-exists polar angle");
         }
@@ -298,6 +299,25 @@ public class Vector2d {
 
         throw new ArithmeticException("what happened in polarAngle?!");
 
+    }
+
+    /**
+     * 求矢量 v 的极角，弧度制。范围 [0, 2pi)
+     *
+     * @return 求矢量 v 的极角
+     */
+    public double polarAngle() {
+        return Vector2d.polarAngle(this);
+    }
+
+    /**
+     * 相对与center的极角
+     * @param center 中点 参考点 观测点
+     * @param p 要求极角的点
+     * @return 极角
+     */
+    public static double polarAngle(final Vector2d center,final Vector2d p){
+        return polarAngle(Vector2d.subtract(p,center));
     }
 
     /**
@@ -379,6 +399,57 @@ public class Vector2d {
     }
 
     /**
+     * 矢量旋转
+     *
+     * @param center 中心
+     * @param v      要旋转的矢量
+     * @param phi    角度
+     * @return 旋转后
+     */
+    public static Vector2d rotate(final Vector2d center, final Vector2d v, final double phi) {
+        Vector2d rp = Vector2d.subtract(v, center);
+        Vector2d rotRp = rotate(rp, phi);
+
+        return Vector2d.add(rotRp, center);
+    }
+
+    /**
+     * 整体旋转
+     *
+     * @param vs  要旋转的点组
+     * @param phi 旋转角度
+     * @return 旋转后的点组
+     */
+    public static Vector2d[] rotate(final Vector2d[] vs, final double phi) {
+        Vector2d[] ans = new Vector2d[vs.length];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = rotate(vs[i], phi);
+        }
+
+        return ans;
+    }
+
+    /**
+     * 整体旋转
+     *
+     * @param center 旋转中心
+     * @param vs     要旋转的点组
+     * @param phi    旋转角度
+     * @return 旋转后的点组
+     */
+    public static Vector2d[] rotate(final Vector2d center, final Vector2d[] vs, final double phi) {
+        Vector2d[] ans = new Vector2d[vs.length];
+        for (int i = 0; i < ans.length; i++) {
+            Vector2d rp = Vector2d.subtract(vs[i], center);
+            Vector2d rotRp = rotate(rp, phi);
+
+            ans[i] = Vector2d.add(rotRp, center);
+        }
+
+        return ans;
+    }
+
+    /**
      * 旋转矩阵
      *
      * @param phi 旋转弧度
@@ -418,6 +489,40 @@ public class Vector2d {
                 a.y * b.y;
     }
 
+    /**
+     * 走几步 来来来 走几步
+     * 从 from 点出发，走几步length，方向 direct
+     * @param from 起点
+     * @param direct 方向
+     * @param length 长度
+     * @return 走到的位置
+     */
+    public static Vector2d walk(final Vector2d from, final Vector2d direct,double length){
+        Vector2d nd = Vector2d.normal(direct);
+        return Vector2d.add(from,dot(length,nd));
+    }
+
+    public Vector2d walkSelf(final Vector2d direct,double length){
+        Vector2d p = Vector2d.walk(this,direct,length);
+        this.x = p.x;
+        this.y = p.y;
+        return this;
+    }
+
+    public Vector2d walkToXSelf(double length){
+        Vector2d p = Vector2d.walk(this,new Vector2d(1,0),length);
+        this.x = p.x;
+        this.y = p.y;
+        return this;
+    }
+
+    public Vector2d walkToYSelf(double length){
+        Vector2d p = Vector2d.walk(this,new Vector2d(0,1),length);
+        this.x = p.x;
+        this.y = p.y;
+        return this;
+    }
+
     public void reverseSelf() {
         x = -x;
         y = -y;
@@ -434,6 +539,58 @@ public class Vector2d {
 
     public static Vector2d subtract(final Vector2d a, final Vector2d b) {
         return Vector2d.add(a, Vector2d.reverse(b));
+    }
+
+    public static Vector2d midpoint(final Vector2d a, final Vector2d b) {
+        return new Vector2d((a.x + b.x) / 2.0, (a.y + b.y) / 2.0);
+    }
+
+    /**
+     * XY 直角坐标转化为 极坐标(r,φ)
+     *
+     * @param pole 极点
+     * @param p    待转化点
+     * @return P点的极坐标(r, φ)
+     */
+    public static Vector2d convertToPolarCoordinates(final Vector2d pole, final Vector2d p) {
+        //p点相对坐标
+        Vector2d rp = Vector2d.subtract(p, pole);
+
+        //分别求(r,φ)
+        double r = rp.length();
+        double phi = rp.polarAngle();
+
+        return new Vector2d(r, phi);
+    }
+
+    /**
+     * 极坐标转化为直角坐标系
+     *
+     * @param pole 极点 (x,y)
+     * @param p    要转换的点(r,φ)
+     * @return 转换后的点(x, y)
+     */
+    public static Vector2d convertFromPolarCoordinatesToCartesianCoordinates(final Vector2d pole, final Vector2d p) {
+        double rx = p.x * Math.cos(p.y);
+        double ry = p.x * Math.sin(p.y);
+
+        return new Vector2d(pole.x + rx, pole.y + ry);
+    }
+
+    /**
+     * 大量点从极坐标转化为直角坐标系
+     *
+     * @param pole 极点 (x,y)
+     * @param ps   要转换的点数组(r,φ)
+     * @return 转换后的点数组(x, y)
+     */
+    public static Vector2d[] convertFromPolarCoordinatesToCartesianCoordinates(final Vector2d pole, final Vector2d[] ps) {
+        Vector2d[] ans = new Vector2d[ps.length];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = convertFromPolarCoordinatesToCartesianCoordinates(pole, ps[i]);
+        }
+
+        return ans;
     }
 
     /**
@@ -472,29 +629,29 @@ public class Vector2d {
 //        arc(Vector2d c, double r, double start, double end, boolean clockwise, double step)
         Vector2d c1 = new Vector2d(1, 1);
         Vector2d[] arc1 = arc(c1, 2, 0.1, 1.8, false, Math.PI / 180);
-        Plod2d.plot2(arc1, Plod2d.BLUE_LINE);
-        Plod2d.plotPoint(c1, Plod2d.RED_POINT);
+        Plot2d.plot2(arc1, Plot2d.BLUE_LINE);
+        Plot2d.plotPoint(c1, Plot2d.RED_POINT);
 
         Vector2d[] arc2 = arc(c1, 2, 0.1, 1.8, true, Math.PI / 180);
-        Plod2d.plot2(arc2, Plod2d.YELLOW_LINE);
+        Plot2d.plot2(arc2, Plot2d.YELLOW_LINE);
 
         Vector2d c2 = new Vector2d(-1, -1);
         Vector2d[] arc3 = arc(c2, 4, -1.1, 1.8, false, Math.PI / 180);
-        Plod2d.plot2(arc3, Plod2d.GREEN_LINE);
-        Plod2d.plotPoint(c2, Plod2d.BLACK_POINT);
+        Plot2d.plot2(arc3, Plot2d.GREEN_LINE);
+        Plot2d.plotPoint(c2, Plot2d.BLACK_POINT);
 
         Vector2d[] arc4 = arc(c2, 4, -1.2, 1.9, true, Math.PI / 180);
-        Plod2d.plot2(arc4, Plod2d.RED_LINE);
+        Plot2d.plot2(arc4, Plot2d.RED_LINE);
 
-        Plod2d.showThread();
+        Plot2d.showThread();
     }
 
     private static void 极角得到矢量() {
         for (int i = 0; i < 20; i++) {
-            Plod2d.plotVector(rayForPolarAngle(i * 15 * Math.PI / 180));
+            Plot2d.plotVector(rayForPolarAngle(i * 15 * Math.PI / 180));
         }
 
-        Plod2d.showThread();
+        Plot2d.showThread();
     }
 
     private static void solveCircularInterpolationRadius测试3() {
@@ -503,8 +660,8 @@ public class Vector2d {
         Vector2d p1 = new Vector2d(1.5, 5);
         Vector2d v1 = new Vector2d(0.2, 1);
 
-        Plod2d.plotVector(p0, v0, 1);
-        Plod2d.plotVector(p1, v1, 1);
+        Plot2d.plotVector(p0, v0, 1);
+        Plot2d.plotVector(p1, v1, 1);
 
 //        circularInterpolationRadius(p0, v0, true, p1, v1, false);
 
@@ -512,9 +669,9 @@ public class Vector2d {
         Vector2d[] arc0 = arcs[0];
         Vector2d[] arc1 = arcs[1];
 
-        Plod2d.plot2(arc0, Plod2d.YELLOW_LINE);
-        Plod2d.plot2(arc1, Plod2d.RED_LINE);
-        Plod2d.showThread();
+        Plot2d.plot2(arc0, Plot2d.YELLOW_LINE);
+        Plot2d.plot2(arc1, Plot2d.RED_LINE);
+        Plot2d.showThread();
 
         //circularInterpolationRadius solves[0] = -1.453332935541214
         //circularInterpolationRadius solves[1] = 1.5949753527049453
@@ -530,8 +687,8 @@ public class Vector2d {
         Vector2d p1 = new Vector2d(2, 5);
         Vector2d v1 = new Vector2d(-0.2, -1);
 
-        Plod2d.plotVector(p0, v0, 1);
-        Plod2d.plotVector(p1, v1, 1);
+        Plot2d.plotVector(p0, v0, 1);
+        Plot2d.plotVector(p1, v1, 1);
 
 
         double radius = circularInterpolationRadius(p0, v0, true, p1, v1, false);
@@ -539,17 +696,17 @@ public class Vector2d {
         Vector2d couplingPoint = circularInterpolationCouplingPoint(p0, v0, true, p1, v1, false, radius);
         System.out.println("couplingPoint = " + couplingPoint);
 
-        Plod2d.plotPoint(couplingPoint, Plod2d.BLUE_POINT);
+        Plot2d.plotPoint(couplingPoint, Plot2d.BLUE_POINT);
 
         //见证奇迹的时刻
         Vector2d[][] arcs = circularInterpolationPart(p0, v0, true, p1, v1, false, Math.PI / 180);
         Vector2d[] arc0 = arcs[0];
         Vector2d[] arc1 = arcs[1];
 
-        Plod2d.plot2(arc0, Plod2d.YELLOW_LINE);
-        Plod2d.plot2(arc1, Plod2d.RED_LINE);
+        Plot2d.plot2(arc0, Plot2d.YELLOW_LINE);
+        Plot2d.plot2(arc1, Plot2d.RED_LINE);
 
-        Plod2d.showThread();
+        Plot2d.showThread();
     }
 
     private static void solveCircularInterpolationRadius测试1() {
@@ -558,10 +715,10 @@ public class Vector2d {
         Vector2d p1 = new Vector2d(0, 3);
         Vector2d v1 = new Vector2d(0, -1);
 
-        Plod2d.plotVector(p0, v0, 1);
-        Plod2d.plotVector(p1, v1, 1);
+        Plot2d.plotVector(p0, v0, 1);
+        Plot2d.plotVector(p1, v1, 1);
 
-        Plod2d.showThread();
+        Plot2d.showThread();
 
         circularInterpolationRadius(p0, v0, true, p1, v1, false);
     }
@@ -569,26 +726,26 @@ public class Vector2d {
     private static void 矢量旋转() {
         Vector2d p1 = new Vector2d(1, 2);
         Vector2d v1 = new Vector2d(3.0, 1.0);
-        Plod2d.plotVector(p1, v1, 1);
+        Plot2d.plotVector(p1, v1, 1);
 
         for (int i = 1; i < 10; i++) {
             Vector2d vi = Vector2d.rotate(v1, Math.PI / 180 * 10 * i);
-            Plod2d.plotVector(p1, vi, 1);
+            Plot2d.plotVector(p1, vi, 1);
             //2019年7月7日 太美了
         }
 
-        Plod2d.showThread();
+        Plot2d.showThread();
     }
 
     private static void 求极角() {
         Vector2d v = new Vector2d(1, 0);
         for (int i = 0; i < 30; i++) {
-            Plod2d.plotVector(v);
+            Plot2d.plotVector(v);
             System.out.println("Vector2d.polarAngle(v)/Math.PI*180 = " + Vector2d.polarAngle(v) / Math.PI * 180);
             v = Vector2d.rotate(v, Math.PI / 180 * 15);
         }
 
-        Plod2d.showThread();
+        Plot2d.showThread();
     }
 
     private static void 极角规范化() {

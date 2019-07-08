@@ -1,6 +1,7 @@
 package zrx.CCT;
 
-import zrx.CCT.CCT;
+import zrx.base.Vector2d;
+import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 
 
@@ -54,6 +55,16 @@ public class CCTPlot extends Plot3d {
     public static void tellMeTheStartAndEndPoint() {
         System.out.println("起始点为红色+号：" + DescribeForStartPoint);
         System.out.println("终止点为黑色+号：" + DescribeForEndPoint);
+    }
+
+    public static void plotTheKsiPhiAndXYZPoint(CurvedCCT cct, Vector2d KsiPhi,String describe){
+        Plot2d.plotPoint(KsiPhi,describe);
+        Plot3d.plotPoint(cct.coordinateSystemTransformateFromKsiPhiToXYZ(KsiPhi),describe);
+    }
+
+    public static void plotTheKsiPhiAndXYZLine(CurvedCCT cct,Vector2d[] KsiPhis,String describe){
+        Plot2d.plot2(KsiPhis,describe);
+        Plot3d.plot3(cct.coordinateSystemTransformateFromKsiPhiToXYZ(KsiPhis),describe);
     }
 }
 

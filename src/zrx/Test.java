@@ -1,23 +1,25 @@
 package zrx;
 
 import zrx.CCT.*;
+import zrx.Tools.InterpolationOfPolarCoordinate;
 import zrx.base.Vector2d;
 import zrx.base.Vector3d;
 import zrx.CCT.CCTPlot;
-import zrx.python.Plod2d;
+import zrx.python.Plot2d;
 import zrx.python.Plot3d;
-
-import javax.swing.table.TableRowSorter;
 
 public class Test {
     public static void main(String[] args) {
+        mainTest();
+    }
+
+    private static void 弯曲CCT连接问题四天终于攻破_感叹号(){
         CurvedCCT cct = new CurvedCCT(1, 3, 5e-2, 35, 100, Math.PI / 6.0, 2, Math.PI / 180.0);
 
-
         Vector2d[] cct12d = cct.pointsOnKsiPhiCoordinateSystem();
-        Plod2d.plot2(cct12d);
-//        Vector3d[] cct13d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct12d);
-//        Plot3d.plot3(cct13d);
+        Plot2d.plot2(cct12d);
+        Vector3d[] cct13d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct12d);
+        Plot3d.plot3(cct13d);
 
         Vector2d cct1EndPoint = cct.getEndPointInKsiPhiCoordinateSystem();
         Vector2d cct1EndDirect = cct.getEndDirectInKsiPhiCoordinateSystem();
@@ -25,31 +27,44 @@ public class Test {
         CurvedCCT.reverseWinding(cct);
         cct.setN(15);
         Vector2d[] cct22d = cct.pointsOnKsiPhiCoordinateSystem();
-        Plod2d.plot2(cct22d);
-//        Vector3d[] cct23d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct22d);
-//        Plot3d.plot3(cct23d);
+        Plot2d.plot2(cct22d);
+        Vector3d[] cct23d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct22d);
+        Plot3d.plot3(cct23d);
 
         Vector2d cct2StartPoint = cct.getStartPointInKsiPhiCoordinateSystem();
         Vector2d cct2StartDirect = cct.getStartDirectInKsiPhiCoordinateSystem();
 
-        Plod2d.plotPoint(cct1EndPoint,Plod2d.BLUE_ADD);
-        Plod2d.plotPoint(cct2StartPoint,Plod2d.BLUE_ADD);
-
-        Plod2d.plotVector(cct1EndPoint,cct1EndDirect,1);
-        Plod2d.plotVector(cct2StartPoint,cct2StartDirect,1);
-
-//        Vector2d[] connectionSegment2d = Vector2d.circularInterpolation(
-//                cct1EndPoint, cct1EndDirect, false,
-//                cct2StartPoint,cct2StartDirect,true,
-//                cct.getStep());
-//
-//        Plod2d.plot2(connectionSegment2d,Plod2d.RED_LINE);
+        Vector2d cct12MidPoint = Vector2d.midpoint(cct1EndPoint,cct2StartPoint);
+        Vector2d cct12AddPoint = Vector2d.walk(cct12MidPoint,cct1EndDirect,0.3);
+        Vector2d cct12AddDirect = Vector2d.rotate(new Vector2d(0,1),0.0);
+        Vector2d mp = Vector2d.walk(cct12MidPoint,cct1EndDirect,-0.5).walkToYSelf(0.02);
 
 
-//        CCTPlot.setCube(1.5);
-//        CCTPlot.showThread();
-        Plod2d.equal();
-        Plod2d.showThread();
+        Vector2d[] connectionSegment2d1 = InterpolationOfPolarCoordinate.interpolation2Point(
+                mp,
+                cct1EndPoint,cct1EndDirect,cct12AddPoint,cct12AddDirect,Math.PI/18000.0
+        );
+        Vector3d[] connectionSegment3d1 = cct.coordinateSystemTransformateFromKsiPhiToXYZ(connectionSegment2d1);
+
+        Plot2d.plot2(connectionSegment2d1, Plot2d.BLACK_LINE);
+        Plot3d.plot3(connectionSegment3d1, Plot2d.BLACK_LINE);
+
+        Vector2d[] connectionSegment2d2 = InterpolationOfPolarCoordinate.interpolation2Point(
+                mp,
+                cct12AddPoint,cct12AddDirect.reverseSelfAndReturn(),cct2StartPoint,cct2StartDirect.reverseSelfAndReturn(),Math.PI/18000.0
+        );
+        Vector3d[] connectionSegment3d2 = cct.coordinateSystemTransformateFromKsiPhiToXYZ(connectionSegment2d2);
+
+        Plot2d.plot2(connectionSegment2d2, Plot2d.GREEN_LINE);
+        Plot3d.plot3(connectionSegment3d2, Plot2d.GREEN_LINE);
+
+
+        CCTPlot.plotTheKsiPhiAndXYZPoint(cct,mp,Plot2d.GREEN_POINT);
+
+        CCTPlot.setCube(1.5);
+        CCTPlot.showThread();
+        Plot2d.equal();
+        Plot2d.showThread();
     }
 
     private static void mainTest(){
@@ -57,21 +72,21 @@ public class Test {
 
 
         Vector2d[] cct12d = cct.pointsOnKsiPhiCoordinateSystem();
-        Plod2d.plot2(cct12d);
+        Plot2d.plot2(cct12d);
         Vector3d[] cct13d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct12d);
         Plot3d.plot3(cct13d);
 
         CurvedCCT.reverseWinding(cct);
         cct.setN(15);
         Vector2d[] cct22d = cct.pointsOnKsiPhiCoordinateSystem();
-        Plod2d.plot2(cct22d);
+        Plot2d.plot2(cct22d);
         Vector3d[] cct23d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct22d);
         Plot3d.plot3(cct23d);
 
         CurvedCCT.reverseWinding(cct);
         cct.setN(5);
         Vector2d[] cct32d = cct.pointsOnKsiPhiCoordinateSystem();
-        Plod2d.plot2(cct32d);
+        Plot2d.plot2(cct32d);
         Vector3d[] cct33d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct32d);
         Plot3d.plot3(cct33d);
 
@@ -79,7 +94,7 @@ public class Test {
 
         CCTPlot.setCube(1.5);
         CCTPlot.showThread();
-        Plod2d.showThread();
+        Plot2d.showThread();
     }
 
     private static void 起点终点验收(){
@@ -87,9 +102,9 @@ public class Test {
 
 
         Vector2d[] cct12d = cct.pointsOnKsiPhiCoordinateSystem();
-        Plod2d.plot2(cct12d);
-        Plod2d.plotPoint(cct12d[0],CCTPlot.DescribeForStartPoint);
-        Plod2d.plotPoint(cct12d[cct12d.length-1],CCTPlot.DescribeForEndPoint);
+        Plot2d.plot2(cct12d);
+        Plot2d.plotPoint(cct12d[0],CCTPlot.DescribeForStartPoint);
+        Plot2d.plotPoint(cct12d[cct12d.length-1],CCTPlot.DescribeForEndPoint);
         Vector3d[] cct13d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct12d);
         Plot3d.plot3(cct13d);
         Plot3d.plotPoint(cct13d[0],CCTPlot.DescribeForStartPoint);
@@ -99,9 +114,9 @@ public class Test {
         CurvedCCT.reverseWinding(cct);
         cct.setN(15);
         Vector2d[] cct22d = cct.pointsOnKsiPhiCoordinateSystem();
-        Plod2d.plot2(cct22d);
-        Plod2d.plotPoint(cct22d[0],CCTPlot.DescribeForStartPoint);
-        Plod2d.plotPoint(cct22d[cct22d.length-1],CCTPlot.DescribeForEndPoint);
+        Plot2d.plot2(cct22d);
+        Plot2d.plotPoint(cct22d[0],CCTPlot.DescribeForStartPoint);
+        Plot2d.plotPoint(cct22d[cct22d.length-1],CCTPlot.DescribeForEndPoint);
         Vector3d[] cct23d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct22d);
         Plot3d.plot3(cct23d);
         Plot3d.plotPoint(cct23d[0],CCTPlot.DescribeForStartPoint);
@@ -118,7 +133,7 @@ public class Test {
 //        cct.magnetDeprecated(Vector3d.getZeros()) = [-7.242430919427373E-6 6.010054595058614E-6 1.8866375020472344E-5]
 
         Vector2d[] cct12d = cct.pointsOnKsiPhiCoordinateSystem();
-        Plod2d.plot2(cct12d);
+        Plot2d.plot2(cct12d);
         Vector3d[] cct13d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct12d);
         Plot3d.plot3(cct13d);
 
@@ -225,5 +240,24 @@ public class Test {
 //        System.out.println(cct.magnet(new Vector3d(0, 0, 0.3)));
 //        System.out.println(cct.magnet(new Vector3d(0, 0, 0.4)));
 //        Timer.invoke();
+    }
+
+    private static void 哭哭哭辛苦写的代码是错的(){
+        //        Vector2d[] connectionSegment2d = Vector2d.circularInterpolation(
+//                cct1EndPoint, cct1EndDirect, false,
+//                cct2StartPoint,cct2StartDirect,true,
+//                cct.getStep());
+//
+//        Plot2d.plot2(connectionSegment2d,Plot2d.RED_LINE);
+    }
+
+    private static void 烟消云散的测试代码(){
+        //        Plot2d.plotVector(cct1EndPoint,cct1EndDirect,1);
+//        Plot2d.plotVector(cct2StartPoint,cct2StartDirect,1);
+
+//        Vector2d[] connectionSegment2d = InterpolationOfPolarCoordinate.interpolation4Point(
+//                cct1EndPoint,cct1EndPoint.walk(cct1EndDirect,0.01),
+//                cct2StartPoint.walk(cct2StartDirect,-0.01),cct2StartPoint,Math.PI/180.0
+//        );
     }
 }

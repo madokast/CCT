@@ -378,4 +378,22 @@ public class CurvedCCT extends CCT {
         else
             return d.reverseSelfAndReturn();
     }
+
+    //public CurvedCCT(double a, double eta, double phi0, int n, double i, double tiltAngle, double nth, double stepKsi)
+    public CurvedCCT curvedCCTFactory(double R,double r,int n,double I,int nth,double phi0,double tiltAngle,double stepKsi){
+        //double R, CCT半径
+        // double r,线圈半径
+        // int n, 匝数
+        // double I, 电流
+        // int nth,1-二极CCT / 2-四极CCT
+        // double phi0, 线圈绕一周CCT角度变化量
+        // double tiltAngle, 倾斜角
+        // double stepKsi 步长
+
+        double a = Math.sqrt(R*R-r*r);
+
+//        double eta0 = Math.asinh(Math.sqrt((R/r)^2-1));
+
+        return null;
+    }
 }

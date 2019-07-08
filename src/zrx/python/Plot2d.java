@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import zrx.base.Vector2d;
 
-public class Plod2d {
+public class Plot2d {
     private static boolean prepareHead = false;
     private static File pyFile;
     private static PrintWriter pyPrintWriter;
