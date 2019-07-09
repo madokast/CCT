@@ -1,4 +1,4 @@
-package zrx.CCT;
+package zrx.CCT.ConcreteCCT;
 
 import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.base.Vector2d;
@@ -7,10 +7,12 @@ import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 
 /**
- * cct的连接部分
+ * cct的连接部分。连接可是花了我大心血的产物啊
+ *
+ * 和DiscreteCCT 类一样，都是单层cct的组成部分，所以实现SingleLayerDiscreteCCTComponent接口
  */
 
-public class ConnectionSegmentOfCCT {
+public class ConnectionSegmentOfCCT implements SingleLayerDiscreteCCTComponent{
     public Vector2d[] pathInKsiPhi;
     public Vector3d[] pathInXYZ;
 

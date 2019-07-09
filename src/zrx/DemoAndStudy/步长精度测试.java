@@ -1,7 +1,7 @@
 package zrx.DemoAndStudy;
 
-import zrx.CCT.CurvedCCTAnalysis;
-import zrx.CCT.DiscreteCCT;
+import zrx.CCT.ConcreteCCT.CurvedCCTAnalysis;
+import zrx.CCT.ConcreteCCT.DiscreteCCT;
 import zrx.CCT.Magnet;
 import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.Tools.AngleToRadian;

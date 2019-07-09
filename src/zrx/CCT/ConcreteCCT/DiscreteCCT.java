@@ -1,4 +1,4 @@
-package zrx.CCT;
+package zrx.CCT.ConcreteCCT;
 
 import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.base.Vector2d;
@@ -7,15 +7,16 @@ import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 
 /**
- * 对建模成功的cct分析
- * 获得有用的离散数据，如
+ * 对建模成功的cct分析获得有用的离散数据，如
  * ksi phi 坐标下轨迹
  * xyz 空间轨迹
  * 起点/起点方向
  * 终点/终点方向
+ *
+ * 是单层cct的主题，所以实现SingleLayerDiscreteCCTComponent接口
  */
 
-public class DiscreteCCT {
+public class DiscreteCCT implements SingleLayerDiscreteCCTComponent{
     public CurvedCCT sourceCCT;
 
     public Vector2d[] pathInKsiPhi;

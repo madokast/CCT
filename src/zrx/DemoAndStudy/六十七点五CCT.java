@@ -8,6 +8,7 @@ public class 六十七点五CCT {
     //四极：2×7mm，二极：2×6mm，超导体电流密度用上面给的电流除以截面积
 
     public static void main(String[] args) {
-
+        //晚上把这个建模完成
+        //TODO
     }
 }

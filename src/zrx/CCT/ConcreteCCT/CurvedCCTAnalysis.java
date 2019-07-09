@@ -1,4 +1,4 @@
-package zrx.CCT;
+package zrx.CCT.ConcreteCCT;
 
 import org.apache.commons.math3.util.FastMath;
 import zrx.CCT.abstractCCT.CurvedCCT;
@@ -6,11 +6,12 @@ import zrx.Tools.ArrayMerge;
 import zrx.Tools.InterpolationOfPolarCoordinate;
 import zrx.base.Vector2d;
 import zrx.base.Vector3d;
-import zrx.python.Plot2d;
 
 /**
  * 弯曲 CCT 分析
  * 用于获得大量分析数据
+ *
+ * 这个工厂的产物只有两个，CCT 和 cct连接段。他们都是 SingleLayerDiscreteCCTComponent接口的实现类
  */
 
 public class CurvedCCTAnalysis {

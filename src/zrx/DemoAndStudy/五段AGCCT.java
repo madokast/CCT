@@ -1,9 +1,9 @@
 package zrx.DemoAndStudy;
 
 import zrx.CCT.CCTPlot;
-import zrx.CCT.ConnectionSegmentOfCCT;
-import zrx.CCT.CurvedCCTAnalysis;
-import zrx.CCT.DiscreteCCT;
+import zrx.CCT.ConcreteCCT.ConnectionSegmentOfCCT;
+import zrx.CCT.ConcreteCCT.CurvedCCTAnalysis;
+import zrx.CCT.ConcreteCCT.DiscreteCCT;
 import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.base.Vector2d;
 import zrx.python.Plot2d;
