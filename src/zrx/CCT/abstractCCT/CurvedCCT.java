@@ -1,7 +1,11 @@
 package zrx.CCT.abstractCCT;
 
+import zrx.Tools.Equal;
+import zrx.base.Constants;
 import zrx.base.Vector2d;
 import zrx.base.Vector3d;
+
+import java.util.function.DoubleUnaryOperator;
 
 /**
  * 弯曲CCT
@@ -43,10 +47,11 @@ public class CurvedCCT extends CCT {
 
     /**
      * 复制cct 返回新的cct。和原cct一样
+     *
      * @param cct 原cct
      * @return 复制值
      */
-    private static CurvedCCT copy(final CurvedCCT cct){
+    private static CurvedCCT copy(final CurvedCCT cct) {
         CurvedCCT copied = new CurvedCCT();
         copied.a = cct.a;
         copied.eta = cct.eta;
@@ -70,7 +75,8 @@ public class CurvedCCT extends CCT {
         return copied;
     }
 
-    private CurvedCCT(){}
+    private CurvedCCT() {
+    }
 
     public CurvedCCT(double a, double eta, double phi0, int n, double i, double tiltAngle, double nth, double stepKsi) {
         this.a = a;
@@ -276,7 +282,6 @@ public class CurvedCCT extends CCT {
     }
 
 
-
     /**
      * 历史将要改写。2019年7月6日 今日清晨加上前一天晚上，在寝室思考时的突然发现!!
      * 画出弯曲 CCT 在(ξ,φ)坐标系下的图形!!
@@ -379,37 +384,51 @@ public class CurvedCCT extends CCT {
     }
 
     /**
-     * @return 得到(ξ,φ)坐标系中的CCT结束点
+     * @return 得到(ξ, φ)坐标系中的CCT结束点
      */
     public Vector2d getEndPointInKsiPhiCoordinateSystem() {
         return new Vector2d(getEndTheta(), getEndPhi());
     }
 
-    public Vector2d getStartDirectInKsiPhiCoordinateSystem(){
+    public Vector2d getStartDirectInKsiPhiCoordinateSystem() {
         //求导
         double dksi = 1.0;
 //        double dphi = cn * Math.sin(this.nth * dksi) + this.phi0 * dksi / (2.0 * Math.PI);
-        double dphi = this.cn*this.nth*Math.cos(this.nth*getStartTheta())+this.phi0/(2.0 * Math.PI);
+        double dphi = this.cn * this.nth * Math.cos(this.nth * getStartTheta()) + this.phi0 / (2.0 * Math.PI);
 
-        Vector2d d = new Vector2d(dksi,dphi).normalSelfAndReturn();
+        Vector2d d = new Vector2d(dksi, dphi).normalSelfAndReturn();
 
-        if(this.stepKsi>0)
+        if (this.stepKsi > 0)
             return d;
         else
             return d.reverseSelfAndReturn();
     }
 
-    public Vector2d getEndDirectInKsiPhiCoordinateSystem(){
+    public Vector2d getEndDirectInKsiPhiCoordinateSystem() {
         //求导
-        double dksi = 1.0 ;
+        double dksi = 1.0;
 //        double dphi = cn * Math.sin(this.nth * dksi) + this.phi0 * dksi / (2.0 * Math.PI);
-        double dphi = this.cn*this.nth*Math.cos(this.nth*getEndTheta())+this.phi0/(2.0 * Math.PI);
+        double dphi = this.cn * this.nth * Math.cos(this.nth * getEndTheta()) + this.phi0 / (2.0 * Math.PI);
 
-        Vector2d d = new Vector2d(dksi,dphi).normalSelfAndReturn();
+        Vector2d d = new Vector2d(dksi, dphi).normalSelfAndReturn();
 
-        if(this.stepKsi>0)
+        if (this.stepKsi > 0)
             return d;
         else
             return d.reverseSelfAndReturn();
+    }
+
+    @Override
+    public String toString() {
+        double w = this.phi0 * this.R;
+        if (Equal.isEqual(nth, 1.0)) {
+            double B = -Constants.Miu0 * this.I / (2.0 * w * Math.tan(this.tiltAngle));
+            return "这是个单层二极CCT，理想二极场为 "+B+"T";
+        }else if(Equal.isEqual(nth, 2.0)){
+            double B2 = -Constants.Miu0 * this.I / (2.0 * w * Math.tan(this.tiltAngle)*this.r);
+            return "这是个单四极CCT，理想梯度为 "+B2+"T";
+        }
+
+        return "不知道什么东西";
     }
 }

@@ -230,7 +230,7 @@ public class Vector2d {
      * @param step      步长 弧度制。注意最后一点的步长不一定为 step ，因为必须等于 end
      * @return 弧轨迹
      */
-    private static Vector2d[] arc(Vector2d c, double r, double start, double end, boolean clockwise, double step) {
+    public static Vector2d[] arc(Vector2d c, double r, double start, double end, boolean clockwise, double step) {
         //思考...关键应该是，若 phi 减到了0 则加上 2pi
         //若 phi 加到了2pi 则减去 2pi
         //再思考。我可以写个宽泛的 rayForPolarAngle(phi) 对里面的 phi 要求扩展，不需要在[0, 2pi)
@@ -333,7 +333,7 @@ public class Vector2d {
      * @param phi 极角
      * @return 单位矢量
      */
-    private static Vector2d rayForPolarAngle(double phi) {
+    public static Vector2d rayForPolarAngle(double phi) {
         //规范到 [0, 2pi)
         phi = phi - 2.0 * Math.PI * ((int) (phi / (2.0 * Math.PI)));
 
@@ -547,6 +547,18 @@ public class Vector2d {
 
     public Vector2d walkToYSelf(double length){
         Vector2d p = Vector2d.walk(this,new Vector2d(0,1),length);
+        this.x = p.x;
+        this.y = p.y;
+        return this;
+    }
+
+    /**
+     * 改变矢量长度
+     * @param length 长度
+     * @return 返回原矢量
+     */
+    public Vector2d changeLengthAndReturn(double length){
+        Vector2d p = Vector2d.walk(Vector2d.getZeros(),this,length);
         this.x = p.x;
         this.y = p.y;
         return this;

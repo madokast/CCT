@@ -3,14 +3,17 @@ package zrx.base;
 import zrx.Tools.Numpy;
 import zrx.python.Plot3d;
 
+import java.io.Serializable;
+
 /**
  * 三维矢量
  */
 
-public class Vector3d {
+public class Vector3d implements Serializable {
     public double x;
     public double y;
     public double z;
+    private static final Long serialVersionUID = 201907091716L;
 
     public final void selfMatmul(double[][] r) {
         double xx = r[0][0] * x + r[0][1] * y + r[0][2] * z;
@@ -248,6 +251,24 @@ public class Vector3d {
      */
     public static Vector3d getZeros() {
         return new Vector3d(0.0, 0.0, 0.0);
+    }
+
+    /**
+     * 二维点变成三维 Z==0.0
+     * @param v2 二维
+     * @return 三维
+     */
+    public static Vector3d vector2dTo3d(Vector2d v2){
+        return new Vector3d(v2.x,v2.y,0.0);
+    }
+
+    public static Vector3d[] vector2dTo3d(Vector2d[] v2s){
+        Vector3d[] v3s = new Vector3d[v2s.length];
+        for (int i = 0; i < v3s.length; i++) {
+            v3s[i] = vector2dTo3d(v2s[i]);
+        }
+
+        return v3s;
     }
 
     @Override

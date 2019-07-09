@@ -51,6 +51,4 @@ public class Magnet {
         return Vector3d.dot(Vector3d.corss(p01, r),
                 I * 1e-7 / rr / rr / rr);
     }
-
-    //以下为一些封装方法
 }
