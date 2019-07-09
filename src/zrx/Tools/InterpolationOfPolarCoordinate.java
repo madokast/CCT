@@ -5,6 +5,7 @@ import zrx.base.Constants;
 import zrx.base.Vector2d;
 import zrx.python.Plot2d;
 
+import javax.lang.model.SourceVersion;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,18 +151,29 @@ public class InterpolationOfPolarCoordinate {
      * @return 插值路径
      */
     public static Vector2d[] interpolation2Point(Vector2d mid,Vector2d p0, Vector2d v0, Vector2d p1, Vector2d v1, double step){
+//        System.out.println("-------------------------");
+
         //p0 p1的中点
         Vector2d mp = mid;
 
         //把起点旋转到 θ = 0 下面求要旋转的角度phi0
-        double phi0 = Vector2d.polarAngle(mp, p0);
-        if (phi0 >= 0) {
-            phi0 = -phi0 + Constants.DX;
-        } else {
-            phi0 = 2.0 * Math.PI - phi0 + Constants.DX;
-        }
+        //上面这句话错误 2019年7月9日。不能仅考虑p0
+        double phip0 = Vector2d.polarAngle(mp, p0);
+        double phip1 = Vector2d.polarAngle(mp, p1);
 
+        double phi0 = Math.min(phip0, phip1);
 //        System.out.println("phi0 = " + phi0);
+
+        phi0 = -phi0 + Constants.DX;
+
+        //没用
+//        if (phi0 >= 0) {
+//            phi0 = -phi0 + Constants.DX;
+//        } else {
+//            phi0 = 2.0 * Math.PI - phi0 + Constants.DX;
+//        }
+
+
 //        System.out.println(Vector2d.polarAngle(mp,p0));
 
         //开始旋转 获得 rp0~rp1
@@ -177,6 +189,16 @@ public class InterpolationOfPolarCoordinate {
         //方向对应的极角
         double av0 = rv0.polarAngle();
         double av1 = rv1.polarAngle();
+
+//        System.out.println("av0 = " + av0);
+//        System.out.println("av1 = " + av1);
+//
+//        Plot2d.plotPoint(rp0,Plot2d.RED_POINT);
+//        Plot2d.plotVector(rp0,rv0,0.1);
+//
+//        Plot2d.plotPoint(rp1,Plot2d.RED_POINT);
+//        Plot2d.plotVector(rp1,rv1,0.1);
+
 
 //        System.out.println("av0 = " + av0);
 //        System.out.println("av1 = " + av1);
@@ -203,13 +225,19 @@ public class InterpolationOfPolarCoordinate {
             step = -Math.abs(step);
         }
 
+//        System.out.println("step = " + step);
+
         //得到轨迹
         List<Vector2d> list = new ArrayList<>();
         while (Math.abs(start - end) >= Math.abs(step)) {
+//            System.out.println("start = " + start);
+
             list.add(new Vector2d(cubicFunction(arr, start), start));
             start += step;
             if (start > 2.0 * Math.PI)
                 start -= 2.0 * Math.PI;
+
+
         }
 
         //最后一点
@@ -219,6 +247,10 @@ public class InterpolationOfPolarCoordinate {
 
         //变成直角坐标系
         path = Vector2d.convertFromPolarCoordinatesToCartesianCoordinates(mp, path);
+
+//        Plot2d.plot2(path,Plot2d.YELLOW_POINT);
+
+
         //旋转回去
         path = Vector2d.rotate(mp, path, -phi0);
 
@@ -264,6 +296,10 @@ public class InterpolationOfPolarCoordinate {
     /**
      * 二点极坐标赫米特插值
      *
+     *    发现重大bug 已修复
+     *      2019年7月9日
+     *
+     *
      * @param a0  点0
      * @param th0 点0方向对应的极角
      * @param a1  点1
@@ -280,13 +316,21 @@ public class InterpolationOfPolarCoordinate {
         double[] a3n = {3 * Math.pow(a1.y, 2), 2 * a1.y, 1, 0};
         Matrix A = new Matrix(new double[][]{a0n, a1n, a2n, a3n});
 
+        // 下面删除的代码是胡说八道。留在这里，以警后人
         //构建列向量 b
+//        Matrix b = new Matrix(new double[][]{
+//                {a0.x}, {a1.x},
+//                {a0.x*Math.sin(th0)*Math.cos(th0-a0.y)/(Math.pow(Math.sin(th0-a0.y),2))},
+//                {/*就这里-->>*/+/*<<--加了一个负号*/a1.x*Math.sin(th1)*Math.cos(th1-a1.y)/(Math.pow(Math.sin(th1-a1.y),2))}
+//                /*呜呜呜 到底是为什么呢？ 正数改成负数就对了*/
+//                /*可是我无法解释。照道理是没有负号的*/
+//        });
+
         Matrix b = new Matrix(new double[][]{
                 {a0.x}, {a1.x},
-                {a0.x*Math.sin(th0)*Math.cos(th0-a0.y)/(Math.pow(Math.sin(th0-a0.y),2))},
-                {/*就这里-->>*/-/*<<--加了一个负号*/a1.x*Math.sin(th1)*Math.cos(th1-a1.y)/(Math.pow(Math.sin(th1-a1.y),2))}
-                /*呜呜呜 到底是为什么呢？ 正数改成负数就对了*/
-                /*可是我无法解释。照道理是没有负号的*/
+                {a0.x*Math.sin(th0-a0.y)*Math.cos(th0-a0.y)/(Math.pow(Math.sin(th0-a0.y),2))},
+                {a1.x*Math.sin(th1-a1.y)*Math.cos(th1-a1.y)/(Math.pow(Math.sin(th1-a1.y),2))}
+
         });
 
         //求解

@@ -2,26 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="adbdbf18-7308-48d0-9cef-6bef6a0ec861" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/JMathLibSmallApplet.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/zrx/JmathlibTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/zrx/Tools/InterpolationOfPolarCoordinate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/zrx/Tools/PrintArray.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/commons_math3_3_6_1_tools.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/zrx/CCT/ConnectionSegmentOfCCT.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/zrx/CCT/CurvedCCTAnalysis.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/zrx/CCT/DiscreteCCT.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/CCT.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CCT.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/JMathLibSmallApplet.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/CCT/CCT.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/CCT/CCTPlot.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCT/zrx/CCT/CCTPlot.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/CCT/CurvedCCT.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCT/zrx/CCT/CurvedCCT.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/JameTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCT/zrx/JameTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/CCT/CurvedCCT.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/CCT/Solenoid.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/CCT/StraightCCT.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/JmathlibTest.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCT/zrx/Test.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/Tools/InterpolationOfPolarCoordinate.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCT/zrx/Tools/InterpolationOfPolarCoordinate.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/base/Vector2d.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCT/zrx/base/Vector2d.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/python/Plod2d.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pyScript/plot2.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyScript/plot2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyScript/plot3.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyScript/plot3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/CCT/CCT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/abstractCCT/CCT.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/zrx/CCT/CCTPlot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/CCTPlot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zrx/CCT/CurvedCCT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/CurvedCCT.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zrx/JameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/JameTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/CCT/CurvedCCT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/abstractCCT/CurvedCCT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/CCT/Magnet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/Magnet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/CCT/Solenoid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/abstractCCT/Solenoid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/CCT/StraightCCT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/abstractCCT/StraightCCT.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/zrx/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/Tools/InterpolationOfPolarCoordinate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/Tools/InterpolationOfPolarCoordinate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/zrx/base/Vector2d.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/base/Vector2d.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zrx/python/Plod2d.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/python/Plot2d.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,52 +40,24 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CurvedCCT.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="393" column="38" lean-forward="true" selection-start-line="393" selection-start-column="38" selection-end-line="393" selection-end-column="38" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="docComment;field#a#0;class#CurvedCCT#0" />
-                <element signature="method#setStartKsi#0;class#CurvedCCT#0" />
-                <element signature="docComment;method#getEndPhi#0;class#CurvedCCT#0" />
-                <element signature="method#getEndPhi#0;class#CurvedCCT#0" />
-                <element signature="method#setN#0;class#CurvedCCT#0" />
-                <element signature="docComment;method#getStartTheta#0;class#CurvedCCT#0" />
-                <element signature="docComment;method#point#0;class#CurvedCCT#0" />
-                <element signature="method#setTiltAngle#0;class#CurvedCCT#0" />
-                <element signature="docComment;method#reverseWinding#0;class#CurvedCCT#0" />
-                <element signature="method#reverseWinding#0;class#CurvedCCT#0" />
-                <element signature="docComment;method#coordinateSystemTransformateFromKsiPhiToXYZ#0;class#CurvedCCT#0" />
-                <element signature="method#coordinateSystemTransformateFromKsiPhiToXYZ#0;class#CurvedCCT#0" />
-                <element signature="docComment;method#coordinateSystemTransformateFromKsiPhiToXYZ#1;class#CurvedCCT#0" />
-                <element signature="method#coordinateSystemTransformateFromKsiPhiToXYZ#1;class#CurvedCCT#0" />
-                <element signature="docComment;method#coordinateSystemTransformateFromKsiPhiToXYZ_OLD#0;class#CurvedCCT#0" />
-                <element signature="method#coordinateSystemTransformateFromKsiPhiToXYZ_OLD#0;class#CurvedCCT#0" />
-                <element signature="e#8819#8820#0" expanded="true" />
-                <element signature="e#8886#8887#0" expanded="true" />
-                <element signature="e#8997#8998#0" expanded="true" />
-                <element signature="e#9060#9061#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CCT.java">
+        <entry file="file://$PROJECT_DIR$/src/zrx/Test.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="12" column="7" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+            <state relative-caret-position="671">
+              <caret line="56" column="32" selection-start-line="56" selection-start-column="32" selection-end-line="56" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1808#1809#0" expanded="true" />
-                <element signature="e#1877#1878#0" expanded="true" />
-                <element signature="e#2442#2443#0" expanded="true" />
-                <element signature="e#2477#2478#0" expanded="true" />
-                <element signature="method#getStartDirect#0;class#CCT#0" />
-                <element signature="method#getEndDirect#0;class#CCT#0" />
+                <element signature="method#mainTest#0;class#Test#0" />
+                <element signature="method#起点终点验收#0;class#Test#0" />
+                <element signature="docComment;method#坐标转换法磁场验收#0;class#Test#0" />
+                <element signature="method#坐标转换法磁场验收#0;class#Test#0" />
+                <element signature="method#弯曲CCT验收#0;class#Test#0" />
+                <element signature="method#直线CCT验收2#0;class#Test#0" />
+                <element signature="method#直线CCT验收#0;class#Test#0" />
+                <element signature="method#螺线管验收#0;class#Test#0" />
+                <element signature="method#哭哭哭辛苦写的代码是错的#0;class#Test#0" />
+                <element signature="method#烟消云散的测试代码#0;class#Test#0" />
               </folding>
             </state>
           </provider>
@@ -131,7 +110,6 @@
         <option value="$PROJECT_DIR$/src/zrx/base/Vectot2d.java" />
         <option value="$PROJECT_DIR$/src/zrx/CCT/CCT.java" />
         <option value="$PROJECT_DIR$/src/zrx/base/Vector3d.java" />
-        <option value="$PROJECT_DIR$/src/zrx/CCT/Magnet.java" />
         <option value="$PROJECT_DIR$/src/zrx/python/CCTPlot.java" />
         <option value="$PROJECT_DIR$/src/zrx/Tools/QuadraticEquationOfOneVariable.java" />
         <option value="$PROJECT_DIR$/src/zrx/Tools/Equal.java" />
@@ -140,14 +118,18 @@
         <option value="$PROJECT_DIR$/src/zrx/Tools/ArrayMerge.java" />
         <option value="$PROJECT_DIR$/src/zrx/Tools/PrintArray.java" />
         <option value="$PROJECT_DIR$/src/zrx/JameTest.java" />
-        <option value="$PROJECT_DIR$/src/zrx/CCT/CCTPlot.java" />
         <option value="$PROJECT_DIR$/src/zrx/python/Plot2d.java" />
-        <option value="$PROJECT_DIR$/src/zrx/base/Vector2d.java" />
-        <option value="$PROJECT_DIR$/src/zrx/Tools/InterpolationOfPolarCoordinate.java" />
-        <option value="$PROJECT_DIR$/src/zrx/Test.java" />
         <option value="$PROJECT_DIR$/src/JmathlibTest.java" />
         <option value="$PROJECT_DIR$/src/zrx/JmathlibTest.java" />
         <option value="$PROJECT_DIR$/src/zrx/CCT/CurvedCCT.java" />
+        <option value="$PROJECT_DIR$/src/zrx/CCT/CCTPlot.java" />
+        <option value="$PROJECT_DIR$/src/zrx/CCT/Magnet.java" />
+        <option value="$PROJECT_DIR$/src/zrx/CCT/CurvedCCTAnalysis.java" />
+        <option value="$PROJECT_DIR$/src/zrx/base/Vector2d.java" />
+        <option value="$PROJECT_DIR$/src/zrx/Tools/InterpolationOfPolarCoordinate.java" />
+        <option value="$PROJECT_DIR$/src/zrx/CCT/DiscreteCCT.java" />
+        <option value="$PROJECT_DIR$/src/zrx/CCT/ConnectionSegmentOfCCT.java" />
+        <option value="$PROJECT_DIR$/src/zrx/Test.java" />
       </list>
     </option>
   </component>
@@ -176,12 +158,12 @@
             <path>
               <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
               <item name="CCT" type="462c0819:PsiDirectoryNode" />
-              <item name="libs" type="462c0819:PsiDirectoryNode" />
+              <item name="docs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
               <item name="CCT" type="462c0819:PsiDirectoryNode" />
-              <item name="pyScript" type="462c0819:PsiDirectoryNode" />
+              <item name="libs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
@@ -201,6 +183,35 @@
               <item name="zrx" type="462c0819:PsiDirectoryNode" />
               <item name="base" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="zrx" type="462c0819:PsiDirectoryNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="zrx" type="462c0819:PsiDirectoryNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
+              <item name="abstractCCT" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="zrx" type="462c0819:PsiDirectoryNode" />
+              <item name="python" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="zrx" type="462c0819:PsiDirectoryNode" />
+              <item name="Tools" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -214,8 +225,9 @@
     <property name="ToolWindowRun.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="full.screen.before.presentation.mode" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="12" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/JMathLibSmallApplet.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/commons-math3-3.6.1.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -236,7 +248,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.JmathlibTest">
+  <component name="RunManager" selected="Application.Test">
     <configuration name="ArrayMerge" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="zrx.Tools.ArrayMerge" />
       <module name="CCT" />
@@ -295,7 +307,7 @@
       <module name="CCT" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="zrx.CCT.*" />
+          <option name="PATTERN" value="zrx.CCT.abstractCCT.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -312,8 +324,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.JmathlibTest" />
         <item itemvalue="Application.Test" />
+        <item itemvalue="Application.JmathlibTest" />
         <item itemvalue="Application.InterpolationOfPolarCoordinate" />
         <item itemvalue="Application.JameTest" />
         <item itemvalue="Application.ArrayMerge" />
@@ -331,12 +343,12 @@
       <option name="presentableId" value="Default" />
       <updated>1562162506805</updated>
       <workItem from="1562162508395" duration="25922000" />
-      <workItem from="1562320088539" duration="81804000" />
+      <workItem from="1562320088539" duration="103936000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107726000" />
+    <option name="totallyTimeSpent" value="129858000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -348,9 +360,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
+    <frame x="0" y="0" width="1536" height="864" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22050938" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.19571045" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -359,7 +372,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3286119" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49932975" weight="0.43342775" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49932975" weight="0.1855524" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39943343" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -367,10 +380,10 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3286119" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50067025" side_tool="true" weight="0.51768035" />
-      <window_info anchor="bottom" id="Statistic" order="10" weight="0.49291784" />
+      <window_info anchor="bottom" id="Statistic" order="10" weight="0.49150142" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
       <window_info anchor="bottom" id="Version Control" order="12" weight="0.32743362" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.26062322" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.2592068" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -381,20 +394,43 @@
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19571045" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3286119" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49932975" weight="0.1855524" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39943343" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3286119" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50067025" side_tool="true" weight="0.51768035" />
+      <window_info anchor="bottom" id="Statistic" order="10" weight="0.49150142" />
+      <window_info anchor="bottom" id="Database Changes" order="11" />
+      <window_info anchor="bottom" id="Version Control" order="12" weight="0.32743362" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.2592068" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="3" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/Magnet.java" />
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/Matrix.java" />
-    <entry file="jar://D:/Program Files/jdk-12.0.1/lib/src.zip!/java.base/java/lang/System.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="582">
-          <caret line="425" column="30" selection-start-line="425" selection-start-column="30" selection-end-line="425" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/zrx/Tools/Numpy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -425,50 +461,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/StraightCCT.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="861">
-          <caret line="89" column="5" selection-start-line="89" selection-start-column="5" selection-end-line="89" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#StraightCCT#0;class#StraightCCT#0" />
-            <element signature="method#setAzim#0;class#StraightCCT#0" />
-            <element signature="method#point#0;class#StraightCCT#0" />
-            <element signature="method#printTheoreticalValues#0;class#StraightCCT#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/Solenoid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-62">
-          <caret line="85" column="5" selection-start-line="85" selection-start-column="5" selection-end-line="85" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#Solenoid#0;class#Solenoid#0" />
-            <element signature="method#setAzimuth#0;class#Solenoid#0" />
-            <element signature="method#setN#0;class#Solenoid#0" />
-            <element signature="method#point#0;class#Solenoid#0" />
-            <element signature="method#demoInstance#0;class#Solenoid#0" />
-            <element signature="method#toString#0;class#Solenoid#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pyScript/plot.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-450">
           <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/Magnet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1620">
-          <caret line="54" column="15" selection-start-line="54" selection-start-column="15" selection-end-line="54" selection-end-column="15" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -495,39 +491,6 @@
     <entry file="file://$PROJECT_DIR$/pyScript/plot2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-87" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/Vector3d.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
-          <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#selfMatmul#0;class#Vector3d#0" />
-            <element signature="method#corss#0;class#Vector3d#0" />
-            <element signature="method#add#0;class#Vector3d#0" />
-            <element signature="method#subtract#0;class#Vector3d#0" />
-            <element signature="method#addSelf#0;class#Vector3d#0" />
-            <element signature="method#subtractSelf#0;class#Vector3d#0" />
-            <element signature="e#1612#1613#0" expanded="true" />
-            <element signature="e#1667#1668#0" expanded="true" />
-            <element signature="method#normal#0;class#Vector3d#0" />
-            <element signature="docComment;method#isCoplane#0;class#Vector3d#0" />
-            <element signature="method#isCoplane#0;class#Vector3d#0" />
-            <element signature="docComment;method#nearestTwoPointsOnTheirLinesRespectively#0;class#Vector3d#0" />
-            <element signature="method#nearestTwoPointsOnTheirLinesRespectively#0;class#Vector3d#0" />
-            <element signature="docComment;method#nearestDistanceOfTwoLines#0;class#Vector3d#0" />
-            <element signature="method#nearestDistanceOfTwoLines#0;class#Vector3d#0" />
-            <element signature="docComment;method#linearEquationsWithTwoUnknowns#0;class#Vector3d#0" />
-            <element signature="method#linearEquationsWithTwoUnknowns#0;class#Vector3d#0" />
-            <element signature="docComment;class#Line#0;class#Vector3d#0" />
-            <element signature="class#Line#0;class#Vector3d#0" />
-            <element signature="method#Vector3d#0;class#Vector3d#0" />
-            <element signature="method#Vector3d#1;class#Vector3d#0" />
-            <element signature="method#Vector3d#2;class#Vector3d#0" />
-            <element signature="method#test1#0;class#Vector3d#0" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/zrx/python/Plot3d.java">
@@ -584,104 +547,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/python/Plot2d.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="667">
-          <caret line="23" column="50" selection-start-line="23" selection-start-column="50" selection-end-line="23" selection-end-column="50" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;method#plot2#0;class#Plod2d#0" />
-            <element signature="docComment;method#plotPoint#1;class#Plod2d#0" />
-            <element signature="method#plotVector#0;class#Plod2d#0" />
-            <element signature="method#setBoxSize#0;class#Plod2d#0" />
-            <element signature="method#polt2MakeFile#0;class#Plod2d#0" />
-            <element signature="method#prepareHead#0;class#Plod2d#0" />
-            <element signature="method#show#0;class#Plod2d#0" />
-            <element signature="method#printFomatPY#0;class#Plod2d#0" />
-            <element signature="docComment;method#main#0;class#Plod2d#0" />
-            <element signature="method#main#0;class#Plod2d#0" />
-            <element signature="method#demo1#0;class#Plod2d#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CCTPlot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="453">
-          <caret line="66" column="88" selection-start-line="66" selection-start-column="88" selection-end-line="66" selection-end-column="88" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#plotStartAndEndPoint#0;class#CCTPlot#0" />
-            <element signature="method#plotStartAndEndPoint#1;class#CCTPlot#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/Vector2d.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="519" column="66" selection-start-line="519" selection-start-column="66" selection-end-line="519" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#Vector2d#0;class#Vector2d#0" />
-            <element signature="docComment;method#circularInterpolationRadius#0;class#Vector2d#0" />
-            <element signature="method#circularInterpolationRadius#0;class#Vector2d#0" />
-            <element signature="docComment;method#circularInterpolationCouplingPoint#0;class#Vector2d#0" />
-            <element signature="method#circularInterpolationCouplingPoint#0;class#Vector2d#0" />
-            <element signature="docComment;method#circularInterpolationCenters#0;class#Vector2d#0" />
-            <element signature="method#circularInterpolationCenters#0;class#Vector2d#0" />
-            <element signature="docComment;method#arc#0;class#Vector2d#0" />
-            <element signature="method#arc#0;class#Vector2d#0" />
-            <element signature="docComment;method#polarAngle#0;class#Vector2d#0" />
-            <element signature="docComment;method#polarAngle#1;class#Vector2d#0" />
-            <element signature="e#9981#10064#0" />
-            <element signature="docComment;method#rayForPolarAngle#0;class#Vector2d#0" />
-            <element signature="method#rayForPolarAngle#0;class#Vector2d#0" />
-            <element signature="method#normalSelf#0;class#Vector2d#0" />
-            <element signature="method#normalSelfAndReturn#0;class#Vector2d#0" />
-            <element signature="method#normal#0;class#Vector2d#0" />
-            <element signature="docComment;method#length#0;class#Vector2d#0" />
-            <element signature="e#11366#11367#0" expanded="true" />
-            <element signature="e#11413#11414#0" expanded="true" />
-            <element signature="docComment;method#rotate#0;class#Vector2d#0" />
-            <element signature="e#11600#11601#0" expanded="true" />
-            <element signature="e#11646#11647#0" expanded="true" />
-            <element signature="docComment;method#rotate#1;class#Vector2d#0" />
-            <element signature="method#rotate#1;class#Vector2d#0" />
-            <element signature="docComment;method#rotate#2;class#Vector2d#0" />
-            <element signature="method#rotate#2;class#Vector2d#0" />
-            <element signature="docComment;method#rotate#3;class#Vector2d#0" />
-            <element signature="method#rotate#3;class#Vector2d#0" />
-            <element signature="docComment;method#rotateR#0;class#Vector2d#0" />
-            <element signature="method#rotateR#0;class#Vector2d#0" />
-            <element signature="docComment;method#matmul#0;class#Vector2d#0" />
-            <element signature="method#matmul#0;class#Vector2d#0" />
-            <element signature="e#12315#12316#0" expanded="true" />
-            <element signature="e#12372#12373#0" expanded="true" />
-            <element signature="e#12440#12441#0" expanded="true" />
-            <element signature="e#12493#12494#0" expanded="true" />
-            <element signature="method#dot#1;class#Vector2d#0" />
-            <element signature="method#reverseSelf#0;class#Vector2d#0" />
-            <element signature="method#reverseSelfAndReturn#0;class#Vector2d#0" />
-            <element signature="e#12849#12850#0" expanded="true" />
-            <element signature="e#12896#12897#0" expanded="true" />
-            <element signature="e#12971#12972#0" expanded="true" />
-            <element signature="e#13030#13031#0" expanded="true" />
-            <element signature="docComment;method#getZeros#0;class#Vector2d#0" />
-            <element signature="e#13151#13152#0" expanded="true" />
-            <element signature="e#13196#13197#0" expanded="true" />
-            <element signature="method#toString#0;class#Vector2d#0" />
-            <element signature="method#弧路径#0;class#Vector2d#0" />
-            <element signature="method#极角得到矢量#0;class#Vector2d#0" />
-            <element signature="method#solveCircularInterpolationRadius测试3#0;class#Vector2d#0" />
-            <element signature="method#solveCircularInterpolationRadius测试2#0;class#Vector2d#0" />
-            <element signature="method#矢量旋转#0;class#Vector2d#0" />
-            <element signature="method#求极角#0;class#Vector2d#0" />
-            <element signature="method#极角规范化#0;class#Vector2d#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/zrx/Tools/PrintArray.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
@@ -689,47 +554,6 @@
           <folding>
             <element signature="e#114#115#0" expanded="true" />
             <element signature="e#144#145#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/Tools/InterpolationOfPolarCoordinate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3429">
-          <caret line="286" column="29" selection-start-line="286" selection-start-column="29" selection-end-line="286" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;method#interpolation4Point#0;class#InterpolationOfPolarCoordinate#0" />
-            <element signature="method#interpolation#0;class#InterpolationOfPolarCoordinate#0" />
-            <element signature="docComment;method#interpolation4Point#1;class#InterpolationOfPolarCoordinate#0" />
-            <element signature="method#interpolation4Point#1;class#InterpolationOfPolarCoordinate#0" />
-            <element signature="docComment;method#interpolation4Point#2;class#InterpolationOfPolarCoordinate#0" />
-            <element signature="method#columnVectorToArray#0;class#InterpolationOfPolarCoordinate#0" />
-            <element signature="docComment;method#cubicFunction#0;class#InterpolationOfPolarCoordinate#0" />
-            <element signature="method#cubicFunction#0;class#InterpolationOfPolarCoordinate#0" />
-            <element signature="method#测试1#0;class#InterpolationOfPolarCoordinate#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/Test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="70" column="32" selection-start-line="70" selection-start-column="32" selection-end-line="70" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#273#274#0" expanded="true" />
-            <element signature="e#299#300#0" expanded="true" />
-            <element signature="method#弯曲CCT连接问题四天终于攻破_感叹号#0;class#Test#0" />
-            <element signature="method#起点终点验收#0;class#Test#0" />
-            <element signature="docComment;method#坐标转换法磁场验收#0;class#Test#0" />
-            <element signature="method#坐标转换法磁场验收#0;class#Test#0" />
-            <element signature="method#弯曲CCT验收#0;class#Test#0" />
-            <element signature="method#直线CCT验收2#0;class#Test#0" />
-            <element signature="method#直线CCT验收#0;class#Test#0" />
-            <element signature="method#螺线管验收#0;class#Test#0" />
-            <element signature="method#哭哭哭辛苦写的代码是错的#0;class#Test#0" />
-            <element signature="method#烟消云散的测试代码#0;class#Test#0" />
           </folding>
         </state>
       </provider>
@@ -811,16 +635,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/JmathlibTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://D:/Program Files/jdk-12.0.1/lib/src.zip!/java.base/java/lang/StrictMath.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="226">
@@ -828,55 +642,315 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://D:/Program Files/jdk-12.0.1/lib/src.zip!/java.base/java/lang/Math.java">
+    <entry file="file://$PROJECT_DIR$/src/zrx/JmathlibTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="359" column="28" lean-forward="true" selection-start-line="359" selection-start-column="28" selection-end-line="359" selection-end-column="28" />
+        <state relative-caret-position="390">
+          <caret line="15" column="41" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CurvedCCT.java">
+    <entry file="jar://$PROJECT_DIR$/libs/commons-math3-3.6.1.jar!/org/apache/commons/math3/util/FastMath.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="393" column="38" lean-forward="true" selection-start-line="393" selection-start-column="38" selection-end-line="393" selection-end-column="38" />
+        <state relative-caret-position="6942">
+          <caret line="312" column="25" selection-start-line="312" selection-start-column="25" selection-end-line="312" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/abstractCCT/CCT.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="docComment;field#a#0;class#CurvedCCT#0" />
-            <element signature="method#setStartKsi#0;class#CurvedCCT#0" />
-            <element signature="docComment;method#getEndPhi#0;class#CurvedCCT#0" />
-            <element signature="method#getEndPhi#0;class#CurvedCCT#0" />
-            <element signature="method#setN#0;class#CurvedCCT#0" />
-            <element signature="docComment;method#getStartTheta#0;class#CurvedCCT#0" />
-            <element signature="docComment;method#point#0;class#CurvedCCT#0" />
-            <element signature="method#setTiltAngle#0;class#CurvedCCT#0" />
-            <element signature="docComment;method#reverseWinding#0;class#CurvedCCT#0" />
-            <element signature="method#reverseWinding#0;class#CurvedCCT#0" />
-            <element signature="docComment;method#coordinateSystemTransformateFromKsiPhiToXYZ#0;class#CurvedCCT#0" />
-            <element signature="method#coordinateSystemTransformateFromKsiPhiToXYZ#0;class#CurvedCCT#0" />
-            <element signature="docComment;method#coordinateSystemTransformateFromKsiPhiToXYZ#1;class#CurvedCCT#0" />
-            <element signature="method#coordinateSystemTransformateFromKsiPhiToXYZ#1;class#CurvedCCT#0" />
-            <element signature="docComment;method#coordinateSystemTransformateFromKsiPhiToXYZ_OLD#0;class#CurvedCCT#0" />
-            <element signature="method#coordinateSystemTransformateFromKsiPhiToXYZ_OLD#0;class#CurvedCCT#0" />
-            <element signature="e#8819#8820#0" expanded="true" />
-            <element signature="e#8886#8887#0" expanded="true" />
-            <element signature="e#8997#8998#0" expanded="true" />
-            <element signature="e#9060#9061#0" expanded="true" />
+            <element signature="method#getStartDirect#0;class#CCT#0" />
+            <element signature="method#getEndDirect#0;class#CCT#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CCT.java">
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/abstractCCT/Solenoid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="12" column="7" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+        <state relative-caret-position="26">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1808#1809#0" expanded="true" />
-            <element signature="e#1877#1878#0" expanded="true" />
-            <element signature="e#2442#2443#0" expanded="true" />
-            <element signature="e#2477#2478#0" expanded="true" />
-            <element signature="method#getStartDirect#0;class#CCT#0" />
-            <element signature="method#getEndDirect#0;class#CCT#0" />
+            <element signature="method#Solenoid#0;class#Solenoid#0" />
+            <element signature="method#setAzimuth#0;class#Solenoid#0" />
+            <element signature="method#setN#0;class#Solenoid#0" />
+            <element signature="method#point#0;class#Solenoid#0" />
+            <element signature="method#demoInstance#0;class#Solenoid#0" />
+            <element signature="method#toString#0;class#Solenoid#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/abstractCCT/StraightCCT.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#StraightCCT#0;class#StraightCCT#0" />
+            <element signature="method#setAzim#0;class#StraightCCT#0" />
+            <element signature="method#point#0;class#StraightCCT#0" />
+            <element signature="method#printTheoreticalValues#0;class#StraightCCT#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/Magnet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="12" column="34" lean-forward="true" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CCTPlot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="64" column="23" selection-start-line="64" selection-start-column="23" selection-end-line="64" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#plotStartAndEndPoint#0;class#CCTPlot#0" />
+            <element signature="method#plotStartAndEndPoint#1;class#CCTPlot#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/Tools/InterpolationOfPolarCoordinate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="298" column="21" selection-start-line="298" selection-start-column="21" selection-end-line="298" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;method#interpolation4Point#0;class#InterpolationOfPolarCoordinate#0" />
+            <element signature="docComment;method#interpolation4Point#1;class#InterpolationOfPolarCoordinate#0" />
+            <element signature="method#interpolation4Point#1;class#InterpolationOfPolarCoordinate#0" />
+            <element signature="method#columnVectorToArray#0;class#InterpolationOfPolarCoordinate#0" />
+            <element signature="docComment;method#cubicFunction#0;class#InterpolationOfPolarCoordinate#0" />
+            <element signature="method#cubicFunction#0;class#InterpolationOfPolarCoordinate#0" />
+            <element signature="method#测试1#0;class#InterpolationOfPolarCoordinate#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/python/Plot2d.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1794">
+          <caret line="37" column="58" selection-start-line="37" selection-start-column="50" selection-end-line="37" selection-end-column="58" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/base/Vector2d.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="14" column="19" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#271#354#0" />
+            <element signature="e#360#1371#0" />
+            <element signature="e#360#2406#0" />
+            <element signature="e#2412#2980#0" />
+            <element signature="e#2412#3927#0" />
+            <element signature="e#3933#4349#0" />
+            <element signature="e#3933#5102#0" />
+            <element signature="e#5108#5650#0" />
+            <element signature="e#5108#6763#0" />
+            <element signature="e#6769#7095#0" />
+            <element signature="e#6769#7408#0" />
+            <element signature="e#7414#7808#0" />
+            <element signature="e#7414#8810#0" />
+            <element signature="e#8816#8904#0" />
+            <element signature="e#10009#10010#0" expanded="true" />
+            <element signature="e#10057#10058#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/arc.JPG">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/abstractCCT/CurvedCCT.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="98" column="4" selection-start-line="98" selection-start-column="4" selection-end-line="98" selection-end-column="15" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/InterpolationOfPolarCoordinateTest.JPG">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/InterpolationOfPolarCoordinateDemo1.JPG">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CurvedCCTAnalysis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="15" column="30" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;method#curvedCCTFactory#0;class#CurvedCCTAnalysis#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/DiscreteCCT.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1202">
+          <caret line="38" column="8" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="65" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;method#plot23d#0;class#DiscreteCCT#0" />
+            <element signature="e#1200#1201#0" expanded="true" />
+            <element signature="e#1232#1233#0" expanded="true" />
+            <element signature="e#1275#1276#0" expanded="true" />
+            <element signature="e#1310#1311#0" expanded="true" />
+            <element signature="e#1350#1351#0" expanded="true" />
+            <element signature="e#1382#1383#0" expanded="true" />
+            <element signature="e#1421#1422#0" expanded="true" />
+            <element signature="e#1454#1455#0" expanded="true" />
+            <element signature="e#1494#1495#0" expanded="true" />
+            <element signature="e#1528#1529#0" expanded="true" />
+            <element signature="e#1565#1566#0" expanded="true" />
+            <element signature="e#1596#1597#0" expanded="true" />
+            <element signature="e#1634#1635#0" expanded="true" />
+            <element signature="e#1666#1667#0" expanded="true" />
+            <element signature="e#1747#1748#0" expanded="true" />
+            <element signature="e#1789#1790#0" expanded="true" />
+            <element signature="e#1849#1850#0" expanded="true" />
+            <element signature="e#1897#1898#0" expanded="true" />
+            <element signature="e#1951#1952#0" expanded="true" />
+            <element signature="e#1993#1994#0" expanded="true" />
+            <element signature="e#2047#2048#0" expanded="true" />
+            <element signature="e#2091#2092#0" expanded="true" />
+            <element signature="e#2147#2148#0" expanded="true" />
+            <element signature="e#2193#2194#0" expanded="true" />
+            <element signature="e#2243#2244#0" expanded="true" />
+            <element signature="e#2283#2284#0" expanded="true" />
+            <element signature="e#2335#2336#0" expanded="true" />
+            <element signature="e#2377#2378#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/ConnectionSegmentOfCCT.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="61" column="69" selection-start-line="61" selection-start-column="69" selection-end-line="61" selection-end-column="69" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#plot23d#0;class#ConnectionSegmentOfCCT#0" />
+            <element signature="e#2392#2393#0" expanded="true" />
+            <element signature="e#2427#2428#0" expanded="true" />
+            <element signature="e#2467#2468#0" expanded="true" />
+            <element signature="e#2499#2500#0" expanded="true" />
+            <element signature="e#2538#2539#0" expanded="true" />
+            <element signature="e#2571#2572#0" expanded="true" />
+            <element signature="e#2611#2612#0" expanded="true" />
+            <element signature="e#2645#2646#0" expanded="true" />
+            <element signature="e#2682#2683#0" expanded="true" />
+            <element signature="e#2713#2714#0" expanded="true" />
+            <element signature="e#2751#2752#0" expanded="true" />
+            <element signature="e#2783#2784#0" expanded="true" />
+            <element signature="e#2829#2830#0" expanded="true" />
+            <element signature="e#2869#2870#0" expanded="true" />
+            <element signature="e#2921#2922#0" expanded="true" />
+            <element signature="e#2967#2968#0" expanded="true" />
+            <element signature="e#3005#3006#0" expanded="true" />
+            <element signature="e#3037#3038#0" expanded="true" />
+            <element signature="e#3074#3075#0" expanded="true" />
+            <element signature="e#3104#3105#0" expanded="true" />
+            <element signature="e#3139#3140#0" expanded="true" />
+            <element signature="e#3167#3168#0" expanded="true" />
+            <element signature="e#3263#3264#0" expanded="true" />
+            <element signature="e#3311#3312#0" expanded="true" />
+            <element signature="e#3365#3366#0" expanded="true" />
+            <element signature="e#3407#3408#0" expanded="true" />
+            <element signature="e#3461#3462#0" expanded="true" />
+            <element signature="e#3505#3506#0" expanded="true" />
+            <element signature="e#3561#3562#0" expanded="true" />
+            <element signature="e#3607#3608#0" expanded="true" />
+            <element signature="e#3657#3658#0" expanded="true" />
+            <element signature="e#3697#3698#0" expanded="true" />
+            <element signature="e#3749#3750#0" expanded="true" />
+            <element signature="e#3791#3792#0" expanded="true" />
+            <element signature="e#3859#3860#0" expanded="true" />
+            <element signature="e#3917#3918#0" expanded="true" />
+            <element signature="e#4119#4120#0" expanded="true" />
+            <element signature="e#4161#4162#0" expanded="true" />
+            <element signature="e#4210#4211#0" expanded="true" />
+            <element signature="e#4248#4249#0" expanded="true" />
+            <element signature="e#4293#4294#0" expanded="true" />
+            <element signature="e#4327#4328#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Program Files/jdk-12.0.1/lib/src.zip!/java.base/java/lang/Math.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="623">
+          <caret line="537" column="30" selection-start-line="537" selection-start-column="25" selection-end-line="537" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/base/Vector3d.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="150" column="50" selection-start-line="150" selection-start-column="25" selection-end-line="150" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#selfMatmul#0;class#Vector3d#0" />
+            <element signature="method#corss#0;class#Vector3d#0" />
+            <element signature="method#add#0;class#Vector3d#0" />
+            <element signature="method#subtract#0;class#Vector3d#0" />
+            <element signature="method#addSelf#0;class#Vector3d#0" />
+            <element signature="method#subtractSelf#0;class#Vector3d#0" />
+            <element signature="e#1612#1613#0" expanded="true" />
+            <element signature="e#1667#1668#0" expanded="true" />
+            <element signature="method#normal#0;class#Vector3d#0" />
+            <element signature="docComment;method#isCoplane#0;class#Vector3d#0" />
+            <element signature="method#isCoplane#0;class#Vector3d#0" />
+            <element signature="docComment;method#nearestTwoPointsOnTheirLinesRespectively#0;class#Vector3d#0" />
+            <element signature="method#nearestTwoPointsOnTheirLinesRespectively#0;class#Vector3d#0" />
+            <element signature="docComment;method#nearestDistanceOfTwoLines#0;class#Vector3d#0" />
+            <element signature="method#nearestDistanceOfTwoLines#0;class#Vector3d#0" />
+            <element signature="docComment;method#linearEquationsWithTwoUnknowns#0;class#Vector3d#0" />
+            <element signature="method#linearEquationsWithTwoUnknowns#0;class#Vector3d#0" />
+            <element signature="docComment;class#Line#0;class#Vector3d#0" />
+            <element signature="class#Line#0;class#Vector3d#0" />
+            <element signature="method#Vector3d#0;class#Vector3d#0" />
+            <element signature="method#Vector3d#1;class#Vector3d#0" />
+            <element signature="method#Vector3d#2;class#Vector3d#0" />
+            <element signature="method#test1#0;class#Vector3d#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="671">
+          <caret line="56" column="32" selection-start-line="56" selection-start-column="32" selection-end-line="56" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#mainTest#0;class#Test#0" />
+            <element signature="method#起点终点验收#0;class#Test#0" />
+            <element signature="docComment;method#坐标转换法磁场验收#0;class#Test#0" />
+            <element signature="method#坐标转换法磁场验收#0;class#Test#0" />
+            <element signature="method#弯曲CCT验收#0;class#Test#0" />
+            <element signature="method#直线CCT验收2#0;class#Test#0" />
+            <element signature="method#直线CCT验收#0;class#Test#0" />
+            <element signature="method#螺线管验收#0;class#Test#0" />
+            <element signature="method#哭哭哭辛苦写的代码是错的#0;class#Test#0" />
+            <element signature="method#烟消云散的测试代码#0;class#Test#0" />
           </folding>
         </state>
       </provider>
@@ -955,7 +1029,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>JMathLibSmallApplet</last-edited>
+          <last-edited>commons-math3-3.6.1-tools</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

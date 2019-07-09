@@ -1,5 +1,7 @@
 package zrx.CCT;
 
+import zrx.CCT.abstractCCT.CCT;
+import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.base.Vector2d;
 import zrx.python.Plot2d;
 import zrx.python.Plot3d;
@@ -8,6 +10,9 @@ import zrx.python.Plot3d;
 /**
  * 和CCT有关的plot
  * 新建一个类 减少耦合~~~
+ *
+ * 作废作废!!
+ *
  * <p>
  * plot 各种东西后
  * CCTPlot.setCube(1.5);
@@ -57,7 +62,7 @@ public class CCTPlot extends Plot3d {
         System.out.println("终止点为黑色+号：" + DescribeForEndPoint);
     }
 
-    public static void plotTheKsiPhiAndXYZPoint(CurvedCCT cct, Vector2d KsiPhi,String describe){
+    public static void plotTheKsiPhiAndXYZPoint(CurvedCCT cct, Vector2d KsiPhi, String describe){
         Plot2d.plotPoint(KsiPhi,describe);
         Plot3d.plotPoint(cct.coordinateSystemTransformateFromKsiPhiToXYZ(KsiPhi),describe);
     }

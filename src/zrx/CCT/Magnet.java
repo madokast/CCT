@@ -10,7 +10,7 @@ public class Magnet {
      * 电流方向为 v3s[i]->v3s[i+1] 电流大小为 I 。若 I 为负数，当人和上述方向相反
      * <p>
      * 注意这里不确认 Vector3d[] v3s 是否描述的是一段轨迹，函数仅仅调用 Magnet.dB 进行积分式的计算
-     * 可以通过 Plot3d.plot3(v3s) 绘图哟~ TODO
+     * 可以通过 Plot3d.plot3(v3s) 绘图哟~
      *
      * @param v3s 轨迹(不确认)
      * @param I   电流

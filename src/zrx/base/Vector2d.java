@@ -269,35 +269,40 @@ public class Vector2d {
      * @return 极角
      */
     public static double polarAngle(Vector2d v) {
-        if (v.length() < Constants.DX) {
-            throw new ArithmeticException("Zero vector non-exists polar angle");
-        }
+        double atan2 = Math.atan2(v.y,v.x);
+        return (atan2>0)?atan2:atan2+Math.PI*2.0;
 
-        double x = v.x;
-        double y = v.y;
-
-        if (Math.abs(x) < Constants.DX) {
-            if (y > 0)
-                return Math.PI / 2.0;
-            else if ((y < 0))
-                return 3.0 * Math.PI / 2.0;
-
-            throw new ArithmeticException("Zero vector non-exists polar angle");
-        }
-
-        double phi = Math.atan(y / x);
-
-        if (x > 0 && y >= 0) {
-            return phi;
-        } else if (x < 0 && y >= 0) {
-            return Math.PI + phi;
-        } else if (x < 0 && y <= 0) {
-            return Math.PI + phi;
-        } else if (x > 0 && y <= 0) {
-            return 2 * Math.PI + phi;
-        }
-
-        throw new ArithmeticException("what happened in polarAngle?!");
+//        if (v.length() < Constants.DX) {
+//            throw new ArithmeticException("Zero vector non-exists polar angle");
+//        }
+//
+//        double x = v.x;
+//        double y = v.y;
+//
+//        if (Math.abs(x) < Constants.DX) {
+//            if (y > 0)
+//                return Math.PI / 2.0;
+//            else if ((y < 0))
+//                return 3.0 * Math.PI / 2.0;
+//
+//            throw new ArithmeticException("Zero vector non-exists polar angle");
+//        }
+//
+//        double phi = Math.atan(y / x);
+//
+//        if (x >= 0 && y >= 0) {
+//            return phi;
+//        } else if (x <= 0 && y >= 0) {
+//            return Math.PI + phi;
+//        } else if (x <= 0 && y <= 0) {
+//            return Math.PI + phi;
+//        } else if (x >= 0 && y <= 0) {
+//            return 2 * Math.PI + phi;
+//        }
+//
+//        System.out.println("x = " + x);
+//        System.out.println("y = " + y);
+//        throw new ArithmeticException("what happened in polarAngle?!");
 
     }
 
@@ -413,6 +418,19 @@ public class Vector2d {
         return Vector2d.add(rotRp, center);
     }
 
+    public void rotateSelf(final double phi){
+        Vector2d v = rotate(this,phi);
+
+        this.x = v.x;
+        this.y = v.y;
+    }
+
+    public Vector2d rotateSelfAndReturn(final double phi){
+        this.rotateSelf(phi);
+
+        return this;
+    }
+
     /**
      * 整体旋转
      *
@@ -502,8 +520,19 @@ public class Vector2d {
         return Vector2d.add(from,dot(length,nd));
     }
 
+    public static Vector2d walk(final Vector2d from, final Vector2d direct){
+        return Vector2d.walk(from,direct,direct.length());
+    }
+
     public Vector2d walkSelf(final Vector2d direct,double length){
         Vector2d p = Vector2d.walk(this,direct,length);
+        this.x = p.x;
+        this.y = p.y;
+        return this;
+    }
+
+    public Vector2d walkSelf(final Vector2d direct){
+        Vector2d p = Vector2d.walk(this,direct,direct.length());
         this.x = p.x;
         this.y = p.y;
         return this;
@@ -600,6 +629,18 @@ public class Vector2d {
      */
     public static Vector2d getZeros() {
         return new Vector2d(0.0, 0.0);
+    }
+
+    public static Vector2d getXDirect() {
+        return new Vector2d(1.0,0.0);
+    }
+
+    public static Vector2d getYDirect(){
+        return new Vector2d(0.0,1.0);
+    }
+
+    public static Vector2d getOne(double x,double y){
+        return new Vector2d(x,y);
     }
 
     @Override
