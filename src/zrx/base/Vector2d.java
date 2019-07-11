@@ -5,10 +5,11 @@ import zrx.Tools.Equal;
 import zrx.Tools.QuadraticEquationOfOneVariable;
 import zrx.python.Plot2d;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Vector2d {
+public class Vector2d implements Serializable {
     public double x;
     public double y;
 

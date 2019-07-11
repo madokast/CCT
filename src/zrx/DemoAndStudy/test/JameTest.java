@@ -29,6 +29,9 @@ public class JameTest {
 
         x.print(5,2);
 
+        System.out.println(x.get(0,0));
+        System.out.println(x.get(1,0));
+
 //        double[] arr = InterpolationOfPolarCoordinate.columnvVectorToArray(x);
 //        PrintArray.print(arr);
     }

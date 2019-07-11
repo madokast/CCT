@@ -271,6 +271,10 @@ public class Vector3d implements Serializable {
         return v3s;
     }
 
+    public static Vector2d vector3dTo2d(Vector3d v3){
+        return Vector2d.getOne(v3.x,v3.y);
+    }
+
     @Override
     public String toString() {
         return "[" + x + ' ' + y + ' ' + z + ']';

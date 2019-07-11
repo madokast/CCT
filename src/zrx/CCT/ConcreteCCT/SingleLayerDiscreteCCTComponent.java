@@ -1,5 +1,6 @@
 package zrx.CCT.ConcreteCCT;
 
+import zrx.base.Vector2d;
 import zrx.base.Vector3d;
 
 /**
@@ -11,4 +12,5 @@ import zrx.base.Vector3d;
 
 public interface SingleLayerDiscreteCCTComponent {
     Vector3d[] getPathInXYZ();
+    Vector2d[] getPathInKsiPhi();
 }

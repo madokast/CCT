@@ -1,7 +1,9 @@
 package zrx.Tools;
 
 
+import zrx.base.Vector2d;
 import zrx.base.Vector3d;
+import zrx.python.Plot2d;
 
 import java.io.*;
 import java.lang.Object;
@@ -54,16 +56,10 @@ public class Persistence {
 
     //测试
     public static void main(String[] args) {
-//        List<Vector3d> list = new ArrayList<>();
-//        list.add(Vector3d.getZeros());
-//        list.add(new Vector3d(1,2,3));
-//        list.add(new Vector3d(3,2,1));
-//        System.out.println("list = " + list);
-
-//        write(list,"PersistenceTest");
-        final Object ob = read("PersistenceTest");
-        System.out.println("ob = " + ob);
-        List oblist = (List)ob;
-        System.out.println("oblist.get(1) = " + oblist.get(1));
+        final Object ob = read("pole4");
+        List<Vector2d> oblist = (List<Vector2d>)ob;
+        System.out.println("oblist.size() = " + oblist.size());
+        Plot2d.plot2(oblist.toArray(Vector2d[]::new),Plot2d.RED_POINT);
+        Plot2d.showThread();
     }
 }

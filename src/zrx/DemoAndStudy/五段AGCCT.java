@@ -130,7 +130,7 @@ public class 五段AGCCT {
 
         //展示图片
         Plot2d.showThread();
-        Plot2d.equal();
+//        Plot2d.equal();
         CCTPlot.setCube(1.5);
         Plot3d.showThread();
     }
