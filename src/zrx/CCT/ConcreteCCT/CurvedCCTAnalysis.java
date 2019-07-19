@@ -59,6 +59,25 @@ public class CurvedCCTAnalysis {
     }
 
     /**
+     * 二极场CCT 带有四极场 补偿的 DiscreteCCT
+     * @param cct 抽象的、没有实质的弯曲cct
+     * @param gradient 需要补偿的四极场梯度
+     * @return 离散cct
+     */
+    public static DiscreteCCT discreteWithFixDipole(final CurvedCCT cct,double gradient){
+        final Vector2d[] pathInKsiPhi = cct.pointsOnKsiPhiCoordinateSystemWithFixAtDipole(gradient);
+        final Vector3d[] pathInXYZ = cct.coordinateSystemTransformateFromKsiPhiToXYZ(pathInKsiPhi);
+
+        final Vector2d startPoint = cct.getStartPointInKsiPhiCoordinateSystem();
+        final Vector2d startDirect = cct.getStartDirectInKsiPhiCoordinateSystem();
+        final Vector2d endPoint = cct.getEndPointInKsiPhiCoordinateSystem();
+        final Vector2d endDirect = cct.getEndDirectInKsiPhiCoordinateSystem();
+
+        return new DiscreteCCT(cct, pathInKsiPhi, pathInXYZ, startPoint,
+                startDirect, endPoint, endDirect);
+    }
+
+    /**
      * 构造CCT连接段
      * 非常需要耐心的调参。我能力不行，实在无法实现智能化。哎，留待后来人吧
      * 的确能力不够，但是至少连接段是平滑过渡的，即和两头的CCT即相接、而且接点处切线连续

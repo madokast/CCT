@@ -1,9 +1,11 @@
 package zrx.base;
 
+import zrx.Tools.Equal;
 import zrx.Tools.Numpy;
 import zrx.python.Plot3d;
 
 import java.io.Serializable;
+import java.util.SplittableRandom;
 
 /**
  * 三维矢量
@@ -247,6 +249,7 @@ public class Vector3d implements Serializable {
 
     /**
      * 获得 原点 / 零矢量
+     *
      * @return new Vector3d(0.0, 0.0, 0.0)
      */
     public static Vector3d getZeros() {
@@ -255,14 +258,15 @@ public class Vector3d implements Serializable {
 
     /**
      * 二维点变成三维 Z==0.0
+     *
      * @param v2 二维
      * @return 三维
      */
-    public static Vector3d vector2dTo3d(Vector2d v2){
-        return new Vector3d(v2.x,v2.y,0.0);
+    public static Vector3d vector2dTo3d(Vector2d v2) {
+        return new Vector3d(v2.x, v2.y, 0.0);
     }
 
-    public static Vector3d[] vector2dTo3d(Vector2d[] v2s){
+    public static Vector3d[] vector2dTo3d(Vector2d[] v2s) {
         Vector3d[] v3s = new Vector3d[v2s.length];
         for (int i = 0; i < v3s.length; i++) {
             v3s[i] = vector2dTo3d(v2s[i]);
@@ -271,8 +275,64 @@ public class Vector3d implements Serializable {
         return v3s;
     }
 
-    public static Vector2d vector3dTo2d(Vector3d v3){
-        return Vector2d.getOne(v3.x,v3.y);
+    public static Vector2d vector3dTo2d(Vector3d v3) {
+        return Vector2d.getOne(v3.x, v3.y);
+    }
+
+    public void setLength(double length) {
+        this.normal();
+        this.x = this.x * length;
+        this.y = this.y * length;
+        this.z = this.z * length;
+    }
+
+    public Vector3d setLengthAndReturn(double length){
+        this.setLength(length);
+        return this;
+    }
+
+    /**
+     * 2019年7月16日 出现重大bug
+     * 大bug!!!
+     * @param sourcePoint 原点
+     * @param direct 方向
+     * @param length 长度
+     * @return
+     */
+    public static Vector3d move(Vector3d sourcePoint, Vector3d direct, double length) {
+        /**
+         * 发现了重大bug。length=0，0，0 的大 bug
+         */
+        if(Equal.isEqual(length,0.0))
+            return sourcePoint;
+
+        direct.setLength(Math.abs(length));
+
+        if(length>0){
+            return Vector3d.add(sourcePoint,direct);
+        }
+        else if(length<0){
+            return Vector3d.subtract(sourcePoint,direct);
+        }
+        else{
+            System.err.println("有问题!public static Vector3d move");
+            return sourcePoint;
+        }
+
+
+    }
+
+    public static Vector3d[] move(final Vector3d[] sourcePoints,final Vector3d direct, double length){
+        Vector3d[] vector3ds = new Vector3d[sourcePoints.length];
+        for (int i = 0; i < vector3ds.length; i++) {
+            vector3ds[i] = move(sourcePoints[i],direct,length);
+        }
+
+        return vector3ds;
+    }
+
+    public static Vector3d getOne(double x,double y,double z){
+        return new Vector3d(x,y,z);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package zrx.CCT.abstractCCT;
 
+import org.apache.commons.math3.util.FastMath;
 import zrx.Tools.Equal;
 import zrx.base.Constants;
 import zrx.base.Vector2d;
@@ -11,6 +12,7 @@ import java.util.function.DoubleUnaryOperator;
  * 弯曲CCT
  */
 
+@SuppressWarnings("all")
 public class CurvedCCT extends CCT {
     /**
      * :param a: 双极坐标系 极点位置
@@ -76,6 +78,38 @@ public class CurvedCCT extends CCT {
     }
 
     private CurvedCCT() {
+    }
+
+    public double getA() {
+        return a;
+    }
+
+    public double getEta() {
+        return eta;
+    }
+
+    public double getNth() {
+        return nth;
+    }
+
+    public double getStepKsi() {
+        return stepKsi;
+    }
+
+    public double getStartKsi() {
+        return startKsi;
+    }
+
+    public int getAntiClockwise() {
+        return antiClockwise;
+    }
+
+    public double getCn() {
+        return cn;
+    }
+
+    public double getR() {
+        return R;
     }
 
     public CurvedCCT(double a, double eta, double phi0, int n, double i, double tiltAngle, double nth, double stepKsi) {
@@ -306,6 +340,38 @@ public class CurvedCCT extends CCT {
     }
 
     /**
+     * 对二极场CCT经行四极场修正。函数主要功能见 pointsOnKsiPhiCoordinateSystem
+     *
+     * @param B4 加入的四极场分量
+     * @return (ξ, φ)坐标系下 弯曲cct路径
+     */
+    public Vector2d[] pointsOnKsiPhiCoordinateSystemWithFixAtDipole(double B4) {
+        if (!Equal.isEqual(this.nth, 1.0)) {
+            System.err.println("不允许对非二级CCT经行四极场修正");
+        }
+
+        //计算这个CCT的二极场大小
+        double w = this.phi0 * this.R;//w-绕一周前进量
+        double B2 = -Constants.Miu0 * this.I / (2.0 * w * Math.tan(this.tiltAngle));
+
+        Vector2d[] vs = new Vector2d[totalNumber + 1];
+
+        for (int i = 0; i < totalNumber + 1; i++) {
+            //相对变化量
+            double dksi = i * stepKsi;
+            double dphi = cn * Math.sin(this.nth * dksi) -/*增加项*/
+                    (B4 / (2.0 * B2 * Math.sinh(this.eta))) * this.cn * Math.sin(2.0 * dksi)
+                    + this.phi0 * dksi / (2.0 * Math.PI);
+            //绝对量
+            double ksi = dksi + this.startKsi;
+            double phi = this.startPhi + dphi * this.antiClockwise;
+            vs[i] = new Vector2d(ksi, phi);
+        }
+
+        return vs;
+    }
+
+    /**
      * 坐标变换 (ξ,φ) to (x, y, z)
      *
      * @param v2 圆环坐标系 坐标 (ξ,φ)
@@ -423,10 +489,10 @@ public class CurvedCCT extends CCT {
         double w = this.phi0 * this.R;
         if (Equal.isEqual(nth, 1.0)) {
             double B = -Constants.Miu0 * this.I / (2.0 * w * Math.tan(this.tiltAngle));
-            return "这是个单层二极CCT，理想二极场为 "+B+"T";
-        }else if(Equal.isEqual(nth, 2.0)){
-            double B2 = -Constants.Miu0 * this.I / (2.0 * w * Math.tan(this.tiltAngle)*this.r);
-            return "这是个单四极CCT，理想梯度为 "+B2+"T";
+            return "这是个单层二极CCT，理想二极场为 " + B + "T";
+        } else if (Equal.isEqual(nth, 2.0)) {
+            double B2 = -Constants.Miu0 * this.I / (2.0 * w * Math.tan(this.tiltAngle) * this.r);
+            return "这是个单四极CCT，理想梯度为 " + B2 + "T";
         }
 
         return "不知道什么东西";

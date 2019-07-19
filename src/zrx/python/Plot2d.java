@@ -18,6 +18,7 @@ public class Plot2d {
     public static final String RED_POINT = ",'ro'";
     public static final String BLACK_POINT = ",'ko'";
     public static final String YELLOW_POINT = ",'yo'";
+    public static final String YELLOW_SMALL_POINT = ",'y.'";
     public static final String GREEN_POINT = ",'go'";
     public static final String BLUE_POINT = ",'bo'";
 
@@ -29,6 +30,10 @@ public class Plot2d {
     public static final String YELLOW_LINE = ",'y'";
     public static final String GREEN_LINE = ",'g'";
     public static final String BLUE_LINE = ",'b'";
+
+    public static final String GREY_DASH = ",color='grey', linestyle='--'";
+    public static final String GREY_LINE = ",color='grey', linestyle='-',linewidth = '1'";
+    public static final String PINK_DASH = ",color='pink', linestyle='--'";
 
     /**
      * 2d画图，传入一个Vector2d数组，从[0]依次画图
@@ -109,8 +114,54 @@ public class Plot2d {
         plotVector(Vector2d.getZeros(),v,v.length());
     }
 
+    /**
+     * 画平行于Y轴的线段
+     * @param x 横坐标值
+     * @param yMax 纵坐标终点
+     * @param yMin 纵坐标起点
+     * @param describe py描述符
+     */
+    public static void plotYLine(double x,double yMax,double yMin,String describe){
+        plot2(
+                new Vector2d[]{
+                        Vector2d.getOne(x,yMax),
+                        Vector2d.getOne(x,yMin)
+                },
+                describe
+        );
+    }
+
+    /**
+     * 画平行于X轴的线段
+     * @param y 纵坐标
+     * @param xMax 横坐标终点
+     * @param xMin 横坐标起点
+     * @param describe py描述符
+     */
+    public static void plotXLine(double y,double xMax,double xMin,String describe){
+        plot2(
+                new Vector2d[]{
+                        Vector2d.getOne(xMax,y),
+                        Vector2d.getOne(xMin,y)
+                },
+                describe
+        );
+    }
+
     public static void plot2(List<Double> xs, List<Double> ys,String describe) {
         polt2MakeFile(xs, ys,describe);
+    }
+
+    public static void plot2(double[] xs,double[] ys,String describe){
+        List<Double> xList = new ArrayList<>(xs.length);
+        List<Double> yList = new ArrayList<>(xs.length);
+
+        for (int i = 0; i < xs.length; i++) {
+            xList.add(i,xs[i]);
+            yList.add(i,ys[i]);
+        }
+
+        polt2MakeFile(xList,yList,describe);
     }
 
     /**
@@ -142,6 +193,22 @@ public class Plot2d {
      */
     public static void setCube(double size){
         setBoxSize(new double[]{-size,size,-size,size});
+    }
+
+    /**
+     * 设定横坐标范围
+     * @param min 最小值
+     * @param max 最大值
+     */
+    public static void xlim(double min,double max){
+        prepareHead();
+        try {
+            pyPrintWriter.println("plt.xlim("+min+", "+max+")");
+            pyPrintWriter.println();
+        }catch (Exception e){
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
 

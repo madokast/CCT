@@ -96,6 +96,22 @@ public class Plot3d {
         setBoxSize(new double[]{-size,size,-size,size,-size,size});
     }
 
+    /**
+     * 绘制正方体盒子，且能设定中心
+     * @param center 中心
+     * @param cubeSize 半边长
+     */
+    public static void setCenter(Vector3d center,double cubeSize){
+        double x = center.x;
+        double y = center.y;
+        double z = center.z;
+        setBoxSize(new double[]{
+                -cubeSize+x,cubeSize+x,
+                -cubeSize+y,cubeSize+y,
+                -cubeSize+z,cubeSize+z,
+        });
+    }
+
     private static void polt3MakeFile(List<Double> xs, List<Double> ys, List<Double> zs, String describe) {
         prepareHead();
         try {

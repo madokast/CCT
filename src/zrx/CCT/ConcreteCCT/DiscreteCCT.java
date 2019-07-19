@@ -49,6 +49,16 @@ public class DiscreteCCT implements SingleLayerDiscreteCCTComponent{
         Plot3d.plot3(pathInXYZ,describe);
     }
 
+    public void plot2d(String describe){
+        Plot2d.plot2(pathInKsiPhi,describe);
+    }
+
+    public void plot3d(String describe){
+        Plot3d.plot3(pathInXYZ,describe);
+    }
+
+
+
 
     //getter
     public CurvedCCT getSourceCCT() {

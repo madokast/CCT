@@ -360,6 +360,39 @@ public class Vector2d implements Serializable {
     }
 
     /**
+     * 极坐标到XY坐标系
+     * @param phi 弧度 0-2pi
+     * @param r 长度
+     * @return 点于直角坐标系
+     */
+    public static Vector2d pointFromPolarToXY(double phi,double r){
+        return rayForPolarAngle(phi).changeLengthAndReturn(r);
+    }
+
+    /**
+     * 弧坐标系 TO 直角坐标系。
+     * 首先你身处XY坐标系中，有一个圆心在原点的圆，半径r
+     * 同时建立极坐标系(p,a)，极点和XY坐标系原点一致。
+     * 例如XY坐标系点(0,r)即及坐标系中的(r,pi/2)
+     * 你此时此刻处于极坐标系中(r,phi)位置!
+     * 且，你只能在上述的圆上行走，即你的行动范围在极坐标系中是一维的，即(r,任意)
+     * 并规定，你逆时针行走，phi增加。
+     * 这时你行走了s，也就是长度为s的弧长，于是本函数返回你当前所处位置的XY直角坐标
+     *
+     * 本函数用于COSY enge函数
+     *
+     * @param r 弧的半径
+     * @param phi 弧坐标系的原点对应的角度-弧度制
+     * @param s 从原点行走的距离。正数代表逆时针
+     * @return 点于XY直角坐标
+     */
+    public static Vector2d pointFromArcToXY(double r,double phi,double s){
+        //求弧长s对应的弧度
+        double sa = s/r;
+        return pointFromPolarToXY(phi+sa,r);
+    }
+
+    /**
      * 正则化 矢量长度归一
      */
     public final void normalSelf() {
@@ -654,6 +687,15 @@ public class Vector2d implements Serializable {
 
     public static Vector2d getOne(double x,double y){
         return new Vector2d(x,y);
+    }
+
+    public static Vector2d[] listToVector2ds(List<Double> xList,List<Double> yList){
+        final Vector2d[] vector2ds = new Vector2d[xList.size()];
+        for (int i = 0; i < vector2ds.length; i++) {
+            vector2ds[i] = getOne(xList.get(i),yList.get(i));
+        }
+
+        return vector2ds;
     }
 
     @Override
