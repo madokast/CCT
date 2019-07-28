@@ -2,12 +2,15 @@ package zrx.base;
 
 import zrx.Tools.ArrayMerge;
 import zrx.Tools.Equal;
+import zrx.Tools.PrintArray;
 import zrx.Tools.QuadraticEquationOfOneVariable;
 import zrx.python.Plot2d;
 
 import java.io.Serializable;
+import java.net.PortUnreachableException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class Vector2d implements Serializable {
     public double x;
@@ -270,8 +273,8 @@ public class Vector2d implements Serializable {
      * @return 极角
      */
     public static double polarAngle(Vector2d v) {
-        double atan2 = Math.atan2(v.y,v.x);
-        return (atan2>0)?atan2:atan2+Math.PI*2.0;
+        double atan2 = Math.atan2(v.y, v.x);
+        return (atan2 > 0) ? atan2 : atan2 + Math.PI * 2.0;
 
 //        if (v.length() < Constants.DX) {
 //            throw new ArithmeticException("Zero vector non-exists polar angle");
@@ -318,12 +321,13 @@ public class Vector2d implements Serializable {
 
     /**
      * 相对与center的极角
+     *
      * @param center 中点 参考点 观测点
-     * @param p 要求极角的点
+     * @param p      要求极角的点
      * @return 极角
      */
-    public static double polarAngle(final Vector2d center,final Vector2d p){
-        return polarAngle(Vector2d.subtract(p,center));
+    public static double polarAngle(final Vector2d center, final Vector2d p) {
+        return polarAngle(Vector2d.subtract(p, center));
     }
 
     /**
@@ -361,11 +365,12 @@ public class Vector2d implements Serializable {
 
     /**
      * 极坐标到XY坐标系
+     *
      * @param phi 弧度 0-2pi
-     * @param r 长度
+     * @param r   长度
      * @return 点于直角坐标系
      */
-    public static Vector2d pointFromPolarToXY(double phi,double r){
+    public static Vector2d pointFromPolarToXY(double phi, double r) {
         return rayForPolarAngle(phi).changeLengthAndReturn(r);
     }
 
@@ -378,18 +383,18 @@ public class Vector2d implements Serializable {
      * 且，你只能在上述的圆上行走，即你的行动范围在极坐标系中是一维的，即(r,任意)
      * 并规定，你逆时针行走，phi增加。
      * 这时你行走了s，也就是长度为s的弧长，于是本函数返回你当前所处位置的XY直角坐标
-     *
+     * <p>
      * 本函数用于COSY enge函数
      *
-     * @param r 弧的半径
+     * @param r   弧的半径
      * @param phi 弧坐标系的原点对应的角度-弧度制
-     * @param s 从原点行走的距离。正数代表逆时针
+     * @param s   从原点行走的距离。正数代表逆时针
      * @return 点于XY直角坐标
      */
-    public static Vector2d pointFromArcToXY(double r,double phi,double s){
+    public static Vector2d pointFromArcToXY(double r, double phi, double s) {
         //求弧长s对应的弧度
-        double sa = s/r;
-        return pointFromPolarToXY(phi+sa,r);
+        double sa = s / r;
+        return pointFromPolarToXY(phi + sa, r);
     }
 
     /**
@@ -452,14 +457,14 @@ public class Vector2d implements Serializable {
         return Vector2d.add(rotRp, center);
     }
 
-    public void rotateSelf(final double phi){
-        Vector2d v = rotate(this,phi);
+    public void rotateSelf(final double phi) {
+        Vector2d v = rotate(this, phi);
 
         this.x = v.x;
         this.y = v.y;
     }
 
-    public Vector2d rotateSelfAndReturn(final double phi){
+    public Vector2d rotateSelfAndReturn(final double phi) {
         this.rotateSelf(phi);
 
         return this;
@@ -544,43 +549,44 @@ public class Vector2d implements Serializable {
     /**
      * 走几步 来来来 走几步
      * 从 from 点出发，走几步length，方向 direct
-     * @param from 起点
+     *
+     * @param from   起点
      * @param direct 方向
      * @param length 长度
      * @return 走到的位置
      */
-    public static Vector2d walk(final Vector2d from, final Vector2d direct,double length){
+    public static Vector2d walk(final Vector2d from, final Vector2d direct, double length) {
         Vector2d nd = Vector2d.normal(direct);
-        return Vector2d.add(from,dot(length,nd));
+        return Vector2d.add(from, dot(length, nd));
     }
 
-    public static Vector2d walk(final Vector2d from, final Vector2d direct){
-        return Vector2d.walk(from,direct,direct.length());
+    public static Vector2d walk(final Vector2d from, final Vector2d direct) {
+        return Vector2d.walk(from, direct, direct.length());
     }
 
-    public Vector2d walkSelf(final Vector2d direct,double length){
-        Vector2d p = Vector2d.walk(this,direct,length);
+    public Vector2d walkSelf(final Vector2d direct, double length) {
+        Vector2d p = Vector2d.walk(this, direct, length);
         this.x = p.x;
         this.y = p.y;
         return this;
     }
 
-    public Vector2d walkSelf(final Vector2d direct){
-        Vector2d p = Vector2d.walk(this,direct,direct.length());
+    public Vector2d walkSelf(final Vector2d direct) {
+        Vector2d p = Vector2d.walk(this, direct, direct.length());
         this.x = p.x;
         this.y = p.y;
         return this;
     }
 
-    public Vector2d walkToXSelf(double length){
-        Vector2d p = Vector2d.walk(this,new Vector2d(1,0),length);
+    public Vector2d walkToXSelf(double length) {
+        Vector2d p = Vector2d.walk(this, new Vector2d(1, 0), length);
         this.x = p.x;
         this.y = p.y;
         return this;
     }
 
-    public Vector2d walkToYSelf(double length){
-        Vector2d p = Vector2d.walk(this,new Vector2d(0,1),length);
+    public Vector2d walkToYSelf(double length) {
+        Vector2d p = Vector2d.walk(this, new Vector2d(0, 1), length);
         this.x = p.x;
         this.y = p.y;
         return this;
@@ -588,11 +594,12 @@ public class Vector2d implements Serializable {
 
     /**
      * 改变矢量长度
+     *
      * @param length 长度
      * @return 返回原矢量
      */
-    public Vector2d changeLengthAndReturn(double length){
-        Vector2d p = Vector2d.walk(Vector2d.getZeros(),this,length);
+    public Vector2d changeLengthAndReturn(double length) {
+        Vector2d p = Vector2d.walk(Vector2d.getZeros(), this, length);
         this.x = p.x;
         this.y = p.y;
         return this;
@@ -678,25 +685,53 @@ public class Vector2d implements Serializable {
     }
 
     public static Vector2d getXDirect() {
-        return new Vector2d(1.0,0.0);
+        return new Vector2d(1.0, 0.0);
     }
 
-    public static Vector2d getYDirect(){
-        return new Vector2d(0.0,1.0);
+    public static Vector2d getYDirect() {
+        return new Vector2d(0.0, 1.0);
     }
 
-    public static Vector2d getOne(double x,double y){
-        return new Vector2d(x,y);
+    public static Vector2d getOne(double x, double y) {
+        return new Vector2d(x, y);
     }
 
-    public static Vector2d[] listToVector2ds(List<Double> xList,List<Double> yList){
+    public static Vector2d getOne(String s){
+        //s = [-0.03, -2.7829744825132186]
+        final String substring = s.substring(1, s.length() - 1);
+        final String[] split = substring.split(", ");
+        double x = 0.0;
+        double y = 0.0;
+        try {
+            x = Double.valueOf(split[0]);
+            y = Double.valueOf(split[1]);
+        }catch (Exception e){
+            System.err.println("error in Vector2d getOne(String s)");
+        }
+
+        return getOne(x,y);
+    }
+
+    public static Vector2d[] getOnes(String ss){
+        final String[] split = ss.split("\n");
+        Vector2d[] vs = new Vector2d[split.length];
+
+        for (int i = 0; i < vs.length; i++) {
+            vs[i] = getOne(split[i]);
+        }
+
+        return vs;
+    }
+
+    public static Vector2d[] listToVector2ds(List<Double> xList, List<Double> yList) {
         final Vector2d[] vector2ds = new Vector2d[xList.size()];
         for (int i = 0; i < vector2ds.length; i++) {
-            vector2ds[i] = getOne(xList.get(i),yList.get(i));
+            vector2ds[i] = getOne(xList.get(i), yList.get(i));
         }
 
         return vector2ds;
     }
+
 
     @Override
     public String toString() {
@@ -714,11 +749,41 @@ public class Vector2d implements Serializable {
 //        求极角();
 //        solveCircularInterpolationRadius测试1();
 //        solveCircularInterpolationRadius测试2();
-        solveCircularInterpolationRadius测试3();
+//        solveCircularInterpolationRadius测试3();
+        getOneTest();
 
 //        极角规范化();
 //        极角得到矢量();
 //        弧路径();
+    }
+
+    private static void getOneTest() {
+//        System.out.println("getOne(\"[-0.03, -2.7829744825132186]\") = " + getOne("[-0.03, -2.7829744825132186]"));
+//        Vector2d[] vs = new Vector2d[11];
+//        vs[0] = getOne("[-0.03, -2.7829744825132186]");
+//        vs[1] = getOne("[-0.03, -2.7829744825132186]");
+
+
+        Vector2d[] vs = getOnes(
+                "[-0.03, -2.7829744825132186]\n" +
+                        "[-0.024, -2.7989782662699856]\n" +
+                        "[-0.018, -2.814945183996857]\n" +
+                        "[-0.011999999999999997, -2.8308777747658103]\n" +
+                        "[-0.005999999999999998, -2.8467788462519814]\n" +
+                        "[0.0, -2.862651332162382]\n" +
+                        "[0.006000000000000005, -2.878498174152434]\n" +
+                        "[0.012000000000000004, -2.8943222126056773]\n" +
+                        "[0.018000000000000002, -2.910126072226271]\n" +
+                        "[0.024, -2.925912027641135]\n" +
+                        "[0.03, -2.9416818309749]"
+        );
+
+        Plot2d.plot2(vs,Plot2d.BLACK_LINE);
+        for (int i = 0; i < vs.length; i++) {
+                Plot2d.plotPoint(vs[i],Plot2d.RED_POINT);
+        }
+
+        Plot2d.showThread();
     }
 
     private static void 弧路径() {

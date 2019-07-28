@@ -1,4 +1,4 @@
-package zrx.DemoAndStudy;
+package zrx.DemoAndStudy.test;
 
 import zrx.CCT.CCTPlot;
 import zrx.CCT.ConcreteCCT.ConnectionSegmentOfCCT;

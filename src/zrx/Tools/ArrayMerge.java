@@ -1,5 +1,6 @@
 package zrx.Tools;
 
+import javax.crypto.AEADBadTagException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
@@ -24,11 +25,21 @@ public class ArrayMerge {
         return arr;
     }
 
+    public static <T> T[] merge(T[]...arrs){
+        T[] ans = arrs[0];
+        for (int i = 1; i < arrs.length; i++) {
+            ans = merge(ans,arrs[i]);
+        }
+
+        return ans;
+    }
+
     public static void main(String[] args) {
         Integer[] arr1 = {1,2,3};
         Integer[] arr2 = {8,9,10};
+        Integer[] arr3 = {20,21,22};
 
-        Integer[] arr = merge(arr1,arr2);
+        Integer[] arr = merge(arr1,arr2,arr3);
 
         Arrays.stream(arr).forEach(System.out::println);
     }

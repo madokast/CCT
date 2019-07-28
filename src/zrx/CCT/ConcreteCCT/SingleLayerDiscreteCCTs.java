@@ -1,5 +1,6 @@
 package zrx.CCT.ConcreteCCT;
 
+import zrx.CCT.Magnet;
 import zrx.Tools.ArrayMerge;
 import zrx.base.Vector2d;
 import zrx.base.Vector3d;
@@ -30,6 +31,23 @@ public class SingleLayerDiscreteCCTs {
         }
     }
 
+    /**
+     * 写一个磁场计算类
+     * @return 计算磁场
+     */
+    public Vector3d magnet(Vector3d point){
+        final Vector3d B = Vector3d.getZeros();
+        for (int i = 0; i < cctPaths3dList.size(); i++) {
+            B.addSelf(Magnet.magnetAtPoint(cctPaths3dList.get(i),I,point));
+        }
+
+        return B;
+    }
+
+    @Deprecated
+    /**
+     * 不要使用这个方法了
+     */
     public Vector3d[] joinAll3d(){
         Vector3d[] joinAll3d = new Vector3d[]{};
         for (int i = 0; i < cctPaths2dList.size(); i++) {
@@ -76,6 +94,12 @@ public class SingleLayerDiscreteCCTs {
                     break;
             }
             Plot3d.plot3(cctPaths3dList.get(i),des);
+        }
+    }
+
+    public void Plot3d(String describe){
+        for (int i = 0; i < cctPaths3dList.size(); i++) {
+            Plot3d.plot3(cctPaths3dList.get(i),describe);
         }
     }
 

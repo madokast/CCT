@@ -96,7 +96,9 @@ public class 六十七点五CCT {
         Timer.invoke();
 
         //理想轨道
-        final Vector3d[] trajectory = Vector3d.vector2dTo3d(Vector2d.arc(Vector2d.getZeros(), R,
+        final Vector3d[] trajectory = Vector3d.vector2dTo3d(Vector2d.arc(Vector2d.getZeros(),
+                R,
+//                0.9967,
                 AngleToRadian.to(-EDGE), AngleToRadian.to(angCCT + EDGE),
                 false, AngleToRadian.to(0.5)));
 //        Plot3d.plot3(trajectory, Plot2d.BLACK_LINE);
@@ -274,8 +276,7 @@ public class 六十七点五CCT {
         }
 
         //简单计算
-        if (false) {
-            //移动
+        if (true) {
             Vector3d[] midArc3d001 = Vector3d.move(trajectory, midpoint3d, 0.01);
 //            Plot3d.plot3(midArc3d001, Plot2d.YELLOW_LINE);
 
@@ -320,8 +321,8 @@ public class 六十七点五CCT {
 
             }
 
-//            Plot2d.plot2(angleList, gList, Plot2d.RED_LINE);//4
-            Plot2d.plot2(angleList, gList2, Plot2d.BLACK_LINE);//4+2
+            Plot2d.plot2(angleList, gList, Plot2d.RED_LINE);//4
+//            Plot2d.plot2(angleList, gList2, Plot2d.BLACK_LINE);//4+2
 //            Plot2d.plot2(angleList, gList3, Plot2d.YELLOW_LINE);//2
             //四级场硬边模型
             Vector2d[] scoff4 = new Vector2d[]{
@@ -365,7 +366,7 @@ public class 六十七点五CCT {
                     Vector2d.getOne(67.5 + EDGE, -1.84),
             };
 
-            Plot2d.plot2(scoff2, Plot2d.GREY_DASH);
+//            Plot2d.plot2(scoff4, Plot2d.GREY_DASH);
 //            Plot2d.plot2(quadInDipole184,Plot2d.BLUE_LINE);
 
             Plot2d.plot2(new Vector2d[]{
@@ -404,9 +405,7 @@ public class 六十七点五CCT {
         }
 
         //积分场均匀度
-        if(false){
-
-        }
+        if(false){ }
 
         //边缘场Enge函数.以入口为例
         if(false){

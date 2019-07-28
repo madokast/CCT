@@ -42,8 +42,6 @@ public class 赵泽峰复现 {
         //-0.3512611516993143
         //-0.02514199335078313
 
-
-
         integrator.integrate(ode,0.0,y0,14.792+1.88,y0);
         PrintArray.print(y0);
 

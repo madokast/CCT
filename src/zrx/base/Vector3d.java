@@ -2,9 +2,12 @@ package zrx.base;
 
 import zrx.Tools.Equal;
 import zrx.Tools.Numpy;
+import zrx.Tools.PrintArray;
 import zrx.python.Plot3d;
 
 import java.io.Serializable;
+import java.rmi.ServerError;
+import java.util.List;
 import java.util.SplittableRandom;
 
 /**
@@ -240,7 +243,6 @@ public class Vector3d implements Serializable {
         this.z = z;
     }
 
-    @Deprecated
     public Vector3d(Vector3d p) {
         this.x = p.x;
         this.y = p.y;
@@ -331,8 +333,88 @@ public class Vector3d implements Serializable {
         return vector3ds;
     }
 
+    /**
+     * lisy变数组
+     * @param v3s List<Vector3d>
+     * @return Vector3d[]
+     */
+    public static Vector3d[] listToArray(List<Vector3d> v3s){
+        final Vector3d[] vector3ds = new Vector3d[v3s.size()];
+        for (int i = 0; i < vector3ds.length; i++) {
+            vector3ds[i]=v3s.get(i);
+        }
+
+        return vector3ds;
+    }
+
+    /**
+     * 均匀插值。
+     * 如传入(0,0,0)、(1,0,0)、3
+     * 返回{(0,0,0)、(1/2,0,0)、(1,0,0)}
+     * @param start 起点
+     * @param end 终点
+     * @param num 数目
+     * @return 插值数组
+     */
+    public static Vector3d[] interpolation(Vector3d start,Vector3d end,int num){
+        if(num<3){
+            System.err.println("error in Vector3d[] interpolation");
+            System.err.println("插值数目过少");
+            System.exit(-1);
+        }
+        final double[] xs = Numpy.linspace(start.x, end.x, num);
+        final double[] ys = Numpy.linspace(start.y, end.y, num);
+        final double[] zs = Numpy.linspace(start.z, end.z, num);
+
+        return triArrayToVector3ds(xs,ys,zs);
+    }
+
+    /**
+     * 均匀插值。这里专用于直线轨道的生成
+     * @param start 起点
+     * @param direct 方向
+     * @param length 长度
+     * @param num 离散点数
+     * @return 离散轨道
+     */
+    public static Vector3d[] interpolation(Vector3d start,Vector3d direct,double length,int num){
+        final Vector3d end = Vector3d.add(start,
+                Vector3d.dot(length,direct.setLengthAndReturn(1.0))
+        );
+
+        return interpolation(start,end,num);
+    }
+
+    /**
+     * 单独数组得到Vector3d[]
+     * @param xs xs
+     * @param ys yz
+     * @param zs zs
+     * @return Vector3d[]
+     */
+    public static Vector3d[] triArrayToVector3ds(double[] xs,double[] ys,double[] zs){
+        int len = Math.min(zs.length,
+                Math.min(xs.length,ys.length));
+
+        Vector3d[] v3s = new Vector3d[len];
+        for (int i = 0; i < len; i++) {
+            v3s[i]=Vector3d.getOne(xs[i],ys[i],zs[i]);
+        }
+
+        return v3s;
+    }
+
     public static Vector3d getOne(double x,double y,double z){
         return new Vector3d(x,y,z);
+    }
+
+    /**
+     * 投影到xy平面
+     * 即(x,y,z)->(x,y,0)
+     * @return Vector2d
+     */
+    public Vector2d projectToXY(){
+        return Vector2d.getOne(this.x,this.y);
     }
 
     @Override
@@ -347,8 +429,19 @@ public class Vector3d implements Serializable {
      */
     public static void main(String[] args) {
 //        test1();
-        test2();
+//        test2();
 //        test3();
+        test4();
+    }
+
+    private static void test4() {
+        final Vector3d[] interpolation = interpolation(
+                Vector3d.getZeros(),
+                Vector3d.getOne(1,2,3),
+                5
+        );
+
+        PrintArray.print(interpolation);
     }
 
     private static void test2() {

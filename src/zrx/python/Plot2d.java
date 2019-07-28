@@ -115,6 +115,28 @@ public class Plot2d {
     }
 
     /**
+     * 连线画图
+     * @param describe 描述符
+     * @param points 需要连起来的点
+     */
+    public static void plot2(String describe,Vector2d...points){
+        for (int i = 0; i < points.length - 1; i++) {
+            plot2(new Vector2d[]{
+                    points[i],points[i+1]
+            },describe);
+        }
+    }
+
+    /**
+     * 连线画图。线为灰色点划线
+     * 专用于硬边模型画图
+     * @param points 点
+     */
+    public static void plotGREY_DASH(Vector2d...points){
+        plot2(Plot2d.GREY_DASH,points);
+    }
+
+    /**
      * 画平行于Y轴的线段
      * @param x 横坐标值
      * @param yMax 纵坐标终点
