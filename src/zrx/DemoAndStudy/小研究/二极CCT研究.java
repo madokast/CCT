@@ -2,6 +2,7 @@ package zrx.DemoAndStudy.小研究;
 
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
+import zrx.CCT.AnalyseCCT;
 import zrx.CCT.ConcreteCCT.AllCCTs;
 import zrx.CCT.ConcreteCCT.CurvedCCTAnalysis;
 import zrx.CCT.ConcreteCCT.DiscreteCCT;
@@ -74,7 +75,7 @@ public class 二极CCT研究 {
     private static final double EDGE = AngleToRadian.to(EDGEangle);//度
 
     //步长
-    private static double stepKsi = AngleToRadian.to(0.1);
+    private static double stepKsi = AngleToRadian.to(1.0);
 
     //好场区+-30mm
     private static double GoodFieldErea = 30.0 / 1000;
@@ -113,75 +114,128 @@ public class 二极CCT研究 {
 
         //径向磁场分布
         if (false) {
-            final double maxLen = R + Rbore;
-            final double minLen = R - Rbore;
-            final double delta = 0.5 / 1000;
-            List<Double> xList = new ArrayList<>();
-            List<Double> BzList = new ArrayList<>();
+            //旧式 写一堆代码
+            if(false){
+                final double maxLen = R + Rbore;
+                final double minLen = R - Rbore;
+                final double delta = 0.5 / 1000;
+                List<Double> xList = new ArrayList<>();
+                List<Double> BzList = new ArrayList<>();
 
-            double currentLen = minLen;
-            while (currentLen < maxLen) {
-                xList.add(currentLen - R);
+                double currentLen = minLen;
+                while (currentLen < maxLen) {
+                    xList.add(currentLen - R);
 
-                midpoint3d.setLength(currentLen);
-                BzList.add(allCCTs.magnet(midpoint3d).z);
+                    midpoint3d.setLength(currentLen);
+                    BzList.add(allCCTs.magnet(midpoint3d).z);
 
-                currentLen += delta;
-            }
+                    currentLen += delta;
+                }
 
-            //画图
+                //画图
 //            Plot2d.plot2(xList, BzList, Plot2d.BLACK_LINE);
 
-            //拟合
-            final double[] fit = Fit.fit(xList, BzList, 2);
-            PrintArray.print(fit);
+                //拟合
+                final double[] fit = Fit.fit(xList, BzList, 2);
+                PrintArray.print(fit);
+            }
+            //新式 新的API
+            if(true){
+                //磁场分布~
+                final double maxLen = R + Rbore;
+                final double minLen = R - Rbore;
+                final int number = 11;
+
+                final Vector2d[] xBz = AnalyseCCT.magnetZeAlongLine(
+                        allCCTs,-Rbore,Rbore,
+                        midpoint3d.setLengthAndReturn(minLen),
+                        midpoint3d.setLengthAndReturn(maxLen),
+                        number
+                );
+
+                Plot2d.plot2(xBz,Plot2d.BLACK_LINE);
+
+                final double[] fit = Fit.fit(xBz, 2);
+                PrintArray.print(fit);
+            }
         }
         //基本磁场计算
         if (false) {
-            //磁场计算
-            List<Double> bzList = new ArrayList<>(trajectory.length);
-            for (int i = 0; i < trajectory.length; i++) {
-                bzList.add(
-                        allCCTs.magnet(trajectory[i]).z
+            //繁琐版
+            if(false){
+                //磁场计算
+                List<Double> bzList = new ArrayList<>(trajectory.length);
+                for (int i = 0; i < trajectory.length; i++) {
+                    bzList.add(
+                            allCCTs.magnet(trajectory[i]).z
+                    );
+                }
+
+                Plot2d.plot2(angList, bzList, Plot2d.BLACK_LINE);
+
+                //硬边模型
+                Plot2d.plotGREY_DASH(
+                        Vector2d.getOne(-EDGEangle, 0.0),
+                        Vector2d.getOne(0.0, 0.0),
+                        Vector2d.getOne(0.0, -2.43),
+                        Vector2d.getOne(ANGLEangle, -2.43),
+                        Vector2d.getOne(ANGLEangle, 0.0),
+                        Vector2d.getOne(EDGEangle + ANGLEangle, 0.0)
                 );
             }
 
-            Plot2d.plot2(angList, bzList, Plot2d.BLACK_LINE);
-
-            //硬边模型
-            Plot2d.plotGREY_DASH(
-                    Vector2d.getOne(-EDGEangle, 0.0),
-                    Vector2d.getOne(0.0, 0.0),
-                    Vector2d.getOne(0.0, -2.43),
-                    Vector2d.getOne(ANGLEangle, -2.43),
-                    Vector2d.getOne(ANGLEangle, 0.0),
-                    Vector2d.getOne(EDGEangle + ANGLEangle, 0.0)
-            );
+            //new api
+            if(true){
+                Plot2d.plot2(ListToArray.doubleListToArray(angList),
+                        AnalyseCCT.magnetZeAlongTrajectory(allCCTs,trajectory),Plot2d.BLACK_LINE);
+                //硬板模型
+                Plot2d.plotGREY_DASH(
+                        Vector2d.getOne(-EDGEangle, 0.0),
+                        Vector2d.getOne(0.0, 0.0),
+                        Vector2d.getOne(0.0, -2.43),
+                        Vector2d.getOne(ANGLEangle, -2.43),
+                        Vector2d.getOne(ANGLEangle, 0.0),
+                        Vector2d.getOne(EDGEangle + ANGLEangle, 0.0)
+                );
+            }
         }
         //粒子追踪。测试成功
         if (false) {
-            //粒子生成
-            RunningParticle particle = ParticleFactory.getProton(
-                    Vector3d.getOne(1, -0.5, 0),
-                    Vector3d.getOne(0, 1, 0), 250
-            );
-            //运动长度
-            final double LENGTH = 2.0;
-            //步长
-            final double STEP = 0.001;
+            if(false){
+                //粒子生成
+                RunningParticle particle = ParticleFactory.getProton(
+                        Vector3d.getOne(1, -0.5, 0),
+                        Vector3d.getOne(0, 1, 0), 250
+                );
+                //运动长度
+                final double LENGTH = 2.0;
+                //步长
+                final double STEP = 0.001;
 
-            //记录轨迹的数组
-            final ArrayList<Vector3d> particleTraj = new ArrayList<>((int) (LENGTH / STEP));
+                //记录轨迹的数组
+                final ArrayList<Vector3d> particleTraj = new ArrayList<>((int) (LENGTH / STEP));
 
-            //运动
-            while (particle.distance < LENGTH) {
-                particleTraj.add(new Vector3d(particle.position));
-                particle.runSelf(allCCTs.magnet(particle.position), STEP);
+                //运动
+                while (particle.distance < LENGTH) {
+                    particleTraj.add(new Vector3d(particle.position));
+                    particle.runSelf(allCCTs.magnet(particle.position), STEP);
 //                System.out.println("particle.position = " + particle.position);
-            }
+                }
 
-            //画轨迹
-            Plot3d.plot3(Vector3d.listToArray(particleTraj), Plot2d.YELLOW_LINE);
+                //画轨迹
+                Plot3d.plot3(Vector3d.listToArray(particleTraj), Plot2d.YELLOW_LINE);
+            }
+            //new api
+            if(true){
+                //粒子生成
+                RunningParticle particle = ParticleFactory.getProton(
+                        Vector3d.getOne(1, -0.5, 0),
+                        Vector3d.getOne(0, 1, 0), 250
+                );
+
+                final Vector3d[] traj = AnalyseCCT.particleRunning(allCCTs, particle, 2.0, 0.001);
+                Plot3d.plot3(traj,Plot2d.YELLOW_LINE);
+            }
         }
         //高阶场拟合.轨迹平移法
         if (false) {
@@ -432,7 +486,7 @@ public class 二极CCT研究 {
             Plot2d.plot2(result,Plot2d.BLACK_LINE);
         }
         //0726 理想磁场传输矩阵计算，用以验证
-        if(true){
+        if(false){
             //理想磁场
             FirstOrderEquations ode  = new FirstOrderEquations() {
                 @Override
@@ -473,12 +527,12 @@ public class 二极CCT研究 {
 
 
         //画图
-//        cct3.Plot3d(Plot2d.RED_LINE);
+        cct3.Plot3d(Plot2d.RED_LINE);
 //        cct4.Plot3d(Plot2d.BLUE_LINE);
 
         Plot3d.setCube(0.5);
-//        Plot3d.showThread();
-//        Plot2d.showThread();
+        Plot3d.showThread();
+        Plot2d.showThread();
         Timer.invoke();
 
     }

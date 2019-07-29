@@ -2,6 +2,7 @@ package zrx.Tools;
 
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoints;
+import zrx.base.Vector2d;
 
 import java.util.List;
 
@@ -32,6 +33,18 @@ public class Fit {
         }
 
         return fitter.fit(points.toList());
+    }
+
+    public static double[] fit(Vector2d[] vs,int degree){
+        final double[] xArr = new double[vs.length];
+        final double[] yArr = new double[vs.length];
+
+        for (int i = 0; i < xArr.length; i++) {
+            xArr[i] = vs[i].x;
+            yArr[i] = vs[i].y;
+        }
+
+        return fit(xArr,yArr,degree);
     }
 
     public static double[] fit(List<Double> xs, List<Double> ys, int degree) {
