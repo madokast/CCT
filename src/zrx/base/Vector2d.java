@@ -1,16 +1,12 @@
 package zrx.base;
 
-import zrx.Tools.ArrayMerge;
-import zrx.Tools.Equal;
-import zrx.Tools.PrintArray;
-import zrx.Tools.QuadraticEquationOfOneVariable;
+import zrx.Tools.*;
 import zrx.python.Plot2d;
 
 import java.io.Serializable;
-import java.net.PortUnreachableException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
+import java.util.function.DoubleFunction;
 
 public class Vector2d implements Serializable {
     public double x;
@@ -19,6 +15,11 @@ public class Vector2d implements Serializable {
     public Vector2d(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Vector2d(Vector2d copy) {
+        this.x = copy.x;
+        this.y = copy.y;
     }
 
     /**
@@ -560,7 +561,20 @@ public class Vector2d implements Serializable {
         return Vector2d.add(from, dot(length, nd));
     }
 
+    public static Vector2d[] walk(final Vector2d[] from, final Vector2d direct, double length) {
+        Vector2d[] afterWalk = new Vector2d[from.length];
+        for (int i = 0; i < afterWalk.length; i++) {
+            afterWalk[i] = walk(from[i], direct, length);
+        }
+
+        return afterWalk;
+    }
+
     public static Vector2d walk(final Vector2d from, final Vector2d direct) {
+        return Vector2d.walk(from, direct, direct.length());
+    }
+
+    public static Vector2d[] walk(final Vector2d[] from, final Vector2d direct) {
         return Vector2d.walk(from, direct, direct.length());
     }
 
@@ -584,6 +598,7 @@ public class Vector2d implements Serializable {
         this.y = p.y;
         return this;
     }
+
 
     public Vector2d walkToYSelf(double length) {
         Vector2d p = Vector2d.walk(this, new Vector2d(0, 1), length);
@@ -676,6 +691,191 @@ public class Vector2d implements Serializable {
     }
 
     /**
+     * 坐标变换
+     * 原来的点(x，y)
+     * 返回点(xfun(x),yfun(y))
+     *
+     * @param origin 原来的点
+     * @param xFun   x变换函数
+     * @param yFun   y变换函数
+     * @return 新的点
+     */
+    public static Vector2d convict(Vector2d origin, DoubleFunction<Double> xFun, DoubleFunction<Double> yFun) {
+        return getOne(xFun.apply(origin.x), yFun.apply(origin.y));
+    }
+
+    public static Vector2d[] convict(Vector2d[] origin, DoubleFunction<Double> xFun, DoubleFunction<Double> yFun) {
+        Vector2d[] ans = new Vector2d[origin.length];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = convict(origin[i], xFun, yFun);
+        }
+        return ans;
+    }
+
+    /**
+     * 可能有bug!!
+     * 计算从向量1到向量2的角度。
+     * 若向量2在向量1的逆时针方向，则返回正数
+     *
+     * @param v1 向量1
+     * @param v2 向量2
+     * @return 弧度制的角
+     */
+    public static double angle(Vector2d v1, Vector2d v2) {
+        final double angleV1 = polarAngle(v1);
+        final double angleV2 = polarAngle(v2);
+
+        return Math.abs(angleV2 - angleV1);
+    }
+
+    /**
+     * Ax^2+Bxy+Cy^2=D 椭返回圆圆周上均匀分布number个点
+     *
+     * @param A      椭圆方程参数
+     * @param B      椭圆方程参数
+     * @param C      椭圆方程参数
+     * @param D      椭圆方程参数
+     * @param number 点数
+     * @return 点
+     */
+    public static Vector2d[] ellipsePoints(double A, double B, double C, double D, int number) {
+        final Vector2d[] points = new Vector2d[number];
+        final double circumference = ellipseCircumference(A, B, C, D);
+        for (int i = 0; i < number; i++) {
+//            points[i] = ellipsePointTheta(A, B, C, D, 2.0 * Math.PI / number * i);
+            points[i] = ellipseWalkPoint(A, B, C, D, circumference / number * i);
+        }
+
+        return points;
+    }
+
+    /**
+     * 原点出发，方向th弧度的射线和椭圆Ax^2+Bxy+Cy^2=D的交点
+     * 吃老本 2019年8月10日
+     *
+     * @param A     椭圆方程参数
+     * @param B     椭圆方程参数
+     * @param C     椭圆方程参数
+     * @param D     椭圆方程参数
+     * @param theta 方向th弧度
+     * @return 交点
+     */
+    private static Vector2d ellipsePointTheta(double A, double B, double C, double D, double theta) {
+        double pi = Math.PI;
+        Vector2d d = getZeros();
+
+
+        while (theta < 0)
+            theta += 2 * pi;
+        while (theta > 2 * pi)
+            theta -= 2 * pi;//将弧度th限定在0~2pi
+
+        if (Math.abs(theta) < Constants.ESP_0 || Math.abs(theta - 2 * pi) < Constants.ESP_0) {
+            d.x = Math.sqrt(D / A);
+            d.y = 0;
+        }
+        if (Math.abs(theta - pi) < Constants.ESP_0) {
+            d.x = -Math.sqrt(D / A);
+            d.y = 0;
+        }
+        //临界问题
+        double t = 0.0;
+        if (theta > 0 && theta < pi) {
+            t = 1 / Math.tan(theta);
+            d.y = Math.sqrt(D / (A * t * t + B * t + C));
+            d.x = t * d.y;
+            //printf("\ntest\n");
+            //printf_divct(d);
+        }
+        if (theta > pi && theta < 2 * pi) {
+            theta -= pi;
+            t = 1 / Math.tan(theta);
+            d.y = -Math.sqrt(D / (A * t * t + B * t + C));
+            d.x = t * d.y;
+        }
+        //射线——负号问题，象限问题
+
+        return d;
+
+        //while (th < 0)
+        //        th += 2 * pi;
+        //    while (th > 2 * pi)
+        //        th -= 2 * pi;//将弧度th限定在0~2pi
+        //
+        //    if (fabs(th) < eps_0 || fabs(th - 2 * pi)<eps_0) {
+        //        d.x = sqrt(D / A);
+        //        d.y = 0;
+        //    }
+        //    if (fabs(th - pi) < eps_0) {
+        //        d.x = -sqrt(D / A);
+        //        d.y = 0;
+        //    }
+        //    //临界问题
+        //    double t;
+        //    if (th > 0 && th < pi) {
+        //        t = 1 / tan(th);
+        //        d.y = sqrt(D / (A * t*t + B * t + C));
+        //        d.x = t * d.y;
+        //        //printf("\ntest\n");
+        //        //printf_divct(d);
+        //    }
+        //    if (th > pi&&th < 2 * pi) {
+        //        th -= pi;
+        //        t = 1 / tan(th);
+        //        d.y = -sqrt(D / (A * t*t + B * t + C));
+        //        d.x = t * d.y;
+        //    }
+        //    //射线——负号问题，象限问题
+        //
+        //    return d;
+    }
+
+    /**
+     * 暴力法计算椭圆Ax^2+Bxy+Cy^2=D周长
+     *
+     * @param A 椭圆方程参数
+     * @param B 椭圆方程参数
+     * @param C 椭圆方程参数
+     * @param D 椭圆方程参数
+     * @return 周长
+     */
+    private static double ellipseCircumference(double A, double B, double C, double D) {
+        int num = 3600*4;
+        double c = 0.0;
+        for (int i = 0; i < num; i++) {
+            c += Vector2d.subtract(ellipsePointTheta(A, B, C, D, 2.0 * Math.PI / num * i),
+                    ellipsePointTheta(A, B, C, D, 2.0 * Math.PI / num * (i + 1))).length();
+        }
+
+        return c;
+    }
+
+    /**
+     * 在椭圆Ax^2+Bxy+Cy^2=D 上行走length
+     * 返回此时的点
+     * 规定起点：椭圆与X轴正方向的交点
+     * 规定行走方向：逆时针
+     *
+     * @param A      椭圆方程参数
+     * @param B      椭圆方程参数
+     * @param C      椭圆方程参数
+     * @param D      椭圆方程参数
+     * @param length 行走长度
+     * @return 终点
+     */
+    private static Vector2d ellipseWalkPoint(double A, double B, double C, double D, double length) {
+        double stepTheta = AngleToRadian.to(0.05);
+        double theta = 0.0;
+        while (length > 0.0) {
+            length -= Vector2d.subtract(ellipsePointTheta(A, B, C, D, theta),
+                    ellipsePointTheta(A, B, C, D, theta + stepTheta)).length();
+            theta += stepTheta;
+        }
+
+        return ellipsePointTheta(A, B, C, D, theta);
+    }
+
+    /**
      * 获得 原点 / 零矢量
      *
      * @return new Vector3d(0.0, 0.0)
@@ -696,7 +896,21 @@ public class Vector2d implements Serializable {
         return new Vector2d(x, y);
     }
 
-    public static Vector2d getOne(String s){
+    /**
+     * 复制一个。复制和被复制的之间不存在关系
+     *
+     * @param origin 被复制
+     * @return 复制的
+     */
+    public static Vector2d copyOne(Vector2d origin) {
+        return getOne(origin.x, origin.y);
+    }
+
+    public static Vector2d getOneByLength(Vector2d origin, double length) {
+        return Vector2d.getOne(origin.x, origin.y).changeLengthAndReturn(length);
+    }
+
+    public static Vector2d getOne(String s) {
         //s = [-0.03, -2.7829744825132186]
         final String substring = s.substring(1, s.length() - 1);
         final String[] split = substring.split(", ");
@@ -705,14 +919,14 @@ public class Vector2d implements Serializable {
         try {
             x = Double.valueOf(split[0]);
             y = Double.valueOf(split[1]);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println("error in Vector2d getOne(String s)");
         }
 
-        return getOne(x,y);
+        return getOne(x, y);
     }
 
-    public static Vector2d[] getOnes(String ss){
+    public static Vector2d[] getOnes(String ss) {
         final String[] split = ss.split("\n");
         Vector2d[] vs = new Vector2d[split.length];
 
@@ -730,6 +944,16 @@ public class Vector2d implements Serializable {
         }
 
         return vector2ds;
+    }
+
+    public static Vector2d[] arrayToVector2ds(double[] xs, double[] ys) {
+        final Vector2d[] vector2ds = new Vector2d[xs.length];
+        for (int i = 0; i < xs.length; i++) {
+            vector2ds[i] = getOne(xs[i], ys[i]);
+        }
+
+        return vector2ds;
+
     }
 
 
@@ -750,11 +974,19 @@ public class Vector2d implements Serializable {
 //        solveCircularInterpolationRadius测试1();
 //        solveCircularInterpolationRadius测试2();
 //        solveCircularInterpolationRadius测试3();
-        getOneTest();
+//        getOneTest();
+
+        椭圆周长();
 
 //        极角规范化();
 //        极角得到矢量();
 //        弧路径();
+    }
+
+    private static void 椭圆周长() {
+        final double circumference = ellipseCircumference(1, 0, 1, 1);
+        System.out.println("circumference = " + circumference);
+        System.out.println("Math.PI*2.0 = " + Math.PI * 2.0);
     }
 
     private static void getOneTest() {
@@ -778,9 +1010,9 @@ public class Vector2d implements Serializable {
                         "[0.03, -2.9416818309749]"
         );
 
-        Plot2d.plot2(vs,Plot2d.BLACK_LINE);
+        Plot2d.plot2(vs, Plot2d.BLACK_LINE);
         for (int i = 0; i < vs.length; i++) {
-                Plot2d.plotPoint(vs[i],Plot2d.RED_POINT);
+            Plot2d.plotPoint(vs[i], Plot2d.RED_POINT);
         }
 
         Plot2d.showThread();

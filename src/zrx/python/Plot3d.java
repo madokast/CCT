@@ -2,6 +2,8 @@ package zrx.python;
 
 
 import zrx.base.Vector3d;
+import zrx.beam.ParticleFactory;
+import zrx.beam.RunningParticle;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -60,6 +62,17 @@ public class Plot3d {
 
     public static void plot3(List<Double> xs, List<Double> ys, List<Double> zs,String describe) {
         polt3MakeFile(xs, ys, zs,describe);
+    }
+
+    public static void plot3Vector(Vector3d o,Vector3d direct,double length){
+        direct = Vector3d.copyOne(direct);
+        direct.setLength(length);
+        plot3(new Vector3d[]{o,Vector3d.add(o,direct)},Plot2d.BLUE_LINE);
+        plotPoint(Vector3d.add(o,direct),Plot2d.RED_POINT);
+    }
+
+    public static void plot3Particle(RunningParticle p,double length){
+        plot3Vector(p.position,p.velocity,length);
     }
 
     /**
@@ -154,7 +167,7 @@ public class Plot3d {
 
     public static void show() {
         if (!prepareHead)
-            System.exit(-1);
+            throw new NullPointerException();
 
         try {
             pyPrintWriter.println("ax.grid(False)");
@@ -179,7 +192,7 @@ public class Plot3d {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.exit(-1);
+            System.out.println("画图空了");
         }
     }
 

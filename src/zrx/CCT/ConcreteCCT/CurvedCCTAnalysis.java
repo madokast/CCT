@@ -10,7 +10,7 @@ import zrx.base.Vector3d;
 /**
  * 弯曲 CCT 分析
  * 用于获得大量分析数据
- *
+ * <p>
  * 这个工厂的产物只有两个，CCT 和 cct连接段。他们都是 SingleLayerDiscreteCCTComponent接口的实现类
  */
 
@@ -60,11 +60,12 @@ public class CurvedCCTAnalysis {
 
     /**
      * 二极场CCT 带有四极场 补偿的 DiscreteCCT
-     * @param cct 抽象的、没有实质的弯曲cct
+     *
+     * @param cct      抽象的、没有实质的弯曲cct
      * @param gradient 需要补偿的四极场梯度
      * @return 离散cct
      */
-    public static DiscreteCCT discreteWithFixDipole(final CurvedCCT cct,double gradient){
+    public static DiscreteCCT discreteWithFixDipole(final CurvedCCT cct, double gradient) {
         final Vector2d[] pathInKsiPhi = cct.pointsOnKsiPhiCoordinateSystemWithFixAtDipole(gradient);
         final Vector3d[] pathInXYZ = cct.coordinateSystemTransformateFromKsiPhiToXYZ(pathInKsiPhi);
 
@@ -114,7 +115,7 @@ public class CurvedCCTAnalysis {
 
         //插值第二段
         final Vector2d[] connectionSegment2d2 = InterpolationOfPolarCoordinate.interpolation2Point(
-                polePoint,intermediaryPoint, intermediaryPointDirect, toCCT.startPoint, toCCT.startDirect, stepKsi);
+                polePoint, intermediaryPoint, intermediaryPointDirect, toCCT.startPoint, toCCT.startDirect, stepKsi);
         final Vector3d[] connectionSegment3d2 = formCCT.sourceCCT.
                 coordinateSystemTransformateFromKsiPhiToXYZ(connectionSegment2d2);
 
@@ -129,6 +130,36 @@ public class CurvedCCTAnalysis {
                 intermediaryPoint, intermediaryPointDirect,
                 polePoint, formCCT.sourceCCT, toCCT.sourceCCT);
 
+    }
+
+
+    /**
+     * 用于快速构造AG-CCT
+     *
+     * @param cct1 ag-cct的第一段，由curvedCCTFactory 构成
+     * @param Ns   每段cct的匝数，注意从第二段开始
+     * @return DiscreteCCT数组，注意第一段也包含进去了
+     */
+    public static DiscreteCCT[] curvedCCTFactoryForAG_CCT(CurvedCCT cct1, int... Ns) {
+        //加一段用于包含cct1
+        final DiscreteCCT[] discreteCCTS = new DiscreteCCT[Ns.length + 1];
+        discreteCCTS[0] = discrete(cct1);
+
+
+        CurvedCCT previousCCT = cct1;
+        for (int i = 0; i < Ns.length; i++) {
+            CurvedCCT currentCCT = CurvedCCT.reverseWinding(previousCCT);
+            currentCCT.setN(Ns[i]);
+            discreteCCTS[i + 1] = discrete(currentCCT);
+
+            previousCCT = currentCCT;
+
+            //final CurvedCCT cct12 = CurvedCCT.reverseWinding(cct11);
+            //cct12.setN(N12_MID);
+            //final DiscreteCCT discreteCCT12 = CurvedCCTAnalysis.discrete(cct12);
+        }
+
+        return discreteCCTS;
     }
 }
 

@@ -17,11 +17,11 @@ public class Equal {
     }
 
     public static final boolean isEqual(Vector3d a, Vector3d b){
-        return isEqual(a.length(),b.length());
+        return isEqual(Vector3d.subtract(a,b).length(),0.0);
     }
 
     public static final boolean isEqual(Vector2d a, Vector2d b){
-        return isEqual(a.length(),b.length());
+        return isEqual(Vector2d.subtract(a,b).length(),0.0);
     }
 
     public static void main(String[] args) {
@@ -31,5 +31,11 @@ public class Equal {
         //true
         //false
         //true
+    }
+
+    public static void requireNonzero(double a){
+        if(isEqual(a,0.0)){
+            throw new RuntimeException("零错误");
+        }
     }
 }

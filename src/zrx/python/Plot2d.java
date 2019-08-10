@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import zrx.Tools.Numpy;
 import zrx.base.Vector2d;
 
 public class Plot2d {
@@ -135,6 +137,12 @@ public class Plot2d {
     public static void plotGREY_DASH(Vector2d...points){
         plot2(Plot2d.GREY_DASH,points);
     }
+
+    public static void plotPINK_DASH(Vector2d...points){
+        plot2(Plot2d.PINK_DASH,points);
+    }
+
+
 
     /**
      * 画平行于Y轴的线段
@@ -273,8 +281,10 @@ public class Plot2d {
     }
 
     public static void show() {
-        if (!prepareHead)
-            System.exit(-1);
+        if (!prepareHead){
+            System.err.println("2d绘图空");
+            Thread.currentThread().stop();
+        }
 
         try {
 
@@ -299,7 +309,6 @@ public class Plot2d {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.exit(-1);
         }
     }
 
@@ -317,6 +326,22 @@ public class Plot2d {
         sb.append("]");
 
         return sb.toString();
+    }
+
+    public static void plotCosyEngeFun(double[] arr,String describe){
+        final double[] xArr = Numpy.linspace(-3, 5, 100);
+        final double[] yArr = new double[xArr.length];
+        for (int i = 0; i < yArr.length; i++) {
+            yArr[i] = 1.0 / (1 + Math.exp(arr[0] +
+                    arr[1]*Math.pow(xArr[i],1) +
+                    arr[2]*Math.pow(xArr[i],2) +
+                    arr[3]*Math.pow(xArr[i],3) +
+                    arr[4]*Math.pow(xArr[i],4) +
+                    arr[5]*Math.pow(xArr[i],5)
+            ));
+        }
+
+        plot2(xArr,yArr,describe);
     }
 
     /**

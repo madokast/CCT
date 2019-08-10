@@ -2,9 +2,12 @@ package zrx.Tools;
 
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoints;
+import zrx.base.Constants;
 import zrx.base.Vector2d;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.DoubleFunction;
 
 /**
  * 多项式拟合
@@ -58,6 +61,44 @@ public class Fit {
         }
 
         return fit(xArr, yArr, degree);
+    }
+
+    public static double[] fit(List<Vector2d> data, int degree){
+        final double[] xArr = new double[data.size()];
+        final double[] yArr = new double[data.size()];
+        for (int i = 0; i < xArr.length; i++) {
+            xArr[i] = data.get(i).x;
+            yArr[i] = data.get(i).y;
+        }
+
+        return fit(xArr,yArr,degree);
+
+    }
+
+    /**
+     * COSY enge函数拟合
+     * 原方程 F(z) = 1 / (1 + exp(a1+a2*(z/D)+...+a6(z/D)^5) )
+     * 传入的参数为 z/D 和 Fz
+     * 其中z/D 在 [-3, 5]范围
+     * Fz 在 [0,1]范围
+     *
+     * @param data 参数 (z/D,F)
+     * @return arr数组 a0 到 a5 注意和原方程相差1 ，原方程ax 为 返回值的 a[x-1]
+     */
+    public static double[] fitEngeFunction(Vector2d[] data){
+        //筛选合法数据
+        //并且 变换方程
+        //ln(1/F-1) = a1 + a2(z/D) + ...
+        final ArrayList<Vector2d> vector2dList = new ArrayList<>();
+        for (int i = 0; i < data.length; i++) {
+            if(data[i].y>0.0&&data[i].y<1.0){
+                vector2dList.add(
+                        Vector2d.convict(data[i],x->x,y->Math.log(1/y-1))
+                );
+            }
+        }
+
+        return fit(vector2dList,6);
     }
 
     /**

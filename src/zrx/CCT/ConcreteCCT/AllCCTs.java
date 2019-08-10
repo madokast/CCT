@@ -14,13 +14,21 @@ import java.util.List;
  */
 
 public class AllCCTs {
-    List<SingleLayerDiscreteCCTs> ccTs;
+    private List<SingleLayerDiscreteCCTs> ccTs;
 
     public AllCCTs(SingleLayerDiscreteCCTs...ccTs) {
         this.ccTs = new ArrayList<>(ccTs.length);
         for (int i = 0; i < ccTs.length; i++) {
             this.ccTs.add(i,ccTs[i]);
         }
+    }
+
+    public AllCCTs add(SingleLayerDiscreteCCTs...ccTs){
+        for (int i = 0; i < ccTs.length; i++) {
+            this.ccTs.add(i,ccTs[i]);
+        }
+
+        return this;
     }
 
     /**
@@ -53,7 +61,7 @@ public class AllCCTs {
 
         //起点和终点的长度 以及得到的自变量sList
         final double length = Vector3d.subtract(start, end).length();
-        final double[] sList = Numpy.linspace(0, length, NUM);
+        final double[] sList = Numpy.linspace(-length/2.0, length/2.0, NUM);
 
         //计算磁场
         final double[] bzList = new double[NUM];
@@ -91,5 +99,17 @@ public class AllCCTs {
 
         //对数据 sList 和 bzList 拟合
         return Fit.fit(sList,bzList,DEGREE);
+    }
+
+    public void plot3d(){
+        ccTs.stream().forEach(SingleLayerDiscreteCCTs::Plot3d);
+    }
+
+    public int size(){
+        return ccTs.size();
+    }
+
+    public SingleLayerDiscreteCCTs get(int i){
+        return ccTs.get(i);
     }
 }

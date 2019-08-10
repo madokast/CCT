@@ -268,10 +268,24 @@ public class Vector3d implements Serializable {
         return new Vector3d(v2.x, v2.y, 0.0);
     }
 
+    public static Vector3d vector2dTo3d(Vector2d v2,Vector2dTo3d vector2dTo3d)
+    {
+        return vector2dTo3d.functioon(v2);
+    }
+
     public static Vector3d[] vector2dTo3d(Vector2d[] v2s) {
         Vector3d[] v3s = new Vector3d[v2s.length];
         for (int i = 0; i < v3s.length; i++) {
             v3s[i] = vector2dTo3d(v2s[i]);
+        }
+
+        return v3s;
+    }
+
+    public static Vector3d[] vector2dTo3d(Vector2d[] v2s,Vector2dTo3d vector2dTo3d) {
+        Vector3d[] v3s = new Vector3d[v2s.length];
+        for (int i = 0; i < v3s.length; i++) {
+            v3s[i] = vector2dTo3d(v2s[i],vector2dTo3d);
         }
 
         return v3s;
@@ -404,8 +418,71 @@ public class Vector3d implements Serializable {
         return v3s;
     }
 
+    public static boolean isParallel(Vector3d v1,Vector3d v2){
+        Equal.requireNonzero(v1.length());
+        Equal.requireNonzero(v2.length());
+
+        Vector3d vv1 = copyOne(v1);
+        Vector3d vv2 = copyOne(v2);
+
+        vv1.setLength(1.0);
+        vv2.setLength(1.0);
+
+//        if(Equal.isEqual(getZeros(),Vector3d.add(vv1,vv2)))
+//            return true;
+//
+//        if(Equal.isEqual(getZeros(),Vector3d.subtract(vv1,vv2)))
+//            return true;
+//
+//        return false;
+
+        //我要是写成它提示的那样子，就不好懂了吧
+
+        return Equal.isEqual(getZeros(),Vector3d.add(vv1,vv2))||Equal.isEqual(getZeros(),Vector3d.subtract(vv1,vv2));
+    }
+
     public static Vector3d getOne(double x,double y,double z){
         return new Vector3d(x,y,z);
+    }
+
+    public static Vector3d getOne(double x,double y){
+        return getOne(x,y,0);
+    }
+
+    public static Vector3d getOne(Vector2d vector2d){
+        return getOne(vector2d.x,vector2d.y,0);
+    }
+
+    public static Vector3d getOne(final Vector3d vct,double length){
+        return new Vector3d(vct).setLengthAndReturn(length);
+    }
+
+    public static Vector3d copyOne(Vector3d v){
+        return getOne(v.x,v.y,v.z);
+    }
+
+    public static Vector3d getXDirect(double x){
+        return getOne(x,0,0);
+    }
+
+    public static Vector3d getXDirect(){
+        return getXDirect(1);
+    }
+
+    public static Vector3d getYDirect(double y){
+        return getOne(0,y,0);
+    }
+
+    public static Vector3d getYDirect(){
+        return getYDirect(1);
+    }
+
+    public static Vector3d getZDirect(double z){
+        return getOne(0,0,z);
+    }
+
+    public static Vector3d getZDirect(){
+        return getZDirect(1);
     }
 
     /**
@@ -431,7 +508,22 @@ public class Vector3d implements Serializable {
 //        test1();
 //        test2();
 //        test3();
-        test4();
+//        test4();
+        平行测试();
+    }
+
+    private static void 平行测试() {
+        final Vector3d one = Vector3d.getOne(1, 1, 1);
+        final Vector3d one1 = Vector3d.getOne(-2, -2, -2);
+        final Vector3d one2 = Vector3d.getOne(3, 3, 3);
+
+        System.out.println("isParallel(one,one1) = " + isParallel(one, one1));
+
+        System.out.println("isParallel(one,one2) = " + isParallel(one, one2));
+
+        System.out.println("isParallel(getXDirect(),getYDirect()) = " + isParallel(getXDirect(), getYDirect()));
+
+        isParallel(getXDirect(),getZeros());
     }
 
     private static void test4() {

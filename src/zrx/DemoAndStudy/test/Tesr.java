@@ -1,4 +1,4 @@
-package zrx;
+package zrx.DemoAndStudy.test;
 
 import zrx.Tools.AngleToRadian;
 

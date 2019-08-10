@@ -21,6 +21,8 @@ public abstract class FirstOrderEquations implements FirstOrderDifferentialEquat
      */
     public Vector3d pointAtTrajectoryOfS(double s){ return null; }
 
+    public void setDp(double dp){throw new UnsupportedOperationException();}
+
     @Override
     public int getDimension() {
         return 4;
@@ -33,7 +35,7 @@ public abstract class FirstOrderEquations implements FirstOrderDifferentialEquat
         // y2 = y
         // y3 = y'
 
-        System.out.println("s = " + s);
+//        System.out.println("s = " + s);
 
         final double h = getH(s);
         final double k = getK(s);

@@ -1,8 +1,9 @@
-package zrx.Tools;
+package zrx.DemoAndStudy.test;
 
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoint;
 import org.apache.commons.math3.fitting.WeightedObservedPoints;
+import zrx.Tools.PrintArray;
 
 /**
  * 多项式拟合。

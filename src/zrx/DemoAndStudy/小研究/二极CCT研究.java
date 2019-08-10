@@ -18,7 +18,10 @@ import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.DoubleFunction;
 
 /**
  * 研究时间 2019年7月19日
@@ -115,7 +118,7 @@ public class 二极CCT研究 {
         //径向磁场分布
         if (false) {
             //旧式 写一堆代码
-            if(false){
+            if (false) {
                 final double maxLen = R + Rbore;
                 final double minLen = R - Rbore;
                 final double delta = 0.5 / 1000;
@@ -140,20 +143,20 @@ public class 二极CCT研究 {
                 PrintArray.print(fit);
             }
             //新式 新的API
-            if(true){
+            if (true) {
                 //磁场分布~
                 final double maxLen = R + Rbore;
                 final double minLen = R - Rbore;
                 final int number = 11;
 
                 final Vector2d[] xBz = AnalyseCCT.magnetZeAlongLine(
-                        allCCTs,-Rbore,Rbore,
+                        allCCTs, -Rbore, Rbore,
                         midpoint3d.setLengthAndReturn(minLen),
                         midpoint3d.setLengthAndReturn(maxLen),
                         number
                 );
 
-                Plot2d.plot2(xBz,Plot2d.BLACK_LINE);
+                Plot2d.plot2(xBz, Plot2d.BLACK_LINE);
 
                 final double[] fit = Fit.fit(xBz, 2);
                 PrintArray.print(fit);
@@ -162,7 +165,7 @@ public class 二极CCT研究 {
         //基本磁场计算
         if (false) {
             //繁琐版
-            if(false){
+            if (false) {
                 //磁场计算
                 List<Double> bzList = new ArrayList<>(trajectory.length);
                 for (int i = 0; i < trajectory.length; i++) {
@@ -185,23 +188,77 @@ public class 二极CCT研究 {
             }
 
             //new api
-            if(true){
-                Plot2d.plot2(ListToArray.doubleListToArray(angList),
-                        AnalyseCCT.magnetZeAlongTrajectory(allCCTs,trajectory),Plot2d.BLACK_LINE);
-                //硬板模型
-                Plot2d.plotGREY_DASH(
-                        Vector2d.getOne(-EDGEangle, 0.0),
-                        Vector2d.getOne(0.0, 0.0),
-                        Vector2d.getOne(0.0, -2.43),
-                        Vector2d.getOne(ANGLEangle, -2.43),
-                        Vector2d.getOne(ANGLEangle, 0.0),
-                        Vector2d.getOne(EDGEangle + ANGLEangle, 0.0)
+            if (true) {
+                //XY单独处理
+//                Plot2d.plot2(ListToArray.doubleListToArray(angList),
+//                        AnalyseCCT.magnetZeAlongTrajectory(allCCTs,trajectory),Plot2d.BLACK_LINE);
+//                //硬板模型
+//                Plot2d.plotGREY_DASH(
+//                        Vector2d.getOne(-EDGEangle, 0.0),
+//                        Vector2d.getOne(0.0, 0.0),
+//                        Vector2d.getOne(0.0, -2.43),
+//                        Vector2d.getOne(ANGLEangle, -2.43),
+//                        Vector2d.getOne(ANGLEangle, 0.0),
+//                        Vector2d.getOne(EDGEangle + ANGLEangle, 0.0)
+//                );
+
+
+                //轨迹-s处理绘图
+                final Vector2d[] orinalData = Vector2d.convict(
+                        Vector2d.walk(AnalyseCCT.magnetZeAlongTrajectoryWithS(allCCTs, trajectory),
+                                Vector2d.getOne(-1, 0)),
+                        x -> (-x / 0.08), y -> (-y / 2.43));
+                final Vector2d[] data = Vector2d.convict(
+                        orinalData, x -> x,
+                        new DoubleFunction<Double>() {
+                            @Override
+                            public Double apply(double value) {
+                                if (value > 1.0) value = 1.0;
+                                if (value < 0.0) value = 0.0;
+                                return value;
+                            }
+                        }
                 );
+
+                //辅助线
+                if (true) {
+                    Plot2d.plotGREY_DASH(
+                            Vector2d.getOne(-3, 1.1),
+                            Vector2d.getOne(-3, -0.1)
+                    );
+                    Plot2d.plotGREY_DASH(
+                            Vector2d.getOne(5, 1.1),
+                            Vector2d.getOne(5, -0.1)
+                    );
+                    Plot2d.plotPINK_DASH(
+                            Vector2d.getOne(0.0, 1.1),
+                            Vector2d.getOne(0.0, -0.1)
+                    );
+
+                    Plot2d.plotGREY_DASH(
+                            Vector2d.getOne(-4, 0.0),
+                            Vector2d.getOne(6, 0.0)
+                    );
+                    Plot2d.plotGREY_DASH(
+                            Vector2d.getOne(-4, 1.0),
+                            Vector2d.getOne(6, 1.0)
+                    );
+                }
+
+                //拟合enge函数
+                final double[] engeFunction = Fit.fitEngeFunction(data);
+                PrintArray.print(engeFunction);
+                Plot2d.plot2(orinalData,
+                        Plot2d.BLACK_LINE);
+
+
+                Plot2d.plotCosyEngeFun(engeFunction, Plot2d.RED_LINE);
+
             }
         }
         //粒子追踪。测试成功
         if (false) {
-            if(false){
+            if (false) {
                 //粒子生成
                 RunningParticle particle = ParticleFactory.getProton(
                         Vector3d.getOne(1, -0.5, 0),
@@ -226,7 +283,7 @@ public class 二极CCT研究 {
                 Plot3d.plot3(Vector3d.listToArray(particleTraj), Plot2d.YELLOW_LINE);
             }
             //new api
-            if(true){
+            if (true) {
                 //粒子生成
                 RunningParticle particle = ParticleFactory.getProton(
                         Vector3d.getOne(1, -0.5, 0),
@@ -234,7 +291,7 @@ public class 二极CCT研究 {
                 );
 
                 final Vector3d[] traj = AnalyseCCT.particleRunning(allCCTs, particle, 2.0, 0.001);
-                Plot3d.plot3(traj,Plot2d.YELLOW_LINE);
+                Plot3d.plot3(traj, Plot2d.YELLOW_LINE);
             }
         }
         //高阶场拟合.轨迹平移法
@@ -334,12 +391,13 @@ public class 二极CCT研究 {
 
         }
         //传输矩阵计算
-        if (false) {
+        if (true) {
             /**
              * 实现它，就可以掌控雷电
              */
-            FirstOrderEquations ode = new FirstOrderEquations() {
+            final FirstOrderEquations ode00 = new FirstOrderEquations() {
                 private final double deltaS = 1.0 / 1000.0 / 100.0;
+                private double dp;
 
                 /**
                  * 轨道上s处的点
@@ -348,15 +406,13 @@ public class 二极CCT研究 {
                  */
                 public Vector3d pointAtTrajectoryOfS(double s) {
 //                    return Vector3d.vector2dTo3d(Vector2d.pointFromArcToXY(R, -EDGE, s));
-                    if(s<=1){
-                        return Vector3d.vector2dTo3d(Vector2d.getOne(1.0,s-1.0));
-                    }
-                    else if (s<=1+67.5/180.0*Math.PI){
-                        s-=1.0;
+                    if (s <= 1) {
+                        return Vector3d.vector2dTo3d(Vector2d.getOne(1.0, s - 1.0));
+                    } else if (s <= 1 + 67.5 / 180.0 * Math.PI) {
+                        s -= 1.0;
                         return Vector3d.vector2dTo3d(Vector2d.pointFromArcToXY(R, 0.0, s));
-                    }
-                    else{
-                        s-=1+67.5/180.0*Math.PI;
+                    } else {
+                        s -= 1 + 67.5 / 180.0 * Math.PI;
                         return Vector3d.vector2dTo3d(Vector2d.walk(
                                 Vector2d.getOne(Math.cos(AngleToRadian.to(67.5)),
                                         Math.sin(AngleToRadian.to(67.5))),
@@ -419,33 +475,204 @@ public class 二极CCT研究 {
                  */
                 @Override
                 public double getDP() {
-                    return 0.0;
+                    return dp;
+                }
+
+                @Override
+                public void setDp(double dp) {
+                    this.dp = dp;
                 }
             };
+            ode00.setDp(0.0);
+            final FirstOrderEquations ode10 = new FirstOrderEquations() {
+                private final double deltaS = 1.0 / 1000.0 / 100.0;
+                private double dp;
+
+                /**
+                 * 轨道上s处的点
+                 * @param s 位置
+                 * @return 点
+                 */
+                public Vector3d pointAtTrajectoryOfS(double s) {
+//                    return Vector3d.vector2dTo3d(Vector2d.pointFromArcToXY(R, -EDGE, s));
+                    if (s <= 1) {
+                        return Vector3d.vector2dTo3d(Vector2d.getOne(1.0, s - 1.0));
+                    } else if (s <= 1 + 67.5 / 180.0 * Math.PI) {
+                        s -= 1.0;
+                        return Vector3d.vector2dTo3d(Vector2d.pointFromArcToXY(R, 0.0, s));
+                    } else {
+                        s -= 1 + 67.5 / 180.0 * Math.PI;
+                        return Vector3d.vector2dTo3d(Vector2d.walk(
+                                Vector2d.getOne(Math.cos(AngleToRadian.to(67.5)),
+                                        Math.sin(AngleToRadian.to(67.5))),
+                                Vector2d.getOne(-Math.cos(AngleToRadian.to(22.5)),
+                                        Math.sin(AngleToRadian.to(22.5))),
+                                s
+                        ));
+                    }
+                }
+
+                /**
+                 * 轨道s处的切线
+                 * @param s 位置
+                 * @return 切向量
+                 */
+                private Vector3d directAtTrajectoryOfS(double s) {
+                    final Vector3d currentPoint = pointAtTrajectoryOfS(s);
+                    final Vector3d pointAhead = pointAtTrajectoryOfS(s + deltaS);
+                    return Vector3d.subtract(pointAhead, currentPoint);
+                }
+
+                /**
+                 * 插值
+                 * @param s 位置
+                 * @return 插值值
+                 */
+                private double[] fit(double s) {
+                    final Vector3d currentPoint = pointAtTrajectoryOfS(s);
+                    final Vector3d direct = directAtTrajectoryOfS(s);
+                    final Vector3d point1 = Vector3d.add(currentPoint,
+                            Vector3d.vector2dTo3d(
+                                    direct.projectToXY().
+                                            rotateSelfAndReturn(Math.PI / 2.0).
+                                            changeLengthAndReturn(GoodFieldErea)
+                            )
+                    );
+                    final Vector3d point2 = Vector3d.add(currentPoint,
+                            Vector3d.vector2dTo3d(
+                                    direct.projectToXY().
+                                            rotateSelfAndReturn(-Math.PI / 2.0).
+                                            changeLengthAndReturn(GoodFieldErea)
+                            )
+                    );
+                    return allCCTs.magneticComponent01(point1, point2);
+
+                }
+
+                @Override
+                public double getH(double s) {
+                    return fit(s)[0];
+                }
+
+                @Override
+                public double getK(double s) {
+                    return fit(s)[1];
+                }
+
+                /**
+                 * @return 动量分散
+                 */
+                @Override
+                public double getDP() {
+                    return dp;
+                }
+
+                @Override
+                public void setDp(double dp) {
+                    this.dp = dp;
+                }
+            };
+            ode10.setDp(1.0);
 
             final double sStart = 0.0;
-            final double sEnd = 2+67.5/180.0*Math.PI;
+            final double sEnd = 2 + 67.5 / 180.0 * Math.PI;
 
             //pointAtTrajectoryOfS测试
             if (false) {
                 System.out.println("sEnd = " + sEnd);
                 double SCurrent = sStart;
                 while (SCurrent < sEnd) {
-                    Plot3d.plotPoint(ode.pointAtTrajectoryOfS(SCurrent), Plot2d.YELLOW_POINT);
+                    Plot3d.plotPoint(ode00.pointAtTrajectoryOfS(SCurrent), Plot2d.YELLOW_POINT);
                     SCurrent += 1.0 / 10;
                     System.out.println("SCurrent = " + SCurrent);
                 }
             }
 
+            final Map<String, Double> matrix = new HashMap<>();
+
+
+            final Thread thread1121 = new Thread(() -> {
+                double[] y0 = new double[]{1.0, 0, 0, 0};
+                final FirstOrderIntegrator integrator = new DormandPrince853Integrator(
+                        1.0e-5, 0.1, 1.0e-3, 1.0e-3);
+                integrator.integrate(ode00, sStart, y0, sEnd, y0);
+                synchronized (matrix) {
+                    matrix.put("r11", y0[0]);
+                    matrix.put("r21", y0[1]);
+                }
+            });
+
+            final Thread thread1222 = new Thread(() -> {
+                double[] y0 = new double[]{0.0, 1.0, 0, 0};
+                final FirstOrderIntegrator integrator = new DormandPrince853Integrator(
+                        1.0e-5, 0.1, 1.0e-3, 1.0e-3);
+                integrator.integrate(ode00, sStart, y0, sEnd, y0);
+                synchronized (matrix) {
+                    matrix.put("r12", y0[0]);
+                    matrix.put("r22", y0[1]);
+                }
+            });
+
+            final Thread thread3343 = new Thread(() -> {
+                double[] y0 = new double[]{0.0, 0.0, 1.0, 0};
+                final FirstOrderIntegrator integrator = new DormandPrince853Integrator(
+                        1.0e-5, 0.1, 1.0e-3, 1.0e-3);
+                integrator.integrate(ode00, sStart, y0, sEnd, y0);
+                synchronized (matrix) {
+                    matrix.put("r33", y0[2]);
+                    matrix.put("r43", y0[3]);
+                }
+            });
+
+            final Thread thread3444 = new Thread(() -> {
+                double[] y0 = new double[]{0.0, 0.0, 0.0, 1.0};
+                final FirstOrderIntegrator integrator = new DormandPrince853Integrator(
+                        1.0e-5, 0.1, 1.0e-3, 1.0e-3);
+                integrator.integrate(ode00, sStart, y0, sEnd, y0);
+                synchronized (matrix) {
+                    matrix.put("r34", y0[2]);
+                    matrix.put("r44", y0[3]);
+                }
+            });
+
+            final Thread thread1626 = new Thread(() -> {
+                double[] y0 = new double[]{0.0, 0.0, 0.0, 0.0};
+                final FirstOrderIntegrator integrator = new DormandPrince853Integrator(
+                        1.0e-5, 0.1, 1.0e-3, 1.0e-3);
+                integrator.integrate(ode10, sStart, y0, sEnd, y0);
+                synchronized (matrix) {
+                    matrix.put("r16", y0[0]);
+                    matrix.put("r26", y0[1]);
+                }
+            });
+
+            thread1121.start();
+            thread1222.start();
+            thread3343.start();
+            thread3444.start();
+            thread1626.start();
+
+            try {
+                thread1121.join();
+                thread1222.join();
+                thread3343.join();
+                thread3444.join();
+                thread1626.join();
+            }catch (Exception e){e.printStackTrace();}
+
+
+
+            System.out.println(matrix);
+
+
 //            double[] y0 = {1.0, 0, 0, 0}; //r11 r21
 //            double[] y0 = {0.0, 1.0, 0, 0}; //r12 r22
 //            double[] y0 = {0.0, 0.0, 1.0, 0}; //r33 r43
-            double[] y0 = {0.0, 0.0, 0.0, 1.0}; //r33 r43
+//            y0 = new double[]{0.0, 0.0, 0.0, 1.0}; //r33 r43
 //            double[] y0 = {0.0, 0.0, 0.0, 0.0}; //r33 r43
-            FirstOrderIntegrator integrator = new DormandPrince853Integrator(
-                    1.0e-5, 0.1, 1.0e-3, 1.0e-3);
-            integrator.integrate(ode, sStart, y0, sEnd, y0);
-            PrintArray.print(y0);
+
+//            integrator.integrate(ode, sStart, y0, sEnd, y0);
+//            PrintArray.print(y0);
 
         }
         //积分场。理想值-2.862776306
@@ -469,7 +696,7 @@ public class 二极CCT研究 {
 
             for (int i = 0; i < num; i++) {
                 double moveLen = moveLens[i];
-                Vector3d[] trajectoryCurrent = Vector3d.move(trajectoryNEW,midpoint3d,moveLen);
+                Vector3d[] trajectoryCurrent = Vector3d.move(trajectoryNEW, midpoint3d, moveLen);
 //                Plot3d.plot3(trajectoryCurrent, Plot2d.BLACK_LINE);
 
                 //开始计算
@@ -479,25 +706,23 @@ public class 二极CCT研究 {
                     inteB += allCCTs.magnet(trajectoryCurrent[j]).z * deltaLen;
                 }
 
-                result[i] = Vector2d.getOne(moveLen,inteB);
+                result[i] = Vector2d.getOne(moveLen, inteB);
             }
 
             PrintArray.print(result);
-            Plot2d.plot2(result,Plot2d.BLACK_LINE);
+            Plot2d.plot2(result, Plot2d.BLACK_LINE);
         }
         //0726 理想磁场传输矩阵计算，用以验证
-        if(false){
+        if (false) {
             //理想磁场
-            FirstOrderEquations ode  = new FirstOrderEquations() {
+            FirstOrderEquations ode = new FirstOrderEquations() {
                 @Override
                 public double getH(double s) {
-                    if(s<=1){
+                    if (s <= 1) {
                         return 0.0;
-                    }
-                    else if (s<=1+67.5/180.0*Math.PI){
+                    } else if (s <= 1 + 67.5 / 180.0 * Math.PI) {
                         return 1.00;
-                    }
-                    else{
+                    } else {
                         return 0.0;
                     }
                 }
@@ -513,7 +738,7 @@ public class 二极CCT研究 {
                 }
             };
             final double sStart = 0.0;
-            final double sEnd = 2+67.5/180.0*Math.PI;
+            final double sEnd = 2 + 67.5 / 180.0 * Math.PI;
 //            double[] y0 = {1.0, 0, 0, 0}; //r11 r21
 //            double[] y0 = {0.0, 1.0, 0, 0}; //r12 r22
 //            double[] y0 = {0.0, 0.0, 1.0, 0}; //r33 r43
@@ -531,7 +756,7 @@ public class 二极CCT研究 {
 //        cct4.Plot3d(Plot2d.BLUE_LINE);
 
         Plot3d.setCube(0.5);
-        Plot3d.showThread();
+//        Plot3d.showThread();
         Plot2d.showThread();
         Timer.invoke();
 

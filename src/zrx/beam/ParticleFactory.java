@@ -1,5 +1,6 @@
 package zrx.beam;
 
+import com.sun.source.tree.CompilationUnitTree;
 import zrx.base.Vector3d;
 
 import java.util.function.DoubleUnaryOperator;
@@ -57,4 +58,26 @@ public class ParticleFactory {
                 runMass,ProtonChargeQuantity,speed,0.0
         );
     }
+
+    public static RunningParticle copy(RunningParticle particle){
+        //Vector3d position, Vector3d velocity, double runMass, double e, double speed, double distance
+        return new RunningParticle(
+                particle.position,
+                particle.velocity,
+                particle.runMass,
+                particle.e,
+                particle.speed,
+                particle.distance
+        );
+    }
+
+    public static RunningParticle[] copy(RunningParticle particle,int number){
+        RunningParticle[] particles = new RunningParticle[number];
+        for (int i = 0; i < number; i++) {
+            particles[i] = copy(particle);
+        }
+
+        return particles;
+    }
+
 }
