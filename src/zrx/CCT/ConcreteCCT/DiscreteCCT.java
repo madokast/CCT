@@ -37,7 +37,7 @@ public class DiscreteCCT implements SingleLayerDiscreteCCTComponent{
         this.endPoint = endPoint;
         this.endDirect = endDirect;
 
-        System.out.println("本段CCT离散化成功，点数："+pathInKsiPhi.length);
+//        System.out.println("本段CCT离散化成功，点数："+pathInKsiPhi.length);
     }
 
     /**

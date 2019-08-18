@@ -1,11 +1,12 @@
-package zrx.DemoAndStudy;
+package zrx.DemoAndStudy.小研究;
 
-import org.apache.commons.math3.analysis.solvers.NewtonRaphsonSolver;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
 import zrx.CCT.AnalyseCCT;
-import zrx.CCT.ConcreteCCT.*;
-import zrx.CCT.Magnet;
+import zrx.CCT.ConcreteCCT.AllCCTs;
+import zrx.CCT.ConcreteCCT.CurvedCCTAnalysis;
+import zrx.CCT.ConcreteCCT.DiscreteCCT;
+import zrx.CCT.ConcreteCCT.SingleLayerDiscreteCCTs;
 import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.ODE.FirstOrderEquations;
 import zrx.Tools.*;
@@ -18,12 +19,10 @@ import zrx.beam.RunningParticle;
 import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 
-import javax.swing.plaf.metal.MetalIconFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * layer1 1   AG-CCT
@@ -38,7 +37,7 @@ import java.util.concurrent.CountDownLatch;
  */
 
 @SuppressWarnings("all")
-public class 六十七点五新测试0804 {
+public class 六十七点五新测试0804_2 {
     private static final double MM = 1e-3;//毫米
     private static final double MRAD = MM;//毫米
 
@@ -62,9 +61,9 @@ public class 六十七点五新测试0804 {
     private static final double ANGLE_MID = 12.8778;
     private static final double ANGLE_IN = ANGLE_675 - (ANGLE_OUT + ANGLE_MID) * 2;//==23.7984
     //匝数 初始值 32 46 85
-    private static int N12_OUT = 32;//  8.973/67.5*241 = 31.904
-    private static int N12_MID = 46;//  12.8778/67.5*241 = 45.9785155555556
-    private static int N12_IN = 85;//  23.7984/67.5*241 = 84.9691022222222
+    private static int N12_OUT = 27;//  8.973/67.5*241 = 31.904
+    private static int N12_MID = 39;//  12.8778/67.5*241 = 45.9785155555556
+    private static int N12_IN = 109;//  23.7984/67.5*241 = 84.9691022222222
 
     //CCT厚度，层间缝隙，每层的内外径。从内到外 1 2 3 4
     //厚度 7mm 6mm 间隙3mm
@@ -116,6 +115,7 @@ public class 六十七点五新测试0804 {
     private static Vector3d midpoint3d = null;
     private static Vector3d[] trajectory = null;
     private static Vector3d[] trajectoryNEW = null;
+//    private static double[] trajectoryNEWLength = null;
     private static List<Double> angList = null;
 
     //辅助量初始化
@@ -150,6 +150,7 @@ public class 六十七点五新测试0804 {
 
 //        Plot3d.plot3(trajectory, Plot2d.BLACK_LINE);
         Plot3d.plot3(trajectoryNEW, Plot2d.BLACK_LINE);
+//        Plot3d.plot3(Vector3d.move(trajectoryNEW,midpoint3d,R_CCT-R_beamline),Plot2d.RED_LINE);
 
         //轴向基本磁场计算
 //        zDirectMagnetBasic(allCCTs);
@@ -167,14 +168,16 @@ public class 六十七点五新测试0804 {
         //传输矩阵
 //        transportMatrix(allCCTs);
         //单粒子跟踪
-//        particleTracking(allCCTs);
+//        particleTracking(allCCTs,250);
         //相椭圆跟踪
-//        ellipseTracking(allCCTs);
-        尝试优化1();
+        ellipseTracking(allCCTs);
+//        尝试优化1();
 
 
 //        allCCTs.plot3d();
         Plot3d.setCube(1.0);
+        Plot3d.removeAxis();
+//        Plot3d.setCenter(Vector3d.getOne(1,0,0),2.0);
         Plot3d.showThread();
         Plot2d.equal();
         Plot2d.showThread();
@@ -291,7 +294,7 @@ public class 六十七点五新测试0804 {
                 Vector3d.getOne(1, -1, 0),//position
                 Vector3d.getOne(0, 1, 0),//direction
 //                250
-                250
+                225
         );
         //复制参考粒子。复制后再修改为待研究的粒子
         final RunningParticle[] particles = ParticleFactory.copy(referredParticle, number);
@@ -300,28 +303,28 @@ public class 六十七点五新测试0804 {
             case 1:
                 for (int i = 0; i < number; i++) {
                     particles[i].deploy(startCoordinateSystem3d, ellipsePoints[i].x, ellipsePoints[i].y, 0, 0, 0);
-                    Plot3d.plot3Particle(particles[i], 0.1);
+//                    Plot3d.plot3Particle(particles[i], 0.1);
                 }
                 break;
             case 2:
+                for (int i = 0; i < number; i++) {
+                    particles[i].deploy(
+                            startCoordinateSystem3d, 0,0, ellipsePoints[i].x, ellipsePoints[i].y, 0);
+//                    Plot3d.plot3Particle(particles[i], 0.1);
+                }
                 break;
         }
 
         //初始相椭圆
         PhaseSpaceParticle.plot2dXXCParticlesInPhaseSpace(
                 particles, referredParticle, startCoordinateSystem3d, Plot2d.YELLOW_POINT);
-//        for (RunningParticle particle : particles) {
-//            final PhaseSpaceParticle phaseSpaceParticle = particle.phaseSpaceParticle(
-//                    startCoordinateSystem3d, referredParticle);
-//            phaseSpaceParticle.plot2dXXC(Plot2d.YELLOW_POINT);
-//        }
 
         //运动参考粒子
         threads.add(
-                referredParticle.runInAllCCTsThread(allCCTs, LENGTH, STEP, 100, Plot2d.RED_POINT));
+                referredParticle.runInAllCCTsThread(allCCTs, LENGTH, STEP, 100, Plot2d.RED_DASH));
         //运动粒子s
         threads.addAll(ParticleFactory.runInAllCCTsThread(
-                particles, allCCTs, LENGTH, STEP, 100, Plot2d.YELLOW_POINT)
+                particles, allCCTs, LENGTH, STEP, 100, Plot2d.YELLOW_LINE)
         );
 
         //join
@@ -341,11 +344,7 @@ public class 六十七点五新测试0804 {
         //出口相椭圆
         PhaseSpaceParticle.plot2dXXCParticlesInPhaseSpace(
                 particles, referredParticle, endCoordinateSystem3d, Plot2d.RED_POINT);
-//        for (RunningParticle particle : particles) {
-//            final PhaseSpaceParticle phaseSpaceParticle = particle.phaseSpaceParticle(
-//                    endCoordinateSystem3d, referredParticle);
-//            phaseSpaceParticle.plot2dXXC(Plot2d.RED_POINT);
-//        }
+
 
     }
 
@@ -370,11 +369,14 @@ public class 六十七点五新测试0804 {
         double inteB = 0.0;
 
         int i = 0;
+        List<Vector3d> traj = new ArrayList<>((int)(LENGTH/STEP)+100);
         while (particle.distance < LENGTH) {
             //画图
-            if (i++ % number == 0) {
-                particle.plot3self(Plot2d.YELLOW_SMALL_POINT);
-            }
+//            if (i++ % number == 0) {
+//                particle.plot3self(Plot2d.YELLOW_SMALL_POINT);
+//            }
+            traj.add(Vector3d.copyOne(particle.position));
+
             //计算磁场
             Vector3d magnet = allCCTs.magnet(particle.position);
             //积分场
@@ -383,6 +385,8 @@ public class 六十七点五新测试0804 {
             //粒子运动
             particle.runSelf(magnet, STEP);
         }
+
+        Plot3d.plot3(traj.toArray(Vector3d[]::new),Plot2d.RED_DASH);
 
         //最后粒子的方向
         final Vector2d endDierct = Vector2d.copyOne(Vector3d.vector3dTo2d(particle.velocity));

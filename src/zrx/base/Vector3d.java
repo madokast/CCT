@@ -295,6 +295,19 @@ public class Vector3d implements Serializable {
         return Vector2d.getOne(v3.x, v3.y);
     }
 
+    public static Vector2d Vector3dTo2d(Vector3d v3,Vector3dTo2d vector3dTo2d){
+        return vector3dTo2d.function(v3);
+    }
+
+    public static Vector2d[] Vector3dTo2d(Vector3d[] v3,Vector3dTo2d vector3dTo2d){
+        final Vector2d[] v2 = new Vector2d[v3.length];
+        for (int i = 0; i < v2.length; i++) {
+            v2[i] = Vector3dTo2d(v3[i],vector3dTo2d);
+        }
+
+        return v2;
+    }
+
     public void setLength(double length) {
         this.normal();
         this.x = this.x * length;

@@ -125,6 +125,33 @@ public class Plot3d {
         });
     }
 
+    public static void removeAxis(){
+        prepareHead();
+        try{
+            //ax.get_xaxis().set_visible(False)
+            //ax.get_yaxis().set_visible(False)
+            //plt.xticks([])
+            //plt.yticks([])
+            //ax.set_zticks([])
+            //ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
+            //ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
+            //ax.w_zaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
+
+            pyPrintWriter.println();
+            pyPrintWriter.println("ax.get_xaxis().set_visible(False)");
+            pyPrintWriter.println("ax.get_yaxis().set_visible(False)");
+            pyPrintWriter.println("plt.xticks([])");
+            pyPrintWriter.println("plt.yticks([])");
+            pyPrintWriter.println("ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))");
+            pyPrintWriter.println("ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))");
+            pyPrintWriter.println("ax.w_zaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))");
+            pyPrintWriter.println();
+        }catch (Exception e){
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
     private static void polt3MakeFile(List<Double> xs, List<Double> ys, List<Double> zs, String describe) {
         prepareHead();
         try {
