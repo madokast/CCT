@@ -7,11 +7,14 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.DoubleFunction;
 
 import zrx.Tools.ArrayMerge;
 import zrx.Tools.Numpy;
-import zrx.base.Vector2d;
+import zrx.Tools.python.ArrayReverse;
+import zrx.base.point.Vector2d;
 
+@SuppressWarnings("all")
 public class Plot2d {
     private static boolean prepareHead = false;
     private static File pyFile;
@@ -82,8 +85,8 @@ public class Plot2d {
     }
 
     public static void plot2Circle(Vector2d[] rs, String describe) {
-        Vector2d[] circle = ArrayMerge.merge(rs,new Vector2d[]{rs[0]});
-        plot2(circle,describe);
+        Vector2d[] circle = ArrayMerge.merge(rs, new Vector2d[]{rs[0]});
+        plot2(circle, describe);
     }
 
 
@@ -127,7 +130,7 @@ public class Plot2d {
      * @param len 矢量长度
      */
     public static void plotVector(final Vector2d v, final double len) {
-        plotVector(Vector2d.getZeros(), v, len);
+        plotVector(Vector2d.getZero(), v, len);
     }
 
     /**
@@ -137,7 +140,7 @@ public class Plot2d {
      * @param v 矢量方向
      */
     public static void plotVector(final Vector2d v) {
-        plotVector(Vector2d.getZeros(), v, v.length());
+        plotVector(Vector2d.getZero(), v, v.length());
     }
 
     /**
@@ -234,8 +237,8 @@ public class Plot2d {
             pyPrintWriter.println("ymin = " + box[2]);
             pyPrintWriter.println("ymax = " + box[3]);
             pyPrintWriter.println("");
-            pyPrintWriter.println("ax.plot([xmin], [ymin], 'w')");
-            pyPrintWriter.println("ax.plot([xmax], [ymax], 'w')");
+            pyPrintWriter.println("plt.plot([xmin], [ymin], 'w')");
+            pyPrintWriter.println("plt.plot([xmax], [ymax], 'w')");
             pyPrintWriter.println("");
 
         } catch (Exception e) {
@@ -307,10 +310,24 @@ public class Plot2d {
     }
 
     public static void equal() {
-        if(pyPrintWriter!=null)
+        if (pyPrintWriter != null)
             pyPrintWriter.println("plt.axis('equal')");
         else
             System.err.println("plot2d::equal called without any drawing");
+    }
+
+    public static void xLabel(String label){
+        if (pyPrintWriter != null)
+            pyPrintWriter.println("plt.xlabel(\"\"\""+label+"\"\"\")");
+        else
+            System.err.println("plot2d::xLabel called without any drawing");
+    }
+
+    public static void yLabel(String label){
+        if (pyPrintWriter != null)
+            pyPrintWriter.println("plt.ylabel(\"\"\""+label+"\"\"\")");
+        else
+            System.err.println("plot2d::xLabel called without any drawing");
     }
 
     public static void show() {
@@ -361,6 +378,12 @@ public class Plot2d {
         return sb.toString();
     }
 
+    /**
+     * 归一化的EngeFun绘制
+     *
+     * @param arr      系数a1 a6
+     * @param describe 绘图描述
+     */
     public static void plotCosyEngeFun(double[] arr, String describe) {
         final double[] xArr = Numpy.linspace(-3, 5, 100);
         final double[] yArr = new double[xArr.length];
@@ -375,6 +398,68 @@ public class Plot2d {
         }
 
         plot2(xArr, yArr, describe);
+    }
+
+    /**
+     * 从归一化的EngeFun 转化为实际的磁场分布，画图
+     *
+     * @param arr           系数a1 a6
+     * @param maxValue      磁场最大值，如2.43
+     * @param sharpLocarion EngeFun 零点位置/m
+     * @param fullAperture  孔径，直径/m
+     * @param needRervse    是否需要反转，如果和归一化的EngeFun不同，就需要
+     * @param describe      绘图描述符
+     */
+    public static void plotCosyEngeFun(double[] arr,
+                                       double maxValue, double sharpLocarion, double fullAperture, boolean needRervse,
+                                       String describe) {
+
+        final double[] xArr = Numpy.linspace(-3, 5, 100);
+        final double[] yArr = new double[xArr.length];
+        for (int i = 0; i < yArr.length; i++) {
+            yArr[i] = 1.0 / (1 + Math.exp(arr[0] +
+                    arr[1] * Math.pow(xArr[i], 1) +
+                    arr[2] * Math.pow(xArr[i], 2) +
+                    arr[3] * Math.pow(xArr[i], 3) +
+                    arr[4] * Math.pow(xArr[i], 4) +
+                    arr[5] * Math.pow(xArr[i], 5)
+            ));
+        }
+
+        final Vector2d[] original = Vector2d.getOnes(xArr, yArr);
+        final Vector2d[] convict = Vector2d.convict(original,
+                new DoubleFunction<Double>() {
+                    @Override
+                    public Double apply(double x) {
+                        return x * fullAperture + sharpLocarion;
+                    }
+                },
+                new DoubleFunction<Double>() {
+                    @Override
+                    public Double apply(double y) {
+                        return y * maxValue;
+                    }
+                }
+        );
+
+        final Vector2d[] reverse = ArrayReverse.reverse(convict, needRervse);
+
+
+        //画辅助线
+        plotGREY_DASH(
+                Vector2d.getOne(-3.0*fullAperture+sharpLocarion,maxValue),
+                Vector2d.getOne(-3.0*fullAperture+sharpLocarion,0),
+                Vector2d.getOne(5.0*fullAperture+sharpLocarion,0),
+                Vector2d.getOne(5.0*fullAperture+sharpLocarion,maxValue),
+                Vector2d.getOne(-3.0*fullAperture+sharpLocarion,maxValue)
+                );
+        plotGREY_DASH(
+                Vector2d.getOne(sharpLocarion,maxValue),
+                Vector2d.getOne(sharpLocarion,0)
+        );
+
+        plot2(reverse, describe);
+
     }
 
     /**

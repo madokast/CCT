@@ -1,7 +1,10 @@
 package zrx.DemoAndStudy.小研究;
 
+import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
+import org.apache.commons.math3.ode.sampling.StepHandler;
+import org.apache.commons.math3.ode.sampling.StepInterpolator;
 import zrx.CCT.AnalyseCCT;
 import zrx.CCT.ConcreteCCT.AllCCTs;
 import zrx.CCT.ConcreteCCT.CurvedCCTAnalysis;
@@ -11,8 +14,8 @@ import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.ODE.FirstOrderEquations;
 import zrx.Tools.*;
 import zrx.base.CoordinateSystem3d;
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 import zrx.beam.ParticleFactory;
 import zrx.beam.PhaseSpaceParticle;
 import zrx.beam.RunningParticle;
@@ -61,9 +64,9 @@ public class 六十七点五新测试0804_2 {
     private static final double ANGLE_MID = 12.8778;
     private static final double ANGLE_IN = ANGLE_675 - (ANGLE_OUT + ANGLE_MID) * 2;//==23.7984
     //匝数 初始值 32 46 85
-    private static int N12_OUT = 27;//  8.973/67.5*241 = 31.904
-    private static int N12_MID = 39;//  12.8778/67.5*241 = 45.9785155555556
-    private static int N12_IN = 109;//  23.7984/67.5*241 = 84.9691022222222
+    private static int N12_OUT = 32;//  8.973/67.5*241 = 31.904
+    private static int N12_MID = 46;//  12.8778/67.5*241 = 45.9785155555556
+    private static int N12_IN = 85;//  23.7984/67.5*241 = 84.9691022222222
 
     //CCT厚度，层间缝隙，每层的内外径。从内到外 1 2 3 4
     //厚度 7mm 6mm 间隙3mm
@@ -87,14 +90,14 @@ public class 六十七点五新测试0804_2 {
     private static final double RADIUS_OUT4 = RADIUS_IN4 + THICKNESS34;//4层 外径 85mm
     private static final double RADIUS4 = (RADIUS_IN4 + RADIUS_OUT4) / 2.0;
 
-    //电流
-    private static double I1 = 5574.6;
-    private static final double I2 = -I1;
+    //电流  1 AG-CCT    2 2-CCT
+    private static double I1 = 5000;
+    private static double I2 = -I1;//AG-CCT
     private static double I3 = -5450.5;
-    private static final double I4 = -I3;
+    private static double I4 = -I3;//2-CCT
 
     //四极场补偿——用于二极CCT
-    private static final double QuadGradient = -1.843;
+    private static double QuadGradient = -1.843;
 
     //类 w 量
     private static double PHI0 = ANGLERadian_675 / N34;
@@ -115,7 +118,7 @@ public class 六十七点五新测试0804_2 {
     private static Vector3d midpoint3d = null;
     private static Vector3d[] trajectory = null;
     private static Vector3d[] trajectoryNEW = null;
-//    private static double[] trajectoryNEWLength = null;
+    //    private static double[] trajectoryNEWLength = null;
     private static List<Double> angList = null;
 
     //辅助量初始化
@@ -124,12 +127,12 @@ public class 六十七点五新测试0804_2 {
         midpoint3d = Vector3d.vector2dTo3d(
                 Vector2d.rayForPolarAngle(ANGLERadian_675 / 2.0).changeLengthAndReturn(R_beamline));
         trajectory = Vector3d.vector2dTo3d(
-                Vector2d.arc(Vector2d.getZeros(), R_beamline,
+                Vector2d.arc(Vector2d.getZero(), R_beamline,
                         -EDGE_RADIAN, ANGLERadian_675 + EDGE_RADIAN, false, STEP_KSI));
         trajectoryNEW = ArrayMerge.merge(
                 Vector3d.interpolation(Vector3d.getOne(1, -1, 0), Vector3d.getOne(1, 0, 0), 500),
                 Vector3d.vector2dTo3d(
-                        Vector2d.arc(Vector2d.getZeros(), R_beamline,
+                        Vector2d.arc(Vector2d.getZero(), R_beamline,
                                 0.0, ANGLERadian_675, false, STEP_KSI)),
                 Vector3d.interpolation(Vector3d.getOne(Math.cos(ANGLERadian_675),
                         Math.sin(ANGLERadian_675), 0),
@@ -149,7 +152,7 @@ public class 六十七点五新测试0804_2 {
         final AllCCTs allCCTs = getAllCCTsFor675();
 
 //        Plot3d.plot3(trajectory, Plot2d.BLACK_LINE);
-        Plot3d.plot3(trajectoryNEW, Plot2d.BLACK_LINE);
+//        Plot3d.plot3(trajectoryNEW, Plot2d.BLACK_LINE);
 //        Plot3d.plot3(Vector3d.move(trajectoryNEW,midpoint3d,R_CCT-R_beamline),Plot2d.RED_LINE);
 
         //轴向基本磁场计算
@@ -167,23 +170,203 @@ public class 六十七点五新测试0804_2 {
 //        changeTheR_CCT();
         //传输矩阵
 //        transportMatrix(allCCTs);
+//        despersion(allCCTs);//色散函数分布——20190820
         //单粒子跟踪
-//        particleTracking(allCCTs,250);
+//        particleTracking(allCCTs, 250);
         //相椭圆跟踪
         ellipseTracking(allCCTs);
 //        尝试优化1();
+//        单粒子跟踪(allCCTs);
 
 
 //        allCCTs.plot3d();
         Plot3d.setCube(1.0);
         Plot3d.removeAxis();
-//        Plot3d.setCenter(Vector3d.getOne(1,0,0),2.0);
+//        Plot3d.setCenter(Vector3d.getByStartAndEnd(1,0,0),2.0);
         Plot3d.showThread();
-        Plot2d.equal();
-        Plot2d.showThread();
+        Plot2d.setCube(60);
+//        Plot2d.equal();
+//        Plot2d.showThread();
     }
 
-    private static void 尝试优化1() throws  Exception{
+    private static void despersion(AllCCTs allCCTs) {
+        final FirstOrderEquations ode10 = new FirstOrderEquations() {
+            private final double deltaS = 1.0 / 1000.0 / 100.0;
+            private double dp;
+
+            /**
+             * 轨道上s处的点
+             * @param s 位置
+             * @return 点
+             */
+            public Vector3d pointAtTrajectoryOfS(double s) {
+//                    return Vector3d.vector2dTo3d(Vector2d.pointFromArcToXY(R, -EDGE, s));
+                if (s <= 1) {
+                    return Vector3d.vector2dTo3d(Vector2d.getOne(1.0, s - 1.0));
+                } else if (s <= 1 + 67.5 / 180.0 * Math.PI) {
+                    s -= 1.0;
+                    return Vector3d.vector2dTo3d(Vector2d.pointFromArcToXY(R_beamline, 0.0, s));
+                } else {
+                    s -= 1 + 67.5 / 180.0 * Math.PI;
+                    return Vector3d.vector2dTo3d(Vector2d.walk(
+                            Vector2d.getOne(Math.cos(AngleToRadian.to(67.5)),
+                                    Math.sin(AngleToRadian.to(67.5))),
+                            Vector2d.getOne(-Math.cos(AngleToRadian.to(22.5)),
+                                    Math.sin(AngleToRadian.to(22.5))),
+                            s
+                    ));
+                }
+            }
+
+            /**
+             * 轨道s处的切线
+             * @param s 位置
+             * @return 切向量
+             */
+            private Vector3d directAtTrajectoryOfS(double s) {
+                final Vector3d currentPoint = pointAtTrajectoryOfS(s);
+                final Vector3d pointAhead = pointAtTrajectoryOfS(s + deltaS);
+                return Vector3d.subtract(pointAhead, currentPoint);
+            }
+
+            /**
+             * 插值
+             * @param s 位置
+             * @return 插值值
+             */
+            private double[] fit(double s) {
+                final Vector3d currentPoint = pointAtTrajectoryOfS(s);
+                final Vector3d direct = directAtTrajectoryOfS(s);
+                final Vector3d point1 = Vector3d.add(currentPoint,
+                        Vector3d.vector2dTo3d(
+                                direct.projectToXY().
+                                        rotateSelfAndReturn(Math.PI / 2.0).
+                                        changeLengthAndReturn(GOOD_FIELD_AREA)
+                        )
+                );
+                final Vector3d point2 = Vector3d.add(currentPoint,
+                        Vector3d.vector2dTo3d(
+                                direct.projectToXY().
+                                        rotateSelfAndReturn(-Math.PI / 2.0).
+                                        changeLengthAndReturn(GOOD_FIELD_AREA)
+                        )
+                );
+                return allCCTs.magneticComponent01(point1, point2);
+
+            }
+
+
+            @Override
+            public double getH(double s) {
+                return fit(s)[0];
+            }
+
+            @Override
+            public double getK(double s) {
+                return fit(s)[1];
+            }
+
+            /**
+             * @return 动量分散
+             */
+            @Override
+            public double getDP() {
+                return dp;
+            }
+
+            @Override
+            public void setDp(double dp) {
+                this.dp = dp;
+            }
+        };
+        ode10.setDp(1.0);
+
+        final double sStart = 0.0;
+        final double sEnd = 2 + 67.5 / 180.0 * Math.PI;
+        final List<Vector2d> despersion = new ArrayList<>();
+
+        double[] y0 = new double[]{0.0, 0.0, 0.0, 0.0};
+
+        final FirstOrderIntegrator integrator = new DormandPrince853Integrator(
+                1.0e-6, 0.01, 1.0e-5, 1.0e-5);
+
+        StepHandler stepHandler = new StepHandler() {
+            @Override
+            public void init(double t0, double[] y0, double t) {
+
+            }
+
+            @Override
+            public void handleStep(StepInterpolator interpolatorStepHandler, boolean isLast) throws MaxCountExceededException {
+                double t = interpolatorStepHandler.getCurrentTime();
+                double[] y = interpolatorStepHandler.getInterpolatedState();
+//                despersion.add(Vector2d.getByStartAndEnd(t,y[0]));
+                despersion.add(Vector2d.getOne(t, y[1]));
+//                System.out.println("t = "+t+" , y[o] = "+y[0]);
+            }
+        };
+
+
+        integrator.addStepHandler(stepHandler);
+        integrator.integrate(ode10, sStart, y0, sEnd, y0);
+        System.out.println(y0[1]);
+
+        Plot2d.plot2(despersion.toArray(Vector2d[]::new), Plot2d.RED_LINE);
+        Plot2d.plotGREY_DASH(
+                Vector2d.getOne(sStart, 0.0),
+                Vector2d.getOne(sEnd, 0.0)
+        );
+
+    }
+
+    private static void 单粒子跟踪(AllCCTs allCCTs) {
+//        final double ang225 = particleTracking(allCCTs, 225);
+//        System.out.println("--------");
+//        final double ang250 = particleTracking(allCCTs, 250);
+//        System.out.println("--------");
+//        final double ang275 = particleTracking(allCCTs, 275);
+//
+//        System.out.println("均值："+ Avg.avg(ang225,ang250,ang275));
+//        System.out.println("方差："+Variance.variance(ang225,ang250,ang275));
+
+        //private static double I1 = 5574.6;
+        //    private static double I2 = -I1;//AG-CCT
+        //    private static double I3 = -5450.5;
+        //    private static double I4 = -I3;//2-CCT
+
+        final double[] range = Numpy.linspace(0.8, 1.2, 40);
+        final List<Vector2d> ans225 = new ArrayList<>(range.length);
+        final List<Vector2d> ans250 = new ArrayList<>(range.length);
+        final List<Vector2d> ans275 = new ArrayList<>(range.length);
+        for (double v : range) {
+//            I1 = 5574.6*v;
+//            I2 = -I1;
+
+            I3 = -5450.5 * v;
+            I4 = -I3;//2-CCT
+            QuadGradient = -1.843 * v;
+
+            final AllCCTs allCCTs1 = getAllCCTsFor675();
+
+            RunAllAndJoin.run(
+                    () -> ans225.add(Vector2d.getOne(I3, particleTracking(allCCTs1, 225))),
+                    () -> ans250.add(Vector2d.getOne(I3, particleTracking(allCCTs1, 250))),
+                    () -> ans275.add(Vector2d.getOne(I3, particleTracking(allCCTs1, 275)))
+            );
+
+//            ans225.add(Vector2d.getByStartAndEnd(I1,particleTracking(allCCTs1, 225)));
+//            ans250.add(Vector2d.getByStartAndEnd(I1,particleTracking(allCCTs1, 250)));
+//            ans275.add(Vector2d.getByStartAndEnd(I1,particleTracking(allCCTs1, 275)));
+
+
+        }
+//        Vector2d.toTableHtml(ans225.toArray(Vector2d[]::new));
+        Plot2d.plot2(ans225.toArray(Vector2d[]::new), Plot2d.YELLOW_LINE);
+        Plot2d.plot2(ans250.toArray(Vector2d[]::new), Plot2d.BLACK_LINE);
+        Plot2d.plot2(ans275.toArray(Vector2d[]::new), Plot2d.RED_LINE);
+    }
+
+    private static void 尝试优化1() throws Exception {
         //总结一下用于粗调的物理量——共四个
 
         //电流
@@ -209,7 +392,7 @@ public class 六十七点五新测试0804_2 {
                 if (N12_IN <= 0)
                     continue;
                 final AllCCTs allCCTsFor675 = getAllCCTsFor675();
-                System.err.println("正在打印"+new Date().toString());
+                System.err.println("正在打印" + new Date().toString());
                 System.out.print("<tr>");
 
                 System.out.print("<td>" + N12_OUT + "</td>");
@@ -269,18 +452,24 @@ public class 六十七点五新测试0804_2 {
         final double beta = 3.5 / 7.5;
         final double gama = 7.5 / 3.5;
         final double alpha = Math.sqrt(Math.abs(beta * gama - 1.0));
-        final double epsi = 3.5 * 7.5 * MM * MRAD;
+        final double epsi = 3.5 * 7.5 * MM * MRAD * 0.0001;
         // 1-x 2-y
         final int flag = 1;
         //生成粒子数目
-        final int number = 12;
+        final int number = 24;
         //粒子局部坐标系
         final CoordinateSystem3d startCoordinateSystem3d = CoordinateSystem3d.getOneByYZ(
                 Vector3d.getZDirect(), Vector3d.getYDirect());
         //每个粒子的运动长度
-        final double LENGTH = 1.0 * 2 + 67.5 / 180.0 * Math.PI;
+        final double LENGTH = 1.0 * 1 + 67.5 / 180.0 * Math.PI*0.0;
         //步长
         final double STEP = 1.0 * MM;
+        //参考粒子
+        RunningParticle referredParticle = ParticleFactory.getProton(
+                Vector3d.getOne(1, -1, 0),//position
+                Vector3d.getOne(0, 1, 0),//direction
+//                250
+                250);
         //threads
         List<Thread> threads = new ArrayList<>(number + 1);
 
@@ -289,13 +478,7 @@ public class 六十七点五新测试0804_2 {
         final Vector2d[] ellipsePoints = Vector2d.ellipsePoints(gama, 2 * alpha, beta, epsi, number);
 //        Plot2d.plot2(points,Plot2d.YELLOW_POINT);
 
-        //参考粒子
-        RunningParticle referredParticle = ParticleFactory.getProton(
-                Vector3d.getOne(1, -1, 0),//position
-                Vector3d.getOne(0, 1, 0),//direction
-//                250
-                225
-        );
+
         //复制参考粒子。复制后再修改为待研究的粒子
         final RunningParticle[] particles = ParticleFactory.copy(referredParticle, number);
 
@@ -309,7 +492,7 @@ public class 六十七点五新测试0804_2 {
             case 2:
                 for (int i = 0; i < number; i++) {
                     particles[i].deploy(
-                            startCoordinateSystem3d, 0,0, ellipsePoints[i].x, ellipsePoints[i].y, 0);
+                            startCoordinateSystem3d, 0, 0, ellipsePoints[i].x, ellipsePoints[i].y, 0);
 //                    Plot3d.plot3Particle(particles[i], 0.1);
                 }
                 break;
@@ -318,6 +501,8 @@ public class 六十七点五新测试0804_2 {
         //初始相椭圆
         PhaseSpaceParticle.plot2dXXCParticlesInPhaseSpace(
                 particles, referredParticle, startCoordinateSystem3d, Plot2d.YELLOW_POINT);
+        //拟合椭圆
+        Vector2d.fitEllipse(PhaseSpaceParticle.particlesInPhaseSpaceXXC(particles, referredParticle, startCoordinateSystem3d));
 
         //运动参考粒子
         threads.add(
@@ -344,6 +529,10 @@ public class 六十七点五新测试0804_2 {
         //出口相椭圆
         PhaseSpaceParticle.plot2dXXCParticlesInPhaseSpace(
                 particles, referredParticle, endCoordinateSystem3d, Plot2d.RED_POINT);
+        //拟合椭圆
+        Vector2d.fitEllipse(PhaseSpaceParticle.particlesInPhaseSpaceXXC(particles, referredParticle, endCoordinateSystem3d));
+
+        //我需要知道椭圆参数。只需呀particles, referredParticle, endCoordinateSystem3d
 
 
     }
@@ -369,7 +558,7 @@ public class 六十七点五新测试0804_2 {
         double inteB = 0.0;
 
         int i = 0;
-        List<Vector3d> traj = new ArrayList<>((int)(LENGTH/STEP)+100);
+        List<Vector3d> traj = new ArrayList<>((int) (LENGTH / STEP) + 100);
         while (particle.distance < LENGTH) {
             //画图
 //            if (i++ % number == 0) {
@@ -386,13 +575,13 @@ public class 六十七点五新测试0804_2 {
             particle.runSelf(magnet, STEP);
         }
 
-        Plot3d.plot3(traj.toArray(Vector3d[]::new),Plot2d.RED_DASH);
+        Plot3d.plot3(traj.toArray(Vector3d[]::new), Plot2d.RED_DASH);
 
         //最后粒子的方向
         final Vector2d endDierct = Vector2d.copyOne(Vector3d.vector3dTo2d(particle.velocity));
 
-//        System.out.println("粒子最后运动方向：" + particle.velocity.setLengthAndReturn(1.0));
-//        System.out.println("粒子偏转角度：" + AngleToRadian.reverse(Vector2d.angle(startDierct, endDierct)));
+        System.out.println("粒子最后运动方向：" + particle.velocity.setLengthAndReturn(1.0));
+        System.out.println("粒子偏转角度：" + AngleToRadian.reverse(Vector2d.angle(startDierct, endDierct)));
         return AngleToRadian.reverse(Vector2d.angle(startDierct, endDierct));
 //        System.out.println("粒子轨迹上感受的积分场：" + inteB);
 //        System.out.println("出口粒子z坐标(理论值0.0)：" + particle.position.z);
@@ -804,25 +993,30 @@ public class 六十七点五新测试0804_2 {
                 AnalyseCCT.magnetZeAlongTrajectory(allCCTs, trajectory), Plot2d.BLACK_LINE);
         //硬板模型
 //                Plot2d.plotGREY_DASH(
-//                        Vector2d.getOne(-EDGE_ANGLE, 0.0),
-//                        Vector2d.getOne(0.0, 0.0),
-//                        Vector2d.getOne(0.0, -2.43),
-//                        Vector2d.getOne(ANGLE_675, -2.43),
-//                        Vector2d.getOne(ANGLE_675, 0.0),
-//                        Vector2d.getOne(EDGE_ANGLE + ANGLE_675, 0.0)
+//                        Vector2d.getByStartAndEnd(-EDGE_ANGLE, 0.0),
+//                        Vector2d.getByStartAndEnd(0.0, 0.0),
+//                        Vector2d.getByStartAndEnd(0.0, -2.43),
+//                        Vector2d.getByStartAndEnd(ANGLE_675, -2.43),
+//                        Vector2d.getByStartAndEnd(ANGLE_675, 0.0),
+//                        Vector2d.getByStartAndEnd(EDGE_ANGLE + ANGLE_675, 0.0)
 //                );
     }
 
-    private static AllCCTs getAllCCTsFor675() {
+    public static AllCCTs getAllCCTsFor675() {
         final AllCCTs allCCTs = new AllCCTs();
         allCCTs.add(cct1());
         allCCTs.add(cct2());
-        allCCTs.add(cct3());
-        allCCTs.add(cct4());
+//        allCCTs.add(cct3());
+//        allCCTs.add(cct4());
+
 
 //        System.out.println("allCCTs.size() = " + allCCTs.size());
 
         return allCCTs;
+    }
+
+    public static Vector3d getMidpoint3d() {
+        return midpoint3d;
     }
 
     private static SingleLayerDiscreteCCTs cct1() {
@@ -890,17 +1084,17 @@ public class 六十七点五新测试0804_2 {
             //
             //        //---------------------------11&12连接-----------------------
             //        ConnectionSegmentOfCCT connect12 = CurvedCCTAnalysis.connect(dcct1, dcct2,
-            //                0.2, Vector2d.getOne(0, 0.001),
+            //                0.2, Vector2d.getByStartAndEnd(0, 0.001),
             //                0.3, Math.PI / 180.0 * 10, Math.PI / 18000);
             //        //---------------------------12&13连接/ 34连接 45连接-----------------------
             //        ConnectionSegmentOfCCT connect23 = CurvedCCTAnalysis.connect(dcct2, dcct3,
-            //                0.2, Vector2d.getOne(0, -0.002),
+            //                0.2, Vector2d.getByStartAndEnd(0, -0.002),
             //                0.3, Math.PI / 180.0 * 30.0, Math.PI / 18000);
             //        ConnectionSegmentOfCCT connect34 = CurvedCCTAnalysis.connect(dcct3, dcct4,
-            //                0.2, Vector2d.getOne(0, 0.001),
+            //                0.2, Vector2d.getByStartAndEnd(0, 0.001),
             //                0.3, Math.PI / 180.0 * 10, Math.PI / 18000);
             //        ConnectionSegmentOfCCT connect45 = CurvedCCTAnalysis.connect(dcct4, dcct5,
-            //                0.2, Vector2d.getOne(0, -0.002),
+            //                0.2, Vector2d.getByStartAndEnd(0, -0.002),
             //                0.3, Math.PI / 180.0 * 30.0, Math.PI / 18000);
             //
             //        SingleLayerDiscreteCCTs singleLayerDiscreteCCTs = new SingleLayerDiscreteCCTs(I1,

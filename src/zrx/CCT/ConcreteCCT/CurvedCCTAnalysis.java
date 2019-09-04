@@ -4,8 +4,8 @@ import org.apache.commons.math3.util.FastMath;
 import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.Tools.ArrayMerge;
 import zrx.Tools.InterpolationOfPolarCoordinate;
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 
 /**
  * 弯曲 CCT 分析

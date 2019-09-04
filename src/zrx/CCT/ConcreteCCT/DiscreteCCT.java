@@ -1,8 +1,8 @@
 package zrx.CCT.ConcreteCCT;
 
 import zrx.CCT.abstractCCT.CurvedCCT;
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 

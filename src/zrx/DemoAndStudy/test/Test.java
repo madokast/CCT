@@ -3,8 +3,8 @@ package zrx.DemoAndStudy.test;
 import zrx.CCT.*;
 import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.Tools.InterpolationOfPolarCoordinate;
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 import zrx.CCT.CCTPlot;
 import zrx.python.Plot2d;
 import zrx.python.Plot3d;
@@ -132,16 +132,16 @@ public class Test {
     private static void 坐标转换法磁场验收() {
         CurvedCCT cct = new CurvedCCT(1, 3, 5e-2, 35, 100, Math.PI / 6.0, 2, Math.PI / 180.0);
 
-//        System.out.println("cct.magnetDeprecated(Vector3d.getZeros()) = " + cct.magnetDeprecated(Vector3d.getZeros()));
-//        cct.magnetDeprecated(Vector3d.getZeros()) = [-7.242430919427373E-6 6.010054595058614E-6 1.8866375020472344E-5]
+//        System.out.println("cct.magnetDeprecated(Vector3d.getZero()) = " + cct.magnetDeprecated(Vector3d.getZero()));
+//        cct.magnetDeprecated(Vector3d.getZero()) = [-7.242430919427373E-6 6.010054595058614E-6 1.8866375020472344E-5]
 
         Vector2d[] cct12d = cct.pointsOnKsiPhiCoordinateSystem();
         Plot2d.plot2(cct12d);
         Vector3d[] cct13d = cct.coordinateSystemTransformateFromKsiPhiToXYZ(cct12d);
         Plot3d.plot3(cct13d);
 
-        System.out.println("Magnet.magnetAtPoint(cct13d,cct.getI(),Vector3d.getZeros()) = " + Magnet.magnetAtPoint(cct13d, cct.getI(), Vector3d.getZeros()));
-//        Magnet.magnetAtPoint(cct13d,cct.getI(),Vector3d.getZeros()) = [-7.242430919427373E-6 6.010054595058614E-6 1.8866375020472344E-5]
+        System.out.println("Magnet.magnetAtPoint(cct13d,cct.getI(),Vector3d.getZero()) = " + Magnet.magnetAtPoint(cct13d, cct.getI(), Vector3d.getZeros()));
+//        Magnet.magnetAtPoint(cct13d,cct.getI(),Vector3d.getZero()) = [-7.242430919427373E-6 6.010054595058614E-6 1.8866375020472344E-5]
 
 //        System.out.println("cct13d.length = " + cct13d.length);
 //        cct13d.length = 12601 成了

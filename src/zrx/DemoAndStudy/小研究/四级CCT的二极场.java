@@ -5,19 +5,12 @@ import zrx.CCT.ConcreteCCT.DiscreteCCT;
 import zrx.CCT.NoLinkedCCT;
 import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.Tools.AngleToRadian;
-import zrx.Tools.Persistence;
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 import zrx.python.Plot2d;
-import zrx.python.Plot3d;
 
-import java.awt.font.GlyphJustificationInfo;
-import java.lang.management.PlatformLoggingMXBean;
-import java.nio.file.NotLinkException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
-import java.util.PrimitiveIterator;
 
 public class 四级CCT的二极场 {
     private static final double ANGLE = 30;
@@ -58,7 +51,7 @@ public class 四级CCT的二极场 {
             //计算二极场
             //轨迹
             Vector3d[] traj = Vector3d.vector2dTo3d(Vector2d.arc(
-                    Vector2d.getZeros(),R,AngleToRadian.to(-EDGE_ANG),AngleToRadian.to(ANGLE+EDGE_ANG),false,stepKsi
+                    Vector2d.getZero(),R,AngleToRadian.to(-EDGE_ANG),AngleToRadian.to(ANGLE+EDGE_ANG),false,stepKsi
             ));
             Vector3d[] path001 = Vector3d.move(traj,Vector3d.vector2dTo3d(Vector2d.rayForPolarAngle(ANGLE/2)),0.01);
 

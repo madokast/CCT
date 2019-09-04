@@ -1,6 +1,6 @@
 package zrx.CCT;
 
-import zrx.base.Vector3d;
+import zrx.base.point.Vector3d;
 import zrx.python.Plot3d;
 
 /**

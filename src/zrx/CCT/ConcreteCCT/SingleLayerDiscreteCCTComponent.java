@@ -1,7 +1,7 @@
 package zrx.CCT.ConcreteCCT;
 
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 
 /**
  * 为了计算的方便，需要把 DiscreteCCT cct离散类，以及 ConnectionSegmentOfCCT cct连接段类组合起来

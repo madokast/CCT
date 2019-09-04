@@ -2,12 +2,11 @@ package zrx.CCT;
 
 import zrx.CCT.ConcreteCCT.AllCCTs;
 import zrx.Tools.Numpy;
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 import zrx.beam.RunningParticle;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 专用于各种CCT分析 工具类函数

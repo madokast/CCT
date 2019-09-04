@@ -1,14 +1,13 @@
-package zrx.base;
+package zrx.base.point;
 
 import zrx.Tools.Equal;
 import zrx.Tools.Numpy;
 import zrx.Tools.PrintArray;
+import zrx.base.Constants;
 import zrx.python.Plot3d;
 
 import java.io.Serializable;
-import java.rmi.ServerError;
 import java.util.List;
-import java.util.SplittableRandom;
 
 /**
  * 三维矢量
@@ -268,8 +267,7 @@ public class Vector3d implements Serializable {
         return new Vector3d(v2.x, v2.y, 0.0);
     }
 
-    public static Vector3d vector2dTo3d(Vector2d v2,Vector2dTo3d vector2dTo3d)
-    {
+    public static Vector3d vector2dTo3d(Vector2d v2, Vector2dTo3d vector2dTo3d) {
         return vector2dTo3d.functioon(v2);
     }
 
@@ -282,10 +280,10 @@ public class Vector3d implements Serializable {
         return v3s;
     }
 
-    public static Vector3d[] vector2dTo3d(Vector2d[] v2s,Vector2dTo3d vector2dTo3d) {
+    public static Vector3d[] vector2dTo3d(Vector2d[] v2s, Vector2dTo3d vector2dTo3d) {
         Vector3d[] v3s = new Vector3d[v2s.length];
         for (int i = 0; i < v3s.length; i++) {
-            v3s[i] = vector2dTo3d(v2s[i],vector2dTo3d);
+            v3s[i] = vector2dTo3d(v2s[i], vector2dTo3d);
         }
 
         return v3s;
@@ -295,14 +293,14 @@ public class Vector3d implements Serializable {
         return Vector2d.getOne(v3.x, v3.y);
     }
 
-    public static Vector2d Vector3dTo2d(Vector3d v3,Vector3dTo2d vector3dTo2d){
+    public static Vector2d Vector3dTo2d(Vector3d v3, Vector3dTo2d vector3dTo2d) {
         return vector3dTo2d.function(v3);
     }
 
-    public static Vector2d[] Vector3dTo2d(Vector3d[] v3,Vector3dTo2d vector3dTo2d){
+    public static Vector2d[] Vector3dTo2d(Vector3d[] v3, Vector3dTo2d vector3dTo2d) {
         final Vector2d[] v2 = new Vector2d[v3.length];
         for (int i = 0; i < v2.length; i++) {
-            v2[i] = Vector3dTo2d(v3[i],vector3dTo2d);
+            v2[i] = Vector3dTo2d(v3[i], vector3dTo2d);
         }
 
         return v2;
@@ -315,7 +313,7 @@ public class Vector3d implements Serializable {
         this.z = this.z * length;
     }
 
-    public Vector3d setLengthAndReturn(double length){
+    public Vector3d setLengthAndReturn(double length) {
         this.setLength(length);
         return this;
     }
@@ -323,27 +321,33 @@ public class Vector3d implements Serializable {
     /**
      * 2019年7月16日 出现重大bug
      * 大bug!!!
+     *
      * @param sourcePoint 原点
-     * @param direct 方向
-     * @param length 长度
+     * @param direct      方向
+     * @param length      长度
      * @return
      */
     public static Vector3d move(Vector3d sourcePoint, Vector3d direct, double length) {
         /**
          * 发现了重大bug。length=0，0，0 的大 bug
          */
-        if(Equal.isEqual(length,0.0))
+        if (Equal.isEqual(length, 0.0))
             return sourcePoint;
+
+        /**
+         * 又发现重大bug direct=0, 0, 0的情况
+         */
+        if(Equal.isEqual(direct,Vector3d.getZeros())){
+            return sourcePoint;
+        }
 
         direct.setLength(Math.abs(length));
 
-        if(length>0){
-            return Vector3d.add(sourcePoint,direct);
-        }
-        else if(length<0){
-            return Vector3d.subtract(sourcePoint,direct);
-        }
-        else{
+        if (length > 0) {
+            return Vector3d.add(sourcePoint, direct);
+        } else if (length < 0) {
+            return Vector3d.subtract(sourcePoint, direct);
+        } else {
             System.err.println("有问题!public static Vector3d move");
             return sourcePoint;
         }
@@ -351,24 +355,51 @@ public class Vector3d implements Serializable {
 
     }
 
-    public static Vector3d[] move(final Vector3d[] sourcePoints,final Vector3d direct, double length){
+    public static Vector3d[] move(final Vector3d[] sourcePoints, final Vector3d direct, double length) {
         Vector3d[] vector3ds = new Vector3d[sourcePoints.length];
         for (int i = 0; i < vector3ds.length; i++) {
-            vector3ds[i] = move(sourcePoints[i],direct,length);
+            vector3ds[i] = move(sourcePoints[i], direct, length);
         }
 
         return vector3ds;
     }
 
     /**
+     * 复制并绕原点在XY轴上旋转
+     *
+     * @param p          原来的点
+     * @param polarAngle 旋转角
+     * @return 复制并旋转后的点
+     */
+    public static Vector3d copyAndRotateXY(Vector3d p, double polarAngle) {
+        final Vector2d rotate2d = Vector2d.rotate(Vector2d.getOne(p.x, p.y), polarAngle);
+
+        return Vector3d.getOne(
+                rotate2d.x,
+                rotate2d.y,
+                p.z
+        );
+    }
+
+    public static Vector3d[] copyAndRotateXY(Vector3d[] ps, double polarAngle){
+        final Vector3d[] ans = new Vector3d[ps.length];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = copyAndRotateXY(ps[i],polarAngle);
+        }
+
+        return ans;
+    }
+
+    /**
      * lisy变数组
+     *
      * @param v3s List<Vector3d>
      * @return Vector3d[]
      */
-    public static Vector3d[] listToArray(List<Vector3d> v3s){
+    public static Vector3d[] listToArray(List<Vector3d> v3s) {
         final Vector3d[] vector3ds = new Vector3d[v3s.size()];
         for (int i = 0; i < vector3ds.length; i++) {
-            vector3ds[i]=v3s.get(i);
+            vector3ds[i] = v3s.get(i);
         }
 
         return vector3ds;
@@ -378,13 +409,14 @@ public class Vector3d implements Serializable {
      * 均匀插值。
      * 如传入(0,0,0)、(1,0,0)、3
      * 返回{(0,0,0)、(1/2,0,0)、(1,0,0)}
+     *
      * @param start 起点
-     * @param end 终点
-     * @param num 数目
+     * @param end   终点
+     * @param num   数目
      * @return 插值数组
      */
-    public static Vector3d[] interpolation(Vector3d start,Vector3d end,int num){
-        if(num<3){
+    public static Vector3d[] interpolation(Vector3d start, Vector3d end, int num) {
+        if (num < 3) {
             System.err.println("error in Vector3d[] interpolation");
             System.err.println("插值数目过少");
             System.exit(-1);
@@ -393,45 +425,47 @@ public class Vector3d implements Serializable {
         final double[] ys = Numpy.linspace(start.y, end.y, num);
         final double[] zs = Numpy.linspace(start.z, end.z, num);
 
-        return triArrayToVector3ds(xs,ys,zs);
+        return triArrayToVector3ds(xs, ys, zs);
     }
 
     /**
      * 均匀插值。这里专用于直线轨道的生成
-     * @param start 起点
+     *
+     * @param start  起点
      * @param direct 方向
      * @param length 长度
-     * @param num 离散点数
+     * @param num    离散点数
      * @return 离散轨道
      */
-    public static Vector3d[] interpolation(Vector3d start,Vector3d direct,double length,int num){
+    public static Vector3d[] interpolation(Vector3d start, Vector3d direct, double length, int num) {
         final Vector3d end = Vector3d.add(start,
-                Vector3d.dot(length,direct.setLengthAndReturn(1.0))
+                Vector3d.dot(length, direct.setLengthAndReturn(1.0))
         );
 
-        return interpolation(start,end,num);
+        return interpolation(start, end, num);
     }
 
     /**
      * 单独数组得到Vector3d[]
+     *
      * @param xs xs
      * @param ys yz
      * @param zs zs
      * @return Vector3d[]
      */
-    public static Vector3d[] triArrayToVector3ds(double[] xs,double[] ys,double[] zs){
+    public static Vector3d[] triArrayToVector3ds(double[] xs, double[] ys, double[] zs) {
         int len = Math.min(zs.length,
-                Math.min(xs.length,ys.length));
+                Math.min(xs.length, ys.length));
 
         Vector3d[] v3s = new Vector3d[len];
         for (int i = 0; i < len; i++) {
-            v3s[i]=Vector3d.getOne(xs[i],ys[i],zs[i]);
+            v3s[i] = Vector3d.getOne(xs[i], ys[i], zs[i]);
         }
 
         return v3s;
     }
 
-    public static boolean isParallel(Vector3d v1,Vector3d v2){
+    public static boolean isParallel(Vector3d v1, Vector3d v2) {
         Equal.requireNonzero(v1.length());
         Equal.requireNonzero(v2.length());
 
@@ -441,70 +475,79 @@ public class Vector3d implements Serializable {
         vv1.setLength(1.0);
         vv2.setLength(1.0);
 
-//        if(Equal.isEqual(getZeros(),Vector3d.add(vv1,vv2)))
+//        if(Equal.isEqual(getZero(),Vector3d.add(vv1,vv2)))
 //            return true;
 //
-//        if(Equal.isEqual(getZeros(),Vector3d.subtract(vv1,vv2)))
+//        if(Equal.isEqual(getZero(),Vector3d.subtract(vv1,vv2)))
 //            return true;
 //
 //        return false;
 
         //我要是写成它提示的那样子，就不好懂了吧
 
-        return Equal.isEqual(getZeros(),Vector3d.add(vv1,vv2))||Equal.isEqual(getZeros(),Vector3d.subtract(vv1,vv2));
+        return Equal.isEqual(getZeros(), Vector3d.add(vv1, vv2)) || Equal.isEqual(getZeros(), Vector3d.subtract(vv1, vv2));
     }
 
-    public static Vector3d getOne(double x,double y,double z){
-        return new Vector3d(x,y,z);
+    public static Vector3d getOne(double x, double y, double z) {
+        return new Vector3d(x, y, z);
     }
 
-    public static Vector3d getOne(double x,double y){
-        return getOne(x,y,0);
+    public static Vector3d getOne(double x, double y) {
+        return getOne(x, y, 0);
     }
 
-    public static Vector3d getOne(Vector2d vector2d){
-        return getOne(vector2d.x,vector2d.y,0);
+    public static Vector3d getOne(Vector2d vector2d) {
+        return getOne(vector2d.x, vector2d.y, 0);
     }
 
-    public static Vector3d getOne(final Vector3d vct,double length){
+    public static Vector3d getOne(final Vector3d vct, double length) {
         return new Vector3d(vct).setLengthAndReturn(length);
     }
 
-    public static Vector3d copyOne(Vector3d v){
-        return getOne(v.x,v.y,v.z);
+    public static Vector3d copyOne(Vector3d v) {
+        return getOne(v.x, v.y, v.z);
     }
 
-    public static Vector3d getXDirect(double x){
-        return getOne(x,0,0);
+    public static Vector3d[] copyOnes(Vector3d[] vs){
+        final Vector3d[] ans = new Vector3d[vs.length];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = copyOne(vs[i]);
+        }
+        return ans;
     }
 
-    public static Vector3d getXDirect(){
+    public static Vector3d getXDirect(double x) {
+        return getOne(x, 0, 0);
+    }
+
+    public static Vector3d getXDirect() {
         return getXDirect(1);
     }
 
-    public static Vector3d getYDirect(double y){
-        return getOne(0,y,0);
+    public static Vector3d getYDirect(double y) {
+        return getOne(0, y, 0);
     }
 
-    public static Vector3d getYDirect(){
+    public static Vector3d getYDirect() {
         return getYDirect(1);
     }
 
-    public static Vector3d getZDirect(double z){
-        return getOne(0,0,z);
+    public static Vector3d getZDirect(double z) {
+        return getOne(0, 0, z);
     }
 
-    public static Vector3d getZDirect(){
+    public static Vector3d getZDirect() {
         return getZDirect(1);
     }
 
     /**
      * 投影到xy平面
      * 即(x,y,z)->(x,y,0)
+     *
      * @return Vector2d
      */
-    public Vector2d projectToXY(){
-        return Vector2d.getOne(this.x,this.y);
+    public Vector2d projectToXY() {
+        return Vector2d.getOne(this.x, this.y);
     }
 
     @Override
@@ -536,13 +579,13 @@ public class Vector3d implements Serializable {
 
         System.out.println("isParallel(getXDirect(),getYDirect()) = " + isParallel(getXDirect(), getYDirect()));
 
-        isParallel(getXDirect(),getZeros());
+        isParallel(getXDirect(), getZeros());
     }
 
     private static void test4() {
         final Vector3d[] interpolation = interpolation(
                 Vector3d.getZeros(),
-                Vector3d.getOne(1,2,3),
+                Vector3d.getOne(1, 2, 3),
                 5
         );
 

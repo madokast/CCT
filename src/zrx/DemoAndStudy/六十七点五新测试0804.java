@@ -1,29 +1,25 @@
 package zrx.DemoAndStudy;
 
-import org.apache.commons.math3.analysis.solvers.NewtonRaphsonSolver;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
 import zrx.CCT.AnalyseCCT;
 import zrx.CCT.ConcreteCCT.*;
-import zrx.CCT.Magnet;
 import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.ODE.FirstOrderEquations;
 import zrx.Tools.*;
 import zrx.base.CoordinateSystem3d;
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 import zrx.beam.ParticleFactory;
 import zrx.beam.PhaseSpaceParticle;
 import zrx.beam.RunningParticle;
 import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 
-import javax.swing.plaf.metal.MetalIconFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * layer1 1   AG-CCT
@@ -124,12 +120,12 @@ public class 六十七点五新测试0804 {
         midpoint3d = Vector3d.vector2dTo3d(
                 Vector2d.rayForPolarAngle(ANGLERadian_675 / 2.0).changeLengthAndReturn(R_beamline));
         trajectory = Vector3d.vector2dTo3d(
-                Vector2d.arc(Vector2d.getZeros(), R_beamline,
+                Vector2d.arc(Vector2d.getZero(), R_beamline,
                         -EDGE_RADIAN, ANGLERadian_675 + EDGE_RADIAN, false, STEP_KSI));
         trajectoryNEW = ArrayMerge.merge(
                 Vector3d.interpolation(Vector3d.getOne(1, -1, 0), Vector3d.getOne(1, 0, 0), 500),
                 Vector3d.vector2dTo3d(
-                        Vector2d.arc(Vector2d.getZeros(), R_beamline,
+                        Vector2d.arc(Vector2d.getZero(), R_beamline,
                                 0.0, ANGLERadian_675, false, STEP_KSI)),
                 Vector3d.interpolation(Vector3d.getOne(Math.cos(ANGLERadian_675),
                         Math.sin(ANGLERadian_675), 0),
@@ -148,13 +144,22 @@ public class 六十七点五新测试0804 {
     public static void main(String[] args) throws Exception {
         final AllCCTs allCCTs = getAllCCTsFor675();
 
+//        Plot3d.plot3(
+//                Vector3d.vector2dTo3d(Vector2d.arc(Vector2d.getZero(),R_CCT,-0.5,2,false,STEP_KSI))
+//                ,Plot2d.BLACK_LINE);
+//        Plot3d.plot3(
+//                Vector3d.vector2dTo3d(Vector2d.arc(Vector2d.getZero(),R_beamline,-0.5,2,false,STEP_KSI))
+//                ,Plot2d.BLUE_LINE);
+
+
+
 //        Plot3d.plot3(trajectory, Plot2d.BLACK_LINE);
-        Plot3d.plot3(trajectoryNEW, Plot2d.BLACK_LINE);
+//        Plot3d.plot3(trajectoryNEW, Plot2d.BLACK_LINE);
 
         //轴向基本磁场计算
 //        zDirectMagnetBasic(allCCTs);
         //轴向各极场分布
-//        zDirectComponent0123(allCCTs, 0,Plot2d.BLACK_LINE);
+//        zDirectComponent0123(allCCTs, 0,Plot2d.BLUE_LINE);
 //        zDirectComponent0123(allCCTs, 1, Plot2d.RED_LINE);
         //trajectoryNEW轨道上二极场积分场
 //        IntegralFieldNEW(allCCTs);
@@ -167,16 +172,23 @@ public class 六十七点五新测试0804 {
         //传输矩阵
 //        transportMatrix(allCCTs);
         //单粒子跟踪
-//        particleTracking(allCCTs);
+//        particleTracking(allCCTs,250);
         //相椭圆跟踪
-//        ellipseTracking(allCCTs);
-        尝试优化1();
+        ellipseTracking(allCCTs);
+//        尝试优化1();
 
 
 //        allCCTs.plot3d();
-        Plot3d.setCube(1.0);
-        Plot3d.showThread();
-        Plot2d.equal();
+//        Plot3d.setCube(1.0);
+        Plot3d.setCenter(Vector3d.getOne(1,0,0),3);
+        Plot3d.removeAxis();
+//        Plot3d.showThread();
+//        Plot2d.equal();
+
+
+//        Plot2d.xLabel("Bending Angle/rad");
+//        Plot2d.yLabel("B/T");
+        Plot2d.setCube(60);
         Plot2d.showThread();
     }
 
@@ -270,12 +282,13 @@ public class 六十七点五新测试0804 {
         // 1-x 2-y
         final int flag = 1;
         //生成粒子数目
-        final int number = 12;
+        final int number = 48;
         //粒子局部坐标系
         final CoordinateSystem3d startCoordinateSystem3d = CoordinateSystem3d.getOneByYZ(
                 Vector3d.getZDirect(), Vector3d.getYDirect());
         //每个粒子的运动长度
-        final double LENGTH = 1.0 * 2 + 67.5 / 180.0 * Math.PI;
+//        final double LENGTH = 1.0 * 2 + 67.5 / 180.0 * Math.PI;
+        final double LENGTH = 1.0 + ANGLERadian_675 *0.8;
         //步长
         final double STEP = 1.0 * MM;
         //threads
@@ -300,16 +313,17 @@ public class 六十七点五新测试0804 {
             case 1:
                 for (int i = 0; i < number; i++) {
                     particles[i].deploy(startCoordinateSystem3d, ellipsePoints[i].x, ellipsePoints[i].y, 0, 0, 0);
-                    Plot3d.plot3Particle(particles[i], 0.1);
+//                    Plot3d.plot3Particle(particles[i], 0.1);
                 }
                 break;
             case 2:
                 break;
         }
 
-        //初始相椭圆
-        PhaseSpaceParticle.plot2dXXCParticlesInPhaseSpace(
-                particles, referredParticle, startCoordinateSystem3d, Plot2d.YELLOW_POINT);
+        //初始相椭圆！！！！！！！
+//        PhaseSpaceParticle.plot2dXXCParticlesInPhaseSpace(
+//                particles, referredParticle, startCoordinateSystem3d, Plot2d.YELLOW_POINT);
+
 //        for (RunningParticle particle : particles) {
 //            final PhaseSpaceParticle phaseSpaceParticle = particle.phaseSpaceParticle(
 //                    startCoordinateSystem3d, referredParticle);
@@ -341,6 +355,8 @@ public class 六十七点五新测试0804 {
         //出口相椭圆
         PhaseSpaceParticle.plot2dXXCParticlesInPhaseSpace(
                 particles, referredParticle, endCoordinateSystem3d, Plot2d.RED_POINT);
+        Plot2d.xLabel("x/mm");
+        Plot2d.yLabel("x\'/mrad");
 //        for (RunningParticle particle : particles) {
 //            final PhaseSpaceParticle phaseSpaceParticle = particle.phaseSpaceParticle(
 //                    endCoordinateSystem3d, referredParticle);
@@ -580,6 +596,10 @@ public class 六十七点五新测试0804 {
 
         final double sStart = 0.0;
         final double sEnd = 2 + 67.5 / 180.0 * Math.PI;
+        final double minStep = 1.0e-5;
+        final double maxStep = 0.1;
+        final double scalAbsoluteTolerance = 1.0e-3;
+        final double scalRelativeTolerance = 1.0e-3;
 
         final Map<String, Double> matrix = new HashMap<>();
 
@@ -587,7 +607,7 @@ public class 六十七点五新测试0804 {
         final Thread thread1121 = new Thread(() -> {
             double[] y0 = new double[]{1.0, 0, 0, 0};
             final FirstOrderIntegrator integrator = new DormandPrince853Integrator(
-                    1.0e-5, 0.1, 1.0e-3, 1.0e-3);
+                    minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
             integrator.integrate(ode00, sStart, y0, sEnd, y0);
             synchronized (matrix) {
                 matrix.put("r11", y0[0]);
@@ -598,7 +618,7 @@ public class 六十七点五新测试0804 {
         final Thread thread1222 = new Thread(() -> {
             double[] y0 = new double[]{0.0, 1.0, 0, 0};
             final FirstOrderIntegrator integrator = new DormandPrince853Integrator(
-                    1.0e-5, 0.1, 1.0e-3, 1.0e-3);
+                    minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
             integrator.integrate(ode00, sStart, y0, sEnd, y0);
             synchronized (matrix) {
                 matrix.put("r12", y0[0]);
@@ -609,7 +629,7 @@ public class 六十七点五新测试0804 {
         final Thread thread3343 = new Thread(() -> {
             double[] y0 = new double[]{0.0, 0.0, 1.0, 0};
             final FirstOrderIntegrator integrator = new DormandPrince853Integrator(
-                    1.0e-5, 0.1, 1.0e-3, 1.0e-3);
+                    minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
             integrator.integrate(ode00, sStart, y0, sEnd, y0);
             synchronized (matrix) {
                 matrix.put("r33", y0[2]);
@@ -620,7 +640,7 @@ public class 六十七点五新测试0804 {
         final Thread thread3444 = new Thread(() -> {
             double[] y0 = new double[]{0.0, 0.0, 0.0, 1.0};
             final FirstOrderIntegrator integrator = new DormandPrince853Integrator(
-                    1.0e-5, 0.1, 1.0e-3, 1.0e-3);
+                    minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
             integrator.integrate(ode00, sStart, y0, sEnd, y0);
             synchronized (matrix) {
                 matrix.put("r34", y0[2]);
@@ -631,7 +651,7 @@ public class 六十七点五新测试0804 {
         final Thread thread1626 = new Thread(() -> {
             double[] y0 = new double[]{0.0, 0.0, 0.0, 0.0};
             final FirstOrderIntegrator integrator = new DormandPrince853Integrator(
-                    1.0e-5, 0.1, 1.0e-3, 1.0e-3);
+                    minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
             integrator.integrate(ode10, sStart, y0, sEnd, y0);
             synchronized (matrix) {
                 matrix.put("r16", y0[0]);
@@ -728,25 +748,25 @@ public class 六十七点五新测试0804 {
         Plot2d.plot2(ans, describe);
 
         //画理想四极场分布
-        if (degree == 1) {
-            double g = 42.97;
-            Plot2d.plotGREY_DASH(
-                    Vector2d.getOne(-EDGE_ANGLE, 0.0),
-                    Vector2d.getOne(0.0, 0.0),
-                    Vector2d.getOne(0.0, g),
-                    Vector2d.getOne(ANGLE_675 * (double) N12_OUT / (double) N34, g),
-                    Vector2d.getOne(ANGLE_675 * (double) N12_OUT / (double) N34, -g),
-                    Vector2d.getOne(ANGLE_675 * (double) (N12_OUT + N12_MID) / (double) N34, -g),
-                    Vector2d.getOne(ANGLE_675 * (double) (N12_OUT + N12_MID) / (double) N34, g),
-                    Vector2d.getOne(ANGLE_675 * (double) (N12_OUT + N12_MID + N12_IN) / (double) N34, g),
-                    Vector2d.getOne(ANGLE_675 * (double) (N12_OUT + N12_MID + N12_IN) / (double) N34, -g),
-                    Vector2d.getOne(ANGLE_675 * (double) (N12_OUT + N12_MID * 2 + N12_IN) / (double) N34, -g),
-                    Vector2d.getOne(ANGLE_675 * (double) (N12_OUT + N12_MID * 2 + N12_IN) / (double) N34, g),
-                    Vector2d.getOne(ANGLE_675 * (double) (N12_OUT * 2 + N12_MID * 2 + N12_IN) / (double) N34, g),
-                    Vector2d.getOne(ANGLE_675 * (double) (N12_OUT * 2 + N12_MID * 2 + N12_IN) / (double) N34, 0),
-                    Vector2d.getOne(ANGLE_675 * (double) (N12_OUT * 2 + N12_MID * 2 + N12_IN) / (double) N34 + EDGE_ANGLE, 0)
-            );
-        }
+//        if (degree == 1) {
+//            double g = 42.97;
+//            Plot2d.plotGREY_DASH(
+//                    Vector2d.getByStartAndEnd(-EDGE_ANGLE, 0.0),
+//                    Vector2d.getByStartAndEnd(0.0, 0.0),
+//                    Vector2d.getByStartAndEnd(0.0, g),
+//                    Vector2d.getByStartAndEnd(ANGLE_675 * (double) N12_OUT / (double) N34, g),
+//                    Vector2d.getByStartAndEnd(ANGLE_675 * (double) N12_OUT / (double) N34, -g),
+//                    Vector2d.getByStartAndEnd(ANGLE_675 * (double) (N12_OUT + N12_MID) / (double) N34, -g),
+//                    Vector2d.getByStartAndEnd(ANGLE_675 * (double) (N12_OUT + N12_MID) / (double) N34, g),
+//                    Vector2d.getByStartAndEnd(ANGLE_675 * (double) (N12_OUT + N12_MID + N12_IN) / (double) N34, g),
+//                    Vector2d.getByStartAndEnd(ANGLE_675 * (double) (N12_OUT + N12_MID + N12_IN) / (double) N34, -g),
+//                    Vector2d.getByStartAndEnd(ANGLE_675 * (double) (N12_OUT + N12_MID * 2 + N12_IN) / (double) N34, -g),
+//                    Vector2d.getByStartAndEnd(ANGLE_675 * (double) (N12_OUT + N12_MID * 2 + N12_IN) / (double) N34, g),
+//                    Vector2d.getByStartAndEnd(ANGLE_675 * (double) (N12_OUT * 2 + N12_MID * 2 + N12_IN) / (double) N34, g),
+//                    Vector2d.getByStartAndEnd(ANGLE_675 * (double) (N12_OUT * 2 + N12_MID * 2 + N12_IN) / (double) N34, 0),
+//                    Vector2d.getByStartAndEnd(ANGLE_675 * (double) (N12_OUT * 2 + N12_MID * 2 + N12_IN) / (double) N34 + EDGE_ANGLE, 0)
+//            );
+//        }
 
 
         return ans;
@@ -800,12 +820,12 @@ public class 六十七点五新测试0804 {
                 AnalyseCCT.magnetZeAlongTrajectory(allCCTs, trajectory), Plot2d.BLACK_LINE);
         //硬板模型
 //                Plot2d.plotGREY_DASH(
-//                        Vector2d.getOne(-EDGE_ANGLE, 0.0),
-//                        Vector2d.getOne(0.0, 0.0),
-//                        Vector2d.getOne(0.0, -2.43),
-//                        Vector2d.getOne(ANGLE_675, -2.43),
-//                        Vector2d.getOne(ANGLE_675, 0.0),
-//                        Vector2d.getOne(EDGE_ANGLE + ANGLE_675, 0.0)
+//                        Vector2d.getByStartAndEnd(-EDGE_ANGLE, 0.0),
+//                        Vector2d.getByStartAndEnd(0.0, 0.0),
+//                        Vector2d.getByStartAndEnd(0.0, -2.43),
+//                        Vector2d.getByStartAndEnd(ANGLE_675, -2.43),
+//                        Vector2d.getByStartAndEnd(ANGLE_675, 0.0),
+//                        Vector2d.getByStartAndEnd(EDGE_ANGLE + ANGLE_675, 0.0)
 //                );
     }
 
@@ -886,17 +906,17 @@ public class 六十七点五新测试0804 {
             //
             //        //---------------------------11&12连接-----------------------
             //        ConnectionSegmentOfCCT connect12 = CurvedCCTAnalysis.connect(dcct1, dcct2,
-            //                0.2, Vector2d.getOne(0, 0.001),
+            //                0.2, Vector2d.getByStartAndEnd(0, 0.001),
             //                0.3, Math.PI / 180.0 * 10, Math.PI / 18000);
             //        //---------------------------12&13连接/ 34连接 45连接-----------------------
             //        ConnectionSegmentOfCCT connect23 = CurvedCCTAnalysis.connect(dcct2, dcct3,
-            //                0.2, Vector2d.getOne(0, -0.002),
+            //                0.2, Vector2d.getByStartAndEnd(0, -0.002),
             //                0.3, Math.PI / 180.0 * 30.0, Math.PI / 18000);
             //        ConnectionSegmentOfCCT connect34 = CurvedCCTAnalysis.connect(dcct3, dcct4,
-            //                0.2, Vector2d.getOne(0, 0.001),
+            //                0.2, Vector2d.getByStartAndEnd(0, 0.001),
             //                0.3, Math.PI / 180.0 * 10, Math.PI / 18000);
             //        ConnectionSegmentOfCCT connect45 = CurvedCCTAnalysis.connect(dcct4, dcct5,
-            //                0.2, Vector2d.getOne(0, -0.002),
+            //                0.2, Vector2d.getByStartAndEnd(0, -0.002),
             //                0.3, Math.PI / 180.0 * 30.0, Math.PI / 18000);
             //
             //        SingleLayerDiscreteCCTs singleLayerDiscreteCCTs = new SingleLayerDiscreteCCTs(I1,

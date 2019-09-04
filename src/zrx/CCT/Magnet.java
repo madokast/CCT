@@ -1,8 +1,6 @@
 package zrx.CCT;
 
-import zrx.base.Vector3d;
-
-import java.util.logging.Level;
+import zrx.base.point.Vector3d;
 
 public class Magnet {
     /**

@@ -3,7 +3,7 @@ package zrx.ODE;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector3d;
 
 public abstract class FirstOrderEquations implements FirstOrderDifferentialEquations {
     public FirstOrderEquations(){}
@@ -35,7 +35,7 @@ public abstract class FirstOrderEquations implements FirstOrderDifferentialEquat
         // y2 = y
         // y3 = y'
 
-//        System.out.println("s = " + s);
+        System.out.println("s = " + s);
 
         final double h = getH(s);
         final double k = getK(s);

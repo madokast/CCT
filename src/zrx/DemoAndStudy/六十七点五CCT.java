@@ -1,9 +1,7 @@
 package zrx.DemoAndStudy;
 
 import Jama.Matrix;
-import org.apache.commons.math3.analysis.function.Min;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
-import org.apache.commons.math3.fitting.WeightedObservedPoint;
 import org.apache.commons.math3.fitting.WeightedObservedPoints;
 import zrx.CCT.ConcreteCCT.ConnectionSegmentOfCCT;
 import zrx.CCT.ConcreteCCT.CurvedCCTAnalysis;
@@ -12,8 +10,8 @@ import zrx.CCT.ConcreteCCT.SingleLayerDiscreteCCTs;
 import zrx.CCT.Magnet;
 import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.Tools.*;
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 import zrx.beam.ParticleFactory;
 import zrx.beam.RunningParticle;
 import zrx.python.Plot2d;
@@ -21,7 +19,6 @@ import zrx.python.Plot3d;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipEntry;
 
 import static zrx.Tools.Persistence.read;
 
@@ -96,7 +93,7 @@ public class 六十七点五CCT {
         Timer.invoke();
 
         //理想轨道
-        final Vector3d[] trajectory = Vector3d.vector2dTo3d(Vector2d.arc(Vector2d.getZeros(),
+        final Vector3d[] trajectory = Vector3d.vector2dTo3d(Vector2d.arc(Vector2d.getZero(),
                 R,
 //                0.9967,
                 AngleToRadian.to(-EDGE), AngleToRadian.to(angCCT + EDGE),
@@ -184,7 +181,7 @@ public class 六十七点五CCT {
                 for (int iNum = 0; iNum < NUM; iNum++) {
 //                    System.out.println("放入数据"+iNum);
                     points.add(displace[iNum], magnetLists[iNum].get(iTrajectory));
-//                    System.out.println(Vector2d.getOne(displace[iNum], magnetLists[iNum].get(iTrajectory)));
+//                    System.out.println(Vector2d.getByStartAndEnd(displace[iNum], magnetLists[iNum].get(iTrajectory)));
                 }
 
                 //开始拟合
@@ -485,7 +482,7 @@ public class 六十七点五CCT {
 
         Timer.invoke();
 //        Plot2d.xlim(-EDGE, 67.5 + EDGE);
-//        Plot3d.setCenter(Vector3d.getOne(1,0,0),2.0);
+//        Plot3d.setCenter(Vector3d.getByStartAndEnd(1,0,0),2.0);
         Plot3d.setCube(1.0);
         Plot3d.showThread();
         Plot2d.showThread();
@@ -601,7 +598,7 @@ public class 六十七点五CCT {
             ploe2.add(Vector2d.getOne(a, X.get(0, 0)));//x(0,0) 0次项目
             ploe4.add(Vector2d.getOne(a, X.get(1, 0)));
             ploe6.add(Vector2d.getOne(a, X.get(2, 0)));
-//            ploe8.add(Vector2d.getOne(a,X.get(3,0)));
+//            ploe8.add(Vector2d.getByStartAndEnd(a,X.get(3,0)));
         }
 
         System.out.println("ploe2.size() = " + ploe2.size());

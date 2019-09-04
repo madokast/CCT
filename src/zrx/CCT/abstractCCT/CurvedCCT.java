@@ -1,12 +1,9 @@
 package zrx.CCT.abstractCCT;
 
-import org.apache.commons.math3.util.FastMath;
 import zrx.Tools.Equal;
 import zrx.base.Constants;
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
-
-import java.util.function.DoubleUnaryOperator;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 
 /**
  * 弯曲CCT

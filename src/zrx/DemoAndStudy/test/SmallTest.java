@@ -1,7 +1,7 @@
 package zrx.DemoAndStudy.test;
 
 import zrx.Tools.PrintArray;
-import zrx.base.Vector2d;
+import zrx.base.point.Vector2d;
 
 import java.util.ArrayList;
 import java.util.List;

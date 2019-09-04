@@ -7,8 +7,8 @@ import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.Tools.AngleToRadian;
 import zrx.Tools.Persistence;
 import zrx.Tools.Timer;
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 
@@ -81,7 +81,7 @@ public class 步长精度测试 {
         System.out.println("cct4 = " + cct4);
 
         //-----------------轨迹----------------------
-        Vector3d[] trajectory = Vector3d.vector2dTo3d(Vector2d.arc(Vector2d.getZeros(),R,
+        Vector3d[] trajectory = Vector3d.vector2dTo3d(Vector2d.arc(Vector2d.getZero(),R,
                 AngleToRadian.to(0.0-20),AngleToRadian.to(67.5+20),false,AngleToRadian.to(1.0)));
 
         Plot3d.plot3(trajectory, Plot2d.BLACK_LINE);

@@ -10,8 +10,8 @@ import zrx.CCT.ConcreteCCT.SingleLayerDiscreteCCTs;
 import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.ODE.FirstOrderEquations;
 import zrx.Tools.*;
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 import zrx.beam.ParticleFactory;
 import zrx.beam.RunningParticle;
 import zrx.python.Plot2d;
@@ -92,13 +92,13 @@ public class 二极CCT研究 {
 
         //轨迹trajectory全圆弧，要废弃。trajectoryNEW好东西
         final Vector3d[] trajectory = Vector3d.vector2dTo3d(
-                Vector2d.arc(Vector2d.getZeros(), R/*Math.sqrt(R*R-r3mid*r4mid*/,
+                Vector2d.arc(Vector2d.getZero(), R/*Math.sqrt(R*R-r3mid*r4mid*/,
                         -EDGE, ANGLE + EDGE, false, stepKsi));
         final Vector3d midpoint3d = Vector3d.vector2dTo3d(Vector2d.rayForPolarAngle(ANGLE / 2.0));
         final Vector3d[] trajectoryNEW = ArrayMerge.merge(
                 Vector3d.interpolation(Vector3d.getOne(1, -1, 0), Vector3d.getOne(1, 0, 0), 500),
                 Vector3d.vector2dTo3d(
-                        Vector2d.arc(Vector2d.getZeros(), R,
+                        Vector2d.arc(Vector2d.getZero(), R,
                                 0.0, ANGLE, false, stepKsi)),
                 Vector3d.interpolation(Vector3d.getOne(Math.cos(AngleToRadian.to(67.5)),
                         Math.sin(AngleToRadian.to(67.5)), 0),
@@ -163,7 +163,7 @@ public class 二极CCT研究 {
             }
         }
         //基本磁场计算
-        if (false) {
+        if (true) {
             //繁琐版
             if (false) {
                 //磁场计算
@@ -194,12 +194,12 @@ public class 二极CCT研究 {
 //                        AnalyseCCT.magnetZeAlongTrajectory(allCCTs,trajectory),Plot2d.BLACK_LINE);
 //                //硬板模型
 //                Plot2d.plotGREY_DASH(
-//                        Vector2d.getOne(-EDGEangle, 0.0),
-//                        Vector2d.getOne(0.0, 0.0),
-//                        Vector2d.getOne(0.0, -2.43),
-//                        Vector2d.getOne(ANGLEangle, -2.43),
-//                        Vector2d.getOne(ANGLEangle, 0.0),
-//                        Vector2d.getOne(EDGEangle + ANGLEangle, 0.0)
+//                        Vector2d.getByStartAndEnd(-EDGEangle, 0.0),
+//                        Vector2d.getByStartAndEnd(0.0, 0.0),
+//                        Vector2d.getByStartAndEnd(0.0, -2.43),
+//                        Vector2d.getByStartAndEnd(ANGLEangle, -2.43),
+//                        Vector2d.getByStartAndEnd(ANGLEangle, 0.0),
+//                        Vector2d.getByStartAndEnd(EDGEangle + ANGLEangle, 0.0)
 //                );
 
 
@@ -247,7 +247,10 @@ public class 二极CCT研究 {
 
                 //拟合enge函数
                 final double[] engeFunction = Fit.fitEngeFunction(data);
+//                PrintArray.print(data);
+                System.out.println("-----");
                 PrintArray.print(engeFunction);
+                System.out.println("-----");
                 Plot2d.plot2(orinalData,
                         Plot2d.BLACK_LINE);
 
@@ -391,7 +394,7 @@ public class 二极CCT研究 {
 
         }
         //传输矩阵计算
-        if (true) {
+        if (false) {
             /**
              * 实现它，就可以掌控雷电
              */

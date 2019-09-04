@@ -5,7 +5,7 @@ import zrx.CCT.ConcreteCCT.ConnectionSegmentOfCCT;
 import zrx.CCT.ConcreteCCT.CurvedCCTAnalysis;
 import zrx.CCT.ConcreteCCT.DiscreteCCT;
 import zrx.CCT.abstractCCT.CurvedCCT;
-import zrx.base.Vector2d;
+import zrx.base.point.Vector2d;
 import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 

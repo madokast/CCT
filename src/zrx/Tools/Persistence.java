@@ -1,14 +1,11 @@
 package zrx.Tools;
 
 
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
 import zrx.python.Plot2d;
 
 import java.io.*;
 import java.lang.Object;
-import java.lang.invoke.VarHandle;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Persistence {

@@ -1,6 +1,7 @@
 package zrx.base;
 
 import zrx.Tools.Equal;
+import zrx.base.point.Vector3d;
 
 /**
  * 三维直角坐标系
@@ -28,13 +29,14 @@ public class CoordinateSystem3d {
         Equal.requireNonzero(zDirect.length());
 
         //是不是右手系
-        if (!Equal.isEqual(zDirect.setLengthAndReturn(1.0), Vector3d.corss(xDirect, yDirect).setLengthAndReturn(1.0)))
+        if (!Equal.isEqual(Vector3d.copyOne(zDirect).setLengthAndReturn(1.0),
+                Vector3d.corss(xDirect, yDirect).setLengthAndReturn(1.0)))
             System.err.println("CoordinateSystem3d:请注意建立的坐标系不是右手系");
 
 
-        this.xDirect = xDirect.setLengthAndReturn(1.0);
-        this.yDirect = yDirect.setLengthAndReturn(1.0);
-        this.zDirect = zDirect.setLengthAndReturn(1.0);
+        this.xDirect = Vector3d.copyOne(xDirect).setLengthAndReturn(1.0);
+        this.yDirect = Vector3d.copyOne(yDirect).setLengthAndReturn(1.0);
+        this.zDirect = Vector3d.copyOne(zDirect).setLengthAndReturn(1.0);
     }
 
     /**

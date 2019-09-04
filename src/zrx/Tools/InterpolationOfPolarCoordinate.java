@@ -2,10 +2,9 @@ package zrx.Tools;
 
 import Jama.Matrix;
 import zrx.base.Constants;
-import zrx.base.Vector2d;
+import zrx.base.point.Vector2d;
 import zrx.python.Plot2d;
 
-import javax.lang.model.SourceVersion;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
  * 极坐标下插值
  * 依赖包
  * Jama.Matrix
- * zrx.base.Vector2d
+ * zrx.base.point.Vector2d
  */
 
 public class InterpolationOfPolarCoordinate {

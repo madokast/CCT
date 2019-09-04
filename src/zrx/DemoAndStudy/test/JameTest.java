@@ -6,7 +6,7 @@ import zrx.Tools.PrintArray;
 
 public class JameTest {
     public static void main(String[] args) {
-//        初始化();
+        初始化();
         解方程();
 
     }
@@ -43,7 +43,7 @@ public class JameTest {
             };
 
             Matrix matrix = new Matrix(a);
-            matrix.print(5,2);
+            matrix.print(10,3);
     }
 
 

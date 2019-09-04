@@ -2,7 +2,7 @@ package zrx.CCT;
 
 import zrx.CCT.abstractCCT.CCT;
 import zrx.CCT.abstractCCT.CurvedCCT;
-import zrx.base.Vector2d;
+import zrx.base.point.Vector2d;
 import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 

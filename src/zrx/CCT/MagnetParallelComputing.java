@@ -4,7 +4,7 @@ package zrx.CCT;
  * 有待在实际计算中实现 改良
  */
 
-import zrx.base.Vector3d;
+import zrx.base.point.Vector3d;
 
 public class MagnetParallelComputing implements Runnable{
     private Vector3d[] CCTpath;

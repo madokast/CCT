@@ -1,7 +1,8 @@
 package zrx.beam;
 
+import zrx.Tools.PrintArray;
 import zrx.base.CoordinateSystem3d;
-import zrx.base.Vector2d;
+import zrx.base.point.Vector2d;
 import zrx.python.Plot2d;
 
 public class PhaseSpaceParticle {
@@ -31,27 +32,70 @@ public class PhaseSpaceParticle {
     }
 
     /**
+     * 这才是神代码。
+     * <p>
+     * 输入粒子群坐标等。输入参考粒子。输入参考粒子坐标系。
+     * 返回以参考粒子为中心的相空间XX'粒子坐标。
+     *
+     * @param particles        所考查的粒子s
+     * @param referredParticle 参考粒子
+     * @param cs               参考粒子坐标系
+     * @return 以参考粒子为中心的相空间XX'粒子坐标
+     */
+    public static Vector2d[] particlesInPhaseSpaceXXC(
+            RunningParticle[] particles, RunningParticle referredParticle, CoordinateSystem3d cs) {
+        Vector2d[] ps = new Vector2d[particles.length];
+        for (int i = 0; i < particles.length; i++) {
+            ps[i] = particles[i].phaseSpaceParticle(cs, referredParticle).getXXCAsVector2d();
+        }
+
+        return ps;
+    }
+
+    /**
+     * 见上方法。
+     *
+     * @param particles        所考查的粒子s
+     * @param referredParticle 参考粒子
+     * @param cs               参考粒子坐标系
+     * @return 以参考粒子为中心的相空间YY'粒子坐标
+     */
+    public static Vector2d[] particlesInPhaseSpaceYYC(
+            RunningParticle[] particles, RunningParticle referredParticle, CoordinateSystem3d cs) {
+        Vector2d[] ps = new Vector2d[particles.length];
+        for (int i = 0; i < particles.length; i++) {
+            ps[i] = particles[i].phaseSpaceParticle(cs, referredParticle).getYYCAsVector2d();
+        }
+
+        return ps;
+    }
+
+    /**
      * 神封装。
      * 传入一堆粒子 RunningParticle[] particles
      * 传入一个参考粒子 referredParticle
      * 传入参考粒子所处的坐标系 CoordinateSystem3d cs
      * 最后是python画图描述符
      * 就可以直接画出相椭圆
+     * <p>
+     * 封装个鬼鬼。功能不独立!
      *
      * @param particles        一堆粒子
      * @param referredParticle 一个参考粒子
      * @param cs               参考粒子所处的坐标系
      * @param describe         python画图描述符
      */
+    @Deprecated
     public static void plot2dXXCParticlesInPhaseSpace(
             RunningParticle[] particles, RunningParticle referredParticle, CoordinateSystem3d cs, String describe) {
-        Vector2d[] ps = new Vector2d[particles.length];
-        for (int i = 0; i < particles.length; i++) {
-            ps[i] = particles[i].phaseSpaceParticle(cs, referredParticle).getXXCAsVector2d();
-        }
+        Vector2d[] ps = particlesInPhaseSpaceXXC(particles, referredParticle, cs);
+        Vector2d[] ps1000 = Vector2d.convict(ps,x->1000*x,y->y*1000);
 
-        Plot2d.plotPoints(ps, describe);
-        Plot2d.plot2Circle(ps, Plot2d.BLACK_LINE);
+        System.out.println("相椭圆拟合");
+        PrintArray.print(Vector2d.fitEllipse(ps));
+
+        Plot2d.plotPoints(ps1000, describe);
+        Plot2d.plot2Circle(ps1000, Plot2d.BLACK_LINE);
 
         //for (RunningParticle particle : particles) {
         //            final PhaseSpaceParticle phaseSpaceParticle = particle.phaseSpaceParticle(
@@ -68,12 +112,10 @@ public class PhaseSpaceParticle {
      * @param cs               参考粒子所处的坐标系
      * @param describe         python画图描述符
      */
+    @Deprecated
     public static void plot2dYYCParticlesInPhaseSpace(
             RunningParticle[] particles, RunningParticle referredParticle, CoordinateSystem3d cs, String describe) {
-        Vector2d[] ps = new Vector2d[particles.length];
-        for (int i = 0; i < particles.length; i++) {
-            ps[i] = particles[i].phaseSpaceParticle(cs, referredParticle).getYYCAsVector2d();
-        }
+        Vector2d[] ps = particlesInPhaseSpaceYYC(particles, referredParticle, cs);
 
         Plot2d.plotPoints(ps, describe);
         Plot2d.plot2Circle(ps, Plot2d.BLACK_LINE);

@@ -8,10 +8,9 @@ package zrx.beam;
 
 import zrx.CCT.ConcreteCCT.AllCCTs;
 import zrx.base.CoordinateSystem3d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector3d;
 import zrx.python.Plot3d;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class RunningParticle {
@@ -55,8 +54,8 @@ public class RunningParticle {
     }
 
     public RunningParticle(Vector3d position, Vector3d velocity, double runMass, double e, double speed, double distance) {
-        this.position = position;
-        this.velocity = velocity;
+        this.position = Vector3d.copyOne(position);
+        this.velocity = Vector3d.copyOne(velocity);
         this.runMass = runMass;
         this.e = e;
         this.speed = speed;
@@ -199,6 +198,14 @@ public class RunningParticle {
         );
         thread.start();
         return thread;
+    }
+
+    /**
+     * 粒子当前方位和XS平面所成的角度
+     * @return 弧度角
+     */
+    public double relativeDirectionXS(){
+        return 0.0;
     }
 
     @Override

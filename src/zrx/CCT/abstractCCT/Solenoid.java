@@ -1,7 +1,7 @@
 package zrx.CCT.abstractCCT;
 
 import zrx.base.Constants;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector3d;
 
 public class Solenoid extends CCT {
     private double r;

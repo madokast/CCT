@@ -1,8 +1,7 @@
 package zrx.python;
 
 
-import zrx.base.Vector3d;
-import zrx.beam.ParticleFactory;
+import zrx.base.point.Vector3d;
 import zrx.beam.RunningParticle;
 
 import java.io.*;

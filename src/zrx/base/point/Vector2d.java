@@ -1,12 +1,15 @@
-package zrx.base;
+package zrx.base.point;
 
+import Jama.Matrix;
 import zrx.Tools.*;
+import zrx.base.Constants;
 import zrx.python.Plot2d;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.DoubleFunction;
+import java.util.function.Predicate;
 
 public class Vector2d implements Serializable {
     public double x;
@@ -614,7 +617,7 @@ public class Vector2d implements Serializable {
      * @return 返回原矢量
      */
     public Vector2d changeLengthAndReturn(double length) {
-        Vector2d p = Vector2d.walk(Vector2d.getZeros(), this, length);
+        Vector2d p = Vector2d.walk(Vector2d.getZero(), this, length);
         this.x = p.x;
         this.y = p.y;
         return this;
@@ -750,6 +753,67 @@ public class Vector2d implements Serializable {
     }
 
     /**
+     * 椭圆拟合。Ax2 + Bxy + Cy2 = D
+     * double[0] A
+     * double[1] B
+     * double[2] C
+     * double[3] D
+     * <p>
+     * 相椭圆方程
+     * gama*x^2+2alpha*y*y'+beta*y'^2=epsi
+     * 参数关系
+     * beta*gama-alpha^2=1
+     * <p>
+     * <p>
+     * 2019年8月22日——测试通过
+     *
+     * @param vs 椭圆上的点
+     * @return 拟合结果 double[0123]
+     */
+    public static double[] fitEllipse(Vector2d[] vs) {
+        double[][] AMatrixDoubless = new double[vs.length][];
+        double[][] YMatixDoubless = new double[vs.length][];
+        for (int i = 0; i < AMatrixDoubless.length; i++) {
+            AMatrixDoubless[i] = new double[]{
+                    vs[i].x * vs[i].x,
+                    vs[i].x * vs[i].y,
+                    vs[i].y * vs[i].y,
+            };
+
+            YMatixDoubless[i] = new double[]{1.0};
+        }
+
+        //下面的方法，见数值分析。解矛盾方程组。
+
+
+        final Matrix AMatrix = new Matrix(AMatrixDoubless);
+        final Matrix YMatrix = new Matrix(YMatixDoubless);
+
+        final Matrix AMatrixT = AMatrix.transpose();
+
+        final Matrix AMatrixTA = AMatrixT.times(AMatrix);
+
+        final Matrix solveMatrix = AMatrixTA.solve(AMatrixT.times(YMatrix));
+
+        final double A = solveMatrix.get(0, 0);
+        final double B = solveMatrix.get(1, 0);
+        final double C = solveMatrix.get(2, 0);
+
+        //归一化为twiss
+        double temp = Math.sqrt(Math.abs(A * C - (B / 2.0)));
+        double[] twiss = new double[]{
+                A / temp, B / 2.0 / temp, C / temp, 1 / temp
+        };
+
+        System.out.println("gama:" + twiss[0]);
+        System.out.println("alpha:" + twiss[1]);
+        System.out.println("beta:" + twiss[2]);
+        System.out.println("epsi:" + twiss[3]);
+
+        return twiss;
+    }
+
+    /**
      * 原点出发，方向th弧度的射线和椭圆Ax^2+Bxy+Cy^2=D的交点
      * 吃老本 2019年8月10日
      *
@@ -762,7 +826,7 @@ public class Vector2d implements Serializable {
      */
     private static Vector2d ellipsePointTheta(double A, double B, double C, double D, double theta) {
         double pi = Math.PI;
-        Vector2d d = getZeros();
+        Vector2d d = getZero();
 
 
         while (theta < 0)
@@ -840,7 +904,7 @@ public class Vector2d implements Serializable {
      * @return 周长
      */
     private static double ellipseCircumference(double A, double B, double C, double D) {
-        int num = 3600*4;
+        int num = 3600 * 4;
         double c = 0.0;
         for (int i = 0; i < num; i++) {
             c += Vector2d.subtract(ellipsePointTheta(A, B, C, D, 2.0 * Math.PI / num * i),
@@ -876,11 +940,59 @@ public class Vector2d implements Serializable {
     }
 
     /**
+     * 筛选
+     *
+     * @param vs        源数据
+     * @param predicate 测试
+     * @return 筛选后
+     */
+    public static Vector2d[] select(Vector2d[] vs, Predicate<Vector2d> predicate) {
+        List<Vector2d> ans = new ArrayList<>();
+        for (Vector2d v : vs) {
+            if (predicate.test(v)) {
+                ans.add(v);
+            }
+        }
+
+        return ans.toArray(Vector2d[]::new);
+    }
+
+    /**
+     * 强制单调变化
+     * 按照x
+     *
+     * @param vs         源数据
+     * @param isIncrease 递增还是递减
+     * @return 单调
+     */
+    public static Vector2d[] forceMonotony(Vector2d[] vs, boolean isIncrease) {
+        Vector2d[] ans = new Vector2d[vs.length];
+        ans[0] = Vector2d.copyOne(vs[0]);
+        for (int i = 1; i < vs.length; i++) {
+            if (isIncrease) {
+                if (vs[i].y >= ans[i - 1].y) {
+                    ans[i] = Vector2d.copyOne(vs[i]);
+                } else {
+                    ans[i] = Vector2d.getOne(vs[i].x, ans[i - 1].y);
+                }
+            } else {
+                if (vs[i].y <= ans[i - 1].y) {
+                    ans[i] = Vector2d.copyOne(vs[i]);
+                } else {
+                    ans[i] = Vector2d.getOne(vs[i].x, ans[i - 1].y);
+                }
+            }
+        }
+
+        return ans;
+    }
+
+    /**
      * 获得 原点 / 零矢量
      *
      * @return new Vector3d(0.0, 0.0)
      */
-    public static Vector2d getZeros() {
+    public static Vector2d getZero() {
         return new Vector2d(0.0, 0.0);
     }
 
@@ -920,7 +1032,7 @@ public class Vector2d implements Serializable {
             x = Double.valueOf(split[0]);
             y = Double.valueOf(split[1]);
         } catch (Exception e) {
-            System.err.println("error in Vector2d getOne(String s)");
+            System.err.println("error in Vector2d getByStartAndEnd(String s)");
         }
 
         return getOne(x, y);
@@ -935,6 +1047,23 @@ public class Vector2d implements Serializable {
         }
 
         return vs;
+    }
+
+    /**
+     * 数组 xArr yArr 变Vector2d[]
+     *
+     * @param xArr 数组
+     * @param yArr 数组
+     * @return Vector2d[]
+     */
+    public static Vector2d[] getOnes(double[] xArr, double[] yArr) {
+        Equal.requireEqual(xArr.length, yArr.length);
+        final Vector2d[] ans = new Vector2d[xArr.length];
+        for (int i = 0; i < xArr.length; i++) {
+            ans[i] = Vector2d.getOne(xArr[i], yArr[i]);
+        }
+
+        return ans;
     }
 
     public static Vector2d[] listToVector2ds(List<Double> xList, List<Double> yList) {
@@ -966,6 +1095,44 @@ public class Vector2d implements Serializable {
     }
 
     /**
+     * 研究利器
+     *
+     * @param vs
+     */
+    public static void toTableHtml(Vector2d[] vs) {
+        System.out.println("<table border=\"1px\">");
+
+        for (Vector2d v : vs) {
+            System.out.print("<tr>");
+            System.out.print("<td>" + v.x + "</td>");
+            System.out.print("<td>" + v.y + "</td>");
+            System.out.print("<tr>");
+        }
+
+        System.out.println("</table>");
+
+
+        // System.out.println("<table border=\"1px\">");
+        //
+        //        for (int n12out = 1; n12out < 120; n12out++) {
+        //            for (int n12mid = 1; n12mid < 120; n12mid++) {
+        ////                for (int i = 0; i < 3; i++) {
+        //                System.out.print("<tr>");
+        //
+        //                System.out.print("<td>" + N12_OUT + "</td>");
+        //                System.out.print("<td>" + N12_MID + "</td>");
+        //
+        //
+        //                System.out.println("</tr>");
+        ////                }
+        //
+        //            }
+        //        }
+        //
+        //        System.out.println("</table>");
+    }
+
+    /**
      * 测试
      */
     public static void main(String[] args) {
@@ -976,11 +1143,43 @@ public class Vector2d implements Serializable {
 //        solveCircularInterpolationRadius测试3();
 //        getOneTest();
 
-        椭圆周长();
+//        椭圆周长();
 
 //        极角规范化();
 //        极角得到矢量();
 //        弧路径();
+
+//        selectTest();
+
+        forceMonotonyTest();
+    }
+
+    private static void forceMonotonyTest() {
+        Vector2d[] vs = new Vector2d[]{
+                Vector2d.getOne(1, 3),
+                Vector2d.getOne(2, 4),
+                Vector2d.getOne(3, 5),
+                Vector2d.getOne(4, 4),
+                Vector2d.getOne(5, 3),
+                Vector2d.getOne(6, 2)
+        };
+
+        final Vector2d[] monotony = forceMonotony(vs, false);
+        PrintArray.print(monotony);
+    }
+
+    private static void selectTest() {
+        Vector2d[] vs = new Vector2d[]{
+                Vector2d.getOne(1, 3),
+                Vector2d.getOne(2, 4),
+                Vector2d.getOne(3, 5),
+                Vector2d.getOne(4, 6),
+                Vector2d.getOne(5, 7),
+                Vector2d.getOne(6, 8)
+        };
+
+        final Vector2d[] ans = select(vs, v -> v.x > 2);
+        PrintArray.print(ans);
     }
 
     private static void 椭圆周长() {
@@ -990,10 +1189,10 @@ public class Vector2d implements Serializable {
     }
 
     private static void getOneTest() {
-//        System.out.println("getOne(\"[-0.03, -2.7829744825132186]\") = " + getOne("[-0.03, -2.7829744825132186]"));
+//        System.out.println("getByStartAndEnd(\"[-0.03, -2.7829744825132186]\") = " + getByStartAndEnd("[-0.03, -2.7829744825132186]"));
 //        Vector2d[] vs = new Vector2d[11];
-//        vs[0] = getOne("[-0.03, -2.7829744825132186]");
-//        vs[1] = getOne("[-0.03, -2.7829744825132186]");
+//        vs[0] = getByStartAndEnd("[-0.03, -2.7829744825132186]");
+//        vs[1] = getByStartAndEnd("[-0.03, -2.7829744825132186]");
 
 
         Vector2d[] vs = getOnes(
@@ -1103,7 +1302,7 @@ public class Vector2d implements Serializable {
     }
 
     private static void solveCircularInterpolationRadius测试1() {
-        Vector2d p0 = Vector2d.getZeros();
+        Vector2d p0 = Vector2d.getZero();
         Vector2d v0 = new Vector2d(0, 1);
         Vector2d p1 = new Vector2d(0, 3);
         Vector2d v1 = new Vector2d(0, -1);

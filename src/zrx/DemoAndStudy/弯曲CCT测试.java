@@ -5,8 +5,8 @@ import zrx.CCT.ConcreteCCT.DiscreteCCT;
 import zrx.CCT.Magnet;
 import zrx.CCT.abstractCCT.CurvedCCT;
 import zrx.Tools.AngleToRadian;
-import zrx.base.Vector2d;
-import zrx.base.Vector3d;
+import zrx.base.point.Vector2d;
+import zrx.base.point.Vector3d;
 import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 
@@ -56,7 +56,7 @@ public class 弯曲CCT测试 {
 
         //下面开始正式测试
         //理想轨迹
-        Vector2d[] midArc = Vector2d.arc(Vector2d.getZeros(), cct1.getR(),
+        Vector2d[] midArc = Vector2d.arc(Vector2d.getZero(), cct1.getR(),
                 AngleToRadian.to(-20), AngleToRadian.to(40 + 20), false,
                 AngleToRadian.to(1));
         Vector3d[] midArc3d = Vector3d.vector2dTo3d(midArc);
