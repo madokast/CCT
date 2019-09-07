@@ -26,7 +26,10 @@ import zrx.beam.*;
 import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("all")
@@ -103,7 +106,7 @@ public class 六十七点五两个0821 {
 
     //步长
     private static double STEP_KSI = AngleToRadian.to(1.0);
-    private static double STEP_TRAJ = 40.0 * MM/10;
+    private static double STEP_TRAJ = 10 * MM;
 
     //cct前后偏移段
     /**
@@ -188,7 +191,7 @@ public class 六十七点五两个0821 {
 
         trajectory2d.add(
                 //第一段线段。CCT前漂移段
-                StraightLine.getByStartAndDirctAndLength(
+                StraightLine.getByStartAndDirectAndLength(
                         startPointParticle.projectToXY(), startPointDirect.projectToXY(), DRIFTIN)
         ).add(
                 //第二段。第一个CCT圆弧
@@ -212,7 +215,7 @@ public class 六十七点五两个0821 {
                 )
         ).add(
                 //最后一段。出口漂移段
-                StraightLine.getByStartAndDirctAndLength(
+                StraightLine.getByStartAndDirectAndLength(
                         Vector2d.getOne(1.0, 0.0),
                         Vector2d.getYDirect().reverseSelfAndReturn(),
                         DRIFTOUT
@@ -281,7 +284,7 @@ public class 六十七点五两个0821 {
 //        Plot2d.plot2(CCTUtils.magneticDistributionZ(allCCTs, trajectoryNEW, sList), Plot2d.BLACK_LINE);
         //多级场分布
 //        Plot2d.plot2(CCTUtils.magneticComponent0123(allCCTs, GOOD_FIELD_AREA, 0, trajectoryNEW, sList), Plot2d.BLACK_LINE);
-//        Plot2d.plot2(CCTUtils.magneticComponent0123(allCCTs, GOOD_FIELD_AREA, 1, trajectoryNEW, sList), Plot2d.RED_LINE);
+//        Plot2d.plotPoints(CCTUtils.magneticComponent0123(allCCTs, GOOD_FIELD_AREA, 1, trajectoryNEW, sList), Plot2d.RED_LINE);
 //        Plot2d.xLabel("s/m");
 //        Plot2d.yLabel("G/Tm-1");
 
@@ -310,6 +313,8 @@ public class 六十七点五两个0821 {
 
 
         //输出多级场分量 h k l
+        CCTUtils.getHKL(allCCTs,Bp,trajectory2d,trajectory2dTo3d,GOOD_FIELD_AREA,
+                new File("docs/fileOut/0904_135_hks/shkl05mm.txt"));
 
 
 
@@ -318,8 +323,19 @@ public class 六十七点五两个0821 {
         Plot3d.removeAxis();
         Plot3d.setCenter(Vector3d.getOne(1, 0, 0), 2.0);
         Plot3d.showThread();
-//        Plot2d.equal();
+        Plot2d.equal();
         Plot2d.showThread();
+    }
+
+    private static void trajectory2dTest(){
+        trajectory2d.Plot2d(2*MM,Plot2d.BLACK_LINE);
+        double s = 0.0;
+        List<Vector2d> vector2ds = new ArrayList<>();
+        while (s<trajectory2d.getLength()){
+            vector2ds.add(trajectory2d.rightHandSidePoint(s,20*MM));
+            s+=1*MM;
+        }
+        Plot2d.plot2(vector2ds.toArray(Vector2d[]::new),Plot2d.YELLOW_LINE);
     }
 
     private static void transportMatrix(AllCCTs allCCTs) {

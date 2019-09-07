@@ -69,7 +69,14 @@ public class ArcLine implements Line {
         );
 
         //获得s处方向
-        Vector2d sDirect = Vector2d.getOne(-Math.sin(phi), Math.cos(phi));
+        Vector2d sDirect = null;
+        // 2019年9月5日 发现重大bug
+        // 难得啊!!!
+        if(clockwise){
+            sDirect = Vector2d.getOne(-Math.sin(phi), Math.cos(phi)).reverseSelfAndReturn();
+        }else {
+            sDirect = Vector2d.getOne(-Math.sin(phi), Math.cos(phi));
+        }
         //获取s处右手方向
         Vector2d sRightHandDirect = sDirect.rotateSelfAndReturn(-AngleToRadian.to(90.0));
 

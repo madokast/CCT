@@ -11,6 +11,7 @@ import java.util.List;
  * 全部单层CCT丢一起的计算
  */
 
+@SuppressWarnings("all")
 public class AllCCTs {
     private List<SingleLayerDiscreteCCTs> ccTs;
 
@@ -75,6 +76,28 @@ public class AllCCTs {
         final double[] bzList = new double[NUM];
         for (int i = 0; i < v3inters.length; i++) {
             bzList[i] = magnet(v3inters[i]).z;
+        }
+
+        //对数据 sList 和 bzList 拟合
+        return Fit.fit(sList, bzList, DEGREE);
+    }
+
+    //赵泽峰版本
+    public double[] magneticComponent012_ZhaoZeFengXYS(Vector3d start, Vector3d end){
+        final int NUM = 20;
+        final int DEGREE = 2;
+
+        //分点
+        final Vector3d[] v3inters = Vector3d.interpolation(start, end, NUM);
+
+        //起点和终点的长度 以及得到的自变量sList
+        final double length = Vector3d.subtract(start, end).length();
+        final double[] sList = Numpy.linspace(-length / 2.0, length / 2.0, NUM);
+
+        //计算磁场
+        final double[] bzList = new double[NUM];
+        for (int i = 0; i < v3inters.length; i++) {
+            bzList[i] = - magnet(v3inters[i]).z;//这里是负数
         }
 
         //对数据 sList 和 bzList 拟合

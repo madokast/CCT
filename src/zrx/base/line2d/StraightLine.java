@@ -28,7 +28,7 @@ public class StraightLine implements Line {
         return straightLine;
     }
 
-    public static StraightLine getByStartAndDirctAndLength(Vector2d startPoint,Vector2d direct,double length){
+    public static StraightLine getByStartAndDirectAndLength(Vector2d startPoint, Vector2d direct, double length){
         return getByStartAndEnd(Vector2d.copyOne(startPoint),
                 Vector2d.walk(Vector2d.copyOne(startPoint),direct,length)
                 );

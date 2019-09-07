@@ -320,12 +320,12 @@ public class CCTUtils {
         //TODO cosy切片分析
     }
 
-    public static void getHKL(AllCCTs allCCTs, Trajectory trajectory, Vector2dTo3d vector2dTo3d, double goodField, File outFile) {
+    public static void getHKL(AllCCTs allCCTs,double Bp, Trajectory trajectory, Vector2dTo3d vector2dTo3d, double goodField, File outFile) {
         //输出文件格式
         //距离/mm h k l \r\n
         //每个量之间用空格隔开
 
-        final double STEP  = 2.0 / 1000; //2mm
+        final double STEP  = 0.5 / 1000; //0.5mm
 
         FileWriter fileWriter = null;
         try {
@@ -334,16 +334,37 @@ public class CCTUtils {
             e.printStackTrace();
             System.exit(-1);
         }
-
+        try {
         final double[] stepToEnd = Numpy.stepToEnd(STEP, trajectory.getLength());
         for (int i = 0; i < stepToEnd.length; i++) {
             double s = stepToEnd[i];
-            final double[] component0123 = allCCTs.magneticComponent0123(
-                    vector2dTo3d.functioon(trajectory.rightHandSidePoint(s, goodField)),
-                    vector2dTo3d.functioon(trajectory.leftHandSidePoint(s, goodField)));
-            double h = 
-        }
 
+            // 这里面的坐标系问题，见下篇文章
+            // 赵泽峰毕业论文 坐标系问题
+            // https://app.yinxiang.com/shard/s62/nl/13526479/be829fd0-0943-4388-98f5-6fe46851eb56
+            Vector3d startPoint = vector2dTo3d.functioon(trajectory.leftHandSidePoint(s, goodField));
+            Vector3d endPoint = vector2dTo3d.functioon(trajectory.rightHandSidePoint(s, goodField));
+
+            final double[] component012 = allCCTs.magneticComponent012_ZhaoZeFengXYS(startPoint, endPoint);
+
+            //我又犯错了
+            double h = component012[0]/Bp;
+            double k = component012[1]/Bp;
+            double l = component012[2]/Bp;
+
+
+                fileWriter.write(String.format("%15.6e %15.6e %15.6e %15.6e\r\n",s*1000,h,k,l));
+
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+        try {
+            fileWriter.flush();
+            fileWriter.close();
+            System.out.println("shkl计算完毕");
+        }catch (Exception e){e.printStackTrace();}
 
     }
 }
