@@ -316,16 +316,14 @@ public class CCTUtils {
 //        return null;
     }
 
-    public static void COSYPart(AllCCTs allCCTs, Vector3d[] trajectory) {
-        //TODO cosy切片分析
-    }
+
 
     public static void getHKL(AllCCTs allCCTs,double Bp, Trajectory trajectory, Vector2dTo3d vector2dTo3d, double goodField, File outFile) {
         //输出文件格式
         //距离/mm h k l \r\n
         //每个量之间用空格隔开
 
-        final double STEP  = 0.5 / 1000; //0.5mm
+        final double STEP  = 1.0 / 1000; //0.5mm
 
         FileWriter fileWriter = null;
         try {

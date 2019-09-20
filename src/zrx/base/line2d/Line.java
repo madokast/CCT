@@ -55,4 +55,10 @@ public interface Line {
     default Vector2d leftHandSidePoint(double s, double d) {
         return rightHandSidePoint(s, -d);
     }
+
+    default Vector2d endDirect(){
+        final double length = getLength();
+        final double delta = Math.min(1e-3,length/1000);
+        return Vector2d.subtract(pointAt(length),pointAt(length-delta)).changeLengthAndReturn(1.0);
+    }
 }

@@ -319,6 +319,73 @@ public class Vector3d implements Serializable {
     }
 
     /**
+     * 向量 v 和 XY 平面的夹角
+     *
+     * @param v 向量
+     * @return 弧度制的夹角
+     */
+    public static double angleToPlaneXY(Vector3d v) {
+        //直线v和平面p所称的角
+        //引入平面的法线n
+        //则夹角 sin a = | cos(v,n) | = vn/|v||n|
+
+        //XY平面的法线 0 0 1
+
+        return angleToPlane(v, Vector3d.getOne(0, 0, 1));
+    }
+
+    /**
+     * 直线 v 和平面的夹角，平面的法线为 n
+     *
+     * @param v 直线
+     * @param n 平面的法线
+     * @return 弧度制的夹角
+     */
+    public static double angleToPlane(Vector3d v, Vector3d n) {
+        Equal.requireNonzero(v.length());
+        Equal.requireNonzero(n.length());
+
+
+        return Math.asin(
+                Vector3d.dot(v, n) / (v.length() * n.length())
+        );
+    }
+
+    /**
+     * 获得平面A的法线
+     * 其中平面A具有以下性质
+     * 1. 直线/向量 line 经过平面A
+     * 2. 平面A垂直于平面XY
+     * <p>
+     * 本方法用于简化CCT tracking 中粒子方向的研究
+     *
+     * @param line 某过平面 A 的直线/向量
+     * @return 平面A的法线
+     */
+    public static Vector3d normalOfPlaneperOfLineAndPendicularXY(Vector3d line) {
+        //说人话，即令 n =( x y 0 )
+        //则有 n*line = 0
+        //需要考虑一些平行情况
+
+        //line无意义
+        Equal.requireNonzero(line.length());
+
+        //line = (0,1,0)
+        if(Equal.isEqual(line.x,0.0)){
+            return Vector3d.getXDirect();
+        }
+        //line = (1,0,0)
+        else if(Equal.isEqual(line.y,0.0)){
+            return Vector3d.getYDirect();
+        }
+        else {
+            double x = 1.0;
+            double y = -line.x/line.y;
+            return Vector3d.getOne(x,y,0);
+        }
+    }
+
+    /**
      * 2019年7月16日 出现重大bug
      * 大bug!!!
      *
@@ -337,7 +404,7 @@ public class Vector3d implements Serializable {
         /**
          * 又发现重大bug direct=0, 0, 0的情况
          */
-        if(Equal.isEqual(direct,Vector3d.getZeros())){
+        if (Equal.isEqual(direct, Vector3d.getZeros())) {
             return sourcePoint;
         }
 
@@ -381,10 +448,10 @@ public class Vector3d implements Serializable {
         );
     }
 
-    public static Vector3d[] copyAndRotateXY(Vector3d[] ps, double polarAngle){
+    public static Vector3d[] copyAndRotateXY(Vector3d[] ps, double polarAngle) {
         final Vector3d[] ans = new Vector3d[ps.length];
         for (int i = 0; i < ans.length; i++) {
-            ans[i] = copyAndRotateXY(ps[i],polarAngle);
+            ans[i] = copyAndRotateXY(ps[i], polarAngle);
         }
 
         return ans;
@@ -508,7 +575,7 @@ public class Vector3d implements Serializable {
         return getOne(v.x, v.y, v.z);
     }
 
-    public static Vector3d[] copyOnes(Vector3d[] vs){
+    public static Vector3d[] copyOnes(Vector3d[] vs) {
         final Vector3d[] ans = new Vector3d[vs.length];
         for (int i = 0; i < ans.length; i++) {
             ans[i] = copyOne(vs[i]);
@@ -565,7 +632,17 @@ public class Vector3d implements Serializable {
 //        test2();
 //        test3();
 //        test4();
-        平行测试();
+//        平行测试();
+        平面测试();
+
+    }
+
+    private static void 平面测试() {
+        final double a1 = angleToPlane(getZDirect(), getZDirect());
+        System.out.println("a1 = " + a1);
+
+        final Vector3d n = normalOfPlaneperOfLineAndPendicularXY(Vector3d.getOne(1, 1, 0));
+        System.out.println("n = " + n);
     }
 
     private static void 平行测试() {

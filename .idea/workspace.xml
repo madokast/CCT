@@ -2,16 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="adbdbf18-7308-48d0-9cef-6bef6a0ec861" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/zrx/beam/transport/Transport.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/fileOut/0904_135_hks/shkl.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fileOut/0904_135_hks/shkl.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/fileOut/n12-1-120-opt.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/fileOut/0904_135_hks/shkl.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CCT/zrx/python/Plot3d.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CCT/zrx/python/Plot3d.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyScript/plot2.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyScript/plot2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyScript/plot3.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyScript/plot3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/CCT/AnalyseCCT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/AnalyseCCT.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/zrx/CCT/CCTUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/CCTUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zrx/CCT/ConcreteCCT/AllCCTs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/CCT/ConcreteCCT/AllCCTs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/DemoAndStudy/test/JameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/DemoAndStudy/test/JameTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/DemoAndStudy/六十七点五CCT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/DemoAndStudy/六十七点五CCT.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/zrx/DemoAndStudy/六十七点五两个0821.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/DemoAndStudy/六十七点五两个0821.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zrx/base/line2d/ArcLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/base/line2d/ArcLine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zrx/base/line2d/StraightLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/base/line2d/StraightLine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/DemoAndStudy/六十七点五新测试0804.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/DemoAndStudy/六十七点五新测试0804.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/DemoAndStudy/小研究/二极CCT研究.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/DemoAndStudy/小研究/二极CCT研究.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/DemoAndStudy/小研究/六十七点五新测试0804_2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/DemoAndStudy/小研究/六十七点五新测试0804_2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/base/line2d/Line.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/base/line2d/Line.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/base/point/Vector3d.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/base/point/Vector3d.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/beam/BeamRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/beam/tracking/BeamRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/beam/ParticleFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/beam/tracking/ParticleFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/beam/PhaseSpaceDirect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/beam/tracking/PhaseSpaceDirect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/beam/PhaseSpaceParticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/beam/tracking/PhaseSpaceParticle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/beam/RunningParticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/beam/tracking/RunningParticle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zrx/python/Plot3d.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/python/Plot3d.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,77 +38,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/zrx/DemoAndStudy/六十七点五两个0821.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="316" column="60" selection-start-line="316" selection-start-column="60" selection-end-line="316" selection-end-column="60" />
+            <state relative-caret-position="10114">
+              <caret line="431" column="83" selection-start-line="431" selection-start-column="83" selection-end-line="431" selection-end-column="83" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#958#982#0" expanded="true" />
-                <element signature="e#3775#4150#0" />
-                <element signature="initializer##0;class#六十七点五两个0821#0" />
-                <element signature="e#12734#13139#0" />
-                <element signature="e#10302#10449#0" />
-                <element signature="class#10397:10442" />
-                <element signature="e#13481#13482#0" expanded="true" />
-                <element signature="class#12546:12591" />
-                <element signature="method#directAtTrajectoryOfS#0;class#12546:14605" />
-                <element signature="method#fit#0;class#12546:14605" />
-                <element signature="e#9840#10125#0" />
-                <element signature="e#9771#9840#0" />
-                <element signature="e#24011#24903#0" />
-                <element signature="e#24909#29528#0" />
-                <element signature="e#10354#10410#0" />
-                <element signature="e#29534#29952#0" />
-                <element signature="e#29958#30295#0" />
-                <element signature="e#10809#11146#0" />
-                <element signature="e#21334#21441#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CCTUtils.java">
+        <entry file="file://$PROJECT_DIR$/src/zrx/beam/tracking/PhaseSpaceParticle.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="327" column="48" selection-start-line="327" selection-start-column="48" selection-end-line="327" selection-end-column="48" />
+            <state relative-caret-position="2106">
+              <caret line="88" column="23" selection-start-line="88" selection-start-column="23" selection-end-line="88" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="docComment;method#magneticDistributionZ#0;class#CCTUtils#0" />
-                <element signature="method#magneticDistributionZ#0;class#CCTUtils#0" />
-                <element signature="docComment;method#magneticComponent0123#0;class#CCTUtils#0" />
-                <element signature="method#magneticComponent0123#0;class#CCTUtils#0" />
-                <element signature="method#component0123ArrayTOCosyCode#0;class#CCTUtils#0" />
-                <element signature="docComment;method#engeFunction#0;class#CCTUtils#0" />
-                <element signature="method#engeFunction#0;class#CCTUtils#0" />
+                <element signature="method#plot2dYYCParticlesInPhaseSpace#0;class#PhaseSpaceParticle#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/zrx/CCT/ConcreteCCT/AllCCTs.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/zrx/beam/transport/Transport.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="104" column="5" selection-start-line="104" selection-start-column="5" selection-end-line="104" selection-end-column="5" />
+            <state relative-caret-position="448">
+              <caret line="140" column="9" selection-start-line="140" selection-start-column="9" selection-end-line="140" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#187#211#0" expanded="true" />
-                <element signature="method#magneticComponent01#0;class#AllCCTs#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/zrx/base/line2d/StraightLine.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
-              <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="method#getTransportMatrixByMap#0;class#Transport#0" />
+                <element signature="method#transport#0;class#Transport#0" />
               </folding>
             </state>
           </provider>
@@ -135,10 +109,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/zrx/Tools/ArrayToList.java" />
-        <option value="$PROJECT_DIR$/src/zrx/Tools/ListToArray.java" />
-        <option value="$PROJECT_DIR$/src/zrx/CCT/AnalyseCCT.java" />
-        <option value="$PROJECT_DIR$/src/zrx/DemoAndStudy/test/DoubleFunTest.java" />
         <option value="$PROJECT_DIR$/src/zrx/DemoAndStudy/test/Fitting.java" />
         <option value="$PROJECT_DIR$/src/zrx/CCT/ConcreteCCT/CurvedCCTAnalysis.java" />
         <option value="$PROJECT_DIR$/src/zrx/DemoAndStudy/test/计算0808.java" />
@@ -156,7 +126,6 @@
         <option value="$PROJECT_DIR$/src/zrx/Tools/TableHtml.java" />
         <option value="$PROJECT_DIR$/src/zrx/Tools/RunAllAndJoin.java" />
         <option value="$PROJECT_DIR$/src/zrx/ODE/FirstOrderEquations.java" />
-        <option value="$PROJECT_DIR$/src/zrx/DemoAndStudy/test/JameTest.java" />
         <option value="$PROJECT_DIR$/src/zrx/python/Jpype.java" />
         <option value="$PROJECT_DIR$/src/zrx/base/Vector3d.java" />
         <option value="$PROJECT_DIR$/src/zrx/Tools/python/ContourTest.java" />
@@ -170,10 +139,8 @@
         <option value="$PROJECT_DIR$/src/zrx/beam/BeamRun.java" />
         <option value="$PROJECT_DIR$/src/zrx/base/CoordinateSystem3d.java" />
         <option value="$PROJECT_DIR$/src/zrx/Tools/Equal.java" />
-        <option value="$PROJECT_DIR$/src/zrx/beam/RunningParticle.java" />
         <option value="$PROJECT_DIR$/src/zrx/DemoAndStudy/test/直线CCT.java" />
         <option value="$PROJECT_DIR$/src/zrx/CCT/ConcreteCCT/SingleLayerDiscreteCCTs.java" />
-        <option value="$PROJECT_DIR$/src/zrx/base/line2d/Line.java" />
         <option value="$PROJECT_DIR$/src/zrx/DemoAndStudy/小研究/六十七点五新测试0804_2.java" />
         <option value="$PROJECT_DIR$/src/zrx/python/Plot2d.java" />
         <option value="$PROJECT_DIR$/src/zrx/beam/PhaseSpaceParticle.java" />
@@ -185,12 +152,19 @@
         <option value="$PROJECT_DIR$/src/zrx/base/line2d/StraightLine.java" />
         <option value="$PROJECT_DIR$/src/zrx/base/line2d/ArcLine.java" />
         <option value="$PROJECT_DIR$/src/zrx/CCT/CCTUtils.java" />
+        <option value="$PROJECT_DIR$/src/zrx/base/point/Vector3d.java" />
+        <option value="$PROJECT_DIR$/src/zrx/base/line2d/Line.java" />
+        <option value="$PROJECT_DIR$/src/zrx/beam/RunningParticle.java" />
+        <option value="$PROJECT_DIR$/src/zrx/beam/transport/Trasnport.java" />
+        <option value="$PROJECT_DIR$/src/zrx/DemoAndStudy/test/JameTest.java" />
+        <option value="$PROJECT_DIR$/src/zrx/beam/tracking/PhaseSpaceParticle.java" />
         <option value="$PROJECT_DIR$/src/zrx/DemoAndStudy/六十七点五两个0821.java" />
+        <option value="$PROJECT_DIR$/src/zrx/beam/transport/Transport.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="116" />
+    <option name="x" value="115" />
     <option name="y" value="50" />
     <option name="width" value="1750" />
     <option name="height" value="980" />
@@ -204,7 +178,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -215,29 +188,6 @@
             <path>
               <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
               <item name="CCT" type="462c0819:PsiDirectoryNode" />
-              <item name="docs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CCT" type="462c0819:PsiDirectoryNode" />
-              <item name="docs" type="462c0819:PsiDirectoryNode" />
-              <item name="fileOut" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CCT" type="462c0819:PsiDirectoryNode" />
-              <item name="docs" type="462c0819:PsiDirectoryNode" />
-              <item name="fileOut" type="462c0819:PsiDirectoryNode" />
-              <item name="0904_135_hks" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CCT" type="462c0819:PsiDirectoryNode" />
-              <item name="pyScript" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CCT" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -251,12 +201,21 @@
               <item name="CCT" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="zrx" type="462c0819:PsiDirectoryNode" />
-              <item name="Tools" type="462c0819:PsiDirectoryNode" />
+              <item name="beam" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CCT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CCT" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="zrx" type="462c0819:PsiDirectoryNode" />
+              <item name="beam" type="462c0819:PsiDirectoryNode" />
+              <item name="transport" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -267,7 +226,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="12" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../JavaLearning/new" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -301,47 +260,8 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.六十七点五两个0821">
-    <configuration name="六十七点五新测试0804" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="zrx.DemoAndStudy.六十七点五新测试0804" />
-      <module name="CCT" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="zrx.DemoAndStudy.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="六十七点五新测试0804_2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="zrx.DemoAndStudy.小研究.六十七点五新测试0804_2" />
-      <module name="CCT" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="zrx.DemoAndStudy.小研究.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="六十七点五两个0821" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="zrx.DemoAndStudy.六十七点五两个0821" />
-      <module name="CCT" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="zrx.DemoAndStudy.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="六十七点五CCT" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="zrx.DemoAndStudy.六十七点五CCT" />
       <module name="CCT" />
       <extension name="coverage">
         <pattern>
@@ -366,6 +286,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="JameTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="zrx.DemoAndStudy.test.JameTest" />
+      <module name="CCT" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="zrx.DemoAndStudy.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Numpy" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="zrx.Tools.Numpy" />
       <module name="CCT" />
@@ -379,12 +312,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Trajectory" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="zrx.base.line2d.Trajectory" />
+    <configuration name="Transport" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="zrx.beam.transport.Transport" />
       <module name="CCT" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="zrx.base.line2d.*" />
+          <option name="PATTERN" value="zrx.beam.transport.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Vector3d" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="zrx.base.point.Vector3d" />
+      <module name="CCT" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="zrx.base.point.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -393,19 +339,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Trajectory" />
-      <item itemvalue="Application.六十七点五新测试0804_2" />
-      <item itemvalue="Application.六十七点五新测试0804" />
+      <item itemvalue="Application.四级CCT的二极场" />
       <item itemvalue="Application.Numpy" />
       <item itemvalue="Application.六十七点五两个0821" />
+      <item itemvalue="Application.Vector3d" />
+      <item itemvalue="Application.Transport" />
+      <item itemvalue="Application.JameTest" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.六十七点五两个0821" />
+        <item itemvalue="Application.Transport" />
+        <item itemvalue="Application.JameTest" />
+        <item itemvalue="Application.Vector3d" />
         <item itemvalue="Application.Numpy" />
-        <item itemvalue="Application.六十七点五新测试0804" />
-        <item itemvalue="Application.六十七点五新测试0804_2" />
-        <item itemvalue="Application.Trajectory" />
       </list>
     </recent_temporary>
   </component>
@@ -428,12 +375,15 @@
       <workItem from="1563971986299" duration="21389000" />
       <workItem from="1564739131972" duration="20761000" />
       <workItem from="1565086511648" duration="86420000" />
-      <workItem from="1566134164059" duration="168574000" />
+      <workItem from="1566134164059" duration="169235000" />
+      <workItem from="1567909706661" duration="18346000" />
+      <workItem from="1568164119959" duration="2835000" />
+      <workItem from="1568594895519" duration="587000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="572491000" />
+    <option name="totallyTimeSpent" value="594920000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -447,7 +397,7 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49858356" visible="true" weight="0.20844504" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49858356" visible="true" weight="0.17560321" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -456,11 +406,11 @@
       <window_info id="Favorites" order="6" sideWeight="0.50141644" side_tool="true" weight="0.20442359" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.7832861" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49932975" visible="true" weight="0.12181303" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49932975" weight="0.27478755" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39943343" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3243626" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3286119" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50067025" side_tool="true" weight="0.51699716" />
@@ -516,23 +466,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/VectorNd.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/Tools/TableHtml.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="4" column="46" selection-start-line="4" selection-start-column="46" selection-end-line="4" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/Tools/RunAllAndJoin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="676">
-          <caret line="26" column="47" lean-forward="true" selection-start-line="26" selection-start-column="47" selection-end-line="26" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/zrx/ODE/FirstOrderEquations.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
@@ -540,13 +473,6 @@
           <folding>
             <element signature="docComment;method#pointAtTrajectoryOfS#0;class#FirstOrderEquations#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/DemoAndStudy/test/JameTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="838">
-          <caret line="45" column="31" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -666,77 +592,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/beam/PhaseSpaceDirect.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pyScript/plot3.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="483">
           <caret line="127" column="554" selection-start-line="127" selection-start-column="550" selection-end-line="127" selection-end-column="554" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/beam/ParticleFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="31" column="34" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;method#getProton250MeV#0;class#ParticleFactory#0" />
-            <element signature="method#getProton#0;class#ParticleFactory#0" />
-            <element signature="docComment;method#getEllipseParticles#0;class#ParticleFactory#0" />
-            <element signature="method#getEllipseParticles#0;class#ParticleFactory#0" />
-            <element signature="method#copy#0;class#ParticleFactory#0" />
-            <element signature="docComment;method#speedToKineticMeVProton#0;class#ParticleFactory#0" />
-            <element signature="method#speedToKineticMeVProton#0;class#ParticleFactory#0" />
-            <element signature="docComment;method#kineticMeVToSpeedProton#0;class#ParticleFactory#0" />
-            <element signature="method#kineticMeVToSpeedProton#0;class#ParticleFactory#0" />
-            <element signature="docComment;method#speedToRunMassProton#0;class#ParticleFactory#0" />
-            <element signature="method#speedToRunMassProton#0;class#ParticleFactory#0" />
-            <element signature="docComment;method#scalarMomentumToSpeedProton#0;class#ParticleFactory#0" />
-            <element signature="method#scalarMomentumToSpeedProton#0;class#ParticleFactory#0" />
-            <element signature="docComment;method#scalarMomentumToRunMassProton#0;class#ParticleFactory#0" />
-            <element signature="method#scalarMomentumToRunMassProton#0;class#ParticleFactory#0" />
-            <element signature="method#copy#1;class#ParticleFactory#0" />
-            <element signature="method#main#0;class#ParticleFactory#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/beam/BeamRun.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1638">
-          <caret line="18" column="53" selection-start-line="18" selection-start-column="53" selection-end-line="18" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#setMotionParameters#0;class#BeamRun#0" />
-            <element signature="e#3019#3020#0" expanded="true" />
-            <element signature="e#3058#3059#0" expanded="true" />
-            <element signature="e#3097#3098#0" expanded="true" />
-            <element signature="e#3136#3137#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/CoordinateSystem3d.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="31" column="74" selection-start-line="31" selection-start-column="74" selection-end-line="31" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/beam/RunningParticle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="209" column="19" selection-start-line="209" selection-start-column="19" selection-end-line="209" selection-end-column="19" />
-          <folding>
-            <element signature="e#6313#6314#0" expanded="true" />
-            <element signature="e#6338#6339#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -796,16 +655,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/point/Vector3d.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/zrx/base/point/Vector3dTo2d.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="52">
@@ -837,37 +686,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/line2d/Line.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-208">
-          <caret line="19" column="4" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="23" />
-          <folding>
-            <element signature="e#711#712#0" expanded="true" />
-            <element signature="e#935#936#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/zrxBaseLine2dTrajectoryMain.png">
       <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/point/Vector2d.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="672" column="96" selection-start-line="672" selection-start-column="92" selection-end-line="672" selection-end-column="96" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#13399#13400#0" expanded="true" />
-            <element signature="e#13445#13446#0" expanded="true" />
-            <element signature="e#15630#15631#0" expanded="true" />
-            <element signature="e#15687#15688#0" expanded="true" />
-            <element signature="e#18200#18201#0" expanded="true" />
-            <element signature="e#18247#18248#0" expanded="true" />
-            <element signature="e#18322#18323#0" expanded="true" />
-            <element signature="e#18381#18382#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/zrx/DemoAndStudy/test/A.java">
       <provider selected="true" editor-type-id="text-editor" />
@@ -911,17 +731,6 @@
     <entry file="file://$PROJECT_DIR$/docs/fileOut/0904_135_hks/9月4日做的135度多级场计算_准备让赵泽峰程序运行.zrx">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/beam/PhaseSpaceParticle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="97" column="44" selection-start-line="97" selection-start-column="44" selection-end-line="97" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#plot2dYYCParticlesInPhaseSpace#0;class#PhaseSpaceParticle#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/zrx/Tools/Numpy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="730">
@@ -942,25 +751,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/fileOut/n12-1-120-opt.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="8" column="63" lean-forward="true" selection-start-line="8" selection-start-column="63" selection-end-line="8" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/ConcreteCCT/AllCCTs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="104" column="5" selection-start-line="104" selection-start-column="5" selection-end-line="104" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#187#211#0" expanded="true" />
-            <element signature="method#magneticComponent01#0;class#AllCCTs#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/fileOut/n12-1-120-opt.txt" />
     <entry file="file://$PROJECT_DIR$/pyScript/plot2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="134">
@@ -978,9 +769,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/docs/fileOut/0904_135_hks/shkl05mm.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-354514" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/fileOut/0904_135_hks/shkl.txt" />
+    <entry file="file://$PROJECT_DIR$/src/zrx/CCT/ConcreteCCT/AllCCTs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2574">
+          <caret line="104" column="5" selection-start-line="104" selection-start-column="5" selection-end-line="104" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#magneticComponent01#0;class#AllCCTs#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/zrx/base/line2d/StraightLine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
+        <state relative-caret-position="780">
           <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -988,27 +796,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/base/line2d/ArcLine.java">
+    <entry file="file://$PROJECT_DIR$/src/zrx/base/point/Vector2d.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="73" column="17" selection-start-line="73" selection-start-column="17" selection-end-line="73" selection-end-column="17" />
+        <state relative-caret-position="788">
+          <caret line="772" column="27" selection-start-line="772" selection-start-column="27" selection-end-line="772" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#13399#13400#0" expanded="true" />
+            <element signature="e#13445#13446#0" expanded="true" />
+            <element signature="e#15630#15631#0" expanded="true" />
+            <element signature="e#15687#15688#0" expanded="true" />
+            <element signature="e#18200#18201#0" expanded="true" />
+            <element signature="e#18247#18248#0" expanded="true" />
+            <element signature="e#18322#18323#0" expanded="true" />
+            <element signature="e#18381#18382#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/fileOut/0904_135_hks/shkl.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="9" column="63" lean-forward="true" selection-start-line="9" selection-start-column="63" selection-end-line="9" selection-end-column="63" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/zrx/CCT/CCTUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="327" column="48" selection-start-line="327" selection-start-column="48" selection-end-line="327" selection-end-column="48" />
+        <state relative-caret-position="1676">
+          <caret line="318" selection-start-line="318" selection-end-line="318" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;method#magneticDistributionZ#0;class#CCTUtils#0" />
@@ -1022,31 +831,153 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/zrx/DemoAndStudy/六十七点五两个0821.java">
+    <entry file="file://$PROJECT_DIR$/src/zrx/base/point/Vector3d.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="316" column="60" selection-start-line="316" selection-start-column="60" selection-end-line="316" selection-end-column="60" />
+        <state relative-caret-position="234">
+          <caret line="644" column="39" selection-start-line="644" selection-start-column="39" selection-end-line="644" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#958#982#0" expanded="true" />
-            <element signature="e#3775#4150#0" />
-            <element signature="initializer##0;class#六十七点五两个0821#0" />
-            <element signature="e#12734#13139#0" />
-            <element signature="e#10302#10449#0" />
-            <element signature="class#10397:10442" />
-            <element signature="e#13481#13482#0" expanded="true" />
-            <element signature="class#12546:12591" />
-            <element signature="method#directAtTrajectoryOfS#0;class#12546:14605" />
-            <element signature="method#fit#0;class#12546:14605" />
-            <element signature="e#9840#10125#0" />
-            <element signature="e#9771#9840#0" />
-            <element signature="e#24011#24903#0" />
-            <element signature="e#24909#29528#0" />
-            <element signature="e#10354#10410#0" />
-            <element signature="e#29534#29952#0" />
-            <element signature="e#29958#30295#0" />
-            <element signature="e#10809#11146#0" />
-            <element signature="e#21334#21441#0" />
+            <element signature="e#14919#14920#0" expanded="true" />
+            <element signature="e#15014#15015#0" expanded="true" />
+            <element signature="e#15126#15127#0" expanded="true" />
+            <element signature="e#15359#15360#0" expanded="true" />
+            <element signature="e#15680#15681#0" expanded="true" />
+            <element signature="e#15759#15760#0" expanded="true" />
+            <element signature="e#15848#15849#0" expanded="true" />
+            <element signature="e#15927#15928#0" expanded="true" />
+            <element signature="e#16016#16017#0" expanded="true" />
+            <element signature="e#16095#16096#0" expanded="true" />
+            <element signature="e#16273#16274#0" expanded="true" />
+            <element signature="e#16375#16376#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/base/line2d/ArcLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1779">
+          <caret line="73" column="17" selection-start-line="73" selection-start-column="17" selection-end-line="73" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/base/line2d/Line.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="61" column="99" selection-start-line="61" selection-start-column="99" selection-end-line="61" selection-end-column="99" />
+          <folding>
+            <element signature="e#664#665#0" expanded="true" />
+            <element signature="e#711#712#0" expanded="true" />
+            <element signature="e#887#888#0" expanded="true" />
+            <element signature="e#935#936#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/base/CoordinateSystem3d.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="25" column="11" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/beam/tracking/BeamRun.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#setMotionParameters#0;class#BeamRun#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/beam/tracking/PhaseSpaceDirect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8">
+          <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/beam/tracking/RunningParticle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/DemoAndStudy/test/JameTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1196">
+          <caret line="48" column="43" selection-start-line="48" selection-start-column="43" selection-end-line="48" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/beam/tracking/ParticleFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="86" column="69" lean-forward="true" selection-start-line="86" selection-start-column="69" selection-end-line="86" selection-end-column="69" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;method#getProton250MeV#0;class#ParticleFactory#0" />
+            <element signature="method#getProton#0;class#ParticleFactory#0" />
+            <element signature="docComment;method#getEllipseParticles#0;class#ParticleFactory#0" />
+            <element signature="method#runInAllCCTsThread#0;class#ParticleFactory#0" />
+            <element signature="method#copy#0;class#ParticleFactory#0" />
+            <element signature="docComment;method#speedToKineticMeVProton#0;class#ParticleFactory#0" />
+            <element signature="method#speedToKineticMeVProton#0;class#ParticleFactory#0" />
+            <element signature="docComment;method#kineticMeVToSpeedProton#0;class#ParticleFactory#0" />
+            <element signature="method#kineticMeVToSpeedProton#0;class#ParticleFactory#0" />
+            <element signature="docComment;method#speedToRunMassProton#0;class#ParticleFactory#0" />
+            <element signature="method#speedToRunMassProton#0;class#ParticleFactory#0" />
+            <element signature="docComment;method#scalarMomentumToSpeedProton#0;class#ParticleFactory#0" />
+            <element signature="method#scalarMomentumToSpeedProton#0;class#ParticleFactory#0" />
+            <element signature="docComment;method#scalarMomentumToRunMassProton#0;class#ParticleFactory#0" />
+            <element signature="method#scalarMomentumToRunMassProton#0;class#ParticleFactory#0" />
+            <element signature="method#copy#1;class#ParticleFactory#0" />
+            <element signature="method#main#0;class#ParticleFactory#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Program Files/jdk-12.0.1/lib/src.zip!/java.base/java/util/Optional.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="59" column="19" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/DemoAndStudy/六十七点五两个0821.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10114">
+          <caret line="431" column="83" selection-start-line="431" selection-start-column="83" selection-end-line="431" selection-end-column="83" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/beam/tracking/PhaseSpaceParticle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2106">
+          <caret line="88" column="23" selection-start-line="88" selection-start-column="23" selection-end-line="88" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#plot2dYYCParticlesInPhaseSpace#0;class#PhaseSpaceParticle#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/zrx/beam/transport/Transport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="140" column="9" selection-start-line="140" selection-start-column="9" selection-end-line="140" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getTransportMatrixByMap#0;class#Transport#0" />
+            <element signature="method#transport#0;class#Transport#0" />
           </folding>
         </state>
       </provider>

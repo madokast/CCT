@@ -16,9 +16,9 @@ import zrx.Tools.*;
 import zrx.base.CoordinateSystem3d;
 import zrx.base.point.Vector2d;
 import zrx.base.point.Vector3d;
-import zrx.beam.ParticleFactory;
-import zrx.beam.PhaseSpaceParticle;
-import zrx.beam.RunningParticle;
+import zrx.beam.tracking.ParticleFactory;
+import zrx.beam.tracking.PhaseSpaceParticle;
+import zrx.beam.tracking.RunningParticle;
 import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 

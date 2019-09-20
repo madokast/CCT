@@ -44,6 +44,10 @@ public class JameTest {
 
             Matrix matrix = new Matrix(a);
             matrix.print(10,3);
+
+        final double v11 = matrix.get(1, 1);
+        System.out.println("v11 = " + v11);
+
     }
 
 

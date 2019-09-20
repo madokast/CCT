@@ -4,7 +4,7 @@ import zrx.CCT.ConcreteCCT.AllCCTs;
 import zrx.Tools.Numpy;
 import zrx.base.point.Vector2d;
 import zrx.base.point.Vector3d;
-import zrx.beam.RunningParticle;
+import zrx.beam.tracking.RunningParticle;
 
 import java.util.ArrayList;
 

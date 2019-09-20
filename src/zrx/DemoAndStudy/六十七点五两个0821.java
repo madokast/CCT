@@ -5,6 +5,7 @@ package zrx.DemoAndStudy;
 // * layer1 3   二极CCT
 // * layer1 4
 
+import Jama.Matrix;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
 import zrx.CCT.CCTUtils;
@@ -22,11 +23,11 @@ import zrx.base.line2d.Trajectory;
 import zrx.base.point.Vector2d;
 import zrx.base.point.Vector2dTo3d;
 import zrx.base.point.Vector3d;
-import zrx.beam.*;
+import zrx.beam.tracking.*;
+import zrx.beam.transport.Transport;
 import zrx.python.Plot2d;
 import zrx.python.Plot3d;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -144,9 +145,13 @@ public class 六十七点五两个0821 {
     private static Vector3d startPointDirect = null;//粒子运动方向
     private static final double LENGTH = DRIFTIN + ANGLERadian_675 + DISTANCE + ANGLERadian_675 + DRIFTOUT;//理想轨迹总长度
 
+//    private static final Vector3d IealEndDirect = Vector3d.getYDirect(-1);
+    private static RunningParticle IdealEndParticle;
+    private static CoordinateSystem3d IdealEndParticleCoordinate;
+
     //全新的辅助量，代替 trajectoryNEW 。使用trajectory类 2019年9月4日
     private static Trajectory trajectory2d = new Trajectory();
-    private static Vector2dTo3d trajectory2dTo3d = v2->Vector3d.vector2dTo3d(v2);//厉害厉害
+    private static Vector2dTo3d trajectory2dTo3d = v2 -> Vector3d.vector2dTo3d(v2);//厉害厉害
 
     //辅助量初始化
     static {
@@ -196,15 +201,15 @@ public class 六十七点五两个0821 {
         ).add(
                 //第二段。第一个CCT圆弧
                 ArcLine.getOne(
-                        Vector2d.getOne(-rsina,rcosa),//圆心
+                        Vector2d.getOne(-rsina, rcosa),//圆心
                         R_beamline,//半径
                         2.0 * a, a, true
                 )
         ).add(
                 //第三段，中间的漂移段
                 StraightLine.getByStartAndEnd(
-                        Vector2d.getOne(cosa-rsina,sina+rcosa),
-                        Vector2d.getOne(cosa,sina)
+                        Vector2d.getOne(cosa - rsina, sina + rcosa),
+                        Vector2d.getOne(cosa, sina)
                 )
         ).add(
                 //第四段。第二个CCT
@@ -271,6 +276,16 @@ public class 六十七点五两个0821 {
 //        for (int i = 0; i < trajectory.length; i++) {
 //            angList.add(AngleToRadian.reverse(Math.atan2(trajectory[i].y, trajectory[i].x)));
 //        }
+
+        IdealEndParticle = ParticleFactory.getProton250MeV(
+                trajectory2dTo3d.functioon(trajectory2d.pointAt(trajectory2d.getLength())),
+                trajectory2dTo3d.functioon(trajectory2d.endDirect())
+        );
+
+        IdealEndParticleCoordinate = CoordinateSystem3d.getOneByYZ(
+                Vector3d.getOne(0,0,-1),
+                IdealEndParticle.velocity
+        );
     }
 
     public static void main(String[] args) {
@@ -278,7 +293,7 @@ public class 六十七点五两个0821 {
 //        Plot3d.plot3(trajectoryNEW, Plot2d.BLACK_LINE);
 
         //Trajectory 类测试。测试通过
-        trajectory2d.Plot3d(2*MM,trajectory2dTo3d,Plot2d.RED_LINE);
+        trajectory2d.Plot3d(2 * MM, trajectory2dTo3d, Plot2d.RED_LINE);
 
         //简单磁场分布
 //        Plot2d.plot2(CCTUtils.magneticDistributionZ(allCCTs, trajectoryNEW, sList), Plot2d.BLACK_LINE);
@@ -297,6 +312,9 @@ public class 六十七点五两个0821 {
         //单粒子运动。生成粒子，开始运动
 //        RunningParticle proton250MeV = ParticleFactory.getProton250MeV(startPointParticle, startPointDirect);
 //        proton250MeV.runInAllCCTs(allCCTs, LENGTH, STEP_TRAJ, 10, Plot2d.RED_LINE);
+//        proton250MeV.phaseSpaceParticle(IdealEndParticleCoordinate,IdealEndParticle);
+
+
 
         //enge函数拟合
 //        engeFunction(allCCTs);//bug很多
@@ -305,7 +323,7 @@ public class 六十七点五两个0821 {
 //        ellipseTracking(allCCTs);
 
         //传输矩阵
-//        transportMatrix(allCCTs);
+        transportMatrix(allCCTs);
 
         //COSY切片
 //        final double[][] component0123Array = CCTUtils.magneticComponent0123Array(allCCTs, GOOD_FIELD_AREA, trajectoryNEW);
@@ -313,9 +331,8 @@ public class 六十七点五两个0821 {
 
 
         //输出多级场分量 h k l
-        CCTUtils.getHKL(allCCTs,Bp,trajectory2d,trajectory2dTo3d,GOOD_FIELD_AREA,
-                new File("docs/fileOut/0904_135_hks/shkl05mm.txt"));
-
+//        CCTUtils.getHKL(allCCTs,Bp,trajectory2d,trajectory2dTo3d,GOOD_FIELD_AREA,
+//                new File("docs/fileOut/0904_135_hks/shkl10mm.txt"));
 
 
 //        allCCTs.plot3d();
@@ -327,61 +344,38 @@ public class 六十七点五两个0821 {
         Plot2d.showThread();
     }
 
-    private static void trajectory2dTest(){
-        trajectory2d.Plot2d(2*MM,Plot2d.BLACK_LINE);
+    private static void trajectory2dTest() {
+        trajectory2d.Plot2d(2 * MM, Plot2d.BLACK_LINE);
         double s = 0.0;
         List<Vector2d> vector2ds = new ArrayList<>();
-        while (s<trajectory2d.getLength()){
-            vector2ds.add(trajectory2d.rightHandSidePoint(s,20*MM));
-            s+=1*MM;
+        while (s < trajectory2d.getLength()) {
+            vector2ds.add(trajectory2d.rightHandSidePoint(s, 20 * MM));
+            s += 1 * MM;
         }
-        Plot2d.plot2(vector2ds.toArray(Vector2d[]::new),Plot2d.YELLOW_LINE);
+        Plot2d.plot2(vector2ds.toArray(Vector2d[]::new), Plot2d.YELLOW_LINE);
     }
 
     private static void transportMatrix(AllCCTs allCCTs) {
         FirstOrderEquations ode00 = new FirstOrderEquations() {
-            private final double deltaS = 1.0 / 1000.0 / 100.0;
             private double dp;
 
-            public Vector3d pointAtTrajectoryOfS(double s) {
-                return 六十七点五两个0821.pointAtTrajectoryOfS(s);
-            }
-
-            private Vector3d directAtTrajectoryOfS(double s) {
-                final Vector3d currentPoint = pointAtTrajectoryOfS(s);
-                final Vector3d pointAhead = pointAtTrajectoryOfS(s + deltaS);
-                return Vector3d.subtract(pointAhead, currentPoint);
-            }
 
             private double[] fit(double s) {
-                final Vector3d currentPoint = pointAtTrajectoryOfS(s);
-                final Vector3d direct = directAtTrajectoryOfS(s);
-                final Vector3d point1 = Vector3d.add(currentPoint,
-                        Vector3d.vector2dTo3d(
-                                direct.projectToXY().
-                                        rotateSelfAndReturn(-Math.PI / 2.0).
-                                        changeLengthAndReturn(GOOD_FIELD_AREA)
-                        )
-                );
-                final Vector3d point2 = Vector3d.add(currentPoint,
-                        Vector3d.vector2dTo3d(
-                                direct.projectToXY().
-                                        rotateSelfAndReturn(Math.PI / 2.0).
-                                        changeLengthAndReturn(GOOD_FIELD_AREA)
-                        )
-                );
-                return allCCTs.magneticComponent01(point1, point2);
+                Vector3d startPoint = trajectory2dTo3d.functioon(trajectory2d.leftHandSidePoint(s, GOOD_FIELD_AREA));
+                Vector3d endPoint = trajectory2dTo3d.functioon(trajectory2d.rightHandSidePoint(s, GOOD_FIELD_AREA));
+
+                return allCCTs.magneticComponent012_ZhaoZeFengXYS(startPoint, endPoint);
 
             }
 
             @Override
             public double getH(double s) {
-                return fit(s)[0];
+                return fit(s)[0]/Bp;
             }
 
             @Override
             public double getK(double s) {
-                return fit(s)[1];
+                return fit(s)[1]/Bp;
             }
 
             /**
@@ -399,48 +393,24 @@ public class 六十七点五两个0821 {
         };
         ode00.setDp(0.0);
         FirstOrderEquations ode10 = new FirstOrderEquations() {
-            private final double deltaS = 1.0 / 1000.0 / 100.0;
             private double dp;
 
-            public Vector3d pointAtTrajectoryOfS(double s) {
-                return 六十七点五两个0821.pointAtTrajectoryOfS(s);
-            }
-
-            private Vector3d directAtTrajectoryOfS(double s) {
-                final Vector3d currentPoint = pointAtTrajectoryOfS(s);
-                final Vector3d pointAhead = pointAtTrajectoryOfS(s + deltaS);
-                return Vector3d.subtract(pointAhead, currentPoint);
-            }
-
             private double[] fit(double s) {
-                final Vector3d currentPoint = pointAtTrajectoryOfS(s);
-                final Vector3d direct = directAtTrajectoryOfS(s);
-                final Vector3d point1 = Vector3d.add(currentPoint,
-                        Vector3d.vector2dTo3d(
-                                direct.projectToXY().
-                                        rotateSelfAndReturn(Math.PI / 2.0).
-                                        changeLengthAndReturn(GOOD_FIELD_AREA)
-                        )
-                );
-                final Vector3d point2 = Vector3d.add(currentPoint,
-                        Vector3d.vector2dTo3d(
-                                direct.projectToXY().
-                                        rotateSelfAndReturn(-Math.PI / 2.0).
-                                        changeLengthAndReturn(GOOD_FIELD_AREA)
-                        )
-                );
-                return allCCTs.magneticComponent01(point1, point2);
+                Vector3d startPoint = trajectory2dTo3d.functioon(trajectory2d.leftHandSidePoint(s, GOOD_FIELD_AREA));
+                Vector3d endPoint = trajectory2dTo3d.functioon(trajectory2d.rightHandSidePoint(s, GOOD_FIELD_AREA));
+
+                return allCCTs.magneticComponent012_ZhaoZeFengXYS(startPoint, endPoint);
 
             }
 
             @Override
             public double getH(double s) {
-                return fit(s)[0];
+                return fit(s)[0]/Bp;
             }
 
             @Override
             public double getK(double s) {
-                return fit(s)[1];
+                return fit(s)[1]/Bp;
             }
 
             /**
@@ -459,11 +429,11 @@ public class 六十七点五两个0821 {
         ode10.setDp(1.0);
 
         final double sStart = 0.0;
-        final double sEnd = LENGTH;
-        final double minStep = 1.0e-6;
+        final double sEnd = trajectory2d.getLength()*0.0 + DRIFTIN +ANGLERadian_675 ;
+        final double minStep = 1e-6;
         final double maxStep = 0.1;
-        final double scalAbsoluteTolerance = 1.0e-4;
-        final double scalRelativeTolerance = 1.0e-4;
+        final double scalAbsoluteTolerance = 1e-4;
+        final double scalRelativeTolerance = 1e-4;
 
         final Map<String, Double> matrix = new HashMap<>();
 
@@ -541,6 +511,18 @@ public class 六十七点五两个0821 {
 
 
         System.out.println(matrix);
+
+
+        //——————————————————————————————————————
+        final Matrix sigmaMatrix = Transport.getSigmaMatrixByTwiss(3.5 / 7.5, 7.5 / 3.5,
+                3.5 / 7.5, 7.5 / 3.5,
+                3.5 * 7.5 * 1e-6 / 100000000, 0.0);
+        final Matrix transportMatrix = Transport.getTransportMatrixByMap(matrix);
+        final Matrix sigma2 = Transport.transport(transportMatrix, sigmaMatrix);
+        Transport.plot2dEllipseXXC(sigmaMatrix,Plot2d.YELLOW_LINE);
+        Transport.plot2dEllipseXXC(sigma2,Plot2d.BLACK_LINE);
+
+
     }
 
     private static void ellipseTracking(AllCCTs allCCTs) {
@@ -556,16 +538,16 @@ public class 六十七点五两个0821 {
 
         //参考粒子所处的轨道坐标系
         CoordinateSystem3d startCoordinateSystem3d = CoordinateSystem3d.getOneByYZ(
-                Vector3d.getZDirect(), referredParticle.velocity);
+                Vector3d.getZDirect(-1), referredParticle.velocity);
 
         //由参考粒子和相椭圆参数得到需要研究的其他粒子
         RunningParticle[] studiedParticles = ParticleFactory.getEllipseParticles(referredParticle,
                 startCoordinateSystem3d,//轨道坐标系
                 PhaseSpaceDirect.X,//相椭圆位于XX'
-                12,//生成粒子数目
+                96,//生成粒子数目
                 3.5 / 7.5,//beta
                 7.5 / 3.5,//gamma
-                3.5 * 7.5 * MM * MRAD / 10000,//epsi
+                3.5 * 7.5 * MM * MRAD,//epsi
                 0.0);//动量分散
 
         //画出studiedParticles在相空间的图像，用于验证
@@ -575,7 +557,8 @@ public class 六十七点五两个0821 {
         //运动所有的粒子。会自动画三维轨迹图
         new BeamRun().addParticle(referredParticle, Plot2d.RED_LINE)
                 .addParticles(studiedParticles, Plot2d.YELLOW_LINE)
-                .setMotionParameters(allCCTs, LENGTH, STEP_KSI, 100)
+                .setMotionParameters(allCCTs, LENGTH
+                        , STEP_KSI, 100)
                 .startThread();
 
         //————!!!!注意!!!!粒子运动完后referredParicle和studiedParticles都不再在起点，而是停留在终点，等待研究————
@@ -583,7 +566,7 @@ public class 六十七点五两个0821 {
 
         //出口粒子坐标系
         final CoordinateSystem3d endCoordinateSystem3d = CoordinateSystem3d.getOneByYZ(
-                Vector3d.getZDirect(), referredParticle.velocity);
+                Vector3d.getZDirect(-1), referredParticle.velocity);
 
 
         //绘制出口相椭圆
@@ -653,7 +636,6 @@ public class 六十七点五两个0821 {
                         DISTANCE
                 )
         );
-
 
 
         System.out.println("allCCTs.size() = " + allCCTs.size());

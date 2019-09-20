@@ -2,7 +2,7 @@ package zrx.python;
 
 
 import zrx.base.point.Vector3d;
-import zrx.beam.RunningParticle;
+import zrx.beam.tracking.RunningParticle;
 
 import java.io.*;
 import java.util.ArrayList;
