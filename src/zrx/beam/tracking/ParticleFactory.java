@@ -32,20 +32,6 @@ public class ParticleFactory {
         //(Vector3d position, Vector3d velocity, double runMass, double e, double speed, double distance)
 
         return getProton(position, direct, Kinetic250MeV);
-
-//        //计算速率
-//        double speed = LightSpeed*Math.sqrt(
-//                1-Math.pow(ProtonStaticMassMeV/(ProtonStaticMassMeV+Kinetic250MeV), 2)
-//        );
-//        //计算质量kg
-//        double runMass = ProtonStaticMassKg/ Math.sqrt(1.0-
-//                speed*speed / (LightSpeed*LightSpeed)
-//        );
-//
-//        return new RunningParticle(position,
-//                direct.setLengthAndReturn(speed),
-//                runMass,ProtonChargeQuantity,speed,0.0
-//                );
     }
 
     public static RunningParticle getProton(Vector3d position, Vector3d direct, double kineticMeV) {

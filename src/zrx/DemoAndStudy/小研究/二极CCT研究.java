@@ -190,8 +190,17 @@ public class 二极CCT研究 {
             //new api
             if (true) {
                 //XY单独处理
-//                Plot2d.plot2(ListToArray.doubleListToArray(angList),
-//                        AnalyseCCT.magnetZeAlongTrajectory(allCCTs,trajectory),Plot2d.BLACK_LINE);
+                Plot2d.plot2(ListToArray.doubleListToArray(angList),
+                        AnalyseCCT.magnetZeAlongTrajectory(allCCTs,trajectory),Plot2d.BLACK_LINE);
+
+                double[] doubles = ListToArray.doubleListToArray(angList);
+                double[] doubles1 = AnalyseCCT.magnetZeAlongTrajectory(allCCTs, trajectory);
+                for (int i = 0; i < doubles.length; i++) {
+                    System.out.println(doubles[i]+"  "+doubles1[i]);
+                }
+
+                System.exit(0);
+
 //                //硬板模型
 //                Plot2d.plotGREY_DASH(
 //                        Vector2d.getByStartAndEnd(-EDGEangle, 0.0),
@@ -221,7 +230,7 @@ public class 二极CCT研究 {
                 );
 
                 //辅助线
-                if (true) {
+                if (false) {
                     Plot2d.plotGREY_DASH(
                             Vector2d.getOne(-3, 1.1),
                             Vector2d.getOne(-3, -0.1)
@@ -755,12 +764,12 @@ public class 二极CCT研究 {
 
 
         //画图
-        cct3.Plot3d(Plot2d.RED_LINE);
-//        cct4.Plot3d(Plot2d.BLUE_LINE);
-
-        Plot3d.setCube(0.5);
-//        Plot3d.showThread();
-        Plot2d.showThread();
+//        cct3.Plot3d(Plot2d.RED_LINE);
+////        cct4.Plot3d(Plot2d.BLUE_LINE);
+//
+//        Plot3d.setCube(0.5);
+////        Plot3d.showThread();
+//        Plot2d.showThread();
         Timer.invoke();
 
     }

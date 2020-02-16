@@ -296,7 +296,7 @@ public class 六十七点五两个0821 {
         trajectory2d.Plot3d(2 * MM, trajectory2dTo3d, Plot2d.RED_LINE);
 
         //简单磁场分布
-//        Plot2d.plot2(CCTUtils.magneticDistributionZ(allCCTs, trajectoryNEW, sList), Plot2d.BLACK_LINE);
+        Plot2d.plot2(CCTUtils.magneticDistributionZ(allCCTs, trajectoryNEW, sList), Plot2d.BLACK_LINE);
         //多级场分布
 //        Plot2d.plot2(CCTUtils.magneticComponent0123(allCCTs, GOOD_FIELD_AREA, 0, trajectoryNEW, sList), Plot2d.BLACK_LINE);
 //        Plot2d.plotPoints(CCTUtils.magneticComponent0123(allCCTs, GOOD_FIELD_AREA, 1, trajectoryNEW, sList), Plot2d.RED_LINE);
@@ -323,7 +323,7 @@ public class 六十七点五两个0821 {
 //        ellipseTracking(allCCTs);
 
         //传输矩阵
-        transportMatrix(allCCTs);
+//        transportMatrix(allCCTs);
 
         //COSY切片
 //        final double[][] component0123Array = CCTUtils.magneticComponent0123Array(allCCTs, GOOD_FIELD_AREA, trajectoryNEW);
@@ -335,7 +335,7 @@ public class 六十七点五两个0821 {
 //                new File("docs/fileOut/0904_135_hks/shkl10mm.txt"));
 
 
-//        allCCTs.plot3d();
+        allCCTs.plot3d();
         Plot3d.setCube(1.0);
         Plot3d.removeAxis();
         Plot3d.setCenter(Vector3d.getOne(1, 0, 0), 2.0);
