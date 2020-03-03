@@ -138,13 +138,13 @@ public class Trajectory implements Line2 {
     public Vector2 directAt(double s) {
         for (Line2 line : trajectoryList) {
             if (s <= line.getLength()) {
-                return line.directAt(s);
+                return line.directAt(s).copy();
             } else {
                 s -= line.getLength();
             }
         }
         Logger.getLogger().error("Trajectory::directAt");
-        return trajectoryList.get(trajectoryList.size() - 1).directAt(s);
+        return trajectoryList.get(trajectoryList.size() - 1).directAt(s).copy();
     }
 
     /**

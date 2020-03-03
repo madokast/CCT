@@ -171,6 +171,89 @@ public class CctFactory {
     }
 
     /**
+     * 创建单层CCT，这个主要用于基础性研究
+     *
+     * @param smallR           CCT半孔径
+     * @param bigR             弯曲半径、即理想粒子的半径
+     * @param angle            弯曲角度。典型值66.7度
+     * @param windingNumber    匝数
+     * @param a0Bipolar        a0 产生二极场
+     * @param a1Quadruple      a1 产生四极场
+     * @param a2Sextuple       a2 产生六极场
+     * @param I                电流
+     * @param numberPerWinding 每匝分段
+     * @return 单层CCT
+     */
+    public static SoleLayerCct createSoleLaterCct(double smallR,
+                                                  double bigR,
+                                                  double angle,
+                                                  int windingNumber,
+                                                  double a0Bipolar,
+                                                  double a1Quadruple,
+                                                  double a2Sextuple,
+                                                  double I,
+                                                  int numberPerWinding) {
+        CctLine2s cctLine2 =
+                CctLine2Factory.create(smallR, bigR, angle,
+                        windingNumber, a0Bipolar, a1Quadruple, a2Sextuple);
+
+        return new SoleLayerCct(
+                cctLine2.disperseToPoint3(numberPerWinding), I);
+    }
+
+    /**
+     * 创建单层CCT，这个主要用于基础性研究。比上个函数更深入底层
+     *
+     * @param smallR           CCT半孔径
+     * @param bigR             弯曲半径、即理想粒子的半径
+     * @param angle            弯曲角度。典型值66.7度
+     * @param windingNumber    匝数
+     * @param a0Bipolar        a0 产生二极场
+     * @param a1Quadruple      a1 产生四极场
+     * @param a2Sextuple       a2 产生六极场
+     * @param I                电流
+     * @param numberPerWinding 每匝分段
+     * @param startingθ        起始 theta 类似于直线cct中的z
+     * @param startingφ        起始 φ 绕线点
+     * @param directθ          绕线方法，z 正方向？还是负方向
+     * @return 单层CCT
+     */
+    public static SoleLayerCct createSoleLaterCct(double smallR,
+                                                  double bigR,
+                                                  double angle,
+                                                  int windingNumber,
+                                                  double a0Bipolar,
+                                                  double a1Quadruple,
+                                                  double a2Sextuple,
+                                                  double I,
+                                                  int numberPerWinding,
+                                                  double startingθ,
+                                                  double startingφ,
+                                                  boolean directθ) {
+        CctLine2s cctLine2 =
+                CctLine2s.create(
+                        new CctLine2(smallR, bigR, angle, windingNumber,
+                                a0Bipolar, a1Quadruple, a2Sextuple,
+                                startingθ, startingφ, directθ)
+                );
+
+        return new SoleLayerCct(
+                cctLine2.disperseToPoint3(numberPerWinding), I);
+    }
+
+    public static Cct combineCct(Cct...ccts){
+
+        Cct emptyCct = Cct.getEmptyCct();
+
+        for (Cct cct : ccts) {
+            emptyCct.addCct(cct);
+        }
+
+        return emptyCct;
+    }
+
+
+    /**
      * 单层CCT
      */
     public static class SoleLayerCct implements MagnetAble {
@@ -218,6 +301,8 @@ public class CctFactory {
         public double getI() {
             return I;
         }
+
+
     }
 
     /**
@@ -273,6 +358,17 @@ public class CctFactory {
          */
         public SoleLayerCct get(int index) {
             return this.soleLayerCctList.get(index);
+        }
+
+        public List<SoleLayerCct> getSoleLayerCctList() {
+            return soleLayerCctList;
+        }
+
+        @Override
+        public String toString() {
+            return "Cct{" +
+                    "soleLayerCctList.size=" + soleLayerCctList.size() +
+                    '}';
         }
 
         /**
@@ -353,6 +449,30 @@ public class CctFactory {
                             point3WithDistance.getDistance(),
                             this.magnetAt(point3WithDistance.getPoint3()).toPoint3()
                     )).collect(Collectors.toList());
+        }
+
+        /**
+         * 研究轨道左手侧磁场。2020年2月21日
+         * 详见2月中旬的研究——理想粒子为什么脱离了中平面
+         * 验证通过
+         * @param trajectory 轨道
+         * @param deltaLength 分段
+         * @return 轨道左手侧磁场（s, m）
+         */
+        default List<Point2> leftHandMagnetAlongTrajectory(final Line2 trajectory,final double deltaLength){
+            return magnetAlongTrajectory(trajectory,deltaLength)
+                    .stream()
+                    .map(point3WithDistance -> {
+                        Vector3 vector3 = point3WithDistance.getPoint3().toVector3();
+                        double distance = point3WithDistance.getDistance();
+
+                        Vector3 left = trajectory.directAt(distance)
+                                .rotateSelf(BaseUtils.Converter.angleToRadian(90))
+                                .toVector3()
+                                .normalSelf();
+
+                        return Point2.create(distance,vector3.dot(left));
+                    }).collect(Collectors.toList());
         }
 
         default List<Point2> magnetGradientAlongTrajectoryFast(

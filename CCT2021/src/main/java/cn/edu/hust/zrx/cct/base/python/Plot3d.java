@@ -46,7 +46,7 @@ public class Plot3d {
         plot3(rs, "");
     }
 
-    public static void plot3(List<Point3> rs, String describe) {
+    public static synchronized void plot3(List<Point3> rs, String describe) {
         Point3[] point3s = new Point3[rs.size()];
         for (int i = 0; i < point3s.length; i++) {
             point3s[i] = rs.get(i);

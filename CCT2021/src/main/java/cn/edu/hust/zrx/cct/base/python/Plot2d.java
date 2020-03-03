@@ -65,7 +65,7 @@ public class Plot2d {
         plot2(rs, "");
     }
 
-    public static void plot2(List<Point2> rs, String describe) {
+    public static synchronized void plot2(List<Point2> rs, String describe) {
         Point2[] point2s = new Point2[rs.size()];
         for (int i = 0; i < point2s.length; i++) {
             point2s[i] = rs.get(i);
@@ -280,8 +280,25 @@ public class Plot2d {
     }
 
     public static void xLabel(String label) {
+        //
+//        font2 = {'family' : 'Times New Roman',
+//                'weight' : 'normal',
+//                'size'   : 30,
+
         if (pyPrintWriter != null)
             pyPrintWriter.println("plt.xlabel(\"\"\"" + label + "\"\"\")");
+        else
+            System.err.println("plot2d::xLabel called without any drawing");
+    }
+
+    public static void xLabel(String label,int size){
+        if (pyPrintWriter != null){
+            pyPrintWriter.println("fontXLabel = {'family' : 'Times New Roman',");
+            pyPrintWriter.println("'weight' : 'normal',");
+            pyPrintWriter.println("'size'   : "+size+",");
+            pyPrintWriter.println("}");
+            pyPrintWriter.println("plt.xlabel('"+label+"',fontXLabel)");
+        }
         else
             System.err.println("plot2d::xLabel called without any drawing");
     }
@@ -293,11 +310,74 @@ public class Plot2d {
             System.err.println("plot2d::xLabel called without any drawing");
     }
 
+    public static void yLabel(String label,int size) {
+        if (pyPrintWriter != null){
+            pyPrintWriter.println("fontYLabel = {'family' : 'Times New Roman',");
+            pyPrintWriter.println("'weight' : 'normal',");
+            pyPrintWriter.println("'size'   : "+size+",");
+            pyPrintWriter.println("}");
+            pyPrintWriter.println("plt.ylabel('"+label+"',fontYLabel)");
+        }
+        else
+            System.err.println("plot2d::xLabel called without any drawing");
+    }
+
     public static void title(String title) {
         if (pyPrintWriter != null)
             pyPrintWriter.println("plt.title(\"\"\"" + title + "\"\"\")");
         else
             System.err.println("plot2d::xLabel called without any drawing");
+    }
+
+    public static void title(String title,int size) {
+        if (pyPrintWriter != null){
+            pyPrintWriter.println("fontTitle = {'family' : 'Microsoft YaHei',");
+            pyPrintWriter.println("'weight' : 'normal',");
+            pyPrintWriter.println("'size'   : "+size+",");
+            pyPrintWriter.println("}");
+            pyPrintWriter.println("plt.title('"+title+"',fontTitle)");
+        }
+        else
+            System.err.println("plot2d::xLabel called without any drawing");
+    }
+
+    public static void axisFontSize(int size){
+        if (pyPrintWriter != null){
+            pyPrintWriter.println("plt.xticks(fontproperties = 'Times New Roman', size = "+size+")");
+            pyPrintWriter.println("plt.yticks(fontproperties = 'Times New Roman', size = "+size+")");
+        }
+        else
+            System.err.println("plot2d::xLabel called without any drawing");
+    }
+
+    public static void legend(int size,String...labels){
+//        plt.legend(labels=['up', 'down'])
+        if (pyPrintWriter != null){
+            StringBuilder sb = new StringBuilder();
+            sb.append("plt.legend(labels=[");
+            for (int i = 0; i < labels.length-1; i++) {
+                sb.append("'").append(labels[i]).append("', ");
+            }
+            sb.append("'").append(labels[labels.length-1]).append("'], ");
+            sb.append("prop={'family' : 'Times New Roman', 'size'   : "+size+"})");
+            pyPrintWriter.println(sb.toString());
+        }
+        else{
+            System.err.println("plot2d::xLabel called without any drawing");
+        }
+    }
+
+    public static void info(String xLabel,String yLabel,String title){
+        xLabel(xLabel);
+        yLabel(yLabel);
+        title(title);
+    }
+
+    public static void info(String xLabel,String yLabel,String title,int size){
+        xLabel(xLabel,size);
+        yLabel(yLabel,size);
+        title(title,size);
+        axisFontSize(size);
     }
 
     public static void show() {

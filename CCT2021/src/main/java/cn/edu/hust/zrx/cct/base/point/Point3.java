@@ -32,6 +32,8 @@ public class Point3 {
         return new Point3(x,y,z);
     }
 
+    public static Point3 origin(){return create(0,0,0);}
+
     public Point3 copy(){
         return create(this.x,this.y,this.z);
     }

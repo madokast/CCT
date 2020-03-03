@@ -114,7 +114,7 @@ public class AGCCT225 {
     // CCT每匝分段
     private final int numberPerWinding = 360;
 
-    //    @run
+        @run
     //但是可惜 似乎粒子偏离了中平面？ 2020年2月12日
     public void 解方程找最佳电流() {
         Function<Double, Double> function = I -> {
@@ -153,7 +153,7 @@ public class AGCCT225 {
 
     }
 
-        @run
+//        @run
     public void 中平面粒子轨迹() {
         CctFactory.Cct dipoleCct = creatDipoleCct();
         Trajectory trajectory = getTrajectory();

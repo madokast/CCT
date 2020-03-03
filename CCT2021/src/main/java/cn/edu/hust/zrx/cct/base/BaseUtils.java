@@ -7,6 +7,9 @@ import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -469,22 +472,23 @@ public class BaseUtils {
     public static class Switcher<Obj> {
         private final Obj[] objs;
         private int currentItem = 0;
-        public Obj getAndSwitch(){
+
+        public Obj getAndSwitch() {
             Obj obj = objs[currentItem % objs.length];
             switching();
             return obj;
         }
 
-        public int getSize(){
+        public int getSize() {
             return objs.length;
         }
 
-        private void switching(){
+        private void switching() {
             currentItem++;
         }
 
         @SuppressWarnings("all")
-        public static <Integer> Switcher<Integer> creat(int times){
+        public static <Integer> Switcher<Integer> creat(int times) {
             Integer[] objects = (Integer[]) StreamTools.forZeroToN(times - 1)
                     .boxed()
                     .toArray();
@@ -493,13 +497,104 @@ public class BaseUtils {
 
             return integerSwitcher;
         }
+
         @SafeVarargs
-        public static <Obj> Switcher<Obj> creat(Obj...objs){
+        public static <Obj> Switcher<Obj> creat(Obj... objs) {
             return new Switcher<>(objs);
         }
 
         private Switcher(Obj[] objs) {
             this.objs = objs;
+        }
+    }
+
+    public static class Content {
+        //容器，装两个任意对象，有泛型
+        public static class BiContent<T1, T2> {
+            private final T1 t1;
+            private final T2 t2;
+
+            public static <T1,T2> BiContent<T1,T2> create(T1 t1, T2 t2) {
+                return new BiContent<>(t1, t2);
+            }
+
+            private BiContent(T1 t1, T2 t2) {
+                this.t1 = t1;
+                this.t2 = t2;
+            }
+
+            public T1 getT1() {
+                return t1;
+            }
+
+            public T2 getT2() {
+                return t2;
+            }
+
+            @Override
+            public String toString() {
+                return toStringWithInfo(t1.getClass().toString(),t2.getClass().toString());
+            }
+
+            public String toStringWithInfo(String infoT1,String infoT2){
+                return "[" + infoT1 + " = " + t1.toString() + ", " + infoT2 + " = " + t2.toString() + "]";
+            }
+        }
+    }
+
+    public static class Timer{
+        // 静态方法 每两次调用，打印中间时间
+        private static long firstCallTime = -1;
+        public static void printPeriodPerSecondCall(org.slf4j.Logger logger){
+            long l = System.currentTimeMillis();
+            if(firstCallTime==-1)
+                firstCallTime = l;
+            else {
+                long period = l - firstCallTime;
+                firstCallTime = -1;
+                if(logger==null){
+                    System.out.println("运行时间： "+period+"ms");
+                }else {
+                    logger.info("运行时间： {}ms",period);
+                }
+            }
+        }
+
+        // 实例方法，打印创建该实例后经过的时间
+        public long initialTime;
+        public Timer(){initialTime = System.currentTimeMillis();}
+        public void printPeriodAfterInitial(org.slf4j.Logger logger){
+            long period = System.currentTimeMillis() - initialTime;
+            if(logger==null){
+                System.out.println("计时后运行时间： "+period+"ms");
+            }else {
+                logger.info("计时后运行时间： {}ms",period);
+            }
+        }
+    }
+
+    public static class Async{
+        private ExecutorService executorService;
+
+        public Async() {
+            int processors = Runtime.getRuntime().availableProcessors();
+            Logger.getLogger().info("启动fixed线程池，线程数 = " + processors);;
+            executorService =
+                    Executors.newFixedThreadPool(processors);
+        }
+
+        public void execute(Runnable r){
+            executorService.submit(r);
+        }
+
+        public void waitForAllFinish(long timeout, TimeUnit unit){
+            try {
+                executorService.shutdown();
+                executorService.awaitTermination(timeout,unit);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+                System.exit(-1);
+            }
         }
     }
 }

@@ -2,13 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="adbdbf18-7308-48d0-9cef-6bef6a0ec861" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/小论文画图三月三日/六十七点五三段AGCCT.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/超导机架AGCCT单独建模/左手侧磁场分析20200220.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CCT/META-INF/CCT.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyScript/plot2.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyScript/plot2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyScript/plot3.py" beforeDir="false" afterPath="$PROJECT_DIR$/pyScript/plot3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zrx/DemoAndStudy/六十七点五两个0821.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/DemoAndStudy/六十七点五两个0821.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zrx/DemoAndStudy/小研究/二极CCT研究.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/DemoAndStudy/小研究/二极CCT研究.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zrx/beam/tracking/ParticleFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/zrx/beam/tracking/ParticleFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/pyScript/plot2.py" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/pyScript/plot2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/pyScript/plot3.py" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/pyScript/plot3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/BaseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/BaseUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/cct/CctFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/cct/CctFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/line/Trajectory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/line/Trajectory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/point/Point2.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/point/Point2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/point/Point3.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/point/Point3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/python/Plot2d.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/python/Plot2d.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/python/Plot3d.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/python/Plot3d.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/超导机架AGCCT单独建模/AGCCT225.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/超导机架AGCCT单独建模/AGCCT225.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,10 +53,15 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="InvalidFacetManager">
+    <ignored-facets>
+      <facet id="CCT/invalid/Python" />
+    </ignored-facets>
   </component>
   <component name="ProjectId" id="1W0tOkTHxmIvfhov8pgdyTJomws" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -59,13 +71,14 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="ToolWindowRun.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="12" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DataArith" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
