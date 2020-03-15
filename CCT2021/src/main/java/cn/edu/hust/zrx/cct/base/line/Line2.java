@@ -359,6 +359,10 @@ public interface Line2 {
         plot3d(deltaLength,Plot2d.BLACK_LINE);
     }
 
+    default void plot3d(String describe){
+        plot3d(1*MM,describe);
+    }
+
     default void plot3d(){
         plot3d(1*MM);
     }

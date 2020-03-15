@@ -45,6 +45,7 @@ public class 左手侧磁场分析20200220 {
     @run
     public void 保持By不变时_分析r和左手侧磁场关系() {
         final double K = dipoleCctA0Inner / dipoleCctSmallRInner;
+        List<String> legends = new ArrayList<>();
 
         ArrayList<Point2> data = BaseUtils.Python.linspaceStream(10, 90, switcher.getSize())
                 .parallel()
@@ -59,26 +60,31 @@ public class 左手侧磁场分析20200220 {
                             soleLaterCctInner.leftHandMagnetAlongTrajectory(trajectory, MM);
 
                     return BaseUtils.Content.BiContent.create(smallR, leftHandMagnetAlongTrajectory);
-                }).sorted(Comparator.comparingDouble(BaseUtils.Content.BiContent::getT1))
+                })
+                .sorted(Comparator.comparingDouble(BaseUtils.Content.BiContent::getT1))
                 .collect(Collectors.toList())//关闭并行流
                 .stream()
                 .peek(bi -> {
                     Double smallR = bi.getT1();
                     List<Point2> leftHandMagnetAlongTrajectory = bi.getT2();
                     String andSwitch = switcher.getAndSwitch();
+                    String legend = switcherLegend.getAndSwitch();
+                    legends.add(legend);
 
                     BaseUtils.Content.BiContent<Double, String> info =
                             BaseUtils.Content.BiContent.create(smallR, andSwitch);
                     Logger.getLogger().info(info.toStringWithInfo("smallR", "des"));
 
                     Plot2d.plot2(leftHandMagnetAlongTrajectory, andSwitch);
-                }).map(BaseUtils.Content.BiContent::getT2)
+                })
+                .map(BaseUtils.Content.BiContent::getT2)
                 .collect(ArrayList<Point2>::new, ArrayList::addAll, ArrayList::addAll);
 
         Plot2d.plotYLines(trajectory.couplingPointLocation(), data);
 
 
         Plot2d.info("s/m", "左手侧磁场/T", "轨道上左手侧磁场分布(内层CCT)", 20);
+        Plot2d.legend(20,legends.toArray(new String[0]));
         Plot2d.showThread();
     }
 
@@ -353,6 +359,18 @@ public class 左手侧磁场分析20200220 {
     //--------------------------------参数-------------------------------------------
 
     Trajectory trajectory = getTrajectory();
+
+    BaseUtils.Switcher<String> switcherLegend = BaseUtils.Switcher.creat(
+            "BLACK_LINE",
+            "YELLOW_LINE",
+            "RED_LINE",
+            "BLUE_LINE",
+            "GREEN_LINE",
+            "RED_DASH",
+            "PINK_DASH",
+            "BLUE_DASH",
+            "BLACK_DASH"
+    );
 
     BaseUtils.Switcher<String> switcher = BaseUtils.Switcher.creat(
             Plot2d.BLACK_LINE,

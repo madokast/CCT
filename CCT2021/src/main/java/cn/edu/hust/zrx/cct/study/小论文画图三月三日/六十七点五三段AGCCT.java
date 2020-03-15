@@ -2,7 +2,9 @@ package cn.edu.hust.zrx.cct.study.小论文画图三月三日;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.advanced.Solver;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
@@ -12,6 +14,7 @@ import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 import cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模.左手侧磁场分析20200220;
+import org.apache.commons.math3.geometry.spherical.oned.Arc;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -23,6 +26,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Description
@@ -156,7 +160,7 @@ public class 六十七点五三段AGCCT {
 
     }
 
-    @run// 论文图 不要改动
+//    @run// 论文图 不要改动
     public void 全部之二极场() {
         double delta = 10 * MM;
 
@@ -218,7 +222,7 @@ public class 六十七点五三段AGCCT {
 //        Plot3d.showThread();
     }
 
-//    @run// 论文图 不要改动
+    @run// 论文图 不要改动
     public void 全部之四极场() {
         double delta = 10 * MM;
 
@@ -282,6 +286,60 @@ public class 六十七点五三段AGCCT {
 //
 //        Plot3d.setCube(0.8);
 //        Plot3d.showThread();
+    }
+
+//    @run
+    public void 解决四极CCT偏心问题画图(){
+        Trajectory trajectory = getTrajectory();
+        CctFactory.Cct agCct = createAgCct();
+
+        //二极场分布
+        List<Point2> magnetBzAlongTrajectory = agCct.magnetBzAlongTrajectory(trajectory, 1 * MM);
+                magnetBzAlongTrajectory = Point2.convert(magnetBzAlongTrajectory,
+                (x, y) -> BaseUtils.Converter.radianToAngle((x - 1) / bigR),
+                (x, y) -> y*10000);// 1T -> 1Gs
+        Plot2d.plot2(magnetBzAlongTrajectory,Plot2d.BLACK_LINE);
+//
+//        List<CctFactory.MagnetAble.Point3WithDistance> point3WithDistances =
+//                agCct.magnetAlongTrajectory(trajectory, 1 * MM);
+//        Logger.getLogger().info("point3WithDistances.get(1280).getPoint3().z = " +
+//                point3WithDistances.get(1280).getPoint3().z);
+
+//        List<Point2> collect = BaseUtils.Python.linspaceStream(-10 * MM, 10 * MM, 100)
+//                .mapToObj(delta -> {
+//                    Point2 rightHandSidePoint = trajectory.rightHandSidePoint(1.280, delta);
+//                    double z = agCct.magnetAt(rightHandSidePoint.toPoint3()).z;
+//                    return Point2.create(delta/MM, z);
+//                }).collect(Collectors.toList());
+//
+//        Plot2d.plot2(collect,Plot2d.BLACK_LINE);
+
+//        double zeroPoint = Solver.findZeroPoint(d -> {
+//            Point2 rightHandSidePoint = trajectory.rightHandSidePoint(1.280, d);
+//            return agCct.magnetAt(rightHandSidePoint.toPoint3()).z;
+//        }, Point2.create(-10 * MM,10*MM), 1000);
+//
+//        Logger.getLogger().info("zeroPoint = " + zeroPoint);
+//        //zeroPoint = -0.0013284301757812498
+
+//        Line2 rightHandSideLine2 = trajectory.rightHandSideLine2(-0.0013284301757812498);
+//        List<Point2> magnetBzAlongTrajectory2 = agCct.magnetBzAlongTrajectory(rightHandSideLine2, 1 * MM);
+//        magnetBzAlongTrajectory2 = Point2.convert(magnetBzAlongTrajectory2,
+//                (x, y) -> BaseUtils.Converter.radianToAngle((x - 1) / bigR),
+//                (x, y) -> y*10000);// 1T -> 1Gs
+//        Plot2d.plot2(magnetBzAlongTrajectory2,Plot2d.BLACK_LINE);
+
+
+        Plot2d.plotYLines(List.of(
+                0.,
+                agCctAngle0,
+                agCctAngle0+agCctAngle1,
+                agCctAngle0+agCctAngle1+agCctAngle2
+        ),magnetBzAlongTrajectory);
+
+        Plot2d.info("Bending angle(degree)", "Dipole field(Gs)", "", 30);
+
+        Plot2d.showThread();
     }
 
     //    @run

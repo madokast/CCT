@@ -1,6 +1,7 @@
 package cn.edu.hust.zrx.cct.base.particle;
 
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.CoordinateSystem3d;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.point.Point2To3;
@@ -9,6 +10,7 @@ import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Description
@@ -168,10 +170,46 @@ public class ParticleFactory {
 
     /*---------------相空间粒子群构造器(利用理想粒子、相空间粒子坐标、理想粒子坐标系)----------------*/
 
-    private List<RunningParticle> copyOf(RunningParticle particle,int number){
-        List<RunningParticle> list = new ArrayList<>(number);
-        BaseUtils.StreamTools.repeat(number).forEach(i->list.add(particle.copy()));
-        return list;
+    /**
+     * 由相空间表示的粒子 phaseSpaceParticle 转为 实际三维坐标系中的RunningParticle
+     * 需要知道 相空间粒子参数 phaseSpaceParticle x xp y yp z delta
+     * 以及 当前理想粒子（处于相空间的中心）
+     * 还有 理想粒子所在的自然坐标系 即z方向是理想粒子的方向
+     *
+     * @param idealParticle           理想粒子
+     * @param naturalCoordinateSystem 粒子运动自然坐标系 即z方向是理想粒子的方向
+     * @param phaseSpaceParticle      相空间表示的粒子（x xp y yp z delta）
+     * @return 实际三维坐标系中的RunningParticle
+     */
+    public static RunningParticle createParticleFromPhaseSpaceParticle(
+            final RunningParticle idealParticle,
+            final CoordinateSystem3d naturalCoordinateSystem,
+            final PhaseSpaceParticle phaseSpaceParticle) {
+        RunningParticle copy = idealParticle.copy();
+
+        copy.deploySelf(naturalCoordinateSystem, phaseSpaceParticle);
+
+        return copy;
+    }
+
+    /**
+     * 见 createParticleFromPhaseSpaceParticle 的注释
+     *
+     * @param idealParticle           理想粒子
+     * @param naturalCoordinateSystem 粒子运动自然坐标系 即z方向是理想粒子的方向
+     * @param phaseSpaceParticles     相空间表示的粒子（x xp y yp z delta）
+     * @return 实际三维坐标系中的RunningParticles
+     * @see ParticleFactory#createParticleFromPhaseSpaceParticle(RunningParticle, CoordinateSystem3d, PhaseSpaceParticle)
+     */
+    public static List<RunningParticle> createParticlesFromPhaseSpaceParticle(
+            final RunningParticle idealParticle,
+            final CoordinateSystem3d naturalCoordinateSystem,
+            final List<PhaseSpaceParticle> phaseSpaceParticles) {
+        return phaseSpaceParticles
+                .stream()
+                .map(phaseSpaceParticle ->
+                        createParticleFromPhaseSpaceParticle(idealParticle, naturalCoordinateSystem, phaseSpaceParticle))
+                .collect(Collectors.toList());
     }
 
 }

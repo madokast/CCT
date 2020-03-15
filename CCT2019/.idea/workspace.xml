@@ -2,20 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="adbdbf18-7308-48d0-9cef-6bef6a0ec861" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/小论文画图三月三日/六十七点五三段AGCCT.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/超导机架AGCCT单独建模/左手侧磁场分析20200220.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CCT2021/cct0.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CCT2021/cct1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/particle/PhaseSpaceParticle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/超导机架AGCCT单独建模/四极CCT建模225度0308.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/验证性研究/A20200315粒子相椭圆画图.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../CCT2021/pyScript/plot2.py" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/pyScript/plot2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../CCT2021/pyScript/plot3.py" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/pyScript/plot3.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/BaseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/BaseUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/CoordinateSystem3d.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/CoordinateSystem3d.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/cct/CctFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/cct/CctFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/line/Trajectory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/line/Trajectory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/point/Point2.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/point/Point2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/line/Line2.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/line/Line2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/particle/ParticleFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/particle/ParticleFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/particle/ParticleRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/particle/ParticleRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/particle/ParticleUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/particle/PhaseSpaceParticles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/particle/RunningParticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/particle/RunningParticle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/point/Point3.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/point/Point3.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/python/Plot2d.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/python/Plot2d.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/python/Plot3d.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/python/Plot3d.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/超导机架AGCCT单独建模/AGCCT225.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/超导机架AGCCT单独建模/AGCCT225.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/vector/Vector3.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/base/vector/Vector3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/小论文画图三月三日/六十七点五三段AGCCT.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/小论文画图三月三日/六十七点五三段AGCCT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/超导机架AGCCT单独建模/左手侧磁场分析20200220.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CCT2021/src/main/java/cn/edu/hust/zrx/cct/study/超导机架AGCCT单独建模/左手侧磁场分析20200220.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

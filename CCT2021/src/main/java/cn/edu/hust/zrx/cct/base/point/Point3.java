@@ -21,37 +21,42 @@ public class Point3 {
     public double z;
 
 
-
     private Point3(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public static Point3 create(double x, double y, double z){
-        return new Point3(x,y,z);
+    public static Point3 create(double x, double y, double z) {
+        return new Point3(x, y, z);
     }
 
-    public static Point3 origin(){return create(0,0,0);}
-
-    public Point3 copy(){
-        return create(this.x,this.y,this.z);
+    public static Point3 origin() {
+        return create(0, 0, 0);
     }
 
-    public Vector3 toVector3(){
-        return Vector3.create(this.x,this.y,this.z);
+    public Point3 copy() {
+        return create(this.x, this.y, this.z);
     }
 
-    public Point3 moveSelf(Vector3 v){
-        this.x+=v.x;
-        this.y+=v.y;
-        this.z+=v.z;
+    public Vector3 toVector3() {
+        return Vector3.create(this.x, this.y, this.z);
+    }
+
+    public Point3 moveSelf(Vector3 v) {
+        this.x += v.x;
+        this.y += v.y;
+        this.z += v.z;
 
         return this;
     }
 
     @Override
     public String toString() {
-        return List.of(x,y,z).toString();
+        return List.of(x, y, z).toString();
+    }
+
+    public String toCadString(double unit) {
+        return x/unit + "," + y/unit + "," + z/unit;
     }
 }

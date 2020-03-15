@@ -1,6 +1,7 @@
 package cn.edu.hust.zrx.cct.base.vector;
 
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 
 import java.util.Arrays;
@@ -90,6 +91,20 @@ public class Vector3 {
         );
     }
 
+    public static Vector3 subtract(final Vector3 a, final Vector3 b) {
+        return create(
+                a.x - b.x,
+                a.y - b.y,
+                a.z - b.z
+        );
+    }
+
+
+    public Vector3 subtract(final Vector3 b){
+        return subtract(this,b);
+    }
+
+
     /**
      * a b 间夹角，角度
      * @param a 矢量 a
@@ -160,6 +175,22 @@ public class Vector3 {
         this.z+=b.z;
 
         return this;
+    }
+
+    public static Vector3From from(Point3 source){
+        return new Vector3From(source);
+    }
+
+    public static class Vector3From {
+        private Point3 source;
+
+        private Vector3From(final Point3 source) {
+            this.source = source;
+        }
+
+        public Vector3 to(Point3 destination) {
+            return Vector3.subtract(destination, source);
+        }
     }
 
     @Override

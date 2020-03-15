@@ -1,5 +1,8 @@
 package cn.edu.hust.zrx.cct.base.particle;
 
+import cn.edu.hust.zrx.cct.Logger;
+import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.CoordinateSystem3d;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
@@ -57,6 +60,12 @@ public class RunningParticle {
         return this;
     }
 
+    public CoordinateSystem3d computeNaturalCoordinateSystem(Vector3 yDirect) {
+        Vector3 zDirect = velocity.copy();
+
+        return CoordinateSystem3d.getOneByYZ(yDirect, zDirect);
+    }
+
     /**
      * 构造器
      *
@@ -69,6 +78,7 @@ public class RunningParticle {
      */
     protected RunningParticle(Point3 position, Vector3 velocity,
                               double runMass, double e, double speed, double distance) {
+        BaseUtils.Equal.requireEqual(speed, velocity.length(), "建立RunningParticle，velocity.len!=speed");
         this.position = position.copy();
         this.velocity = velocity.copy();
         this.runMass = runMass;
@@ -79,9 +89,10 @@ public class RunningParticle {
 
     /**
      * 复制实例
+     *
      * @return 复制后的粒子
      */
-    protected RunningParticle copy(){
+    protected RunningParticle copy() {
         return new RunningParticle(
                 this.position.copy(),
                 this.velocity.copy(),
@@ -90,6 +101,91 @@ public class RunningParticle {
                 this.speed,
                 this.distance
         );
+    }
+
+    /**
+     * 标量动量
+     *
+     * @return 获得标量动量
+     */
+    protected double computeScalarMomentum() {
+        return this.speed * this.runMass;
+    }
+
+    /**
+     * 改变粒子的标量动量。
+     * 注意!!真正改变的是粒子的速度和动质量
+     *
+     * @param scalarMomentum 标量动量
+     */
+    protected void changeScalarMomentum(double scalarMomentum) {
+//        Logger.getLogger().info("computeScalarMomentum() = " + computeScalarMomentum());
+//        Logger.getLogger().info("scalarMomentum = " + scalarMomentum);
+
+        // 先求 静止质量
+        // mr = m0 / sqrt( 1- v2/c2 )
+        double lightSpeed = BaseUtils.Constant.LIGHT_SPEED;
+        double m0 = runMass * Math.sqrt(1 - Math.pow(speed, 2) / Math.pow(lightSpeed, 2));
+//        Logger.getLogger().info("m0 = " + m0);
+
+        // 求新的速率
+        double newSpeed = scalarMomentum / Math.sqrt((Math.pow(m0, 2) + Math.pow(scalarMomentum / lightSpeed, 2)));
+
+//        Logger.getLogger().info("speed = " + speed);
+//        Logger.getLogger().info("newSpeed = " + newSpeed);
+
+        // 求新的动质量
+        double newRunMass = m0 / Math.sqrt(1 - Math.pow(newSpeed / lightSpeed, 2));
+//        Logger.getLogger().info("runMass = " + runMass);
+//        Logger.getLogger().info("newRunMass = " + newRunMass);
+
+        // 求新的速度
+        Vector3 newVelocity = velocity.copy().normalSelf().changeLengthSelf(newSpeed);
+//        Logger.getLogger().info("velocity = " + velocity);
+//        Logger.getLogger().info("newVelocity = " + newVelocity);
+
+        // 写入
+        this.runMass = newRunMass;
+        this.speed = newSpeed;
+        this.velocity = newVelocity;
+
+        // 验证
+        BaseUtils.Equal.requireEqual(scalarMomentum, this.computeScalarMomentum(),
+                "致命错误，changeScalarMomentum()方法代码错误");
+        BaseUtils.Equal.requireEqual(speed, velocity.length(),
+                "致命错误，changeScalarMomentum方法代码错误");
+    }
+
+    /**
+     * 粒子部署。
+     * 一般接受理想粒子，然后部署之.
+     * 坐标化，美妙
+     * 真是太美了
+     *
+     * @param naturalCoordinateSystem 粒子运动自然坐标系 即z方向是理想粒子的方向
+     * @param phaseSpaceParticle      相空间坐标
+     */
+    protected void deploySelf(CoordinateSystem3d naturalCoordinateSystem, PhaseSpaceParticle phaseSpaceParticle) {
+        double x = phaseSpaceParticle.getX();
+        double xp = phaseSpaceParticle.getXp();
+        double y = phaseSpaceParticle.getY();
+        double yp = phaseSpaceParticle.getYp();
+        double z = phaseSpaceParticle.getZ();
+        double delta = phaseSpaceParticle.getDelta();
+
+        //位置改变
+        position.moveSelf(Vector3.dot(naturalCoordinateSystem.xDirect, x));
+        position.moveSelf(Vector3.dot(naturalCoordinateSystem.yDirect, y));
+
+
+        //部署的标量动量
+        final double deployedScalarMomentum = this.computeScalarMomentum() * (1.00 + delta);
+        //神来之笔 改变标量动量
+        this.changeScalarMomentum(deployedScalarMomentum);
+
+        //速度变化x' y'
+        velocity.addSelf(Vector3.dot(naturalCoordinateSystem.xDirect, xp * speed));
+        velocity.addSelf(Vector3.dot(naturalCoordinateSystem.yDirect, yp * speed));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package cn.edu.hust.zrx.cct.base.python;
 
+import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 
@@ -89,6 +90,16 @@ public class Plot2d {
     }
 
     /**
+     * 画多个点
+     *
+     * @param point2s  点
+     * @param describe python 画图描述符
+     */
+    public static void plotPoints(List<Point2> point2s, String describe) {
+        point2s.forEach(point2 -> plotPoint(point2, describe));
+    }
+
+    /**
      * 绘制一个格子
      *
      * @param box 盒子坐标  设定范围[xmin,xmax,ymin,ymax]
@@ -159,7 +170,7 @@ public class Plot2d {
     /**
      * 画平行于Y轴的线段，多个
      *
-     * @param xs        横坐标值 多个
+     * @param xs       横坐标值 多个
      * @param yMax     纵坐标终点
      * @param yMin     纵坐标起点
      * @param describe py描述符
@@ -192,12 +203,12 @@ public class Plot2d {
     }
 
     @SafeVarargs
-    public static void plotYLine(double x, final List<Point2>... point2sList){
+    public static void plotYLine(double x, final List<Point2>... point2sList) {
         List<Point2> point2s = new ArrayList<>();
         for (List<Point2> s : point2sList) {
             point2s.addAll(s);
         }
-        plotYLine(x,point2s);
+        plotYLine(x, point2s);
     }
 
     /**
@@ -207,12 +218,13 @@ public class Plot2d {
      * @param point2s 已绘制的数据
      */
     public static void plotYLines(List<Double> xs, List<Point2> point2s) {
+        Logger.getLogger().info("xs = " + xs);
         xs.forEach(x -> plotYLine(x, point2s));
     }
 
     @SafeVarargs
-    public static void plotYLines(List<Double> xs,final List<Point2>... point2sList){
-        xs.forEach(x->plotYLine(x,point2sList));
+    public static void plotYLines(List<Double> xs, final List<Point2>... point2sList) {
+        xs.forEach(x -> plotYLine(x, point2sList));
     }
 
     /**
@@ -291,15 +303,14 @@ public class Plot2d {
             System.err.println("plot2d::xLabel called without any drawing");
     }
 
-    public static void xLabel(String label,int size){
-        if (pyPrintWriter != null){
+    public static void xLabel(String label, int size) {
+        if (pyPrintWriter != null) {
             pyPrintWriter.println("fontXLabel = {'family' : 'Times New Roman',");
             pyPrintWriter.println("'weight' : 'normal',");
-            pyPrintWriter.println("'size'   : "+size+",");
+            pyPrintWriter.println("'size'   : " + size + ",");
             pyPrintWriter.println("}");
-            pyPrintWriter.println("plt.xlabel('"+label+"',fontXLabel)");
-        }
-        else
+            pyPrintWriter.println("plt.xlabel('" + label + "',fontXLabel)");
+        } else
             System.err.println("plot2d::xLabel called without any drawing");
     }
 
@@ -310,15 +321,14 @@ public class Plot2d {
             System.err.println("plot2d::xLabel called without any drawing");
     }
 
-    public static void yLabel(String label,int size) {
-        if (pyPrintWriter != null){
+    public static void yLabel(String label, int size) {
+        if (pyPrintWriter != null) {
             pyPrintWriter.println("fontYLabel = {'family' : 'Times New Roman',");
             pyPrintWriter.println("'weight' : 'normal',");
-            pyPrintWriter.println("'size'   : "+size+",");
+            pyPrintWriter.println("'size'   : " + size + ",");
             pyPrintWriter.println("}");
-            pyPrintWriter.println("plt.ylabel('"+label+"',fontYLabel)");
-        }
-        else
+            pyPrintWriter.println("plt.ylabel('" + label + "',fontYLabel)");
+        } else
             System.err.println("plot2d::xLabel called without any drawing");
     }
 
@@ -329,54 +339,51 @@ public class Plot2d {
             System.err.println("plot2d::xLabel called without any drawing");
     }
 
-    public static void title(String title,int size) {
-        if (pyPrintWriter != null){
+    public static void title(String title, int size) {
+        if (pyPrintWriter != null) {
             pyPrintWriter.println("fontTitle = {'family' : 'Microsoft YaHei',");
             pyPrintWriter.println("'weight' : 'normal',");
-            pyPrintWriter.println("'size'   : "+size+",");
+            pyPrintWriter.println("'size'   : " + size + ",");
             pyPrintWriter.println("}");
-            pyPrintWriter.println("plt.title('"+title+"',fontTitle)");
-        }
-        else
+            pyPrintWriter.println("plt.title('" + title + "',fontTitle)");
+        } else
             System.err.println("plot2d::xLabel called without any drawing");
     }
 
-    public static void axisFontSize(int size){
-        if (pyPrintWriter != null){
-            pyPrintWriter.println("plt.xticks(fontproperties = 'Times New Roman', size = "+size+")");
-            pyPrintWriter.println("plt.yticks(fontproperties = 'Times New Roman', size = "+size+")");
-        }
-        else
+    public static void axisFontSize(int size) {
+        if (pyPrintWriter != null) {
+            pyPrintWriter.println("plt.xticks(fontproperties = 'Times New Roman', size = " + size + ")");
+            pyPrintWriter.println("plt.yticks(fontproperties = 'Times New Roman', size = " + size + ")");
+        } else
             System.err.println("plot2d::xLabel called without any drawing");
     }
 
-    public static void legend(int size,String...labels){
+    public static void legend(int size, String... labels) {
 //        plt.legend(labels=['up', 'down'])
-        if (pyPrintWriter != null){
+        if (pyPrintWriter != null) {
             StringBuilder sb = new StringBuilder();
             sb.append("plt.legend(labels=[");
-            for (int i = 0; i < labels.length-1; i++) {
+            for (int i = 0; i < labels.length - 1; i++) {
                 sb.append("'").append(labels[i]).append("', ");
             }
-            sb.append("'").append(labels[labels.length-1]).append("'], ");
-            sb.append("prop={'family' : 'Times New Roman', 'size'   : "+size+"})");
+            sb.append("'").append(labels[labels.length - 1]).append("'], ");
+            sb.append("prop={'family' : 'Times New Roman', 'size'   : " + size + "})");
             pyPrintWriter.println(sb.toString());
-        }
-        else{
+        } else {
             System.err.println("plot2d::xLabel called without any drawing");
         }
     }
 
-    public static void info(String xLabel,String yLabel,String title){
+    public static void info(String xLabel, String yLabel, String title) {
         xLabel(xLabel);
         yLabel(yLabel);
         title(title);
     }
 
-    public static void info(String xLabel,String yLabel,String title,int size){
-        xLabel(xLabel,size);
-        yLabel(yLabel,size);
-        title(title,size);
+    public static void info(String xLabel, String yLabel, String title, int size) {
+        xLabel(xLabel, size);
+        yLabel(yLabel, size);
+        title(title, size);
         axisFontSize(size);
     }
 

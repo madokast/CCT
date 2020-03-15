@@ -10,6 +10,9 @@ import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -241,7 +244,7 @@ public class CctFactory {
                 cctLine2.disperseToPoint3(numberPerWinding), I);
     }
 
-    public static Cct combineCct(Cct...ccts){
+    public static Cct combineCct(Cct... ccts) {
 
         Cct emptyCct = Cct.getEmptyCct();
 
@@ -302,7 +305,59 @@ public class CctFactory {
             return I;
         }
 
+        public Cct toCct() {
+            Cct cct = new Cct();
+            cct.addSoleLayerCct(this);
+            return cct;
+        }
 
+        public void printToCad(String fileName) {
+            File file = new File("./" + fileName + ".txt");
+            String canonicalPath = null;
+
+            try {
+                canonicalPath = file.getCanonicalPath();
+            }catch (Exception e){
+                Logger.getLogger().error("获取文件绝对路径失败");
+                e.printStackTrace();
+            }
+
+            if (file.exists()) {
+                Logger.getLogger().info("文件{}存在，删除之", canonicalPath);
+                boolean delete = file.delete();
+                if (!delete) {
+                    Logger.getLogger().error("文件{}删除失败!", canonicalPath);
+                    System.exit(-1);
+                }
+            }
+
+            try {
+                boolean newFile = file.createNewFile();
+                if (!newFile) {
+                    Logger.getLogger().error("文件{}创建失败", canonicalPath);
+                    throw new Exception("文件创建失败");
+                }
+            } catch (Exception e) {
+                Logger.getLogger().error("文件{}创建异常!", canonicalPath);
+                System.exit(-1);
+            }
+
+            //文件创建成功
+
+            try {
+                FileWriter fileWriter = new FileWriter(file);
+                for (Point3 winding : windings) {
+                    fileWriter.write(winding.toCadString(1./1000.) + "\r\n");
+                }
+                fileWriter.flush();
+                fileWriter.close();
+            }catch (Exception e){
+                Logger.getLogger().error("文件{}写入失败",canonicalPath);
+                System.exit(-1);
+            }
+
+            Logger.getLogger().info("文件{}写入成功!",canonicalPath);
+        }
     }
 
     /**
@@ -398,7 +453,7 @@ public class CctFactory {
          * @return p点磁场
          */
         @Override
-        public Vector3 magnetAt(Point3 p) {
+        public Vector3 magnetAt(final Point3 p) {
             final Vector3 m = Vector3.getZero();
             this.soleLayerCctList.forEach(
                     soleLayerCct ->
@@ -455,12 +510,13 @@ public class CctFactory {
          * 研究轨道左手侧磁场。2020年2月21日
          * 详见2月中旬的研究——理想粒子为什么脱离了中平面
          * 验证通过
-         * @param trajectory 轨道
+         *
+         * @param trajectory  轨道
          * @param deltaLength 分段
          * @return 轨道左手侧磁场（s, m）
          */
-        default List<Point2> leftHandMagnetAlongTrajectory(final Line2 trajectory,final double deltaLength){
-            return magnetAlongTrajectory(trajectory,deltaLength)
+        default List<Point2> leftHandMagnetAlongTrajectory(final Line2 trajectory, final double deltaLength) {
+            return magnetAlongTrajectory(trajectory, deltaLength)
                     .stream()
                     .map(point3WithDistance -> {
                         Vector3 vector3 = point3WithDistance.getPoint3().toVector3();
@@ -471,7 +527,7 @@ public class CctFactory {
                                 .toVector3()
                                 .normalSelf();
 
-                        return Point2.create(distance,vector3.dot(left));
+                        return Point2.create(distance, vector3.dot(left));
                     }).collect(Collectors.toList());
         }
 

@@ -4,6 +4,7 @@ import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
+import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
 import java.util.*;
@@ -149,6 +150,11 @@ public class BaseUtils {
 
         public static void requireTrue(boolean b, String msg) {
             if (!b)
+                throw new RuntimeException(msg);
+        }
+
+        public static void requireEqual(double a, double b, String msg) {
+            if (!isEqual(a, b))
                 throw new RuntimeException(msg);
         }
 
@@ -514,7 +520,7 @@ public class BaseUtils {
             private final T1 t1;
             private final T2 t2;
 
-            public static <T1,T2> BiContent<T1,T2> create(T1 t1, T2 t2) {
+            public static <T1, T2> BiContent<T1, T2> create(T1 t1, T2 t2) {
                 return new BiContent<>(t1, t2);
             }
 
@@ -533,68 +539,205 @@ public class BaseUtils {
 
             @Override
             public String toString() {
-                return toStringWithInfo(t1.getClass().toString(),t2.getClass().toString());
+                return toStringWithInfo(t1.getClass().toString(), t2.getClass().toString());
             }
 
-            public String toStringWithInfo(String infoT1,String infoT2){
+            public String toStringWithInfo(String infoT1, String infoT2) {
                 return "[" + infoT1 + " = " + t1.toString() + ", " + infoT2 + " = " + t2.toString() + "]";
             }
         }
     }
 
-    public static class Timer{
+    public static class Timer {
         // 静态方法 每两次调用，打印中间时间
         private static long firstCallTime = -1;
-        public static void printPeriodPerSecondCall(org.slf4j.Logger logger){
+
+        public static void printPeriodPerSecondCall(org.slf4j.Logger logger) {
             long l = System.currentTimeMillis();
-            if(firstCallTime==-1)
+            if (firstCallTime == -1)
                 firstCallTime = l;
             else {
                 long period = l - firstCallTime;
                 firstCallTime = -1;
-                if(logger==null){
-                    System.out.println("运行时间： "+period+"ms");
-                }else {
-                    logger.info("运行时间： {}ms",period);
+                if (logger == null) {
+                    System.out.println("运行时间： " + period + "ms");
+                } else {
+                    logger.info("运行时间： {}ms", period);
                 }
             }
         }
 
         // 实例方法，打印创建该实例后经过的时间
         public long initialTime;
-        public Timer(){initialTime = System.currentTimeMillis();}
-        public void printPeriodAfterInitial(org.slf4j.Logger logger){
+
+        public Timer() {
+            initialTime = System.currentTimeMillis();
+        }
+
+        public void printPeriodAfterInitial(org.slf4j.Logger logger) {
             long period = System.currentTimeMillis() - initialTime;
-            if(logger==null){
-                System.out.println("计时后运行时间： "+period+"ms");
-            }else {
-                logger.info("计时后运行时间： {}ms",period);
+            if (logger == null) {
+                System.out.println("计时后运行时间： " + period + "ms");
+            } else {
+                logger.info("计时后运行时间： {}ms", period);
             }
         }
     }
 
-    public static class Async{
+    public static class Async {
         private ExecutorService executorService;
 
         public Async() {
             int processors = Runtime.getRuntime().availableProcessors();
-            Logger.getLogger().info("启动fixed线程池，线程数 = " + processors);;
+            Logger.getLogger().info("启动fixed线程池，线程数 = " + processors);
+            ;
             executorService =
                     Executors.newFixedThreadPool(processors);
         }
 
-        public void execute(Runnable r){
+        public void execute(Runnable r) {
             executorService.submit(r);
         }
 
-        public void waitForAllFinish(long timeout, TimeUnit unit){
+        public void waitForAllFinish(long timeout, TimeUnit unit) {
             try {
                 executorService.shutdown();
-                executorService.awaitTermination(timeout,unit);
-            }catch (InterruptedException e){
+                executorService.awaitTermination(timeout, unit);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
                 System.exit(-1);
             }
         }
+    }
+
+    public static class Geometry {
+        private static final double ESP_0 = 1e-8;
+
+        // 几何相关工具
+
+        /**
+         * Ax^2+Bxy+Cy^2=D 椭返回圆圆周上均匀分布number个点
+         *
+         * @param A      椭圆方程参数
+         * @param B      椭圆方程参数
+         * @param C      椭圆方程参数
+         * @param D      椭圆方程参数
+         * @param number 点数
+         * @return 点
+         */
+        public static List<Point2> ellipsePoints(double A, double B, double C, double D, int number) {
+            List<Point2> list = new ArrayList<>(number);
+            final double circumference = ellipseCircumference(A, B, C, D);
+            for (int i = 0; i < number; i++) {
+                list.add(ellipseWalkPoint(A, B, C, D, circumference / number * i));
+            }
+
+            return list;
+        }
+
+        /**
+         * 暴力法计算椭圆Ax^2+Bxy+Cy^2=D周长
+         *
+         * @param A 椭圆方程参数
+         * @param B 椭圆方程参数
+         * @param C 椭圆方程参数
+         * @param D 椭圆方程参数
+         * @return 周长
+         */
+        private static double ellipseCircumference(double A, double B, double C, double D) {
+            int num = 3600 * 4;
+            double c = 0.0;
+            for (int i = 0; i < num; i++) {
+                c += Vector2.
+                        from(ellipsePointTheta(A, B, C, D, 2.0 * Math.PI / num * i))
+                        .to(ellipsePointTheta(A, B, C, D, 2.0 * Math.PI / num * (i + 1)))
+                        .length();
+            }
+
+            return c;
+        }
+
+        /**
+         * 原点出发，方向th弧度的射线和椭圆Ax^2+Bxy+Cy^2=D的交点
+         * 吃老本 2019年8月10日
+         *
+         * @param A     椭圆方程参数
+         * @param B     椭圆方程参数
+         * @param C     椭圆方程参数
+         * @param D     椭圆方程参数
+         * @param theta 方向th弧度
+         * @return 交点
+         */
+        private static Point2 ellipsePointTheta(double A, double B, double C, double D, double theta) {
+            double pi = Math.PI;
+            Point2 d = Point2.origin();
+
+
+            while (theta < 0)
+                theta += 2 * pi;
+            while (theta > 2 * pi)
+                theta -= 2 * pi;//将弧度th限定在0~2pi
+
+            if (Math.abs(theta) < ESP_0 || Math.abs(theta - 2 * pi) < ESP_0) {
+                d.x = Math.sqrt(D / A);
+                d.y = 0;
+            }
+            if (Math.abs(theta - pi) < ESP_0) {
+                d.x = -Math.sqrt(D / A);
+                d.y = 0;
+            }
+            //临界问题
+            double t = 0.0;
+            if (theta > 0 && theta < pi) {
+                t = 1 / Math.tan(theta);
+                d.y = Math.sqrt(D / (A * t * t + B * t + C));
+                d.x = t * d.y;
+                //printf("\ntest\n");
+                //printf_divct(d);
+            }
+            if (theta > pi && theta < 2 * pi) {
+                theta -= pi;
+                t = 1 / Math.tan(theta);
+                d.y = -Math.sqrt(D / (A * t * t + B * t + C));
+                d.x = t * d.y;
+            }
+            //射线——负号问题，象限问题
+
+            return d;
+        }
+
+        /**
+         * 在椭圆Ax^2+Bxy+Cy^2=D 上行走length
+         * 返回此时的点
+         * 规定起点：椭圆与X轴正方向的交点
+         * 规定行走方向：逆时针
+         *
+         * @param A      椭圆方程参数
+         * @param B      椭圆方程参数
+         * @param C      椭圆方程参数
+         * @param D      椭圆方程参数
+         * @param length 行走长度
+         * @return 终点
+         */
+        private static Point2 ellipseWalkPoint(double A, double B, double C, double D, double length) {
+            double stepTheta = Converter.angleToRadian(0.05);
+            double theta = 0.0;
+            while (length > 0.0) {
+                length -= Vector2
+                        .from(ellipsePointTheta(A, B, C, D, theta))
+                        .to(ellipsePointTheta(A, B, C, D, theta + stepTheta))
+                        .length();
+
+                theta += stepTheta;
+            }
+
+            return ellipsePointTheta(A, B, C, D, theta);
+        }
+
+
+    }
+
+    public static class Constant {
+        public static final double LIGHT_SPEED = 299792458.0;
     }
 }
