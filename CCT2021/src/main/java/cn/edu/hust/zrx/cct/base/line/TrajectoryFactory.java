@@ -57,8 +57,8 @@ public class TrajectoryFactory {
         return new TrajectoryFactoryWithStartingPoint(startingPoint);
     }
 
-    public static TrajectoryFactoryWithStartingPoint setStartingPoint(double x,double y) {
-        return new TrajectoryFactoryWithStartingPoint(Point2.create(x,y));
+    public static TrajectoryFactoryWithStartingPoint setStartingPoint(double x, double y) {
+        return new TrajectoryFactoryWithStartingPoint(Point2.create(x, y));
     }
 
     /**

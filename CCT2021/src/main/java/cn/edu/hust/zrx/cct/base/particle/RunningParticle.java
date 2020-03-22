@@ -66,6 +66,10 @@ public class RunningParticle {
         return CoordinateSystem3d.getOneByYZ(yDirect, zDirect);
     }
 
+    public CoordinateSystem3d computeNaturalCoordinateSystem() {
+        return computeNaturalCoordinateSystem(Vector3.getZDirect());
+    }
+
     /**
      * 构造器
      *
@@ -78,7 +82,7 @@ public class RunningParticle {
      */
     protected RunningParticle(Point3 position, Vector3 velocity,
                               double runMass, double e, double speed, double distance) {
-        BaseUtils.Equal.requireEqual(speed, velocity.length(), "建立RunningParticle，velocity.len!=speed");
+        BaseUtils.Equal.requireEqual(speed, velocity.length(), "建立RunningParticle，velocity.len!=speed (" + velocity.length() + " / " + speed + ")");
         this.position = position.copy();
         this.velocity = velocity.copy();
         this.runMass = runMass;
@@ -92,7 +96,7 @@ public class RunningParticle {
      *
      * @return 复制后的粒子
      */
-    protected RunningParticle copy() {
+    public RunningParticle copy() {
         return new RunningParticle(
                 this.position.copy(),
                 this.velocity.copy(),
@@ -176,6 +180,7 @@ public class RunningParticle {
         //位置改变
         position.moveSelf(Vector3.dot(naturalCoordinateSystem.xDirect, x));
         position.moveSelf(Vector3.dot(naturalCoordinateSystem.yDirect, y));
+        position.moveSelf(Vector3.dot(naturalCoordinateSystem.zDirect, z));
 
 
         //部署的标量动量

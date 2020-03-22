@@ -2,12 +2,9 @@ package cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
-import cn.edu.hust.zrx.cct.base.CoordinateSystem3d;
-import cn.edu.hust.zrx.cct.base.advanced.Solver;
+import cn.edu.hust.zrx.cct.advanced.UniEquationSolver;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.cct.CctLine2;
-import cn.edu.hust.zrx.cct.base.cct.CctLine2Factory;
-import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.particle.ParticleFactory;
@@ -19,13 +16,11 @@ import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
-import cn.edu.hust.zrx.cct.study.验证性研究.A20200212复现675建模;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -146,7 +141,7 @@ public class AGCCT225 {
             return sub;
         };
 
-        double zeroPoint = Solver.findZeroPoint(function, Point2.create(9, 10), 5000);
+        double zeroPoint = UniEquationSolver.findZeroPoint(function, Point2.create(9, 10), 5000);
 
         Logger.getLogger().info("zeroPoint = " + zeroPoint);
 

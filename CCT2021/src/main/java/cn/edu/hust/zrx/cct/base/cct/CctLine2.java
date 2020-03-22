@@ -140,10 +140,10 @@ public class CctLine2 {
                 .collect(Collectors.toList());
     }
 
-    public List<Point3> disperseToPoint3(int numberPerWinding){
+    public List<Point3> disperseToPoint3(int numberPerWinding) {
         List<Point2> point2s = disperseToPoint2(numberPerWinding);
 
-        return new Point2To3.SimpleToroidalCoordinateSystemPoint2To3(bigR,smallR)
+        return new Point2To3.SimpleToroidalCoordinateSystemPoint2To3(bigR, smallR)
                 .convert(point2s);
     }
 

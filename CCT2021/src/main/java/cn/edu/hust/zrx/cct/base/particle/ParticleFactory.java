@@ -15,6 +15,15 @@ import java.util.stream.Collectors;
 /**
  * Description
  * 粒子工厂
+ * 分清楚 动能 和 动量
+ * <p>
+ * 质子静止能量 938 MeV  不可变，测量值
+ * 质子运动能量 250 MeV  可变，自己修改
+ * 质子动量 729.134 MeV/c
+ * <p>
+ * 动量分散 是在 729.134 MeV/c 上变化
+ *
+ *
  * <p>
  * Data
  * 12:15
@@ -24,11 +33,11 @@ import java.util.stream.Collectors;
  */
 
 public class ParticleFactory {
-    public static final double ProtonChargeQuantity = 1.6021766208e-19;
-    public static final double ProtonStaticMassKg = 1.672621898e-27;
-    public static final double ProtonStaticMassMeV = 938.2720813;
-    public static final double LightSpeed = 299792458.0;
-    public static final double Kinetic250MeV = 250.0;
+    private static final double ProtonChargeQuantity = 1.6021766208e-19;
+    private static final double ProtonStaticMassKg = 1.672621898e-27;
+    private static final double ProtonStaticMassMeV = 938.2720813;
+    private static final double LightSpeed = 299792458.0;
+    private static final double Kinetic250MeV = 250.0;
 
     /*--------------------------基本构造器-----------------------------------*/
 
@@ -37,7 +46,7 @@ public class ParticleFactory {
      *
      * @param position   位置
      * @param direct     速度方向
-     * @param kineticMeV 动能
+     * @param kineticMeV 动能 不是动量
      * @return 粒子
      */
     protected static RunningParticle createProton(
@@ -56,6 +65,27 @@ public class ParticleFactory {
                 runMass, ProtonChargeQuantity, speed, 0.0
         );
     }
+
+    /**
+     * 基本工厂方法，获得一个粒子
+     *
+     * @param position           位置
+     * @param direct             速度方向
+     * @param kineticMeV         动能 不是动量
+     * @param momentumDispersion 动量分散
+     * @return 粒子
+     */
+    protected static RunningParticle createProton(
+            final Point3 position, final Vector3 direct, final double kineticMeV, final double momentumDispersion) {
+        // 根据 momentumDispersion 修改 kineticMeV
+
+
+        //TODO
+
+        return null;
+
+    }
+
 
     /**
      * 生成一个质子。动能250MeV

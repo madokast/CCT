@@ -97,12 +97,12 @@ public class CctLine2Factory {
      */
     @SuppressWarnings("all")
     protected static CctLine2s createAGCCT(double smallR,
-                                        double bigR,
-                                        double[] angles,
-                                        int[] windingNumbers,
-                                        double[] a0Bipolars,
-                                        double[] a1Quadruples,
-                                        double[] a2Sextuples) {
+                                           double bigR,
+                                           double[] angles,
+                                           int[] windingNumbers,
+                                           double[] a0Bipolars,
+                                           double[] a1Quadruples,
+                                           double[] a2Sextuples) {
         double startingθ = 0.0;
         double startingφ = 0.0;
         boolean directθ = true;

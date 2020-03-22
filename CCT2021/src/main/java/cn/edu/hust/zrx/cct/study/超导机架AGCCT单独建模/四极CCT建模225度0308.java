@@ -2,7 +2,6 @@ package cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
-import cn.edu.hust.zrx.cct.base.advanced.Solver;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;

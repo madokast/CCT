@@ -2,9 +2,7 @@ package cn.edu.hust.zrx.cct.study.小论文画图三月三日;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
-import cn.edu.hust.zrx.cct.base.advanced.Solver;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
-import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
@@ -13,8 +11,6 @@ import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
-import cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模.左手侧磁场分析20200220;
-import org.apache.commons.math3.geometry.spherical.oned.Arc;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,7 +22,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * Description

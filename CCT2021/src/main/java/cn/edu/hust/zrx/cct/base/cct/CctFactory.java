@@ -7,6 +7,7 @@ import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point2To3;
 import cn.edu.hust.zrx.cct.base.point.Point3;
+import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
@@ -317,7 +318,7 @@ public class CctFactory {
 
             try {
                 canonicalPath = file.getCanonicalPath();
-            }catch (Exception e){
+            } catch (Exception e) {
                 Logger.getLogger().error("获取文件绝对路径失败");
                 e.printStackTrace();
             }
@@ -347,16 +348,16 @@ public class CctFactory {
             try {
                 FileWriter fileWriter = new FileWriter(file);
                 for (Point3 winding : windings) {
-                    fileWriter.write(winding.toCadString(1./1000.) + "\r\n");
+                    fileWriter.write(winding.toCadString(1. / 1000.) + "\r\n");
                 }
                 fileWriter.flush();
                 fileWriter.close();
-            }catch (Exception e){
-                Logger.getLogger().error("文件{}写入失败",canonicalPath);
+            } catch (Exception e) {
+                Logger.getLogger().error("文件{}写入失败", canonicalPath);
                 System.exit(-1);
             }
 
-            Logger.getLogger().info("文件{}写入成功!",canonicalPath);
+            Logger.getLogger().info("文件{}写入成功!", canonicalPath);
         }
     }
 
@@ -428,6 +429,7 @@ public class CctFactory {
 
         /**
          * 绘图
+         * 先全部外层后内层
          *
          * @param describes 描述
          */
@@ -470,6 +472,14 @@ public class CctFactory {
      */
     public static interface MagnetAble {
         Vector3 magnetAt(Point3 p);
+
+        default double magnetBzAt(Point3 p) {
+            return magnetAt(p).z;
+        }
+
+        default double magnetBzAlongTrajectoryAt(final Line2 trajectory, double s) {
+            return magnetBzAt(trajectory.pointAt(s).toPoint3());
+        }
 
         default List<Point2> magnetBzAlongTrajectory(
                 final Line2 trajectory, final Point2To3 point2To3, final double deltaLength) {
@@ -531,6 +541,21 @@ public class CctFactory {
                     }).collect(Collectors.toList());
         }
 
+        default double magnetGradientAlongTrajectoryAt(
+                final Line2 trajectory, final double goodFieldAreaWidth, final double s) {
+            final Line2 rightHandSideLine2 = trajectory.rightHandSideLine2(goodFieldAreaWidth);
+            final Line2 leftHandSideLine2 = trajectory.rightHandSideLine2(-goodFieldAreaWidth);
+            final double WIDTH = goodFieldAreaWidth * 2.;
+
+            Point3 rightPoint = rightHandSideLine2.pointAt(s).toPoint3();
+            Point3 leftPoint = leftHandSideLine2.pointAt(s).toPoint3();
+
+            double rightBz = magnetAt(rightPoint).z;
+            double leftBz = magnetAt(leftPoint).z;
+
+            return (leftBz - rightBz) / WIDTH;
+        }
+
         default List<Point2> magnetGradientAlongTrajectoryFast(
                 final Line2 trajectory, final double deltaLength, final double goodFieldAreaWidth) {
             final Line2 rightHandSideLine2 = trajectory.rightHandSideLine2(goodFieldAreaWidth);
@@ -589,5 +614,27 @@ public class CctFactory {
                 return Point2.create(distance, point3.z);
             }
         }
+    }
+
+    /**
+     * 硬边模型下 磁场分布
+     *
+     * @param xStart          起点 (xStart,0)
+     * @param magnetAndLength 磁场强度 和 其长度
+     * @return 绘图关键点
+     */
+    public static List<Point2> scoffMagnetDistribution(double xStart, Point2... magnetAndLength) {
+        List<Point2> ret = new ArrayList<>();
+        for (Point2 point2 : magnetAndLength) {
+            double magnet = point2.x;
+            double length = point2.y;
+
+            ret.add(Point2.create(xStart, magnet));
+            ret.add(Point2.create(xStart + length, magnet));
+
+            xStart += length;
+        }
+
+        return ret;
     }
 }

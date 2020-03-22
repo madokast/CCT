@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @FunctionalInterface
-public interface Point2To3 extends Function<Point2,Point3> {
+public interface Point2To3 extends Function<Point2, Point3> {
     Point3 convert(Point2 p);
 
     default List<Point3> convert(List<Point2> point2s) {
@@ -15,7 +15,7 @@ public interface Point2To3 extends Function<Point2,Point3> {
         return point3s;
     }
 
-    public static Point2To3 getXY0ToXYZPoint2To3(){
+    public static Point2To3 getXY0ToXYZPoint2To3() {
         return new XY0ToXYZPoint2To3();
     }
 

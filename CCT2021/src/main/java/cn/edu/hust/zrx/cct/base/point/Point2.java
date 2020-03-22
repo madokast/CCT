@@ -199,6 +199,10 @@ public class Point2 implements Cloneable {
         return Double.compare(p1.x, p2.x);
     }
 
+    public static int compareInY(Point2 p1, Point2 p2) {
+        return Double.compare(p1.y, p2.y);
+    }
+
     /*----------------坐标变化------------------*/
 
     /**
@@ -214,6 +218,12 @@ public class Point2 implements Cloneable {
     public static Point2 convert(final Point2 p,
                                  BiFunction<Double, Double, Double> xFunctionFromXY,
                                  BiFunction<Double, Double, Double> yFunctionFromXY) {
+        if (xFunctionFromXY == null)
+            xFunctionFromXY = (x, y) -> x;
+        if (yFunctionFromXY == null)
+            yFunctionFromXY = (x, y) -> y;
+
+
         return create(
                 xFunctionFromXY.apply(p.x, p.y),
                 yFunctionFromXY.apply(p.x, p.y)
@@ -233,5 +243,35 @@ public class Point2 implements Cloneable {
         return ps.stream()
                 .map(p -> convert(p, xFunctionFromXY, yFunctionFromXY))
                 .collect(Collectors.toList());
+    }
+
+    public static List<Point2> convert(final List<Point2> ps,
+                                       Function<Double, Double> xFunctionFromX,
+                                       Function<Double, Double> yFunctionFromY) {
+        final Function<Double, Double> xFun = xFunctionFromX == null ? x -> x : xFunctionFromX;
+        final Function<Double, Double> yFun = yFunctionFromY == null ? y -> y : yFunctionFromY;
+
+
+        return convert(ps, (x, y) -> xFun.apply(x), (x, y) -> yFun.apply(y));
+    }
+
+    public static List<Point2> convert(final List<Point2> ps,
+                                       double xScale,
+                                       double yScale) {
+        return convert(ps, x -> x * xScale, y -> y * yScale);
+    }
+
+    public static Point2 convert(final Point2 p,
+                                 double xScale,
+                                 double yScale) {
+        return convert(p, (x, y) -> x * xScale, (x, y) -> y * yScale);
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 }

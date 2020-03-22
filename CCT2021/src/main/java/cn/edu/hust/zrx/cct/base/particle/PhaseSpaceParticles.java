@@ -23,6 +23,11 @@ import java.util.stream.Collectors;
  */
 
 public class PhaseSpaceParticles {
+
+    public static PhaseSpaceParticle create(double x, double xp, double y, double yp, double z, double dpp) {
+        return new PhaseSpaceParticle(x, xp, y, yp, z, dpp);
+    }
+
     /**
      * 获取分布于 x xp 平面上 正相椭圆上的 PhaseSpaceParticles
      * 注意是 正相椭圆
@@ -71,6 +76,12 @@ public class PhaseSpaceParticles {
                 .collect(Collectors.toList());
     }
 
+    public static List<PhaseSpaceParticle> phaseSpaceParticlesAlongPositiveEllipseInPlane(
+            boolean xxPlane, double xMax, double xpMax, double delta, int number) {
+        return xxPlane ? phaseSpaceParticlesAlongPositiveEllipseInXXpPlane(xMax, xpMax, delta, number) :
+                phaseSpaceParticlesAlongPositiveEllipseInYYpPlane(xMax, xpMax, delta, number);
+    }
+
     // 以下四个方法是低维化投影
 
     public static Point2 projectionToXXpPlane(PhaseSpaceParticle phaseSpaceParticle) {
@@ -93,6 +104,17 @@ public class PhaseSpaceParticles {
                 .stream()
                 .map(PhaseSpaceParticles::projectionToYYpPlane)
                 .collect(Collectors.toList());
+    }
+
+    public static List<Point2> projectionToPlane(boolean xxpPlane, List<PhaseSpaceParticle> phaseSpaceParticles) {
+        return xxpPlane ?
+                projectionToXXpPlane(phaseSpaceParticles) :
+                projectionToYYpPlane(phaseSpaceParticles);
+    }
+
+    public static Point2 projectionToPlane(boolean xxpPlane, PhaseSpaceParticle phaseSpaceParticle) {
+        return xxpPlane ? projectionToXXpPlane(phaseSpaceParticle) :
+                projectionToYYpPlane(phaseSpaceParticle);
     }
 
     // 反函数
@@ -123,8 +145,8 @@ public class PhaseSpaceParticles {
         Vector3 runningParticleVelocity = runningParticle.getVelocity().copy();
         double speed = idealParticle.getSpeed();
         Vector3 subVelocity = runningParticleVelocity.subtract(idealParticleVelocity);
-        double xp = naturalCoordinateSystem.xDirect.dot(subVelocity)/speed;
-        double yp = naturalCoordinateSystem.yDirect.dot(subVelocity)/speed;
+        double xp = naturalCoordinateSystem.xDirect.dot(subVelocity) / speed;
+        double yp = naturalCoordinateSystem.yDirect.dot(subVelocity) / speed;
 
         // delta
         double idealParticleScalarMomentum = idealParticle.computeScalarMomentum();
@@ -154,5 +176,24 @@ public class PhaseSpaceParticles {
                 .collect(Collectors.toList());
     }
 
+    public static PhaseSpaceParticle convertDeltaFromMomentumDispersionToEnergyDispersion(PhaseSpaceParticle phaseSpaceParticle, double centerKineticEnergy_MeV) {
+        PhaseSpaceParticle copy = phaseSpaceParticle.copy();
+
+        double deltaMomentumDispersion = copy.getDelta();
+
+        double deltaEnergyDispersion = Protons.convertMomentumDispersionToEnergyDispersion(
+                deltaMomentumDispersion, centerKineticEnergy_MeV);
+
+        copy.setDelta(deltaEnergyDispersion);
+
+        return copy;
+
+    }
+
+    public static List<PhaseSpaceParticle> convertDeltaFromMomentumDispersionToEnergyDispersion(List<PhaseSpaceParticle> phaseSpaceParticles, double centerKineticEnergy_MeV) {
+        return phaseSpaceParticles.stream()
+                .map(p -> convertDeltaFromMomentumDispersionToEnergyDispersion(p, centerKineticEnergy_MeV))
+                .collect(Collectors.toList());
+    }
 
 }

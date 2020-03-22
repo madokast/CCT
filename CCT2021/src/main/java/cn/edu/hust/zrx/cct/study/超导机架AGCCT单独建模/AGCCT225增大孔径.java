@@ -2,18 +2,12 @@ package cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
-import cn.edu.hust.zrx.cct.base.advanced.Solver;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.cct.CctLine2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
-import cn.edu.hust.zrx.cct.base.particle.ParticleFactory;
-import cn.edu.hust.zrx.cct.base.particle.ParticleRunner;
-import cn.edu.hust.zrx.cct.base.particle.RunningParticle;
 import cn.edu.hust.zrx.cct.base.point.Point2;
-import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
-import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
@@ -27,7 +21,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**

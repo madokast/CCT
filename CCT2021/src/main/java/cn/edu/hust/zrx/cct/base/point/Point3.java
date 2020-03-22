@@ -57,6 +57,6 @@ public class Point3 {
     }
 
     public String toCadString(double unit) {
-        return x/unit + "," + y/unit + "," + z/unit;
+        return x / unit + "," + y / unit + "," + z / unit;
     }
 }

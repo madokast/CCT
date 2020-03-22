@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.function.DoubleFunction;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 public class Plot2d {
@@ -37,12 +39,27 @@ public class Plot2d {
     public static final String GREEN_LINE = ",'g'";
     public static final String BLUE_LINE = ",'b'";
 
+    public static final String BLACK_UP_TRI = ",'k^'";
+    public static final String RED_UP_TRI = ",'r^'";
+    public static final String YELLOW_UP_TRI = ",'y^'";
+    public static final String GREEN_UP_TRI = ",'g^'";
+    public static final String BLUE_UP_TRI = ",'b^'";
+
     public static final String GREY_LINE = ",color='grey', linestyle='-',linewidth = '1'";
+
+
     public static final String GREY_DASH = ",color='grey', linestyle='--'";
     public static final String PINK_DASH = ",color='pink', linestyle='--'";
     public static final String RED_DASH = ",color='red', linestyle='--'";
     public static final String BLACK_DASH = ",color='black', linestyle='--'";
     public static final String BLUE_DASH = ",color='blue', linestyle='--'";
+
+    public static final String GREY_DOt_DASH = ",color='grey', linestyle='-.'";
+    public static final String PINK_DOt_DASH = ",color='pink', linestyle='-.'";
+    public static final String RED_DOt_DASH = ",color='red', linestyle='-.'";
+    public static final String BLACK_DOt_DASH = ",color='black', linestyle='-.'";
+    public static final String BLUE_DOt_DASH = ",color='blue', linestyle='-.'";
+
 
     /**
      * 2d画图，传入一个Vector2d数组，从[0]依次画图
@@ -75,8 +92,34 @@ public class Plot2d {
         plot2(point2s, describe);
     }
 
+    public static void plot2circle(List<Point2> rs, String describe) {
+        List<Point2> list = new ArrayList<>(rs);
+        list.add(list.get(0));
+
+        plot2(list, describe);
+    }
+
+
     public static void plot2(List<Point2> rs) {
         plot2(rs, "");
+    }
+
+    public static void plot2(Function<Double, Double> function, Point2 interval, int number, String describe) {
+        List<Point2> collect = BaseUtils.Python.linspaceStream(interval.x, interval.y, number)
+                .mapToObj(x -> Point2.create(x, function.apply(x)))
+                .collect(Collectors.toList());
+        plot2(collect, describe);
+    }
+
+    public static void plot2(double[] xs, double[] ys, String describe) {
+        int len = Math.min(xs.length, ys.length);
+        List<Point2> point2s = new ArrayList<>(len);
+
+        for (int i = 0; i < len; i++) {
+            point2s.add(Point2.create(xs[i], ys[i]));
+        }
+
+        plot2(point2s, describe);
     }
 
     /**
@@ -95,6 +138,7 @@ public class Plot2d {
      * @param point2s  点
      * @param describe python 画图描述符
      */
+    @Deprecated // 直接用 plot2 即可
     public static void plotPoints(List<Point2> point2s, String describe) {
         point2s.forEach(point2 -> plotPoint(point2, describe));
     }

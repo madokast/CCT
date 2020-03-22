@@ -123,7 +123,7 @@ public class Trajectory implements Line2 {
             }
         }
 
-        Logger.getLogger().error("Trajectory::pointAt");
+        Logger.getLogger().error("Trajectory::pointAt {}", s);
         return trajectoryList.get(trajectoryList.size() - 1).pointAt(s);
     }
 
@@ -143,7 +143,7 @@ public class Trajectory implements Line2 {
                 s -= line.getLength();
             }
         }
-        Logger.getLogger().error("Trajectory::directAt");
+        Logger.getLogger().error("Trajectory::directAt {}", s);
         return trajectoryList.get(trajectoryList.size() - 1).directAt(s).copy();
     }
 

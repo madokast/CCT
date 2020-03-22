@@ -121,7 +121,7 @@ public class BaseUtils {
          * @since 2020年2月10日
          */
         public static boolean isEqual(double a, double b, double error) {
-            return Math.abs(a - b) <= Math.abs(error);
+            return Math.abs(a - b) <= Math.abs(error) || Math.abs(a / b) <= Math.abs(1 + error);
         }
 
         /**
@@ -473,6 +473,45 @@ public class BaseUtils {
 
             return list;
         }
+
+        /**
+         * 输入 List<List<E>> 如
+         * 1 2 3 4
+         * 5 6 7 8
+         * 9 0 1 2
+         * 返回 List<List<E>>，如下
+         * 1 5 9
+         * 2 6 0
+         * 3 7 1
+         * 4 8 2
+         *
+         * @param listList List<List<E>>
+         * @param <E>      element
+         * @return List<List < E>>
+         */
+        public static <E> List<List<E>> listList2ListList(List<List<E>> listList) {
+            // 要求 数据长度都相同
+            int length = listList.get(0).size(); // 4
+            for (List<E> es : listList) {
+                if (es.size() != length)
+                    throw new RuntimeException("要求 数据长度都相同");
+            }
+
+            int size = listList.size(); // 3
+
+            List<List<E>> ret = new ArrayList<>(length);//4
+            for (int i = 0; i < length; i++) {
+                ret.add(new ArrayList<>(size));
+            }
+
+            for (int i = 0; i < size; i++) {// 3
+                for (int j = 0; j < length; j++) {//4
+                    ret.get(j).add(listList.get(i).get(j));
+                }
+            }
+
+            return ret;
+        }
     }
 
     public static class Switcher<Obj> {
@@ -512,6 +551,18 @@ public class BaseUtils {
         private Switcher(Obj[] objs) {
             this.objs = objs;
         }
+
+        public Obj[] getObjs() {
+            return objs;
+        }
+
+        public int getCurrentItem() {
+            return currentItem;
+        }
+
+        public void setCurrentItem(int currentItem) {
+            this.currentItem = currentItem;
+        }
     }
 
     public static class Content {
@@ -539,11 +590,60 @@ public class BaseUtils {
 
             @Override
             public String toString() {
-                return toStringWithInfo(t1.getClass().toString(), t2.getClass().toString());
+                return toStringWithInfo(t1.getClass().getName(), t2.getClass().getName());
             }
 
             public String toStringWithInfo(String infoT1, String infoT2) {
                 return "[" + infoT1 + " = " + t1.toString() + ", " + infoT2 + " = " + t2.toString() + "]";
+            }
+        }
+
+        public static class TriContent<T1, T2, T3> {
+            private T1 t1;
+            private T2 t2;
+            private T3 t3;
+
+            private TriContent(T1 t1, T2 t2, T3 t3) {
+                this.t1 = t1;
+                this.t2 = t2;
+                this.t3 = t3;
+            }
+
+            public static <T1, T2, T3> TriContent<T1, T2, T3> create(T1 t1, T2 t2, T3 t3) {
+                return new TriContent<>(t1, t2, t3);
+            }
+
+            public T1 getT1() {
+                return t1;
+            }
+
+            public void setT1(T1 t1) {
+                this.t1 = t1;
+            }
+
+            public T2 getT2() {
+                return t2;
+            }
+
+            public void setT2(T2 t2) {
+                this.t2 = t2;
+            }
+
+            public T3 getT3() {
+                return t3;
+            }
+
+            public void setT3(T3 t3) {
+                this.t3 = t3;
+            }
+
+            @Override
+            public String toString() {
+                return "TriContent{" +
+                        "t1=" + t1 +
+                        ", t2=" + t2 +
+                        ", t3=" + t3 +
+                        '}';
             }
         }
     }
@@ -582,6 +682,15 @@ public class BaseUtils {
                 logger.info("计时后运行时间： {}ms", period);
             }
         }
+
+        public void printPeriodAfterInitial(org.slf4j.Logger logger, String msg) {
+            long period = System.currentTimeMillis() - initialTime;
+            if (logger == null) {
+                System.out.println("[" + msg + "]计时后运行时间： " + period + "ms");
+            } else {
+                logger.info("[{}]计时后运行时间： {}ms", msg, period);
+            }
+        }
     }
 
     public static class Async {
@@ -590,7 +699,7 @@ public class BaseUtils {
         public Async() {
             int processors = Runtime.getRuntime().availableProcessors();
             Logger.getLogger().info("启动fixed线程池，线程数 = " + processors);
-            ;
+
             executorService =
                     Executors.newFixedThreadPool(processors);
         }
@@ -739,5 +848,38 @@ public class BaseUtils {
 
     public static class Constant {
         public static final double LIGHT_SPEED = 299792458.0;
+    }
+
+    public static class Doubles {
+
+        /**
+         * 保留 num 位小数
+         * 存在bug
+         *
+         * @param target 浮点数
+         * @param num    保留小数位数
+         * @return 浮点数的字符串
+         */
+        public static String reservedDecimal(double target, int num) {
+            if (num < 0) {
+                throw new IllegalArgumentException("num必须大于0，但是 num = " + num);
+            }
+            if (num == 0) {
+                return ((long) target) + "";
+            }
+
+            String str = String.format("%.16f", target);
+            int indexOf = str.indexOf(".");
+
+            int length = indexOf + num + 1;
+
+
+            if (str.length() < length) {
+                return str + "0".repeat(length - str.length());
+            } else {
+                return str.substring(0, length);
+            }
+
+        }
     }
 }

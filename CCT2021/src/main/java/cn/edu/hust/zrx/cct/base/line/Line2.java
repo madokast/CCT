@@ -355,16 +355,16 @@ public interface Line2 {
         Plot3d.plot3(dispersePoint3s(deltaLength), describe);
     }
 
-    default void plot3d(final double deltaLength){
-        plot3d(deltaLength,Plot2d.BLACK_LINE);
+    default void plot3d(final double deltaLength) {
+        plot3d(deltaLength, Plot2d.BLACK_LINE);
     }
 
-    default void plot3d(String describe){
-        plot3d(1*MM,describe);
+    default void plot3d(String describe) {
+        plot3d(1 * MM, describe);
     }
 
-    default void plot3d(){
-        plot3d(1*MM);
+    default void plot3d() {
+        plot3d(1 * MM);
     }
 
 

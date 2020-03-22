@@ -261,8 +261,8 @@ public class Vector2 {
         return Point2.create(this.x, this.y);
     }
 
-    public Vector3 toVector3(){
-        return Vector3.create(this.x,this.y,0);
+    public Vector3 toVector3() {
+        return Vector3.create(this.x, this.y, 0);
     }
 
     /**

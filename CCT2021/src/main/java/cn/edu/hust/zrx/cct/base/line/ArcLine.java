@@ -25,16 +25,16 @@ import cn.edu.hust.zrx.cct.base.vector.Vector2;
  * startDirect ↑ *
  * startPoint -> *                * <- center
  * [----------------] = radius
- *
+ * <p>
  * ---------------------------------------------------
  * 2020年2月10日 新增方法
  * 构造器
  * 起点、起点方向、半径、顺时针与否、旋转角度
  * protected ArcLine(final Point2 startingPoint,
- *                final Vector2 startingDirect,
- *                final double radius,
- *                final boolean clockwise,
- *                final double totalAngle)
+ * final Vector2 startingDirect,
+ * final double radius,
+ * final boolean clockwise,
+ * final double totalAngle)
  * 线长度
  * double getLength();
  * 返回S位置的点
@@ -79,17 +79,18 @@ public class ArcLine implements Line2 {
 
     /**
      * 构造器
-     * @param startingPoint 起点
+     *
+     * @param startingPoint  起点
      * @param startingDirect 起点方向
-     * @param radius 半径
-     * @param clockwise 顺时针与否
-     * @param totalAngle 总旋转度数
+     * @param radius         半径
+     * @param clockwise      顺时针与否
+     * @param totalAngle     总旋转度数
      */
     protected ArcLine(final Point2 startingPoint,
-                   final Vector2 startingDirect,
-                   final double radius,
-                   final boolean clockwise,
-                   final double totalAngle) {
+                      final Vector2 startingDirect,
+                      final double radius,
+                      final boolean clockwise,
+                      final double totalAngle) {
 
         this.radius = radius;
         this.clockwise = clockwise;
@@ -114,28 +115,30 @@ public class ArcLine implements Line2 {
 
     /**
      * Length
+     *
      * @return Length
      * @since 2020年2月10日
      */
     @Override
     public double getLength() {
-        return radius*totalPhi;
+        return radius * totalPhi;
     }
 
     /**
      * pointAt s
+     *
      * @param s 位置
      * @return pointAt s
      * @since 2020年2月10日
      */
     @Override
     public Point2 pointAt(double s) {
-        double phi = s/radius;
+        double phi = s / radius;
         double currentPhi;
-        if(clockwise){
-            currentPhi = startingPhi-phi;
-        }else {
-            currentPhi = startingPhi+phi;
+        if (clockwise) {
+            currentPhi = startingPhi - phi;
+        } else {
+            currentPhi = startingPhi + phi;
         }
 
         Point2 unitCircle = unitCircle(currentPhi);
@@ -146,31 +149,31 @@ public class ArcLine implements Line2 {
 
     /**
      * directAt s
+     *
      * @param s 位置
      * @return directAt s
      * @since 2020年2月10日
      */
     @Override
     public Vector2 directAt(double s) {
-        double phi = s/radius;
+        double phi = s / radius;
         double currentPhi;
-        if(clockwise){
-            currentPhi = startingPhi-phi;
-        }else {
-            currentPhi = startingPhi+phi;
+        if (clockwise) {
+            currentPhi = startingPhi - phi;
+        } else {
+            currentPhi = startingPhi + phi;
         }
 
         Point2 unitCircle = unitCircle(currentPhi);
 
-        if(clockwise){
+        if (clockwise) {
             return unitCircle.toVector2().rotateSelf(BaseUtils.Converter.angleToRadian(-90));
-        }else {
+        } else {
             return unitCircle.toVector2().rotateSelf(BaseUtils.Converter.angleToRadian(90));
         }
     }
 
     /**
-     *
      * @return toString
      * @since 2020年2月11日
      */

@@ -101,6 +101,17 @@ public class PhaseSpaceParticle {
         this.delta = delta;
     }
 
+    public PhaseSpaceParticle copy() {
+        return new PhaseSpaceParticle(
+                this.x,
+                this.xp,
+                this.y,
+                this.yp,
+                this.z,
+                this.delta
+        );
+    }
+
     @Override
     public String toString() {
         return "PhaseSpaceCoordinateSystem6d{" +
@@ -111,5 +122,9 @@ public class PhaseSpaceParticle {
                 ", z=" + z +
                 ", delta=" + delta +
                 '}';
+    }
+
+    public String toExcelMapComputer() {
+        return String.format("%+e\t%+e\t%+e\t%+e", x, xp, y, yp);
     }
 }

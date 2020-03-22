@@ -88,7 +88,6 @@ public class StraightLine implements Line2 {
     }
 
     /**
-     *
      * @return toString
      * @since 2020年2月11日
      */
