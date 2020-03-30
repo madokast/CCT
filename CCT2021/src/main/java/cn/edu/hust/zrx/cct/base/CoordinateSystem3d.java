@@ -55,6 +55,17 @@ public class CoordinateSystem3d {
         );
     }
 
+
+    /**
+     * 点 p 是在 this 坐标系中的点
+     * 返回他在全局坐标系中的坐标
+     * @param p this 坐标系中的点
+     * @return 在全局坐标系中的坐标
+     */
+    public Point3 coordinateReverse(Point3 p){
+        return null;
+    }
+
     /**
      * 已知yDirect zDirect 按照右手系建立坐标系
      *

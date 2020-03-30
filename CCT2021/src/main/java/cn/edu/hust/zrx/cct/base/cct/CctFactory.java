@@ -1,6 +1,7 @@
 package cn.edu.hust.zrx.cct.base.cct;
 
 import cn.edu.hust.zrx.cct.Logger;
+import cn.edu.hust.zrx.cct.advanced.PolynomialFitter;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
@@ -10,6 +11,7 @@ import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
+import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -570,6 +572,65 @@ public class CctFactory {
                         double rightBz = magnetAt(rightPoint).z;
                         double leftBz = magnetAt(leftPoint).z;
                         return Point2.create(distance, (leftBz - rightBz) / WIDTH);
+                    }).collect(Collectors.toList());
+        }
+
+        default List<Point2> magnetGradientAlongTrajectory(
+                final Line2 trajectory, final double deltaLength, final double goodFieldAreaWidth) {
+            int dotNumber = 16;
+
+            PolynomialFitter fitter = PolynomialFitter.build(1);
+
+            List<Double> xList = BaseUtils.Python.linspaceStream(-goodFieldAreaWidth, goodFieldAreaWidth, dotNumber)
+                    .boxed().collect(Collectors.toList());;
+
+            final Line2 rightHandSideLine2 = trajectory.rightHandSideLine2(goodFieldAreaWidth);
+            final Line2 leftHandSideLine2 = trajectory.rightHandSideLine2(-goodFieldAreaWidth);
+
+            return trajectory.dispersePoint3sWithDistance(deltaLength)
+                    .stream()
+                    .map(point3WithDistance -> {
+                        double distance = point3WithDistance.getDistance();
+                        Point3 rightPoint = rightHandSideLine2.pointAt(distance).toPoint3();
+                        Point3 leftPoint = leftHandSideLine2.pointAt(distance).toPoint3();
+
+                        List<Double> bzList = BaseUtils.Python.linspaceStream( rightPoint,leftPoint, dotNumber)
+                                .mapToDouble(p -> magnetAt(p).z)
+                                .boxed()
+                                .collect(Collectors.toList());
+                        List<Point2> fitted = Point2.create( xList,bzList);
+
+                        return Point2.create(distance,fitter.fit(fitted)[1]);
+                    }).collect(Collectors.toList());
+        }
+
+        // 六极场
+        default List<Point2> magnetSecondGradientAlongTrajectory(
+                final Line2 trajectory, final double deltaLength, final double goodFieldAreaWidth){
+            int dotNumber = 16;
+
+            PolynomialFitter fitter = PolynomialFitter.build(2);
+
+            List<Double> xList = BaseUtils.Python.linspaceStream(-goodFieldAreaWidth, goodFieldAreaWidth, dotNumber)
+                    .boxed().collect(Collectors.toList());;
+
+            final Line2 rightHandSideLine2 = trajectory.rightHandSideLine2(goodFieldAreaWidth);
+            final Line2 leftHandSideLine2 = trajectory.rightHandSideLine2(-goodFieldAreaWidth);
+
+            return trajectory.dispersePoint3sWithDistance(deltaLength)
+                    .stream()
+                    .map(point3WithDistance -> {
+                        double distance = point3WithDistance.getDistance();
+                        Point3 rightPoint = rightHandSideLine2.pointAt(distance).toPoint3();
+                        Point3 leftPoint = leftHandSideLine2.pointAt(distance).toPoint3();
+
+                        List<Double> bzList = BaseUtils.Python.linspaceStream( rightPoint,leftPoint, dotNumber)
+                                .mapToDouble(p -> magnetAt(p).z)
+                                .boxed()
+                                .collect(Collectors.toList());
+                        List<Point2> fitted = Point2.create( xList,bzList);
+
+                        return Point2.create(distance,fitter.fit(fitted)[2]);
                     }).collect(Collectors.toList());
         }
 

@@ -150,7 +150,7 @@ public class A0322传输矩阵计算225CCT {
         return list;
     }
 
-    @run(3)
+    @run(value = 3,code = "A0322-ODE-2205")
     public void 三大对比(){
         boolean xxPlane = false;
         double delta = 0.0;

@@ -200,4 +200,57 @@ public class Vector3 {
     public String toString() {
         return Arrays.toString(List.of(x, y, z).toArray());
     }
+
+    /**
+     * 判断 a b 是否正平行
+     * 正平行指的是：
+     * ------------>
+     * ------>
+     * 不应带如0长度矢量
+     *
+     * @param a a
+     * @param b b
+     * @return 是否 正平行
+     */
+    public static boolean positiveParallel(Vector3 a, Vector3 b) {
+        Vector3 a0 = a.copy().changeLengthSelf(1);
+        Vector3 b0 = b.copy().changeLengthSelf(1);
+
+        double sub = a0.subtract(b0).length();
+
+        return sub < 1e-8;
+    }
+
+    /**
+     * 判断 a b 是否负平行
+     * 正平行指的是：
+     * ------------>
+     * <------
+     * 不应带如0长度矢量
+     *
+     * @param a a
+     * @param b b
+     * @return 是否 负平行
+     */
+    public static boolean negativeParallel(Vector3 a, Vector3 b) {
+        Vector3 a0 = a.copy().changeLengthSelf(1);
+        Vector3 b0 = b.copy().changeLengthSelf(1);
+
+        double add = a0.addSelf(b0).length();
+
+        return add < 1e-8;
+    }
+
+    /**
+     * 判断 a b 是否平行
+     * 正平行或父平行
+     * 不应带如0长度矢量
+     *
+     * @param a a
+     * @param b b
+     * @return 是否 负平行
+     */
+    public static boolean parallel(Vector3 a, Vector3 b) {
+        return positiveParallel(a, b) || negativeParallel(a, b);
+    }
 }

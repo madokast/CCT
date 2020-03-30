@@ -59,4 +59,8 @@ public class Point3 {
     public String toCadString(double unit) {
         return x / unit + "," + y / unit + "," + z / unit;
     }
+
+    public Point2 toPoint2() {
+        return Point2.create(x,y);
+    }
 }

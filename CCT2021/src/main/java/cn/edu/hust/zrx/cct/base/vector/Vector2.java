@@ -345,6 +345,18 @@ public class Vector2 {
         return new Vector2(v.x, v.y);
     }
 
+    public double dot(Vector2 a2) {
+        return this.x * a2.x + this.y * a2.y;
+    }
+
+    public Vector2 dot(double k) {
+        return Vector2.create(x * k, y * k);
+    }
+
+    public Vector2 add(Vector2 b) {
+        return create(x + b.x, y + b.y);
+    }
+
     /**
      * 辅助类，仅用于方法 from()，使用方法见 from() 注释
      *

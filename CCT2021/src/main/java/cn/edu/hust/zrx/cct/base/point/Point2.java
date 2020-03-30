@@ -3,6 +3,7 @@ package cn.edu.hust.zrx.cct.base.point;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.DoubleFunction;
@@ -39,6 +40,10 @@ import java.util.stream.Collectors;
 public class Point2 implements Cloneable {
     public double x;
     public double y;
+
+    public static double distance(Point2 p1,Point2 p2) {
+        return Vector2.from(p1).to(p2).length();
+    }
 
     /**
      * 返回实例的复制
@@ -108,6 +113,21 @@ public class Point2 implements Cloneable {
      */
     public static Point2 create(double x, double y) {
         return new Point2(x, y);
+    }
+
+    public static List<Point2> create(List<Double> xs,List<Double> ys){
+        int xLen = xs.size();
+        int yLen = ys.size();
+
+        int len = Math.min(xLen,yLen);
+
+        List<Point2> list = new ArrayList<>(len);
+
+        for (int i = 0; i < len; i++) {
+            list.add(create(xs.get(i),ys.get(i)));
+        }
+
+        return list;
     }
 
     /**

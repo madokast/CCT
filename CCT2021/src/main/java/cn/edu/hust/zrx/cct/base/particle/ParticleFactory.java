@@ -66,26 +66,6 @@ public class ParticleFactory {
         );
     }
 
-    /**
-     * 基本工厂方法，获得一个粒子
-     *
-     * @param position           位置
-     * @param direct             速度方向
-     * @param kineticMeV         动能 不是动量
-     * @param momentumDispersion 动量分散
-     * @return 粒子
-     */
-    protected static RunningParticle createProton(
-            final Point3 position, final Vector3 direct, final double kineticMeV, final double momentumDispersion) {
-        // 根据 momentumDispersion 修改 kineticMeV
-
-
-        //TODO
-
-        return null;
-
-    }
-
 
     /**
      * 生成一个质子。动能250MeV

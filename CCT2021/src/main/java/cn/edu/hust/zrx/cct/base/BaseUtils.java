@@ -98,8 +98,27 @@ public class BaseUtils {
             return doubles;
         }
 
+        public static Point3[] linspace(Point3 start,Point3 end,int number){
+            double[] xs = linspace(start.x, end.x, number);
+            double[] ys = linspace(start.y, end.y, number);
+            double[] zs = linspace(start.z, end.z, number);
+
+            Point3[] ps = new Point3[number];
+
+            for (int i = 0; i < ps.length; i++) {
+                ps[i] = Point3.create(xs[i],ys[i],zs[i]);
+            }
+
+            return ps;
+        }
+
         public static DoubleStream linspaceStream(double start, double end, int number) {
             double[] linspace = linspace(start, end, number);
+            return Arrays.stream(linspace);
+        }
+
+        public static Stream<Point3> linspaceStream(Point3 start,Point3 end,int number){
+            Point3[] linspace = linspace(start, end, number);
             return Arrays.stream(linspace);
         }
 

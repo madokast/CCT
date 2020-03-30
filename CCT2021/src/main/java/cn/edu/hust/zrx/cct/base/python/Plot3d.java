@@ -1,7 +1,6 @@
 package cn.edu.hust.zrx.cct.base.python;
 
 
-import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 
 import java.io.File;

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 /**
  * Description
- * TODO
+ * COSY MAP 处理器
  * <p>
  * Data
  * 14:27
@@ -316,11 +316,36 @@ public class COSY {
 
         double r16_m_per_1 = r16InCosy / k;
 
-        double r16_mm_per_1 = r16_m_per_1*1000;
+        double r16_mm_per_1 = r16_m_per_1 * 1000;
 
-        double r16_mm_per_present = r16_mm_per_1/100;
+        double r16_mm_per_present = r16_mm_per_1 / 100;
 
         return r16_mm_per_present;
+    }
+
+    //  ------------ COSY ENGE 函数 --------------
+    // D 孔直径
+    public static MathFunction engeFunction(double D, double a1, double a2, double a3, double a4, double a5, double a6) {
+        return z -> 1 / (1 + Math.exp(
+                a1
+                        + a2 * (z / D)
+                        + a3 * (z / Math.pow(D, 2))
+                        + a4 * (z / Math.pow(D, 3))
+                        + a5 * (z / Math.pow(D, 4))
+                        + a6 * (z / Math.pow(D, 5))
+        ));
+    }
+
+    public static MathFunction defaultQuadrupoleEngeFunction(double D) {
+        return engeFunction(
+                D,
+                0.296471,
+                4.533219,
+                -2.270982,
+                1.068627,
+                -0.036391,
+                0.022261
+        );
     }
 
 }

@@ -1,5 +1,7 @@
 package cn.edu.hust.zrx.cct.advanced;
 
+import cn.edu.hust.zrx.cct.base.point.Point2;
+
 import java.util.function.Function;
 
 /**
@@ -13,7 +15,26 @@ import java.util.function.Function;
  * @version 1.0
  */
 
-public class MathFunction {
+public interface MathFunction extends Function<Double, Double> {
+
+    @Override
+    Double apply(Double aDouble);
+
+    default Function<Double, Double> toDoubleDoubleFunction() {
+        return this;
+    }
+
+    default Function<Double, Double> reverse() {
+        return x -> -apply(x);
+    }
+
+    default Function<Double, Double> move(Point2 p) {
+        return x -> apply(x - p.x) + p.y;
+    }
+
+    static Function<Double, Double> add(Function<Double, Double> fun1, Function<Double, Double> fun2) {
+        return x -> fun1.apply(x) + fun2.apply(x);
+    }
 
     /**
      * 多项式函数
