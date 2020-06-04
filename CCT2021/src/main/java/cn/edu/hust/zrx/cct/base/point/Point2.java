@@ -2,7 +2,9 @@ package cn.edu.hust.zrx.cct.base.point;
 
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -37,12 +39,100 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 
-public class Point2 implements Cloneable {
+public class Point2 implements Cloneable, Serializable, Comparable<Point2> {
     public double x;
     public double y;
 
-    public static double distance(Point2 p1,Point2 p2) {
+    public static double distance(Point2 p1, Point2 p2) {
         return Vector2.from(p1).to(p2).length();
+    }
+
+    /**
+     * 两点的中点
+     *
+     * @param p1 点1
+     * @param p2 点2
+     * @return 中点
+     */
+    public static Point2 center(Point2 p1, Point2 p2) {
+        return create(
+                (p1.x + p2.x) / 2,
+                (p1.y + p2.y) / 2
+        );
+    }
+
+    /**
+     * 把点的 y 值相加
+     *
+     * @param p1 点1
+     * @param p2 点2
+     * @return (p1.x, p1.y + p2.y)
+     */
+    public static Point2 addOnY(Point2 p1, Point2 p2) {
+        // 不检查 p1.x==p2.x
+        return Point2.create(p1.x, p1.y + p2.y);
+    }
+
+    public static Point2 addOnY(Point2... point2s) {
+        double sum = 0;
+        for (Point2 point2 : point2s) {
+            sum += point2.y;
+        }
+
+        return Point2.create(point2s[0].x, sum);
+    }
+
+    public static List<Point2> addOnY(List<Point2> ps1, List<Point2> ps2) {
+        // 不检查 两个数组长度是否一致
+        List<Point2> ret = new ArrayList<>(ps1.size());
+
+        for (int i = 0; i < ps1.size(); i++) {
+            ret.add(
+                    addOnY(ps1.get(i), ps2.get(i))
+            );
+        }
+
+        return ret;
+    }
+
+    public static List<Point2> addOnY(List<List<Point2>> pss) {
+        List<Point2> ret = pss.get(0);
+
+        for (int i = 1; i < pss.size(); i++) {
+            for (int j = 0; j < pss.get(i).size(); j++) {
+                Point2 addPoint = pss.get(i).get(j);
+                Point2 origin = ret.get(j);
+
+                ret.set(j, addOnY(addPoint, origin));
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * 均值 中心点
+     *
+     * @param point2s point2s
+     * @return 均值 中心点
+     */
+    public static Point2 average(List<Point2> point2s) {
+        double x = point2s.stream().mapToDouble(Point2::getX).average().orElseGet(() -> {
+            throw new RuntimeException("Point2::average");
+        });
+
+        double y = point2s.stream().mapToDouble(Point2::getY).average().orElseGet(() -> {
+            throw new RuntimeException("Point2::average");
+        });
+
+        return create(x, y);
+    }
+
+    public static Point2 midPoint(Point2 p1, Point2 p2) {
+        return create(
+                (p1.x + p2.x) / 2,
+                (p1.y + p2.y) / 2
+        );
     }
 
     /**
@@ -89,6 +179,15 @@ public class Point2 implements Cloneable {
         return Point2To3.getXY0ToXYZPoint2To3().convert(this);
     }
 
+    public Point3 toPoint3(double z) {
+        return new Point2To3() {
+            @Override
+            public Point3 convert(Point2 p) {
+                return Point3.create(p.x, p.y, z);
+            }
+        }.apply(this);
+    }
+
 
     /*----------------构造函数、简单工厂------------------*/
 
@@ -115,16 +214,16 @@ public class Point2 implements Cloneable {
         return new Point2(x, y);
     }
 
-    public static List<Point2> create(List<Double> xs,List<Double> ys){
+    public static List<Point2> create(List<Double> xs, List<Double> ys) {
         int xLen = xs.size();
         int yLen = ys.size();
 
-        int len = Math.min(xLen,yLen);
+        int len = Math.min(xLen, yLen);
 
         List<Point2> list = new ArrayList<>(len);
 
         for (int i = 0; i < len; i++) {
-            list.add(create(xs.get(i),ys.get(i)));
+            list.add(create(xs.get(i), ys.get(i)));
         }
 
         return list;
@@ -287,11 +386,46 @@ public class Point2 implements Cloneable {
         return convert(p, (x, y) -> x * xScale, (x, y) -> y * yScale);
     }
 
+
+    /**
+     * 点 thisPoint 关于直线对称的点
+     * 直线由 point2AtLine 和 directOfTheLine 确定
+     *
+     * @param thisPoint       用于对称的点
+     * @param point2AtLine    直线上任意一点
+     * @param directOfTheLine 直线的方向
+     * @return 点 thisPoint 关于直线对称的点
+     */
+    public static Point2 symmetryByLine(final Point2 thisPoint, final Point2 point2AtLine, final Vector2 directOfTheLine) {
+        Vector2 directOfTheLineNormal = directOfTheLine.copy().normalSelf();
+
+        Vector2 sp = Vector2.from(point2AtLine).to(thisPoint);
+
+        double projectLength = sp.dot(directOfTheLineNormal);
+
+        Vector2 diagonal = directOfTheLineNormal.dot(2 * projectLength); // 对角线
+
+        Vector2 spp = diagonal.add(sp.reverseSelf());
+
+        return point2AtLine.copy().moveSelf(spp);
+    }
+
     public double getX() {
         return x;
     }
 
     public double getY() {
         return y;
+    }
+
+    /**
+     * 以 x 作为比较基准
+     *
+     * @param o 比较对象
+     * @return Double.compare(this.x, o.x)
+     */
+    @Override
+    public int compareTo(@NotNull Point2 o) {
+        return Double.compare(this.x, o.x);
     }
 }

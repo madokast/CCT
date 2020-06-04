@@ -34,7 +34,7 @@ import java.util.List;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class A20200315粒子相椭圆画图 {
 
 //    @run //美妙

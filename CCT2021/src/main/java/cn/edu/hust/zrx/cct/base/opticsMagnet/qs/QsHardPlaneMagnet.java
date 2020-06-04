@@ -1,14 +1,22 @@
-package cn.edu.hust.zrx.cct.base.qs;
+package cn.edu.hust.zrx.cct.base.opticsMagnet.qs;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.MathFunction;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.CoordinateSystem3d;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.line.Arcs;
+import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
+import cn.edu.hust.zrx.cct.base.python.Plot2d;
+import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
+
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Description
@@ -64,18 +72,23 @@ public class QsHardPlaneMagnet implements CctFactory.MagnetAble {
             Vector3 relative = Vector3.from(project3).to(p);
             double y = relative.z;
             double x;
-            switch (isOnTheAxisRight(p.toPoint2())){
-                case 0 -> x=0;
-                case 1-> x = Vector2.create(relative.x, relative.y).length();
-                case -1 -> x=-Vector2.create(relative.x, relative.y).length();
+            switch (isOnTheAxisRight(p.toPoint2())) {
+                case 0 -> x = 0;
+                case 1 -> x = Vector2.create(relative.x, relative.y).length();
+                case -1 -> x = -Vector2.create(relative.x, relative.y).length();
                 default -> throw new RuntimeException("isOnTheAxisRight");
             }
 
             double By_quad = -gradient_T_per_m * x;
             double Bx_quad = -gradient_T_per_m * y;
 
-            double By_sext = second_gradient_T_per_m2 * x * x;
-            double Bx_sext = second_gradient_T_per_m2 * y * y;
+//            double By_sext = second_gradient_T_per_m2 * x * x;
+//            double Bx_sext = second_gradient_T_per_m2 * y * y;
+
+
+            double By_sext = second_gradient_T_per_m2 * (x * x - y * y);
+//            double By_sext = second_gradient_T_per_m2 * (x * x);
+            double Bx_sext = second_gradient_T_per_m2 * (2 * x * y);
 
             Vector3 By = Vector3.getZDirect().dot(By_quad + By_sext);
             Vector3 Bxy = direct.copy().rotateSelf(-Math.PI / 2).toVector3().dot(Bx_quad + Bx_sext);
@@ -171,4 +184,57 @@ public class QsHardPlaneMagnet implements CctFactory.MagnetAble {
         return new QsHardPlaneMagnet(length_m, gradient_T_per_m, second_gradient_T_per_m2, aperture_radius_mm, location, direct);
     }
 
+
+    private final double MM = 1e-3;
+
+    /**
+     * 画图
+     * @param describe 描述
+     */
+    public void plot2d(String describe){
+        //                p1----------------------------------------p2
+        //                  |                                        |
+        // 这里就是位置点  ->|              ------ >>                 |
+        //                  |                                        |
+        //                 p4---------------------------------------p3
+
+        Point2 p1 = location.toVector2().
+                add(direct.copy().rotateSelf(BaseUtils.Converter.angleToRadian(90)).changeLengthSelf(aperture_radius_mm*MM)).toPoint2();
+
+        Point2 p4 = location.toVector2().
+                add(direct.copy().rotateSelf(BaseUtils.Converter.angleToRadian(-90)).changeLengthSelf(aperture_radius_mm*MM)).toPoint2();
+
+        Point2 p2 = p1.toVector2().add(direct.copy().changeLengthSelf(length_m)).toPoint2();
+
+        Point2 p3 = p2.toVector2()
+                .add(direct.copy().rotateSelf(BaseUtils.Converter.angleToRadian(-90)).changeLengthSelf(aperture_radius_mm*2*MM)).toPoint2();
+
+
+        List<Point2> ps = List.of(p1, p2, p3, p4);
+
+        Plot2d.plot2circle(ps,describe);
+    }
+
+    public void plot3d(String describe){
+
+        // 前面的盖子
+        List<Point3> front = Arcs.circle3d(location.toPoint3(), aperture_radius_mm * MM, direct.toVector3(), 360);
+
+        // 后面的盖子
+        List<Point3> back = Point3.move(front, direct.toVector3().changeLengthSelf(length_m));
+
+        Plot3d.plot3(front,describe);
+        Plot3d.plot3(back,describe);
+
+
+        IntStream.range(0,8)
+                .map(i->i*45)
+                .forEach(i->{
+                    Plot3d.plot3(List.of(
+                            front.get(i),back.get(i)
+                    ),describe);
+                });
+
+
+    }
 }

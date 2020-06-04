@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class A0321包络计算_225CCT {
 
     // -------------------------------------------------------------------------------------------

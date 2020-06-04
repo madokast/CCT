@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.DoubleSummaryStatistics;
@@ -28,6 +29,7 @@ public class Plot2d {
     public static final String BLACK_POINT = ",'ko'";
     public static final String YELLOW_POINT = ",'yo'";
     public static final String YELLOW_SMALL_POINT = ",'y.'";
+    public static final String BLACK_SMALL_POINT = ",'k.'";
     public static final String GREEN_POINT = ",'go'";
     public static final String BLUE_POINT = ",'bo'";
 
@@ -54,6 +56,7 @@ public class Plot2d {
     public static final String RED_DASH = ",color='red', linestyle='--'";
     public static final String BLACK_DASH = ",color='black', linestyle='--'";
     public static final String BLUE_DASH = ",color='blue', linestyle='--'";
+    public static final String YELLOW_DASH = ",color='yellow', linestyle='--'";
 
     public static final String GREY_DOt_DASH = ",color='grey', linestyle='-.'";
     public static final String PINK_DOt_DASH = ",color='pink', linestyle='-.'";
@@ -92,6 +95,64 @@ public class Plot2d {
 
         plot2(point2s, describe);
     }
+
+
+    // 画长方形
+    public static void plotBox(double minX, double maxX, double minY, double maxY, String describe) {
+        List<Point2> box = List.of(
+                Point2.create(minX, minY),
+                Point2.create(minX, maxY),
+                Point2.create(maxX, maxY),
+                Point2.create(maxX, minY),
+                Point2.create(minX, minY)
+        );
+
+        plot2(box, describe);
+    }
+
+    /**
+     * 画条形，条形的底边在x轴上
+     *
+     * @param xCenter 底边中心的 x 值
+     * @param width   宽度
+     * @param height  高度
+     */
+    public static void plotBox(double xCenter, double width, double height, String describe) {
+        plotBox(
+                xCenter - width / 2,
+                xCenter + width / 2,
+                0,
+                height,
+                describe
+        );
+    }
+
+
+    /**
+     * 谐波分析
+     * 本质是画条形，条形的底边在x轴上
+     *
+     * @param array        谐波数组
+     * @param describe     画图描述
+     * @param centerOffset 条形图中心 和 整点的偏差
+     * @param width        条形宽度
+     */
+    public static void harmonicAnalysis(double[] array, String describe, double centerOffset, double width) {
+        for (int i = 0; i < array.length; i++) {
+            double h = array[i];
+
+            plotBox(i + centerOffset, width, h, describe);
+        }
+    }
+
+    public static void harmonicAnalysisWithOut0(double[] array, String describe, double centerOffset, double width) {
+        for (int i = 1; i < array.length; i++) {
+            double h = array[i];
+
+            plotBox(i + centerOffset, width, h, describe);
+        }
+    }
+
 
     public static void plot2circle(List<Point2> rs, String describe) {
         List<Point2> list = new ArrayList<>(rs);
@@ -417,6 +478,13 @@ public class Plot2d {
         } else {
             System.err.println("plot2d::xLabel called without any drawing");
         }
+    }
+
+    public static void grid() {
+        if (pyPrintWriter != null) {
+            pyPrintWriter.println("plt.grid()");
+        } else
+            System.err.println("plot2d::xLabel called without any drawing");
     }
 
     public static void info(String xLabel, String yLabel, String title) {

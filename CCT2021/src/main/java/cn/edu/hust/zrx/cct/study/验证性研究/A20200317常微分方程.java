@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class A20200317常微分方程 {
 
     //    @run

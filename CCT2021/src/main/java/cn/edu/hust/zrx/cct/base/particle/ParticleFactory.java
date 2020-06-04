@@ -49,7 +49,7 @@ public class ParticleFactory {
      * @param kineticMeV 动能 不是动量
      * @return 粒子
      */
-    protected static RunningParticle createProton(
+    public static RunningParticle createProton(
             final Point3 position, final Vector3 direct, final double kineticMeV) {
         //计算速率
         double speed = LightSpeed * Math.sqrt(

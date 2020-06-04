@@ -153,6 +153,7 @@ public interface Line2 {
         return new RightHandSideLine2(this, rightHandOffset);
     }
 
+
     /*------------------------------端点性质--------------------*/
 
     /**
@@ -333,6 +334,10 @@ public interface Line2 {
         Plot2d.plot2(dispersePoint2s(deltaLength), describe);
     }
 
+    default void plot2d() {
+        Plot2d.plot2(dispersePoint2s(MM), Plot2d.BLACK_LINE);
+    }
+
     /**
      * plot3d 画图
      * 按照 (x, y) 直接转为三维(x, y, 0)
@@ -367,10 +372,35 @@ public interface Line2 {
         plot3d(1 * MM);
     }
 
+    default Point2 midPoint() {
+        return pointAt(getLength() / 2);
+    }
+
 
     default String describe() {
         return "[起点" + pointAt(0) + ", 起点方向" + directAt(0) + ", 长度" + getLength() + "]";
     }
 
     public static final double MM = 1e-3;
+
+
+    default Line2 reverse() {
+        final Line2 origin = this;
+        return new Line2() {
+            @Override
+            public double getLength() {
+                return origin.getLength();
+            }
+
+            @Override
+            public Point2 pointAt(double s) {
+                return origin.pointAt(getLength() - s);
+            }
+
+            @Override
+            public Vector2 directAt(double s) {
+                return origin.directAt(getLength() - s).reverseSelf();
+            }
+        };
+    }
 }

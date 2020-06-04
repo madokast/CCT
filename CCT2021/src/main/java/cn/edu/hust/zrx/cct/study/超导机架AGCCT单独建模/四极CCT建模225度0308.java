@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class 四极CCT建模225度0308 {
 //    @run // 验证通过
     public void 四极CCT分开建模_验证公式正确性() {

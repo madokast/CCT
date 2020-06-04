@@ -55,4 +55,26 @@ public interface MathFunction extends Function<Double, Double> {
         };
     }
 
+
+    /**
+     * COSY ENGE function
+     * F(z) = 1 / (1+exp(a1+a2(z/D)^1+...+a6(z/D)^5))
+     *
+     * @param D  is the full aperture
+     * @param a1 a1
+     * @return F(z)
+     */
+    public static Function<Double, Double> createEngeFuntion(double D, double a1, double a2,
+                                                             double a3, double a4, double a5, double a6) {
+        return z -> 1.0 / (1 + Math.exp(
+                a1
+                        + a2 * Math.pow(z / D, 1)
+                        + a3 * Math.pow(z / D, 2)
+                        + a4 * Math.pow(z / D, 3)
+                        + a5 * Math.pow(z / D, 4)
+                        + a6 * Math.pow(z / D, 5)
+        ));
+
+    }
+
 }

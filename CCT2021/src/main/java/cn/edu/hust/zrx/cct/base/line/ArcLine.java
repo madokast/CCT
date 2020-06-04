@@ -86,7 +86,7 @@ public class ArcLine implements Line2 {
      * @param clockwise      顺时针与否
      * @param totalAngle     总旋转度数
      */
-    protected ArcLine(final Point2 startingPoint,
+    public ArcLine(final Point2 startingPoint,
                       final Vector2 startingDirect,
                       final double radius,
                       final boolean clockwise,

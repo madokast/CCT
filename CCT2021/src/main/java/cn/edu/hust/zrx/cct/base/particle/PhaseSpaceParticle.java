@@ -53,6 +53,14 @@ public class PhaseSpaceParticle {
         this.delta = delta;
     }
 
+    public static PhaseSpaceParticle create(double x, double xp, double y, double yp, double z, double delta) {
+        return new PhaseSpaceParticle(x, xp, y, yp, z, delta);
+    }
+
+    public static PhaseSpaceParticle origin() {
+        return new PhaseSpaceParticle(0,0,0,0,0,0);
+    }
+
     public double getX() {
         return x;
     }
@@ -126,5 +134,39 @@ public class PhaseSpaceParticle {
 
     public String toExcelMapComputer() {
         return String.format("%+e\t%+e\t%+e\t%+e", x, xp, y, yp);
+    }
+
+
+    //    private double x;
+    //    private double xp;
+    //    private double y;
+    //    private double yp;
+    //    private double z;
+    //    private double delta;
+
+    public static enum VARIABLE {
+        X, XP, Y, YP, Z, Dp
+    }
+
+    public double get(VARIABLE variable) {
+        return switch (variable) {
+            case X -> x;
+            case XP -> xp;
+            case Y -> y;
+            case YP -> yp;
+            case Z -> z;
+            case Dp -> delta;
+        };
+    }
+
+    public void set(VARIABLE variable, double value) {
+        switch (variable) {
+            case X -> x = value;
+            case XP -> xp = value;
+            case Y -> y = value;
+            case YP -> yp = value;
+            case Z -> z = value;
+            case Dp -> delta = value;
+        }
     }
 }

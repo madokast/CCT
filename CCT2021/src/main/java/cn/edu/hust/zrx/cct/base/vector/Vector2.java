@@ -1,6 +1,8 @@
 package cn.edu.hust.zrx.cct.base.vector;
 
 import cn.edu.hust.zrx.cct.base.point.Point2;
+import org.apache.commons.math3.analysis.function.Acos;
+import org.apache.commons.math3.util.FastMath;
 
 /**
  * Description
@@ -43,6 +45,30 @@ import cn.edu.hust.zrx.cct.base.point.Point2;
 public class Vector2 {
     public double x;
     public double y;
+
+    /**
+     * v1 v2 是否平行
+     *
+     * @param v1 矢量1
+     * @param v2 矢量2
+     * @return 是否平行
+     */
+    public static boolean parallel(Vector2 v1, Vector2 v2) {
+        if (v1.isZero() || v2.isZero())
+            return true;
+
+        Vector2 v10 = v1.copy().changeLengthSelf(1);
+        Vector2 v20 = v2.copy().changeLengthSelf(1);
+
+        Vector2 add = v10.add(v20);
+        Vector2 subtract = v10.subtract(v20);
+
+        return add.isZero() || subtract.isZero();
+    }
+
+    public boolean isZero() {
+        return this.length() < 1e-8;
+    }
 
     /*----------------简单变换------------------*/
 
@@ -218,6 +244,33 @@ public class Vector2 {
     }
 
 
+    /**
+     * 矢量反过来
+     * 自己变化
+     *
+     * @return 反过来的矢量
+     */
+    public Vector2 reverseSelf() {
+        this.x = -this.x;
+        this.y = -this.y;
+
+        return this;
+    }
+
+
+    /**
+     * 计算 this 到 v2 的夹角。弧度制
+     * 取值范围 [0, pi]
+     * @param v2 矢量
+     * @return this 到 v2 的夹角
+     */
+    public double angleTo(Vector2 v2){
+        double theta = this.dot(v2)/(this.length()*v2.length());
+
+        return FastMath.acos(theta);
+    }
+
+
 
     /*----------------构造函数、简单工厂------------------*/
 
@@ -355,6 +408,19 @@ public class Vector2 {
 
     public Vector2 add(Vector2 b) {
         return create(x + b.x, y + b.y);
+    }
+
+    @Deprecated
+    public double angleToDeprecated(final Vector2 direct) {
+        Vector2 a = this.copy().changeLengthSelf(1);
+        Vector2 b = direct.copy().changeLengthSelf(1);
+
+
+        double s1 = Math.asin(b.x);
+
+        double t1 = Math.atan(a.x / -a.y);
+
+        return s1 - t1;
     }
 
     /**

@@ -29,7 +29,7 @@ import java.util.List;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class 建模和研究方法汇总 {
 
 //    @run

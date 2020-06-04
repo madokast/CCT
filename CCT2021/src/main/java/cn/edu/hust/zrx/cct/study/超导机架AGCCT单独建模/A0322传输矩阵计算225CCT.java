@@ -33,7 +33,7 @@ import java.util.List;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class A0322传输矩阵计算225CCT {
 
     // -------------------------------------------------------

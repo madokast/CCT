@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class A0320AGCCT225修改二极CCTa0抵消四极场 {
 
     @run(0)

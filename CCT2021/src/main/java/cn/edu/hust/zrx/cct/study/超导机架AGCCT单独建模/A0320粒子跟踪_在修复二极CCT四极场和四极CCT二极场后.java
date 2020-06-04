@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场后 {
 
     // -------------------------------------------------------------------------------------------

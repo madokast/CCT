@@ -1,8 +1,10 @@
 package cn.edu.hust.zrx.cct.study.小论文画图三月三日;
 
 import cn.edu.hust.zrx.cct.Logger;
+import cn.edu.hust.zrx.cct.advanced.MathFunction;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
@@ -19,9 +21,12 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Description
@@ -34,7 +39,7 @@ import java.util.concurrent.TimeUnit;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class 六十七点五三段AGCCT {
     //    @run
     public void 二极CCT() {
@@ -155,7 +160,7 @@ public class 六十七点五三段AGCCT {
 
     }
 
-//    @run// 论文图 不要改动
+    //    @run// 论文图 不要改动
     public void 全部之二极场() {
         double delta = 10 * MM;
 
@@ -200,8 +205,8 @@ public class 六十七点五三段AGCCT {
         }, Plot2d.GREY_DASH);
 
 //        plt.legend(labels=['up', 'down'])
-        Plot2d.info("Bending angle(degree)", "Dipole field(T)", "", 30);
-        Plot2d.legend(20,"Dipole CCT","AG-CCT","Dipole CCT + AG-CCT","SCOFF");
+        Plot2d.info("Bending angle(degree)", "Dipole field(T)", "", 40);
+        Plot2d.legend(27, "Dipole CCT", "AG-CCT", "Dipole CCT + AG-CCT", "SCOFF");
 
 
         Plot2d.showThread();
@@ -217,7 +222,7 @@ public class 六十七点五三段AGCCT {
 //        Plot3d.showThread();
     }
 
-    @run// 论文图 不要改动
+    //    @run// 论文图 不要改动
     public void 全部之四极场() {
         double delta = 10 * MM;
 
@@ -229,7 +234,7 @@ public class 六十七点五三段AGCCT {
         CctFactory.Cct dipoleCct = createDipoleCct();
 
         Plot2d.plot2(
-                Point2.convert(dipoleCct.magnetGradientAlongTrajectoryFast(trajectory, delta,5*MM),
+                Point2.convert(dipoleCct.magnetGradientAlongTrajectoryFast(trajectory, delta, 5 * MM),
                         (x, y) -> BaseUtils.Converter.radianToAngle((x - 1) / bigR),
                         (x, y) -> y),
                 Plot2d.RED_LINE);
@@ -237,7 +242,7 @@ public class 六十七点五三段AGCCT {
 
 
         Plot2d.plot2(
-                Point2.convert(agCct.magnetGradientAlongTrajectoryFast(trajectory, delta,5*MM),
+                Point2.convert(agCct.magnetGradientAlongTrajectoryFast(trajectory, delta, 5 * MM),
                         (x, y) -> BaseUtils.Converter.radianToAngle((x - 1) / bigR),
                         (x, y) -> y),
                 Plot2d.BLUE_LINE);
@@ -246,7 +251,7 @@ public class 六十七点五三段AGCCT {
         CctFactory.Cct combineCct = CctFactory.combineCct(dipoleCct, agCct);
 
         Plot2d.plot2(
-                Point2.convert(combineCct.magnetGradientAlongTrajectoryFast(trajectory, delta,5*MM),
+                Point2.convert(combineCct.magnetGradientAlongTrajectoryFast(trajectory, delta, 5 * MM),
                         (x, y) -> BaseUtils.Converter.radianToAngle((x - 1) / bigR),
                         (x, y) -> y),
                 Plot2d.BLACK_LINE);
@@ -266,8 +271,8 @@ public class 六十七点五三段AGCCT {
         }, Plot2d.GREY_DASH);
 
 //        plt.legend(labels=['up', 'down'])
-        Plot2d.info("Bending angle(degree)", "Quadrupole field(T/m)", "", 30);
-        Plot2d.legend(20,"Dipole CCT","AG-CCT","Dipole CCT + AG-CCT","SCOFF");
+        Plot2d.info("Bending angle(degree)", "Quadrupole field(T/m)", "", 50);
+        Plot2d.legend(30, "Dipole CCT", "AG-CCT", "Dipole CCT + AG-CCT", "SCOFF");
 
 
         Plot2d.showThread();
@@ -283,17 +288,19 @@ public class 六十七点五三段AGCCT {
 //        Plot3d.showThread();
     }
 
-//    @run
-    public void 解决四极CCT偏心问题画图(){
+    //    @run
+    public void 解决四极CCT偏心问题画图() {
         Trajectory trajectory = getTrajectory();
         CctFactory.Cct agCct = createAgCct();
 
         //二极场分布
-        List<Point2> magnetBzAlongTrajectory = agCct.magnetBzAlongTrajectory(trajectory, 1 * MM);
-                magnetBzAlongTrajectory = Point2.convert(magnetBzAlongTrajectory,
-                (x, y) -> BaseUtils.Converter.radianToAngle((x - 1) / bigR),
-                (x, y) -> y*10000);// 1T -> 1Gs
-        Plot2d.plot2(magnetBzAlongTrajectory,Plot2d.BLACK_LINE);
+//        List<Point2> magnetBzAlongTrajectory = agCct.magnetBzAlongTrajectory(trajectory, 1 * MM);
+//                magnetBzAlongTrajectory = Point2.convert(magnetBzAlongTrajectory,
+//                (x, y) -> BaseUtils.Converter.radianToAngle((x - 1) / bigR),
+//                (x, y) -> y*10000);// 1T -> 1Gs
+//        Plot2d.plot2(magnetBzAlongTrajectory,Plot2d.BLACK_LINE);
+
+        //-------------------------
 //
 //        List<CctFactory.MagnetAble.Point3WithDistance> point3WithDistances =
 //                agCct.magnetAlongTrajectory(trajectory, 1 * MM);
@@ -317,22 +324,76 @@ public class 六十七点五三段AGCCT {
 //        Logger.getLogger().info("zeroPoint = " + zeroPoint);
 //        //zeroPoint = -0.0013284301757812498
 
-//        Line2 rightHandSideLine2 = trajectory.rightHandSideLine2(-0.0013284301757812498);
-//        List<Point2> magnetBzAlongTrajectory2 = agCct.magnetBzAlongTrajectory(rightHandSideLine2, 1 * MM);
-//        magnetBzAlongTrajectory2 = Point2.convert(magnetBzAlongTrajectory2,
-//                (x, y) -> BaseUtils.Converter.radianToAngle((x - 1) / bigR),
-//                (x, y) -> y*10000);// 1T -> 1Gs
-//        Plot2d.plot2(magnetBzAlongTrajectory2,Plot2d.BLACK_LINE);
+        Line2 rightHandSideLine2 = trajectory.rightHandSideLine2(-0.0013284301757812498);
+        List<Point2> magnetBzAlongTrajectory2 = agCct.magnetBzAlongTrajectory(rightHandSideLine2, 1 * MM);
+        magnetBzAlongTrajectory2 = Point2.convert(magnetBzAlongTrajectory2,
+                (x, y) -> BaseUtils.Converter.radianToAngle((x - 1) / bigR),
+                (x, y) -> y * 10000);// 1T -> 1Gs
+        Plot2d.plot2(magnetBzAlongTrajectory2, Plot2d.BLACK_LINE);
 
 
         Plot2d.plotYLines(List.of(
                 0.,
                 agCctAngle0,
-                agCctAngle0+agCctAngle1,
-                agCctAngle0+agCctAngle1+agCctAngle2
-        ),magnetBzAlongTrajectory);
+                agCctAngle0 + agCctAngle1,
+                agCctAngle0 + agCctAngle1 + agCctAngle2
+        ), magnetBzAlongTrajectory2);
 
-        Plot2d.info("Bending angle(degree)", "Dipole field(Gs)", "", 30);
+        Plot2d.info("Bending angle(degree)", "Dipole field(Gs)", "", 50);
+
+        Plot2d.showThread();
+    }
+
+
+    @run // すごくきれい
+    public void NC磁铁和CCT对比() {
+
+        CctFactory.Cct dipoleCct = createDipoleCct();
+
+        Trajectory trajectory = getTrajectory();
+
+        List<Point2> list = dipoleCct.magnetBzAlongTrajectory(trajectory, MM);
+
+        double cctLength = BaseUtils.Converter.angleToRadian(67.5) * bigR;
+
+        list = Point2.convert(list, x -> (x - 1) / cctLength, y -> y / 3.24);
+
+        list = list.stream().filter(p -> p.x > -1 && p.x < 2).collect(Collectors.toList());
+
+        Plot2d.plot2(list, Plot2d.BLACK_LINE);
+
+
+        {
+            // NC
+            Function<Double, Double> engeFuntion = MathFunction.createEngeFuntion(98 * MM / cctLength, 0.479, 1.911, -1.186, 1.63, -1.08, 0.318);
+
+            List<Point2> collect = BaseUtils.Python.linspaceStream(0.5, 2.0, 100)
+                    .mapToObj(z -> Point2.create(z, engeFuntion.apply(z - 1)))
+                    .collect(Collectors.toList());
+
+            List<Point2> collect2 = BaseUtils.Python.linspaceStream(-1, 0.5, 100)
+                    .mapToObj(z -> Point2.create(z, engeFuntion.apply(-z)))
+                    .collect(Collectors.toList());
+
+            collect2.addAll(collect);
+
+            Plot2d.plot2(collect2, Plot2d.BLUE_LINE);
+        }
+
+
+        Plot2d.plot2(new Point2[]{
+                Point2.create(-1, 0),
+                Point2.create(0, 0),
+                Point2.create(0, 1),
+                Point2.create(1, 1),
+                Point2.create(1, 0),
+                Point2.create(2, 0),
+        }, Plot2d.GREY_DASH);
+
+
+        Plot2d.info("Normalized length", "Normalized magnetic field", "", 50);
+
+        Plot2d.legend(35, "Dipole CCT", "NC magnet", "SCOFF");
 
         Plot2d.showThread();
     }

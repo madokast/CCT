@@ -123,6 +123,19 @@ public class Plot3d {
         });
     }
 
+    public static void offAxisAndBgColor(){
+        prepareHead();
+        try {
+            pyPrintWriter.println("""
+                    plt.axis('off')
+
+                    ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))""");
+        }catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
     public static void removeAxis() {
         prepareHead();
         try {

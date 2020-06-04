@@ -40,7 +40,7 @@ import java.util.stream.IntStream;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class A0322色散函数计算225CCT {
 
     // -------------------------------------------------------------------------------------------

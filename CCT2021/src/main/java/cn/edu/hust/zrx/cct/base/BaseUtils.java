@@ -6,11 +6,15 @@ import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 
+import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -82,6 +86,9 @@ public class BaseUtils {
          * @since 2020年2月10日
          */
         public static double[] linspace(double start, double end, int number) {
+            if (start > end)
+                throw new IllegalArgumentException("start>end!!");
+
             // 新建数组，长度 number
             double[] doubles = new double[number];
 
@@ -98,7 +105,7 @@ public class BaseUtils {
             return doubles;
         }
 
-        public static Point3[] linspace(Point3 start,Point3 end,int number){
+        public static Point3[] linspace(Point3 start, Point3 end, int number) {
             double[] xs = linspace(start.x, end.x, number);
             double[] ys = linspace(start.y, end.y, number);
             double[] zs = linspace(start.z, end.z, number);
@@ -106,7 +113,7 @@ public class BaseUtils {
             Point3[] ps = new Point3[number];
 
             for (int i = 0; i < ps.length; i++) {
-                ps[i] = Point3.create(xs[i],ys[i],zs[i]);
+                ps[i] = Point3.create(xs[i], ys[i], zs[i]);
             }
 
             return ps;
@@ -117,7 +124,7 @@ public class BaseUtils {
             return Arrays.stream(linspace);
         }
 
-        public static Stream<Point3> linspaceStream(Point3 start,Point3 end,int number){
+        public static Stream<Point3> linspaceStream(Point3 start, Point3 end, int number) {
             Point3[] linspace = linspace(start, end, number);
             return Arrays.stream(linspace);
         }
@@ -156,6 +163,10 @@ public class BaseUtils {
             return isEqual(a, b, 1e-8);
         }
 
+        public static boolean isEqual(int a, int b) {
+            return a == b;
+        }
+
         public static boolean isEqual(Vector3 a, Vector3 b) {
             if (!isEqual(a.x, b.x))
                 return false;
@@ -173,6 +184,11 @@ public class BaseUtils {
         }
 
         public static void requireEqual(double a, double b, String msg) {
+            if (!isEqual(a, b))
+                throw new RuntimeException(msg);
+        }
+
+        public static void requireEqual(int a, int b, String msg) {
             if (!isEqual(a, b))
                 throw new RuntimeException(msg);
         }
@@ -199,6 +215,11 @@ public class BaseUtils {
 
         public static void requireNonzero(Vector3 a) {
             requireNonzero(a.length());
+        }
+
+        public static void requireEqual(int a, int b) {
+            if (!isEqual(a, b))
+                throw new RuntimeException(a + "不等于" + b);
         }
     }
 
@@ -344,6 +365,9 @@ public class BaseUtils {
          * 计算点 p0 到点 p1 电流为 I 的直导线在 p 点产生的磁场。
          * 使用 毕奥-萨伐尔定律。当p0 p1很近时，即为 dB，可用作数值积分 B = ∫dB
          * 还有十足的优化空间
+         * <p>
+         * 2020年4月17日 修改代码
+         * r 应该是 p0 p1 中点到 p
          *
          * @param p0 直导线起点
          * @param p1 直导线终点
@@ -353,7 +377,8 @@ public class BaseUtils {
          */
         private static Vector3 dB(final Point3 p0, final Point3 p1, double I, final Point3 p) {
             Vector3 p01 = Vector3.subtract(p1, p0);
-            Vector3 r = Vector3.subtract(p, p0);
+            Vector3 r = Vector3.subtract(p, Point3.midPoint(p0, p1));
+//            Vector3 r = Vector3.subtract(p, p0);
             double rr = r.length();
 
             return Vector3.dot(Vector3.cross(p01, r),
@@ -373,6 +398,11 @@ public class BaseUtils {
          * @return P 点的磁场
          */
         public static Vector3 magnetAtPoint(final List<Point3> windings, final double I, final Point3 p) {
+            if (Equal.isEqual(I, 0.0, 1e-8)) {
+                //Logger.getLogger().warn("magnetAtPoint:存在零电流的线圈，该磁场直接设为0，请确认");
+                return Vector3.getZero();
+            }
+
             //用于累加磁场
             Vector3 B = Vector3.getZero();
 
@@ -481,9 +511,116 @@ public class BaseUtils {
 
             return ret;
         }
+
+        public static double[] add(double[] arr0, double[] arr1) {
+            Equal.requireEqual(arr0.length, arr1.length);
+
+            double[] ret = new double[arr0.length];
+
+            for (int i = 0; i < ret.length; i++) {
+                ret[i] = arr0[i] + arr1[i];
+            }
+
+            return ret;
+        }
+
+        public static double[] multiple(double[] arr, double a) {
+            double[] ret = new double[arr.length];
+
+            for (int i = 0; i < ret.length; i++) {
+                ret[i] = arr[i] * a;
+            }
+
+            return ret;
+        }
+
+        public static double[] apply(double[] arr, Function<Double, Double> fun) {
+            double[] ret = new double[arr.length];
+
+            for (int i = 0; i < ret.length; i++) {
+                ret[i] = fun.apply(arr[i]);
+            }
+
+            return ret;
+        }
+
+        public static <T> T[] append(T[] arr, T... appending) {
+            T[] ret = (T[]) Array.newInstance(arr.getClass().componentType(), arr.length + appending.length);
+
+            System.arraycopy(arr, 0, ret, 0, arr.length);
+
+            System.arraycopy(appending, 0, ret, arr.length, appending.length);
+
+            return ret;
+        }
     }
 
     public static class ListUtils {
+
+        public static <T> T sum(List<T> list, BiFunction<T, T, T> sumFunction) {
+            if (list == null || list.size() == 0) {
+                throw new IllegalArgumentException("list不能为空");
+            }
+
+            T ret = list.get(0);
+
+            for (int i = 1; i < list.size(); i++) {
+                T t = list.get(i);
+
+                ret = sumFunction.apply(ret, t);
+            }
+
+            return ret;
+        }
+
+        public static <T> T averageSum(List<T> list, BiFunction<T, T, T> sumFunction, BiFunction<T, Double, T> multipleFunction) {
+            if (list == null || list.size() < 2) {
+                throw new IllegalArgumentException("list长度不能小于2");
+            }
+
+            List<T> avgs = new ArrayList<>();
+
+            for (int i = 0; i < list.size() - 1; i++) {
+                T t0 = list.get(i);
+                T t1 = list.get(i + 1);
+
+
+                T sum = sumFunction.apply(t0, t1);
+
+                T avg = multipleFunction.apply(sum, 0.5);
+
+                avgs.add(avg);
+            }
+
+            return sum(avgs, sumFunction);
+
+        }
+
+
+        public static <T extends Comparable<? super T>> T max(List<T> numberList) {
+            if (numberList == null || numberList.size() == 0) {
+                throw new IllegalArgumentException("numberList不能为空");
+            }
+
+            if (numberList.size() == 1) {
+                return numberList.get(0);
+            }
+
+            numberList.sort(Comparator.naturalOrder());
+
+            return numberList.get(numberList.size() - 1);
+        }
+
+        public static <T> T[] combine(T[] arr1, T[] arr2) {
+            List<T> arr11 = List.of(arr1);
+            List<T> arr21 = List.of(arr2);
+
+            List<T> arr = new ArrayList<>(arr11);
+            arr.addAll(arr21);
+
+            return arr.toArray(arr1);
+        }
+
         public static <E> List<E> listListToList(List<List<E>> listList) {
             List<E> list = new ArrayList<>();
             for (List<E> es : listList) {
@@ -531,6 +668,62 @@ public class BaseUtils {
 
             return ret;
         }
+
+        public static void store(Collection<? extends Serializable> collection, String name) throws IOException {
+
+            File file = new File("./data/" + name + ".obj");
+            if (!file.createNewFile()) {
+                Logger.getLogger().error("文件{}创建失败", file);
+                return;
+            }
+
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file));
+
+            objectOutputStream.writeObject(collection);
+
+            objectOutputStream.flush();
+
+            objectOutputStream.close();
+
+            Logger.getLogger().info("文件{}写入成功", file);
+        }
+
+        public static Object load(String name) throws IOException, ClassNotFoundException {
+            File file = new File("./data/" + name + ".obj");
+
+            if (!file.exists()) {
+                Logger.getLogger().error("文件{}不存在", file);
+                return null;
+            }
+
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
+
+            Object o = objectInputStream.readObject();
+
+            return o;
+        }
+
+        public static <T> List<T> loadList(String name, T element) throws IOException, ClassNotFoundException {
+            Object o = load(name);
+
+            return (List<T>) o;
+        }
+
+        /**
+         * 创建list
+         * 解决 List.of 不可变问题
+         *
+         * @param t   第一个值
+         * @param <T> 泛型
+         * @return 可变list
+         */
+        public static <T> List<T> createListWithFirstElementIs(T t) {
+            List<T> list = new ArrayList<>();
+            list.add(t);
+
+            return list;
+        }
     }
 
     public static class Switcher<Obj> {
@@ -549,6 +742,10 @@ public class BaseUtils {
 
         private void switching() {
             currentItem++;
+        }
+
+        public void reset() {
+            currentItem = 0;
         }
 
         @SuppressWarnings("all")
@@ -586,9 +783,9 @@ public class BaseUtils {
 
     public static class Content {
         //容器，装两个任意对象，有泛型
-        public static class BiContent<T1, T2> {
-            private final T1 t1;
-            private final T2 t2;
+        public static class BiContent<T1, T2> implements Serializable {
+            private T1 t1;
+            private T2 t2;
 
             public static <T1, T2> BiContent<T1, T2> create(T1 t1, T2 t2) {
                 return new BiContent<>(t1, t2);
@@ -599,12 +796,32 @@ public class BaseUtils {
                 this.t2 = t2;
             }
 
+            public static <T1, T2> BiContent<List<T1>, List<T2>> collect(Stream<BiContent<T1, T2>> biContentStream) {
+                List<T1> t1List = new ArrayList<>();
+                List<T2> t2List = new ArrayList<>();
+
+                biContentStream.forEach(bi -> {
+                    t1List.add(bi.t1);
+                    t2List.add(bi.t2);
+                });
+
+                return create(t1List, t2List);
+            }
+
             public T1 getT1() {
                 return t1;
             }
 
             public T2 getT2() {
                 return t2;
+            }
+
+            public void setT1(T1 t1) {
+                this.t1 = t1;
+            }
+
+            public void setT2(T2 t2) {
+                this.t2 = t2;
             }
 
             @Override
@@ -725,6 +942,10 @@ public class BaseUtils {
 
         public void execute(Runnable r) {
             executorService.submit(r);
+        }
+
+        public <T> Future<T> submit(Callable<T> callable) {
+            return executorService.submit(callable);
         }
 
         public void waitForAllFinish(long timeout, TimeUnit unit) {
@@ -899,6 +1120,58 @@ public class BaseUtils {
                 return str.substring(0, length);
             }
 
+        }
+    }
+
+    public static class Statistics {
+
+        public static double max(List<Double> doubleList) {
+            Objects.requireNonNull(doubleList);
+            Equal.requireTrue(doubleList.size() > 0, "doubleList 长度需大于0");
+
+            return doubleList.stream().mapToDouble(Double::doubleValue).max().orElseThrow(RuntimeException::new);
+        }
+
+
+        public static double min(List<Double> doubleList) {
+            Objects.requireNonNull(doubleList);
+            Equal.requireTrue(doubleList.size() > 0, "doubleList 长度需大于0");
+
+            return doubleList.stream().mapToDouble(Double::doubleValue).min().orElseThrow(RuntimeException::new);
+        }
+
+        public static double average(List<Double> doubleList) {
+            Objects.requireNonNull(doubleList);
+            Equal.requireTrue(doubleList.size() > 0, "doubleList 长度需大于0");
+
+            return doubleList.stream().mapToDouble(Double::doubleValue).average().orElseThrow(RuntimeException::new);
+        }
+
+        /**
+         * 求 abs((max - min) / average)
+         *
+         * @param doubleList doubles
+         * @return abs(( max - min) / average)
+         */
+        public static double undulate(List<Double> doubleList) {
+            Objects.requireNonNull(doubleList);
+            Equal.requireTrue(doubleList.size() > 0, "doubleList 长度需大于0");
+
+            if (doubleList.size() == 1)
+                return 0;
+            else {
+                DoubleSummaryStatistics doubleSummaryStatistics =
+                        doubleList.stream().mapToDouble(Double::doubleValue).summaryStatistics();
+                double max = doubleSummaryStatistics.getMax();
+                double min = doubleSummaryStatistics.getMin();
+
+                double average = doubleSummaryStatistics.getAverage();
+
+                if (Equal.isEqual(max, 0, 1e-5) && Equal.isEqual(min, 0, 1e-5) && Equal.isEqual(average, 0, 1e-5))
+                    return 0.0;
+
+                return Math.abs((max - min) / average);
+            }
         }
     }
 }

@@ -23,6 +23,15 @@ public class Vector3 {
     public double y;
     public double z;
 
+    public static Vector3 random() {
+        return create(
+                Math.random(),
+                Math.random(),
+                Math.random()
+        );
+    }
+
+
     public double length() {
         return Math.sqrt(
                 x * x + y * y + z * z
@@ -156,6 +165,10 @@ public class Vector3 {
         return create(1, 0, 0);
     }
 
+    public static Vector3 getXDirect(double x) {
+        return create(x,0,0);
+    }
+
     public static Vector3 getYDirect() {
         return create(0, 1, 0);
     }
@@ -182,6 +195,10 @@ public class Vector3 {
 
     public static Vector3From from(Point3 source) {
         return new Vector3From(source);
+    }
+
+    public Vector2 toVector2() {
+        return Vector2.create(x,y);
     }
 
     public static class Vector3From {

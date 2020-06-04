@@ -7,6 +7,7 @@ import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 public class ParticleRunner {
     public static List<Point3> run(
             RunningParticle particle,
-            CctFactory.Cct cct,
+            CctFactory.MagnetAble cct,
             double length, double footStep) {
         BaseUtils.Equal.requireTrue(length > footStep, "粒子运动距离应大于步长");
 
@@ -64,7 +65,7 @@ public class ParticleRunner {
     }
 
     public static List<List<Point3>> run(List<RunningParticle> particles,
-                                         CctFactory.Cct cct,
+                                         CctFactory.MagnetAble cct,
                                          double length, double footStep) {
         return particles
                 .stream()
@@ -73,7 +74,7 @@ public class ParticleRunner {
     }
 
     public static List<List<Point3>> runThread(List<RunningParticle> particles,
-                                               CctFactory.Cct cct,
+                                               CctFactory.MagnetAble cct,
                                                double length, double footStep) {
         return particles
                 .stream()
@@ -92,7 +93,7 @@ public class ParticleRunner {
      */
     public static List<BaseUtils.Content.BiContent<Double, RunningParticle>> runGetAllInfo(
             RunningParticle particle,
-            CctFactory.Cct cct,
+            CctFactory.MagnetAble cct,
             double length, double footStep) {
         BaseUtils.Equal.requireTrue(length > footStep, "粒子运动距离应大于步长");
 
@@ -110,10 +111,58 @@ public class ParticleRunner {
         return ret;
     }
 
+    public static List<BaseUtils.Content.BiContent<Double, List<RunningParticle>>> runGetAllInfo(
+            List<RunningParticle> particles,
+            CctFactory.MagnetAble cct,
+            double length, double footStep) {
+        int particleNumber = particles.size();
+        if (particleNumber <= 0)
+            throw new IllegalArgumentException("粒子数目<=0");
+
+        List<List<BaseUtils.Content.BiContent<Double, RunningParticle>>> collect = particles.stream()
+                .map(particle -> runGetAllInfo(particle, cct, length, footStep))
+                .collect(Collectors.toList());
+
+        int footNumber = collect.get(0).size();
+        Logger.getLogger().info("footNumber = " + footNumber);
+
+        List<BaseUtils.Content.BiContent<Double, List<RunningParticle>>> ans = new ArrayList<>(footNumber);
+        for (int i = 0; i < footNumber; i++) {
+            ans.add(null);
+        }
+//        Collections.fill(ans, null);
+
+        collect.forEach(list -> {
+            for (int i = 0; i < list.size(); i++) {
+                BaseUtils.Content.BiContent<Double, RunningParticle> doubleRunningParticleBiContent = list.get(i);
+
+                Double distance = doubleRunningParticleBiContent.getT1();
+
+                RunningParticle runningParticle = doubleRunningParticleBiContent.getT2();
+
+                BaseUtils.Content.BiContent<Double, List<RunningParticle>> ansI = ans.get(i);
+
+                if (ansI == null) {
+                    BaseUtils.Content.BiContent<Double, List<RunningParticle>> biContent =
+                            BaseUtils.Content.BiContent.create(distance, new ArrayList<>(particleNumber));
+
+                    biContent.getT2().add(runningParticle);
+
+                    ans.set(i, biContent);
+                } else {
+
+                    ansI.getT2().add(runningParticle);
+                }
+            }
+        });
+
+        return ans;
+    }
+
     @Deprecated
     public static void justRun(
             RunningParticle particle,
-            CctFactory.Cct cct,
+            CctFactory.MagnetAble cct,
             double length, double footStep) {
         long count = BaseUtils.Python.disperse(length, footStep).count() + 1;
         BaseUtils.StreamTools.repeat((int) count)
@@ -124,7 +173,7 @@ public class ParticleRunner {
 
     @Deprecated
     public static void justRunThread(List<RunningParticle> particles,
-                                     CctFactory.Cct cct,
+                                     CctFactory.MagnetAble cct,
                                      double length, double footStep) {
         particles
                 .stream()
@@ -134,14 +183,14 @@ public class ParticleRunner {
 
     @Deprecated
     public static void justRun(List<RunningParticle> particles,
-                               CctFactory.Cct cct,
+                               CctFactory.MagnetAble cct,
                                double length, double footStep) {
         particles.forEach(particle -> justRun(particle, cct, length, footStep));
     }
 
     public static List<ParticleRunner.Point3WithDistance> runGetPoint3WithDistance(
             RunningParticle particle,
-            CctFactory.Cct cct,
+            CctFactory.MagnetAble cct,
             double length, double footStep
     ) {
         long count = BaseUtils.Python.disperse(length, footStep).count() + 1;

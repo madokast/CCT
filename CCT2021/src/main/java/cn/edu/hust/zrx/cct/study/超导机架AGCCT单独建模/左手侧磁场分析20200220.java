@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class 左手侧磁场分析20200220 {
     @run
     public void 保持By不变时_分析r和左手侧磁场关系() {

@@ -29,7 +29,7 @@ import java.util.List;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class A20200212AGCCT建模 {
 
     //public static Cct createAgCct(double smallRInner,

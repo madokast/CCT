@@ -175,6 +175,23 @@ public class COSY {
                     .collect(Collectors.toList());
         }
 
+        public TransMatrix toFirstOrder(){
+            TransMatrix ret = initiate();
+            ret.R = this.R;
+
+            return ret;
+        }
+
+        public TransMatrix toFirstOrder(boolean to){
+            if(to){
+                TransMatrix ret = initiate();
+                ret.R = this.R;
+
+                return ret;
+            }else
+                return this;
+        }
+
 
         private TransMatrix() {
         }

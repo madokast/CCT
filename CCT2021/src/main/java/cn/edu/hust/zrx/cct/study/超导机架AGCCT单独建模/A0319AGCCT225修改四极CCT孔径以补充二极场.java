@@ -36,7 +36,7 @@ import java.util.stream.IntStream;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class A0319AGCCT225修改四极CCT孔径以补充二极场 {
 
     //    @run

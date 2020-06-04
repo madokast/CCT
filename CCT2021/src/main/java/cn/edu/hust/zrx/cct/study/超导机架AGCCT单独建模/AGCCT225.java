@@ -71,7 +71,7 @@ import java.util.stream.Collectors;
  * @author zrx
  * @version 1.0
  */
-
+@SuppressWarnings("all")
 public class AGCCT225 {
     private final double bigR = 0.75;
     //孔径

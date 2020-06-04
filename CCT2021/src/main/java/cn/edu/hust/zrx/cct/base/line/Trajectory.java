@@ -7,7 +7,9 @@ import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import com.google.common.primitives.Ints;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -106,6 +108,8 @@ public class Trajectory implements Line2 {
         return length;
     }
 
+    private static boolean pointAtErrorPrint = false;
+
     /**
      * 返回S位置的点
      *
@@ -115,6 +119,10 @@ public class Trajectory implements Line2 {
      */
     @Override
     public Point2 pointAt(double s) {
+        //Logger.getLogger().info("s = " + s);
+
+        double s0 = s;
+
         for (Line2 line : trajectoryList) {
             if (s <= line.getLength()) {
                 return line.pointAt(s);
@@ -123,9 +131,30 @@ public class Trajectory implements Line2 {
             }
         }
 
-        Logger.getLogger().error("Trajectory::pointAt {}", s);
+        // 2020年4月2日
+        // 解决了一个因为浮点数产生的巨大bug
+        if (Math.abs(s) <= 1e-8) {
+            Line2 lastLine = trajectoryList.get(trajectoryList.size() - 1);
+            double length = lastLine.getLength();
+            return lastLine.pointAt(length);
+        }
+
+        Logger.getLogger().error("Trajectory::pointAt {}", s0);
+
+        if (!pointAtErrorPrint) {
+            pointAtErrorPrint = true;
+            String trace = Arrays.stream(Thread.currentThread().getStackTrace())
+                    .map(Objects::toString)
+                    .collect(Collectors.joining("\n", "", ""));
+
+            Logger.getLogger().error("\n" + trace);
+        }
+
+
         return trajectoryList.get(trajectoryList.size() - 1).pointAt(s);
     }
+
+    private static boolean directAtErrPrint = false;
 
     /**
      * s位置处，曲线的方向
@@ -136,6 +165,8 @@ public class Trajectory implements Line2 {
      */
     @Override
     public Vector2 directAt(double s) {
+        double s0 = s;
+
         for (Line2 line : trajectoryList) {
             if (s <= line.getLength()) {
                 return line.directAt(s).copy();
@@ -143,7 +174,27 @@ public class Trajectory implements Line2 {
                 s -= line.getLength();
             }
         }
-        Logger.getLogger().error("Trajectory::directAt {}", s);
+
+        // 2020年4月2日
+        // 解决了一个因为浮点数产生的巨大bug
+        if (Math.abs(s) <= 1e-8) {
+            Line2 lastLine = trajectoryList.get(trajectoryList.size() - 1);
+            double length = lastLine.getLength();
+            return lastLine.directAt(length).copy();
+        }
+
+        Logger.getLogger().error("Trajectory::directAt {}", s0);
+
+        if (!directAtErrPrint) {
+            directAtErrPrint = true;
+            String trace = Arrays.stream(Thread.currentThread().getStackTrace())
+                    .map(Objects::toString)
+                    .collect(Collectors.joining("\n", "", ""));
+
+            Logger.getLogger().error("\n" + trace);
+        }
+
+
         return trajectoryList.get(trajectoryList.size() - 1).directAt(s).copy();
     }
 
