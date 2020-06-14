@@ -1,12 +1,8 @@
 package cn.edu.hust.zrx.cct.base.opticsMagnet.qs;
 
-import cn.edu.hust.zrx.cct.Logger;
-import cn.edu.hust.zrx.cct.advanced.MathFunction;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
-import cn.edu.hust.zrx.cct.base.CoordinateSystem3d;
-import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
-import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
@@ -16,7 +12,6 @@ import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * Description
@@ -30,7 +25,7 @@ import java.util.stream.Stream;
  * @version 1.0
  */
 
-public class QsHardPlaneMagnet implements CctFactory.MagnetAble {
+public class QsHardPlaneMagnet implements MagnetAble {
     //硬边模型长度 m
     private double length_m;
     //梯度 四极场
@@ -178,9 +173,11 @@ public class QsHardPlaneMagnet implements CctFactory.MagnetAble {
         this.direct = direct.copy().normalSelf();
     }
 
-    public static QsHardPlaneMagnet create(double length_m, double gradient_T_per_m,
-                                           double second_gradient_T_per_m2, double aperture_radius_mm,
-                                           Point2 location, Vector2 direct) {
+    public static QsHardPlaneMagnet create(
+            double length_m, double gradient_T_per_m,
+            double second_gradient_T_per_m2, double aperture_radius_mm,
+            Point2 location, Vector2 direct
+    ) {
         return new QsHardPlaneMagnet(length_m, gradient_T_per_m, second_gradient_T_per_m2, aperture_radius_mm, location, direct);
     }
 
@@ -189,9 +186,10 @@ public class QsHardPlaneMagnet implements CctFactory.MagnetAble {
 
     /**
      * 画图
+     *
      * @param describe 描述
      */
-    public void plot2d(String describe){
+    public void plot2d(String describe) {
         //                p1----------------------------------------p2
         //                  |                                        |
         // 这里就是位置点  ->|              ------ >>                 |
@@ -199,23 +197,23 @@ public class QsHardPlaneMagnet implements CctFactory.MagnetAble {
         //                 p4---------------------------------------p3
 
         Point2 p1 = location.toVector2().
-                add(direct.copy().rotateSelf(BaseUtils.Converter.angleToRadian(90)).changeLengthSelf(aperture_radius_mm*MM)).toPoint2();
+                add(direct.copy().rotateSelf(BaseUtils.Converter.angleToRadian(90)).changeLengthSelf(aperture_radius_mm * MM)).toPoint2();
 
         Point2 p4 = location.toVector2().
-                add(direct.copy().rotateSelf(BaseUtils.Converter.angleToRadian(-90)).changeLengthSelf(aperture_radius_mm*MM)).toPoint2();
+                add(direct.copy().rotateSelf(BaseUtils.Converter.angleToRadian(-90)).changeLengthSelf(aperture_radius_mm * MM)).toPoint2();
 
         Point2 p2 = p1.toVector2().add(direct.copy().changeLengthSelf(length_m)).toPoint2();
 
         Point2 p3 = p2.toVector2()
-                .add(direct.copy().rotateSelf(BaseUtils.Converter.angleToRadian(-90)).changeLengthSelf(aperture_radius_mm*2*MM)).toPoint2();
+                .add(direct.copy().rotateSelf(BaseUtils.Converter.angleToRadian(-90)).changeLengthSelf(aperture_radius_mm * 2 * MM)).toPoint2();
 
 
         List<Point2> ps = List.of(p1, p2, p3, p4);
 
-        Plot2d.plot2circle(ps,describe);
+        Plot2d.plot2circle(ps, describe);
     }
 
-    public void plot3d(String describe){
+    public void plot3d(String describe) {
 
         // 前面的盖子
         List<Point3> front = Arcs.circle3d(location.toPoint3(), aperture_radius_mm * MM, direct.toVector3(), 360);
@@ -223,16 +221,16 @@ public class QsHardPlaneMagnet implements CctFactory.MagnetAble {
         // 后面的盖子
         List<Point3> back = Point3.move(front, direct.toVector3().changeLengthSelf(length_m));
 
-        Plot3d.plot3(front,describe);
-        Plot3d.plot3(back,describe);
+        Plot3d.plot3(front, describe);
+        Plot3d.plot3(back, describe);
 
 
-        IntStream.range(0,8)
-                .map(i->i*45)
-                .forEach(i->{
+        IntStream.range(0, 8)
+                .map(i -> i * 45)
+                .forEach(i -> {
                     Plot3d.plot3(List.of(
-                            front.get(i),back.get(i)
-                    ),describe);
+                            front.get(i), back.get(i)
+                    ), describe);
                 });
 
 

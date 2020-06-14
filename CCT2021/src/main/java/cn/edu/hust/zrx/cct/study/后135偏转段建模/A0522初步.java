@@ -5,7 +5,10 @@ import cn.edu.hust.zrx.cct.advanced.COSY;
 import cn.edu.hust.zrx.cct.advanced.CosyArbitraryOrder;
 import cn.edu.hust.zrx.cct.advanced.PolynomialFitter;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.Elements;
+import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -25,7 +28,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -68,7 +70,7 @@ public class A0522初步 {
 
         Point2 center3 = Arcs.center(p1, p2, p3);
 
-        CctFactory.Cct dipoleCct345 = createDipoleCct345();
+        Cct dipoleCct345 = createDipoleCct345();
 
         dipoleCct345 = CctFactory.positionInXYPlane(dipoleCct345, center3, BaseUtils.Converter.angleToRadian(180 - dipoleCct345Angle - 45));
 
@@ -89,7 +91,7 @@ public class A0522初步 {
     public void cct345_1建模() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
-        CctFactory.Cct cct345_1 = getCct345_1();
+        Cct cct345_1 = getCct345_1();
 
         List<Point2> bz = cct345_1.magnetBzAlongTrajectory(trajectoryPart2);
 
@@ -115,8 +117,8 @@ public class A0522初步 {
         trajectoryPart1.plot3d(Plot2d.BLACK_LINE);
         trajectoryPart2.plot3d(Plot2d.BLUE_LINE);
 
-        CctFactory.Cct cct345_1 = getCct345_1();
-        CctFactory.Cct cct345_2 = getCct345_2();
+        Cct cct345_1 = getCct345_1();
+        Cct cct345_2 = getCct345_2();
 
         cct345_1.plot3(Plot2d.YELLOW_LINE);
         cct345_2.plot3(Plot2d.YELLOW_LINE);
@@ -134,7 +136,7 @@ public class A0522初步 {
                 .addArcLine(0.75, false, 67.5)
                 .addStraitLine(1);
 
-        CctFactory.Cct agCct345 = createAgCct345();
+        Cct agCct345 = createAgCct345();
 
         List<List<Point2>> listList = agCct345.multiplePoleMagnetAlongTrajectoryBreak(trajectory, 2 * MM, 5 * MM, 1, 6);
 
@@ -151,7 +153,7 @@ public class A0522初步 {
     public void 像椭圆对比() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
-        CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
         phase相椭圆画图(trajectoryPart2.getLength(), true, 0, 16, false,
                 1, elementsOfAllPart2, trajectoryPart2, 512, 5,
@@ -180,7 +182,7 @@ public class A0522初步 {
 
         Trajectory trajectoryPart1 = getTrajectoryPart1();
 
-        CctFactory.Elements elementsOfAllPart1 = getElementsOfAllPart1();
+        Elements elementsOfAllPart1 = getElementsOfAllPart1();
 
 
         phase相椭圆画图(part.distance, xPlane, delta, 16, false,
@@ -194,7 +196,7 @@ public class A0522初步 {
     public void 回顾前偏转段之单粒子跟踪() {
         Trajectory trajectoryPart1 = getTrajectoryPart1();
 
-        CctFactory.Elements elementsOfAllPart1 = getElementsOfAllPart1();
+        Elements elementsOfAllPart1 = getElementsOfAllPart1();
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectoryPart1);
 
@@ -229,7 +231,7 @@ public class A0522初步 {
         List<Point2> collect = BaseUtils.Python.linspaceStream(-10050.4, -10000.1, 4)
                 .mapToObj(I -> {
                     dipoleCct345IInner = dipoleCct345IOuter = I;
-                    CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+                    MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
                     return BaseUtils.Content.BiContent.create(I, elementsOfAllPart2);
                 })
@@ -239,7 +241,7 @@ public class A0522初步 {
                 .map(bi -> {
 
                     Double I = bi.getT1();
-                    CctFactory.MagnetAble magnetAble = bi.getT2();
+                    MagnetAble magnetAble = bi.getT2();
 
 
                     RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectoryPart2);
@@ -294,7 +296,7 @@ public class A0522初步 {
                     dipoleCct345A1Inner = Math.pow(dipoleCct345SmallRInner, 2) * k;
                     dipoleCct345A1Outer = -Math.pow(dipoleCct345SmallROuter, 2) * k;
 
-                    CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+                    MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
                     List<List<Point2>> lists = elementsOfAllPart2.multiplePoleMagnetAlongTrajectoryBreak(trajectoryPart2, 10 * MM, 10 * MM, 1, 6);
 
@@ -346,7 +348,7 @@ public class A0522初步 {
                     agCct345IInner = ii / k;
                     agCct345IOuter = io / k;
 
-                    CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+                    MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
                     List<List<Point2>> lists = elementsOfAllPart2.multiplePoleMagnetAlongTrajectoryBreak(trajectoryPart2, 10 * MM, 10 * MM, 1, 6);
                     List<Point2> g = lists.get(1);
@@ -389,7 +391,7 @@ public class A0522初步 {
 
     @run(104)
     public void 单粒子跟踪2() {
-        CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
@@ -429,7 +431,7 @@ public class A0522初步 {
         Logger.getLogger().info("trajectory.getLength() = " + trajectory.getLength());
 
 
-        CctFactory.Cct quadCct = createAgCct(
+        Cct quadCct = createAgCct(
                 r, r, R,
                 angles,
                 windingNum,
@@ -472,7 +474,7 @@ public class A0522初步 {
 
                     double a1 = a10 * k;
 
-                    CctFactory.Cct quadCct = createAgCct(
+                    Cct quadCct = createAgCct(
                             r, r, R,
                             angles,
                             windingNum,
@@ -490,7 +492,7 @@ public class A0522初步 {
                     Point2 t1 = bi.getT1();
                     double I = t1.x;
                     double a1 = t1.y;
-                    CctFactory.Cct cct = bi.getT2();
+                    Cct cct = bi.getT2();
 
                     List<Point2> g = cct.magnetGradientAlongTrajectory(trajectory, 10 * MM, 5 * MM);
 
@@ -529,14 +531,14 @@ public class A0522初步 {
                 .mapToObj(r -> {
                     agCct345BigR = r;
 
-                    CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+                    MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
                     return BaseUtils.Content.BiContent.create(r, elementsOfAllPart2);
                 })
                 .map(bi -> {
                     Double r = bi.getT1();
 
-                    CctFactory.MagnetAble m = bi.getT2();
+                    MagnetAble m = bi.getT2();
 
                     List<Point2> b = m.multiplePoleMagnetAlongTrajectoryBreak(
                             trajectoryPart2, 10 * MM, 5 * MM, 1, 6
@@ -558,7 +560,7 @@ public class A0522初步 {
 
     @run(201)
     public void 完整建模多粒子跟踪() {
-        CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
@@ -574,7 +576,7 @@ public class A0522初步 {
     public void 相椭圆() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
-        CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
         // CCT345 0 ENTER
 //        phase相椭圆画图(DL2, false, -0.05, 16, false,
@@ -619,7 +621,7 @@ public class A0522初步 {
     public void 切片() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
-        CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
         List<String> list = elementsOfAllPart2.sliceToCosyScript(Bp, 60 * MM, trajectoryPart2, 45 * MM, MM, 0.3);
 
@@ -629,7 +631,7 @@ public class A0522初步 {
     @run(204)
     public void 磁场分布() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
-        CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
         List<List<Point2>> lists = elementsOfAllPart2.multiplePoleMagnetAlongTrajectoryBreak(
                 trajectoryPart2, MM, 5 * MM, 2, 6
@@ -666,7 +668,7 @@ public class A0522初步 {
     public void 色散分布R16() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
-        CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
         List<Point2> track色散 = track色散(trajectoryPart2, elementsOfAllPart2);
 
@@ -703,7 +705,7 @@ public class A0522初步 {
                     agCct345IInner = agCct345IInner0 * k;
                     agCct345IOuter = agCct345IOuter0 * k;
 
-                    CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+                    MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
                     return BaseUtils.Content.BiContent.create(agCct345IInner, elementsOfAllPart2);
                 })
@@ -712,7 +714,7 @@ public class A0522初步 {
                 .parallel()
                 .map(bi -> {
                     Double i = bi.getT1();
-                    CctFactory.MagnetAble m = bi.getT2();
+                    MagnetAble m = bi.getT2();
 
                     List<Point2> track色散 = track色散(trajectoryPart2, m);
 
@@ -741,9 +743,9 @@ public class A0522初步 {
     @run(300)
     public void 再次单粒子() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
-        CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
-        CctFactory.Elements elementsOfAllPart1 = getElementsOfAllPart1();
+        Elements elementsOfAllPart1 = getElementsOfAllPart1();
         Trajectory trajectoryPart1 = getTrajectoryPart1();
 
 //        List<Point2> x = trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(), elementsOfAllPart2, false);
@@ -761,8 +763,8 @@ public class A0522初步 {
 
     @run(301)
     public void 二极场的问题吗() {
-        CctFactory.Cct dipoleCct12 = createDipoleCct12();
-        CctFactory.Cct dipoleCct345 = createDipoleCct345();
+        Cct dipoleCct12 = createDipoleCct12();
+        Cct dipoleCct345 = createDipoleCct345();
 
 
         Trajectory trajectory12 = TrajectoryFactory.setStartingPoint(0.75, -0.5)
@@ -819,8 +821,8 @@ public class A0522初步 {
                 .addArcLine(0.75, false, 67.5)
                 .addStraitLine(0.5);
 
-        CctFactory.Cct agCct12 = createAgCct12();
-        CctFactory.Cct agCct345 = createAgCct345();
+        Cct agCct12 = createAgCct12();
+        Cct agCct345 = createAgCct345();
 
         List<Point2> g12 = agCct12.multiplePoleMagnetAlongTrajectoryBreak(trajectory12, 10 * MM, 5 * MM, 1, 3).get(1);
         List<Point2> g345 = agCct345.multiplePoleMagnetAlongTrajectoryBreak(trajectory345, 10 * MM, 5 * MM, 1, 3).get(1);
@@ -867,8 +869,8 @@ public class A0522初步 {
 //        List<Point2> L345 = cct345.multiplePoleMagnetAlongTrajectoryBreak(trajectory345, 10 * MM, 5 * MM, 2, 6).get(2);
 
 
-        CctFactory.Elements elementsOfAllPart1 = getElementsOfAllPart1();
-        CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        Elements elementsOfAllPart1 = getElementsOfAllPart1();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
         Trajectory trajectoryPart1 = getTrajectoryPart1();
         Trajectory trajectoryPart2 = getTrajectoryPart2();
@@ -888,7 +890,7 @@ public class A0522初步 {
     @run(305)
     public void 前端切片(){
         Trajectory trajectoryPart1 = getTrajectoryPart1();
-        CctFactory.Elements elementsOfAllPart1 = getElementsOfAllPart1();
+        Elements elementsOfAllPart1 = getElementsOfAllPart1();
 
         List<String> list = elementsOfAllPart1.sliceToCosyScript(Bp, 30 * MM, trajectoryPart1, 20 * MM, MM, 0.3);
 
@@ -961,7 +963,7 @@ public class A0522初步 {
     private void phase相椭圆画图(
             double distance, boolean xPlane, double delta, int numberParticleForTrack,
             boolean moveToCenter, double scaleForParticle,
-            CctFactory.MagnetAble magnetAble, Trajectory trajectory,
+            MagnetAble magnetAble, Trajectory trajectory,
             int numberParticleForCosyMap, int cosyOrder,
             List<BaseUtils.Content.BiContent<String, CosyArbitraryOrder.CosyMapArbitraryOrder>> mapInfo
     ) {
@@ -997,7 +999,7 @@ public class A0522初步 {
     private List<List<Point2>> phase相椭圆研究(
             double distance, boolean xPlane, double delta, int numberParticleForTrack,
             boolean moveToCenter, double scaleForParticle,
-            CctFactory.MagnetAble magnetAble, Trajectory trajectory,
+            MagnetAble magnetAble, Trajectory trajectory,
             int numberParticleForCosyMap, int cosyOrder, CosyArbitraryOrder.CosyMapArbitraryOrder... maps
     ) {
         List<List<Point2>> ret = new ArrayList<>(1 + maps.length);
@@ -1050,7 +1052,7 @@ public class A0522初步 {
     private List<Point2> tracking相椭圆(
             double distance, boolean xPlane, double delta, int number,
             boolean moveToCenter, double scaleForParticle,
-            CctFactory.MagnetAble magnetAble, Trajectory trajectory) {
+            MagnetAble magnetAble, Trajectory trajectory) {
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 
@@ -1080,7 +1082,7 @@ public class A0522初步 {
 
 
     private List<Point2> trackingIdealParticle(
-            Trajectory trajectory, double distance, CctFactory.MagnetAble magnetAble, boolean xPlane) {
+            Trajectory trajectory, double distance, MagnetAble magnetAble, boolean xPlane) {
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 
         return ParticleRunner.runGetPoint3WithDistance(ip, magnetAble, distance, MM)
@@ -1105,7 +1107,7 @@ public class A0522初步 {
     }
 
     private List<List<Point2>> track多粒子(int number, double delta, Trajectory trajectory, double distance,
-                                        CctFactory.MagnetAble magnetAble, boolean xPlane) {
+                                        MagnetAble magnetAble, boolean xPlane) {
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 
         List<PhaseSpaceParticle> pp = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInPlane(
@@ -1134,7 +1136,7 @@ public class A0522初步 {
     }
 
     // 单位 mm/%
-    private List<Point2> track色散(Trajectory trajectory, CctFactory.MagnetAble magnetAble) {
+    private List<Point2> track色散(Trajectory trajectory, MagnetAble magnetAble) {
         double length = trajectory.getLength() + 0.1;
 
         List<RunningParticle> particles = BaseUtils.Python.linspaceStream(-5 * PRESENT, 5 * PRESENT, 2)
@@ -1207,7 +1209,7 @@ public class A0522初步 {
             double xMin, double xMax, int number,
             Trajectory trajectory,
             double distance,
-            CctFactory.MagnetAble magnetAble
+            MagnetAble magnetAble
     ) {
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
         RunningParticle ipEnd = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory, distance);
@@ -3381,17 +3383,17 @@ public class A0522初步 {
 
     }
 
-    private CctFactory.Cct getCct12_1() {
-        CctFactory.Cct agCct12 = createAgCct12();
-        CctFactory.Cct dipoleCct12 = createDipoleCct12();
+    private Cct getCct12_1() {
+        Cct agCct12 = createAgCct12();
+        Cct dipoleCct12 = createDipoleCct12();
 
-        CctFactory.Cct cct = CctFactory.combineCct(agCct12, dipoleCct12);
+        Cct cct = CctFactory.combineCct(agCct12, dipoleCct12);
 
         return CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigRPart1), BaseUtils.Converter.angleToRadian(-90));
     }
 
-    private CctFactory.Cct getCct12_2() {
-        CctFactory.Cct cct12_1 = getCct12_1();
+    private Cct getCct12_2() {
+        Cct cct12_1 = getCct12_1();
 
         Trajectory trajectoryPart1 = getTrajectoryPart1();
         return CctFactory.symmetryInXYPlaneByLine(
@@ -3401,7 +3403,7 @@ public class A0522初步 {
         );
     }
 
-    private CctFactory.Cct getCct345_1() {
+    private Cct getCct345_1() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
         Point2 p1 = trajectoryPart2.pointAt(DL2);
@@ -3410,8 +3412,8 @@ public class A0522初步 {
 
         Point2 center3 = Arcs.center(p1, p2, p3);
 
-        CctFactory.Cct dipoleCct345 = createDipoleCct345();
-        CctFactory.Cct agCct345 = createAgCct345();
+        Cct dipoleCct345 = createDipoleCct345();
+        Cct agCct345 = createAgCct345();
 
 
         dipoleCct345 = CctFactory.positionInXYPlane(dipoleCct345, center3, BaseUtils.Converter.angleToRadian(180 - dipoleCct345Angle - 45));
@@ -3421,37 +3423,37 @@ public class A0522初步 {
         return CctFactory.combineCct(dipoleCct345, agCct345);
     }
 
-    private CctFactory.Cct getCct345_2() {
+    private Cct getCct345_2() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
         Point2 p = trajectoryPart2.pointAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2);
         Vector2 d = trajectoryPart2.directAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2).rotateSelf(Math.PI / 2);
 
-        CctFactory.Cct cct345_1 = getCct345_1();
+        Cct cct345_1 = getCct345_1();
 
         return CctFactory.symmetryInXYPlaneByLine(cct345_1, p, d);
     }
 
-    private CctFactory.Elements getElementsOfAllPart1() {
+    private Elements getElementsOfAllPart1() {
         List<QsHardPlaneMagnet> qs = getQs12();
-        CctFactory.Cct allCctIn45 = CctFactory.combineCct(getCct12_1(), getCct12_2());
+        Cct allCctIn45 = CctFactory.combineCct(getCct12_1(), getCct12_2());
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
         qs.forEach(elements::addElement);
         allCctIn45.getSoleLayerCctList().forEach(elements::addElement);
 
         return elements;
     }
 
-    private CctFactory.MagnetAble getElementsOfAllPart2() {
+    private MagnetAble getElementsOfAllPart2() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
-        CctFactory.Cct cct345_1 = getCct345_1();
-        CctFactory.Cct cct345_2 = getCct345_2();
+        Cct cct345_1 = getCct345_1();
+        Cct cct345_2 = getCct345_2();
 
         QsHardPlaneMagnet QS3 = getQs3();
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
 
         elements.addElement(cct345_1);
         elements.addElement(cct345_2);
@@ -3486,7 +3488,7 @@ public class A0522初步 {
                 trajectoryPart2.directAt(DL2 + CCT345_LENGTH + GAP3));
     }
 
-    private CctFactory.Cct createDipoleCct345() {
+    private Cct createDipoleCct345() {
         return createDipoleCct(
                 dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                 dipoleCct345Angle, dipoleCct345WindingNumber,
@@ -3499,7 +3501,7 @@ public class A0522初步 {
         );
     }
 
-    private CctFactory.Cct createDipoleCct12() {
+    private Cct createDipoleCct12() {
         return createDipoleCct(
                 dipoleCct12SmallRInner, dipoleCct12SmallROuter, dipoleCct12BigR,
                 dipoleCct12Angle, dipoleCct12WindingNumber,
@@ -3512,7 +3514,7 @@ public class A0522初步 {
         );
     }
 
-    private CctFactory.Cct createAgCct12() {
+    private Cct createAgCct12() {
         return createAgCct(
                 agCct12SmallRInner, agCct12SmallROuter, agCct12BigR,
                 new double[]{agCctAngle1, agCctAngle2},
@@ -3526,7 +3528,7 @@ public class A0522初步 {
         );
     }
 
-    private CctFactory.Cct createAgCct345() {
+    private Cct createAgCct345() {
         return createAgCct(
                 agCct345SmallRInner, agCct345SmallROuter, agCct345BigR,
                 new double[]{agCctAngle5, agCctAngle4, agCctAngle3},
@@ -3540,7 +3542,7 @@ public class A0522初步 {
         );
     }
 
-    private CctFactory.Cct createDipoleCct(
+    private Cct createDipoleCct(
             double smallRInner, double smallROuter, double bigR, double angle, int windingNumber,
             double a0BipolarInner, double a1QuadrupleInner, double a2SextupleInner, double IInner,
             double a0BipolarOuter, double a1QuadrupleOuter, double a2SextupleOuter, double IOuter,
@@ -3560,7 +3562,7 @@ public class A0522初步 {
         );
     }
 
-    private CctFactory.Cct createAgCct(
+    private Cct createAgCct(
             double smallRInner, double smallROuter, double bigR, double[] angles, int[] windingNumbers,
             double a0BipolarInners, double a1QuadrupleInners, double a2SextupleInners, double IInner,
             double a0BipolarOuters, double a1QuadrupleOuters, double a2SextupleOuters, double IOuter,

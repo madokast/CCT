@@ -2,7 +2,10 @@ package cn.edu.hust.zrx.cct.study.前45偏转段2;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.Elements;
+import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -36,7 +39,7 @@ public class B20200430改变绕线方向 {
 
     @run(1)
     public void 二极CCT调整前() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
 
         Trajectory trajectory_old = getTrajectory_old();
 
@@ -49,26 +52,26 @@ public class B20200430改变绕线方向 {
 
 
     //---------------------elements------------------------------
-    private CctFactory.Cct createDipoleCct() {
-        CctFactory.SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
+    private Cct createDipoleCct() {
+        SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Inner, dipoleCctA1Inner,
                 dipoleCctA2Inner, dipoleCctIInner, numberPerWinding,
                 dipoleCctStartingθInner, dipoleCctStartingφInner, dipoleCctDirectθInner);
-        CctFactory.SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
+        SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Outer, dipoleCctA1Outer,
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 dipoleCctStartingθInner, dipoleCctStartingφOuter, dipoleCctDirectθOuter);
 
-        return CctFactory.Cct.getEmptyCct().
+        return Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
     }
 
-    private CctFactory.Elements getElementsOfAll() {
+    private Elements getElementsOfAll() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
         qs.forEach(elements::addElement);
         allCctIn45.getSoleLayerCctList().forEach(elements::addElement);
 
@@ -94,14 +97,14 @@ public class B20200430改变绕线方向 {
         return List.of(QS11, QS2, QS12);
     }
 
-    private CctFactory.Cct getAllCctIn45() {
+    private Cct getAllCctIn45() {
         return CctFactory.combineCct(getCct1(), getCct2());
     }
 
-    private CctFactory.Cct getCct1() {
+    private Cct getCct1() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         //        Point2 center = Arcs.center(
 //                trajectory.pointAt(DL1 + CCT_LENGTH + BETWEEN_CCT225),
@@ -110,16 +113,16 @@ public class B20200430改变绕线方向 {
 //        );
 //
 //
-//        CctFactory.Cct cct2 = CctFactory.positionInXYPlane(cct,center,BaseUtils.Converter.angleToRadian(-90+22.5));
+//        Cct cct2 = CctFactory.positionInXYPlane(cct,center,BaseUtils.Converter.angleToRadian(-90+22.5));
 
         return CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
     }
 
-    private CctFactory.Cct getCct2() {
+    private Cct getCct2() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -134,16 +137,16 @@ public class B20200430改变绕线方向 {
         //                                  double a2SextupleOuters,
         //                                  double IOuter,
         //                                  int numberPerWinding)
-        CctFactory.Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
+        Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle1, agCctAngle0},
                 new int[]{agCctWindingNumber1, agCctWindingNumber0},
                 agCctA0Inner, agCctA1Inner, agCctA2Inner, -agCctIInner,
                 agCctA0Outer, agCctA1Outer, agCctA2Outer, -agCctIOuter,
                 numberPerWinding);
 
-        CctFactory.Cct cct = CctFactory.combineCct(agCct, dipoleCct);
+        Cct cct = CctFactory.combineCct(agCct, dipoleCct);
 
-        //CctFactory.Cct cct1 = CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
+        //Cct cct1 = CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
         Point2 center = Arcs.center(
                 trajectory.pointAt(DL1 + CCT_LENGTH + BETWEEN_CCT225),
@@ -157,9 +160,9 @@ public class B20200430改变绕线方向 {
 
     }
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(agCct, dipoleCct);
     }
@@ -187,7 +190,7 @@ public class B20200430改变绕线方向 {
                 .addStraitLine(1.0);
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,

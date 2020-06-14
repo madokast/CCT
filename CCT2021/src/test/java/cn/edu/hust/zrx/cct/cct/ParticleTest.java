@@ -2,6 +2,7 @@ package cn.edu.hust.zrx.cct.cct;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.cct.CctLine2Factory;
 import cn.edu.hust.zrx.cct.base.cct.CctLine2s;
@@ -15,7 +16,6 @@ import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -34,7 +34,7 @@ import java.util.List;
 public class ParticleTest {
     //@Test
     public void test02(){
-        CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(
+        Cct dipoleCct = CctFactory.createDipoleCct(
                 60e-3, 75e-3, 0.75, 67.5, 135,
                 -0.168, 0, 0, 5000,
                 0.168, 0, 0, -5000,

@@ -2,7 +2,9 @@ package cn.edu.hust.zrx.cct.study.验证性研究;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
@@ -42,14 +44,14 @@ public class A20200212复现675建模 {
      */
 
 //    @run
-    public CctFactory.Cct 复现675建模() {
+    public Cct 复现675建模() {
         double alphaAngle = 30;
         double alphaR = BaseUtils.Converter.angleToRadian(alphaAngle);
         double tanAlpha = Math.tan(alphaR);
         double a0 = 78 * MM / tanAlpha;
         Logger.getLogger().info("a0 = " + a0);
 
-        CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(73 * MM, 82 * MM,
+        Cct dipoleCct = CctFactory.createDipoleCct(73 * MM, 82 * MM,
                 1.00254, 67.5, 241,
                 a0, 0, 0, 5450.5,
                 -a0, 0, 0, -5450.5,
@@ -86,9 +88,9 @@ public class A20200212复现675建模 {
         double alphaRXX = BaseUtils.Converter.angleToRadian(alphaAngleXX);
         double tanAlphaXX = Math.tan(alphaRXX);
         double a0 = 78 * MM / tanAlphaXX;
-        CctFactory.Cct cct = 复现675建模();
+        Cct cct = 复现675建模();
 
-        CctFactory.SoleLayerCct soleLayerCct = cct.get(0);
+        SoleLayerCct soleLayerCct = cct.get(0);
 
         Logger.getLogger().info("电流 = " + soleLayerCct.getI());
 

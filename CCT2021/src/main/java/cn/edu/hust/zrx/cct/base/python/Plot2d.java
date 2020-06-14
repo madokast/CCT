@@ -96,6 +96,19 @@ public class Plot2d {
         plot2(point2s, describe);
     }
 
+    public static void plot2(List<Double> xList, List<Double> yList) {
+        plot2(xList, yList, BLUE_LINE);
+    }
+
+    public static void plot2(List<Double> xList, List<Double> yList, String describe) {
+        Point2[] point2s = new Point2[xList.size()];
+        for (int i = 0; i < point2s.length; i++) {
+            point2s[i] = Point2.create(xList.get(i), yList.get(i));
+        }
+
+        plot2(point2s, describe);
+    }
+
 
     // 画长方形
     public static void plotBox(double minX, double maxX, double minY, double maxY, String describe) {
@@ -547,4 +560,5 @@ public class Plot2d {
 
         return sb.toString();
     }
+
 }

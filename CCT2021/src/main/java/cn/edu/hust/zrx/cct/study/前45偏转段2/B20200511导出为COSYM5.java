@@ -2,7 +2,9 @@ package cn.edu.hust.zrx.cct.study.前45偏转段2;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.Elements;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -38,7 +40,7 @@ public class B20200511导出为COSYM5 {
 
     @run(-1)
     public void 测试() {
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         Trajectory trajectory = getTrajectory();
 
@@ -54,7 +56,7 @@ public class B20200511导出为COSYM5 {
     public void 导出为磁场OBJ() throws IOException {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         BaseUtils.Async async = new BaseUtils.Async();
 
@@ -198,7 +200,7 @@ public class B20200511导出为COSYM5 {
     public void 新型到处COSY(){
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         List<String> list = elementsOfAll.sliceToCosyScript(Bp, aperture, trajectory, 5 * MM, MM, 0.7);
 
@@ -212,11 +214,11 @@ public class B20200511导出为COSYM5 {
 
     // ------------------------------------------
 
-    private CctFactory.Elements getElementsOfAll() {
+    private Elements getElementsOfAll() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
         qs.forEach(elements::addElement);
         allCctIn45.getSoleLayerCctList().forEach(elements::addElement);
 
@@ -242,26 +244,26 @@ public class B20200511导出为COSYM5 {
         return List.of(QS11, QS2, QS12);
     }
 
-    private CctFactory.Cct getAllCctIn45() {
+    private Cct getAllCctIn45() {
         return CctFactory.combineCct(getCct1(), getCctSymmetryCct1());
     }
 
 
-    private CctFactory.Cct getCct1() {
+    private Cct getCct1() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
 
         return CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
     }
 
-    private CctFactory.Cct getCct2() {
+    private Cct getCct2() {
 
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct dipoleCct = createDipoleCct(
+        Cct dipoleCct = createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,
                 dipoleCctA0Inner, dipoleCctA1Inner, dipoleCctA2Inner, dipoleCctIInner,
@@ -272,7 +274,7 @@ public class B20200511导出为COSYM5 {
                 dipoleCctDirectθInner, dipoleCctDirectθOuter
         );
 
-        CctFactory.Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
+        Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle1, agCctAngle0},
                 new int[]{agCctWindingNumber1, agCctWindingNumber0},
                 agCctA0Inner, agCctA1Inner, agCctA2Inner, -agCctIInner,
@@ -282,7 +284,7 @@ public class B20200511导出为COSYM5 {
                 agCctDirectθInner, agCctDirectθOuter
         );
 
-        CctFactory.Cct cct = CctFactory.combineCct(agCct, dipoleCct);
+        Cct cct = CctFactory.combineCct(agCct, dipoleCct);
 
         //CctFactory.Cct cct1 = CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
@@ -298,7 +300,7 @@ public class B20200511导出为COSYM5 {
 
     }
 
-    private CctFactory.Cct getCctSymmetryCct1() {
+    private Cct getCctSymmetryCct1() {
         Trajectory trajectory = getTrajectory();
         return CctFactory.symmetryInXYPlaneByLine(
                 getCct1(),
@@ -308,8 +310,8 @@ public class B20200511导出为COSYM5 {
     }
 
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct(
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,
                 dipoleCctA0Inner, dipoleCctA1Inner, dipoleCctA2Inner, dipoleCctIInner,
@@ -319,7 +321,7 @@ public class B20200511导出为COSYM5 {
                 dipoleCctStartingφInner, dipoleCctStartingφOuter,
                 dipoleCctDirectθInner, dipoleCctDirectθOuter
         );
-        CctFactory.Cct agCct = createAgCct(
+        Cct agCct = createAgCct(
                 agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle0, agCctAngle1},
                 new int[]{agCctWindingNumber0, agCctWindingNumber1},
@@ -350,7 +352,7 @@ public class B20200511导出为COSYM5 {
 
     }
 
-    private CctFactory.Cct createDipoleCct(
+    private Cct createDipoleCct(
             double smallRInner, double smallROuter, double bigR, double angle, int windingNumber,
             double a0BipolarInner, double a1QuadrupleInner, double a2SextupleInner, double IInner,
             double a0BipolarOuter, double a1QuadrupleOuter, double a2SextupleOuter, double IOuter,
@@ -370,7 +372,7 @@ public class B20200511导出为COSYM5 {
         );
     }
 
-    private CctFactory.Cct createAgCct(
+    private Cct createAgCct(
             double smallRInner, double smallROuter, double bigR, double[] angles, int[] windingNumbers,
             double a0BipolarInners, double a1QuadrupleInners, double a2SextupleInners, double IInner,
             double a0BipolarOuters, double a1QuadrupleOuters, double a2SextupleOuters, double IOuter,

@@ -1,8 +1,7 @@
 package cn.edu.hust.zrx.cct.base.opticsMagnet.bendingMagnet;
 
-import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
-import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
 import cn.edu.hust.zrx.cct.base.line.ArcLine;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
@@ -24,7 +23,7 @@ import java.util.List;
  * @version 1.0
  */
 
-public class HardBendingMagnet implements CctFactory.MagnetAble {
+public class HardBendingMagnet implements MagnetAble {
 
     /**
      * 起点。二维

@@ -2,8 +2,10 @@ package cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.cct.CctLine2;
+import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
@@ -118,8 +120,8 @@ public class AGCCT225增大孔径 {
 
         BaseUtils.Python.linspaceStream(20 * MM, 60 * MM, switcher.getSize())
                 .forEach(smallR -> {
-                    CctFactory.SoleLayerCct innerDipoleCct = getInnerDipoleCct(startTheta, smallR);
-                    CctFactory.SoleLayerCct outerDipoleCct = getOuterDipoleCct(startTheta, smallR);
+                    SoleLayerCct innerDipoleCct = getInnerDipoleCct(startTheta, smallR);
+                    SoleLayerCct outerDipoleCct = getOuterDipoleCct(startTheta, smallR);
 
 
                     List<Point2> rightHandB = outerDipoleCct.magnetAlongTrajectory(trajectory, 1 * MM)
@@ -157,20 +159,20 @@ public class AGCCT225增大孔径 {
 
 
 
-    public CctFactory.SoleLayerCct getOuterDipoleCct(double startTheta, double smallROuter) {
+    public SoleLayerCct getOuterDipoleCct(double startTheta, double smallROuter) {
         CctLine2 cctLine2 = new CctLine2(smallROuter, bigR, dipoleCctAngle, dipoleCctWindingNumber,
                 dipoleCctA0Outer, dipoleCctA1Outer, dipoleCctA2Outer, startTheta, 0.0, true);
-        CctFactory.SoleLayerCct outerCct =
-                new CctFactory.SoleLayerCct(cctLine2.disperseToPoint3(numberPerWinding), dipoleCctIOuter);
+        SoleLayerCct outerCct =
+                new SoleLayerCct(cctLine2.disperseToPoint3(numberPerWinding), dipoleCctIOuter);
 
         return outerCct;
     }
 
-    public CctFactory.SoleLayerCct getInnerDipoleCct(double startTheta, double smallRInner) {
+    public SoleLayerCct getInnerDipoleCct(double startTheta, double smallRInner) {
         CctLine2 cctLine2 = new CctLine2(smallRInner, bigR, dipoleCctAngle, dipoleCctWindingNumber,
                 dipoleCctA0Inner, dipoleCctA1Inner, dipoleCctA2Inner, startTheta, 0.0, true);
-        CctFactory.SoleLayerCct innerCct =
-                new CctFactory.SoleLayerCct(cctLine2.disperseToPoint3(numberPerWinding), dipoleCctIInner);
+        SoleLayerCct innerCct =
+                new SoleLayerCct(cctLine2.disperseToPoint3(numberPerWinding), dipoleCctIInner);
 
         return innerCct;
     }
@@ -183,7 +185,7 @@ public class AGCCT225增大孔径 {
                 .addStraitLine(1.0);
     }
 
-    public CctFactory.Cct creatDipoleCct() {
+    public Cct creatDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber,
@@ -193,7 +195,7 @@ public class AGCCT225增大孔径 {
         );
     }
 
-    public CctFactory.Cct createAgCct() {
+    public Cct createAgCct() {
         return null;
     }
 

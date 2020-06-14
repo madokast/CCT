@@ -7,7 +7,9 @@ import cn.edu.hust.zrx.cct.advanced.UniEquationSolver;
 import cn.edu.hust.zrx.cct.advanced.geneticAlgorithm.GeneticAlgorithm;
 import cn.edu.hust.zrx.cct.advanced.geneticAlgorithm.base.Gene;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.Elements;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -57,7 +59,7 @@ public class A0423月报 {
 
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
         double mid = DL1 + dipoleCctBigR * BaseUtils.Converter.angleToRadian(dipoleCctAngle / 2);
         Logger.getLogger().info("mid = " + mid);
@@ -95,7 +97,7 @@ public class A0423月报 {
 
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
         double mid = DL1 + dipoleCctBigR * BaseUtils.Converter.angleToRadian(dipoleCctAngle / 2);
 
@@ -221,7 +223,7 @@ public class A0423月报 {
                     dipoleCctA1Inner = Math.pow(dipoleCctSmallRInner, 2) * k;
                     dipoleCctA1Outer = -Math.pow(dipoleCctSmallROuter, 2) * k;
 
-                    CctFactory.Cct cct1 = getCct1();
+                    Cct cct1 = getCct1();
 
                     double bz0 = cct1.magnetAt(orign).z;
 
@@ -300,7 +302,7 @@ public class A0423月报 {
                     dipoleCctA2Outer = -Math.pow(dipoleCctSmallROuter, 3) * k;
 
 
-                    CctFactory.Cct cct1 = getCct1();
+                    Cct cct1 = getCct1();
 
                     double bz0 = cct1.magnetAt(orign).z;
 
@@ -370,7 +372,7 @@ public class A0423月报 {
 
         Point3 orign = midPoint.toPoint3();
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
         double bz0 = cct1.magnetAt(orign).z;
 
         Logger.getLogger().info("bz0 = " + bz0);
@@ -444,7 +446,7 @@ public class A0423月报 {
 
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
         Vector3 top = Vector3.getZDirect().changeLengthSelf(1);
 
@@ -510,7 +512,7 @@ public class A0423月报 {
     }
 
 
-    @run(value = 130, code = "A0423-1306-053")
+    @run(value = 130000, code = "A0423-1306-053")
     public void _DEGREE处热图绘制() {
         double phi = 0.0;
 
@@ -532,7 +534,7 @@ public class A0423月报 {
 
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
         double mid = DL1 + dipoleCctBigR * BaseUtils.Converter.angleToRadian(phi);
 
@@ -629,7 +631,7 @@ public class A0423月报 {
         //    private double dipoleCctA1Inner = Math.pow(dipoleCctSmallRInner, 2) * 0.225;
         //    private double dipoleCctA1Outer = -Math.pow(dipoleCctSmallROuter, 2) * 0.225;
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
 
         Trajectory trajectory300 = TrajectoryFactory.setStartingPoint(Point2.origin())
@@ -685,7 +687,7 @@ public class A0423月报 {
         //    private double dipoleCctA1Inner = Math.pow(dipoleCctSmallRInner, 2) * 0.225;
         //    private double dipoleCctA1Outer = -Math.pow(dipoleCctSmallROuter, 2) * 0.225;
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
 
         Trajectory trajectory300 = TrajectoryFactory.setStartingPoint(Point2.origin())
@@ -765,7 +767,7 @@ public class A0423月报 {
         //    private double dipoleCctA1Inner = Math.pow(dipoleCctSmallRInner, 2) * 0.225;
         //    private double dipoleCctA1Outer = -Math.pow(dipoleCctSmallROuter, 2) * 0.225;
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
 
         Trajectory trajectory300 = TrajectoryFactory.setStartingPoint(Point2.origin())
@@ -832,7 +834,7 @@ public class A0423月报 {
         dipoleCctIInner = 9919.082986140875;
         dipoleCctIOuter = -dipoleCctIInner;
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
 
         Trajectory trajectory300 = TrajectoryFactory.setStartingPoint(Point2.origin())
@@ -884,7 +886,7 @@ public class A0423月报 {
         //    private double dipoleCctA1Outer = -Math.pow(dipoleCctSmallROuter, 2) * 0.225;
 
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
 
         Trajectory trajectory300 = TrajectoryFactory.setStartingPoint(Point2.origin())
@@ -939,7 +941,7 @@ public class A0423月报 {
         dipoleCctIInner = 9919.082986140875;
         dipoleCctIOuter = -dipoleCctIInner;
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
 
         Trajectory trajectory300 = TrajectoryFactory.setStartingPoint(Point2.origin())
@@ -1050,7 +1052,7 @@ public class A0423月报 {
                     dipoleCctA2Inner = Math.pow(dipoleCctSmallRInner, 3) * a2k;
                     dipoleCctA2Outer = -Math.pow(dipoleCctSmallROuter, 3) * a2k;
 
-                    CctFactory.Cct cct1 = getCct1();
+                    Cct cct1 = getCct1();
 
                     RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory300);
 
@@ -1071,11 +1073,11 @@ public class A0423月报 {
 
     //---------------------elements------------------------------
 
-    private CctFactory.Elements getElementsOfAll() {
+    private Elements getElementsOfAll() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
         qs.forEach(elements::addElement);
         allCctIn45.getSoleLayerCctList().forEach(elements::addElement);
 
@@ -1101,14 +1103,14 @@ public class A0423月报 {
         return List.of(QS11, QS2, QS12);
     }
 
-    private CctFactory.Cct getAllCctIn45() {
+    private Cct getAllCctIn45() {
         return CctFactory.combineCct(getCct1(), getCct2());
     }
 
-    private CctFactory.Cct getCct1() {
+    private Cct getCct1() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         //        Point2 center = Arcs.center(
 //                trajectory.pointAt(DL1 + CCT_LENGTH + BETWEEN_CCT225),
@@ -1123,10 +1125,10 @@ public class A0423月报 {
 
     }
 
-    private CctFactory.Cct getCct2() {
+    private Cct getCct2() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -1141,14 +1143,14 @@ public class A0423月报 {
         //                                  double a2SextupleOuters,
         //                                  double IOuter,
         //                                  int numberPerWinding)
-        CctFactory.Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
+        Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle1, agCctAngle0},
                 new int[]{agCctWindingNumber1, agCctWindingNumber0},
                 agCctA0Inner, agCctA1Inner, agCctA2Inner, -agCctIInner,
                 agCctA0Outer, agCctA1Outer, agCctA2Outer, -agCctIOuter,
                 numberPerWinding);
 
-        CctFactory.Cct cct = CctFactory.combineCct(agCct, dipoleCct);
+        Cct cct = CctFactory.combineCct(agCct, dipoleCct);
 
         //CctFactory.Cct cct1 = CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
@@ -1164,9 +1166,9 @@ public class A0423月报 {
 
     }
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(agCct, dipoleCct);
     }
@@ -1187,7 +1189,7 @@ public class A0423月报 {
 
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -1210,7 +1212,7 @@ public class A0423月报 {
                 numberPerWinding);
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

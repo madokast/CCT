@@ -2,7 +2,7 @@ package cn.edu.hust.zrx.cct.study.前45偏转段;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
-import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.*;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -45,7 +45,7 @@ public class A20200403CCT初始绕线和参考粒子Y方向偏差_研究中止 {
 
     @run(1)
     public void 参考粒子Y方向() {
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
         List<Point2> yDirectDisplacement = referenceParticleYDirectDisplacement(cct1, DL1 + CCT_LENGTH + BETWEEN_CCT225);
 
         Plot2d.plot2(yDirectDisplacement, Plot2d.BLACK_LINE);
@@ -55,9 +55,9 @@ public class A20200403CCT初始绕线和参考粒子Y方向偏差_研究中止 {
 
     @run(value = 2, code = "验证通过")
     public void 新CCT建模增加startPhi验证一下() {
-        CctFactory.Cct cct1_old = getCct1();
+        Cct cct1_old = getCct1();
 
-        CctFactory.Cct cct1_new = getCct1(0, 0);
+        Cct cct1_new = getCct1(0, 0);
 
         List<Point2> yDirectDisplacement_old = referenceParticleYDirectDisplacement(cct1_old, DL1 + CCT_LENGTH + BETWEEN_CCT225);
         List<Point2> yDirectDisplacement_new = referenceParticleYDirectDisplacement(cct1_new, DL1 + CCT_LENGTH + BETWEEN_CCT225);
@@ -78,7 +78,7 @@ public class A20200403CCT初始绕线和参考粒子Y方向偏差_研究中止 {
                 .parallel()
                 // 构建 cct 并tracking
                 .mapToObj(phi -> {
-                    CctFactory.Cct cct1 = getCct1(0, phi);
+                    Cct cct1 = getCct1(0, phi);
                     List<Point2> yDirectDisplacement = referenceParticleYDirectDisplacement(cct1, DL1 + CCT_LENGTH + BETWEEN_CCT225);
                     yDirectDisplacement = Point2.convert(yDirectDisplacement, 1, 1 / MM);
 
@@ -127,7 +127,7 @@ public class A20200403CCT初始绕线和参考粒子Y方向偏差_研究中止 {
 
 
     private List<Point2> referenceParticleYDirectDisplacement(
-            CctFactory.MagnetAble element, double distance) {
+            MagnetAble element, double distance) {
         Trajectory trajectory = getTrajectory();
         RunningParticle rp = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 
@@ -138,7 +138,7 @@ public class A20200403CCT初始绕线和参考粒子Y方向偏差_研究中止 {
     }
 
     private List<Point2> leftHandMagneticFieldAlongCct(
-            CctFactory.MagnetAble elements,Trajectory trajectory,double distance){
+            MagnetAble elements, Trajectory trajectory, double distance){
         final Vector3 Y = Vector3.getZDirect();
 
         return BaseUtils.Python.linspaceStream(0, distance, (int) (distance / MM))
@@ -155,11 +155,11 @@ public class A20200403CCT初始绕线和参考粒子Y方向偏差_研究中止 {
 
     //---------------------elements------------------------------
 
-    private CctFactory.Elements getElementsOfAll() {
+    private Elements getElementsOfAll() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
         qs.forEach(elements::addElement);
         allCctIn45.getSoleLayerCctList().forEach(elements::addElement);
 
@@ -185,26 +185,26 @@ public class A20200403CCT初始绕线和参考粒子Y方向偏差_研究中止 {
         return List.of(QS11, QS2, QS12);
     }
 
-    private CctFactory.Cct getAllCctIn45() {
+    private Cct getAllCctIn45() {
         return CctFactory.combineCct(getCct1(), getCct2());
     }
 
-    private CctFactory.Cct getCct1() {
-        CctFactory.Cct cct = getCct();
+    private Cct getCct1() {
+        Cct cct = getCct();
 
         return CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
     }
 
-    private CctFactory.Cct getCct1(double dipoleCctStartPhiInner, double dipoleCctStartPhiOuter) {
-        CctFactory.Cct cct = getCct(dipoleCctStartPhiInner, dipoleCctStartPhiOuter);
+    private Cct getCct1(double dipoleCctStartPhiInner, double dipoleCctStartPhiOuter) {
+        Cct cct = getCct(dipoleCctStartPhiInner, dipoleCctStartPhiOuter);
 
         return CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
     }
 
-    private CctFactory.Cct getCct2() {
+    private Cct getCct2() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -219,14 +219,14 @@ public class A20200403CCT初始绕线和参考粒子Y方向偏差_研究中止 {
         //                                  double a2SextupleOuters,
         //                                  double IOuter,
         //                                  int numberPerWinding)
-        CctFactory.Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
+        Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle1, agCctAngle0},
                 new int[]{agCctWindingNumber1, agCctWindingNumber0},
                 agCctA0Inner, agCctA1Inner, agCctA2Inner, -agCctIInner,
                 agCctA0Outer, agCctA1Outer, agCctA2Outer, -agCctIOuter,
                 numberPerWinding);
 
-        CctFactory.Cct cct = CctFactory.combineCct(agCct, dipoleCct);
+        Cct cct = CctFactory.combineCct(agCct, dipoleCct);
 
         //CctFactory.Cct cct1 = CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
@@ -243,33 +243,33 @@ public class A20200403CCT初始绕线和参考粒子Y方向偏差_研究中止 {
     }
 
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(agCct, dipoleCct);
     }
 
 
-    private CctFactory.Cct getCct(double dipoleCctStartPhiInner, double dipoleCctStartPhiOuter) {
-        CctFactory.Cct dipoleCct = createDipoleCct(dipoleCctStartPhiInner, dipoleCctStartPhiOuter);
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct(double dipoleCctStartPhiInner, double dipoleCctStartPhiOuter) {
+        Cct dipoleCct = createDipoleCct(dipoleCctStartPhiInner, dipoleCctStartPhiOuter);
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(agCct, dipoleCct);
     }
 
     // 22.5度 二极CCT 有绕线变量
-    private CctFactory.Cct createDipoleCct(double dipoleCctStartPhiInner, double dipoleCctStartPhiOuter) {
-        CctFactory.SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
+    private Cct createDipoleCct(double dipoleCctStartPhiInner, double dipoleCctStartPhiOuter) {
+        SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Inner, dipoleCctA1Inner,
                 dipoleCctA2Inner, dipoleCctIInner, numberPerWinding,
                 dipoleCctStartPhiInner, 0.0, true);
-        CctFactory.SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
+        SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Outer, dipoleCctA1Outer,
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 dipoleCctStartPhiOuter, 0.0, true);
 
-        return CctFactory.Cct.getEmptyCct().
+        return Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
     }
@@ -292,7 +292,7 @@ public class A20200403CCT初始绕线和参考粒子Y方向偏差_研究中止 {
     }
 
     // 22.5度 四极CCT 没有绕线变量
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -316,7 +316,7 @@ public class A20200403CCT初始绕线和参考粒子Y方向偏差_研究中止 {
     }
 
     // 22.5度 二极CCT 没有绕线变量
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

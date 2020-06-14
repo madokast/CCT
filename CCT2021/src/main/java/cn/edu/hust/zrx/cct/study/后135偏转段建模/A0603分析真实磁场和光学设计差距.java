@@ -5,7 +5,10 @@ import cn.edu.hust.zrx.cct.advanced.COSY;
 import cn.edu.hust.zrx.cct.advanced.CosyArbitraryOrder;
 import cn.edu.hust.zrx.cct.advanced.PolynomialFitter;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.Elements;
+import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
@@ -55,7 +58,7 @@ public class A0603分析真实磁场和光学设计差距 {
         agCct345IInner = 0;
         agCct345IOuter = 0;
 
-        CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
         List<Point2> x = trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(), elementsOfAllPart2, true);
 
@@ -77,7 +80,7 @@ public class A0603分析真实磁场和光学设计差距 {
 //        agCct12IInner = 0;
 //        agCct12IOuter = 0;
 
-        CctFactory.Elements elementsOfAllPart1 = getElementsOfAllPart1();
+        Elements elementsOfAllPart1 = getElementsOfAllPart1();
 
         List<Point2> x = trackingIdealParticle(trajectoryPart1, trajectoryPart1.getLength(), elementsOfAllPart1, true);
 
@@ -110,14 +113,14 @@ public class A0603分析真实磁场和光学设计差距 {
                     agCct345A0Inner = k;
                     agCct345A0Outer = -k;
 
-                    CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+                    MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
                     return BaseUtils.Content.BiContent.create(k, elementsOfAllPart2);
                 }).collect(Collectors.toList())
                 .stream()
                 .parallel()
                 .map(bi -> {
-                    CctFactory.MagnetAble magnetAble = bi.getT2();
+                    MagnetAble magnetAble = bi.getT2();
 
                     Double k = bi.getT1();
 
@@ -173,7 +176,7 @@ public class A0603分析真实磁场和光学设计差距 {
                             -k * agCct345SmallROuter
                     };
 
-                    CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+                    MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
                     return BaseUtils.Content.BiContent.create(k, elementsOfAllPart2);
                 })
@@ -182,7 +185,7 @@ public class A0603分析真实磁场和光学设计差距 {
                 .parallel()
                 .map(bi -> {
                     Double k = bi.getT1();
-                    CctFactory.MagnetAble m = bi.getT2();
+                    MagnetAble m = bi.getT2();
 
                     List<Point2> bz = m.magnetBzAlongTrajectory(trajectoryPart2, 20 * MM);
 
@@ -209,7 +212,7 @@ public class A0603分析真实磁场和光学设计差距 {
 
     @run(0)
     public void 宝宝我已经修改了四极CCT构建方法从a012单值到数组() {
-        CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
@@ -246,7 +249,7 @@ public class A0603分析真实磁场和光学设计差距 {
                             (-0.0113 - k) * agCct345SmallROuter
                     };
 
-                    CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+                    MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
                     return BaseUtils.Content.BiContent.create(k, elementsOfAllPart2);
                 })
@@ -255,7 +258,7 @@ public class A0603分析真实磁场和光学设计差距 {
                 .parallel()
                 .map(bi -> {
                     Double k = bi.getT1();
-                    CctFactory.MagnetAble m = bi.getT2();
+                    MagnetAble m = bi.getT2();
 
                     List<Point2> bz = m.magnetBzAlongTrajectory(trajectoryPart2, 20 * MM);
 
@@ -297,17 +300,17 @@ public class A0603分析真实磁场和光学设计差距 {
                 .sequential()
                 .mapToObj(k -> {
                     agCct345A0Inners = new double[]{
-                            (0.0163 + 0) * agCct345SmallRInner,
-                            (0.0138 - 0) * agCct345SmallRInner,
+                            (0.0163 + k) * agCct345SmallRInner,
+                            (0.0138 - k) * agCct345SmallRInner,
                             (0.0113 + k) * agCct345SmallRInner
                     };
                     agCct345A0Outers = new double[]{
-                            (-0.0163 - 0) * agCct345SmallROuter,
-                            (-0.0138 + 0) * agCct345SmallROuter,
+                            (-0.0163 - k) * agCct345SmallROuter,
+                            (-0.0138 + k) * agCct345SmallROuter,
                             (-0.0113 - k) * agCct345SmallROuter
                     };
 
-                    CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+                    MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
                     return BaseUtils.Content.BiContent.create(k, elementsOfAllPart2);
                 })
@@ -316,7 +319,7 @@ public class A0603分析真实磁场和光学设计差距 {
                 .parallel()
                 .map(bi -> {
                     Double k = bi.getT1();
-                    CctFactory.MagnetAble m = bi.getT2();
+                    MagnetAble m = bi.getT2();
 
                     List<Point2> x = trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(), m, true);
 
@@ -350,7 +353,7 @@ public class A0603分析真实磁场和光学设计差距 {
         agCct345IOuter = 0;
         agCct345IInner = 0;
 
-        CctFactory.MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
         List<Point2> bz = elementsOfAllPart2.magnetBzAlongTrajectory(trajectoryPart2);
 
@@ -369,6 +372,22 @@ public class A0603分析真实磁场和光学设计差距 {
     public void 直接移动四极CCT看看() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
+        double agCct345IInner0 = agCct345IInner;
+        double agCct345IOuter0 = agCct345IOuter;
+
+        MagnetAble elementsOrigin = getElementsOfAllPart2();
+        agCct345IInner = 0;
+        agCct345IOuter = 0;
+        MagnetAble elementsN = getElementsOfAllPart2();
+        List<Point2> xo = trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(), elementsOrigin, true);
+        List<Point2> xN = trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(), elementsN, true);
+        Plot2d.plot2(mm2mmm(xo), Plot2d.YELLOW_SMALL_POINT);
+        Plot2d.plot2(mm2mmm(xN), Plot2d.BLACK_SMALL_POINT);
+
+        agCct345IInner = agCct345IInner0;
+        agCct345IOuter = agCct345IOuter0;
+
+
         Vector2 xDirect = Vector2.xDirect();
         Vector2 v675 = xDirect.copy().rotateSelf(BaseUtils.Converter.angleToRadian(67.5));
         Vector3 move = xDirect.add(v675).changeLengthSelf(1).toVector3();
@@ -377,11 +396,9 @@ public class A0603分析真实磁场和光学设计差距 {
         String[] le = BaseUtils.Python.linspaceStream(0 * MM, 10 * MM, switcher.getSize())
                 .sequential()
                 .mapToObj(s -> {
-
-
                     // 345
-                    CctFactory.Cct dipoleCct345 = createDipoleCct345();
-                    CctFactory.Cct agCct345 = createAgCct345();
+                    Cct dipoleCct345 = createDipoleCct345();
+                    Cct agCct345 = createAgCct345();
                     agCct345 = CctFactory.move(agCct345, move.copy().changeLengthSelf(s));
 
                     // 345
@@ -391,17 +408,17 @@ public class A0603分析真实磁场和光学设计差距 {
                     Point2 center3 = Arcs.center(p1, p2, p3);
                     dipoleCct345 = CctFactory.positionInXYPlane(dipoleCct345, center3, BaseUtils.Converter.angleToRadian(180 - dipoleCct345Angle - 45));
                     agCct345 = CctFactory.positionInXYPlane(agCct345, center3, BaseUtils.Converter.angleToRadian(180 - dipoleCct345Angle - 45));
-                    CctFactory.Cct cct345_1 = CctFactory.combineCct(dipoleCct345, agCct345);
+                    Cct cct345_1 = CctFactory.combineCct(dipoleCct345, agCct345);
 
 
                     Point2 p = trajectoryPart2.pointAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2);
                     Vector2 d = trajectoryPart2.directAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2).rotateSelf(Math.PI / 2);
 
-                    CctFactory.Cct cct345_2 = CctFactory.symmetryInXYPlaneByLine(cct345_1, p, d);
+                    Cct cct345_2 = CctFactory.symmetryInXYPlaneByLine(cct345_1, p, d);
 
 
                     //QsHardPlaneMagnet QS3 = getQs3();
-                    CctFactory.Elements elements = CctFactory.Elements.empty();
+                    Elements elements = Elements.empty();
                     elements.addElement(cct345_1);
                     elements.addElement(cct345_2);
                     //elements.addElement(QS3);
@@ -412,7 +429,7 @@ public class A0603分析真实磁场和光学设计差距 {
                 .stream()
                 .parallel()
                 .map(bi -> {
-                    CctFactory.Elements elements = bi.getT2();
+                    Elements elements = bi.getT2();
                     Double s = bi.getT1();
 
                     List<Point2> x = trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(), elements, true);
@@ -434,19 +451,12 @@ public class A0603分析真实磁场和光学设计差距 {
                 .collect(Collectors.toList())
                 .toArray(String[]::new);
 
-
-        CctFactory.MagnetAble elementsOrigin = getElementsOfAllPart2();
-        agCct345IInner = 0;
-        agCct345IOuter = 0;
-        CctFactory.MagnetAble elementsN = getElementsOfAllPart2();
-        List<Point2> xo = trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(), elementsOrigin, true);
-        List<Point2> xN = trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(), elementsN, true);
-        Plot2d.plot2(mm2mmm(xo), Plot2d.YELLOW_SMALL_POINT);
-        Plot2d.plot2(mm2mmm(xN), Plot2d.BLACK_SMALL_POINT);
+        CosyMap第二段.drawElement(12.5, 12.5);
+        Plot2d.plotXLine(0, 0, 7.35, Plot2d.GREY_DASH);
 
 
         Plot2d.info("s/m", "x/mm", "移动四极CCT", 18);
-        Plot2d.legend(18, BaseUtils.ArrayUtils.append(le, "ORIGIN", "ORIGIN WITHOUT QUAD-CCT"));
+        Plot2d.legend(12, BaseUtils.ArrayUtils.append(new String[]{"ORIGIN", "ORIGIN WITHOUT QUAD-CCT"}, le));
 
         Plot2d.showThread();
     }
@@ -461,9 +471,9 @@ public class A0603分析真实磁场和光学设计差距 {
 
 
         // 345
-        CctFactory.Cct dipoleCct345 = createDipoleCct345();
-        CctFactory.Cct agCct345 = createAgCct345();
-        agCct345 = CctFactory.move(agCct345, move.copy().changeLengthSelf(8.75 * MM));
+        Cct dipoleCct345 = createDipoleCct345();
+        Cct agCct345 = createAgCct345();
+        agCct345 = CctFactory.move(agCct345, move.copy().changeLengthSelf(3.75 * MM));
 
         // 345
         Point2 p1 = trajectoryPart2.pointAt(DL2);
@@ -472,26 +482,26 @@ public class A0603分析真实磁场和光学设计差距 {
         Point2 center3 = Arcs.center(p1, p2, p3);
         dipoleCct345 = CctFactory.positionInXYPlane(dipoleCct345, center3, BaseUtils.Converter.angleToRadian(180 - dipoleCct345Angle - 45));
         agCct345 = CctFactory.positionInXYPlane(agCct345, center3, BaseUtils.Converter.angleToRadian(180 - dipoleCct345Angle - 45));
-        CctFactory.Cct cct345_1 = CctFactory.combineCct(dipoleCct345, agCct345);
+        Cct cct345_1 = CctFactory.combineCct(dipoleCct345, agCct345);
 
 
         Point2 p = trajectoryPart2.pointAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2);
         Vector2 d = trajectoryPart2.directAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2).rotateSelf(Math.PI / 2);
 
-        CctFactory.Cct cct345_2 = CctFactory.symmetryInXYPlaneByLine(cct345_1, p, d);
+        Cct cct345_2 = CctFactory.symmetryInXYPlaneByLine(cct345_1, p, d);
 
 
         //QsHardPlaneMagnet QS3 = getQs3();
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
         elements.addElement(cct345_1);
         elements.addElement(cct345_2);
         //elements.addElement(QS3);
 
 
-        CctFactory.MagnetAble elementsOrigin = getElementsOfAllPart2();
+        MagnetAble elementsOrigin = getElementsOfAllPart2();
         agCct345IInner = 0;
         agCct345IOuter = 0;
-        CctFactory.MagnetAble elementsNoQuad = getElementsOfAllPart2();
+        MagnetAble elementsNoQuad = getElementsOfAllPart2();
 
 
         if (false) {
@@ -517,12 +527,12 @@ public class A0603分析真实磁场和光学设计差距 {
             phase相椭圆画图(len, true, 0.00, 16, false,
                     0.001,
                     List.of(
-                            BaseUtils.Content.BiContent.create("QUAD-CCT OFFSET 8.75MM", elements),
-                            BaseUtils.Content.BiContent.create("ORIGIN", elementsOrigin),
-                            BaseUtils.Content.BiContent.create("ORIGIN WITHOUT QUAD-CCT", elementsNoQuad)
+                            BaseUtils.Content.BiContent.create("QUAD-CCT OFFSET 3.75MM", elements),
+                            BaseUtils.Content.BiContent.create("ORIGIN", elementsOrigin)
+                            //BaseUtils.Content.BiContent.create("ORIGIN WITHOUT QUAD-CCT", elementsNoQuad)
                     ), trajectoryPart2, 512, 5,
                     List.of(BaseUtils.Content.BiContent.create("optics", CosyMap第二段.cosyMapIsoc())),
-                    List.of(Plot2d.BLACK_POINT, Plot2d.RED_POINT, Plot2d.BLUE_POINT, Plot2d.YELLOW_LINE));
+                    List.of(Plot2d.BLACK_POINT, Plot2d.RED_POINT, Plot2d.YELLOW_LINE));
         }
 
 
@@ -536,27 +546,27 @@ public class A0603分析真实磁场和光学设计差距 {
         dipoleCct345IInner = -dipoleCct345IInner;
         dipoleCct345IOuter = -dipoleCct345IOuter;
 
-        CctFactory.Cct dipoleCct345 = createDipoleCct345();
+        Cct dipoleCct345 = createDipoleCct345();
 
         List<Point2> bz = dipoleCct345.magnetBzAlongTrajectory(testTrajectory);
         Plot2d.plot2(bz, Plot2d.BLACK_SMALL_POINT);
 
 
-        String[] le = BaseUtils.Python.linspaceStream(0.09, 0.15, switcher.getSize())
+        String[] le = BaseUtils.Python.linspaceStream(0.5, 1.5, switcher.getSize())
                 .sequential()
                 .mapToObj(k -> {
                     double angle = 5;
                     double phi = BaseUtils.Converter.angleToRadian(17.5);
                     int windingNumber = 12;
 
-                    CctFactory.Cct help = createDipoleCct(
+                    Cct help = createDipoleCct(
                             dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                             angle, windingNumber,
-                            dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * k,
-                            dipoleCct345A0Outer, dipoleCct345A1Outer, dipoleCct345A2Outer, dipoleCct345IOuter * k,
+                            dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.1,
+                            dipoleCct345A0Outer, dipoleCct345A1Outer, dipoleCct345A2Outer, dipoleCct345IOuter * 0.1,
                             numberPerWinding,
                             0.0, 0.0,
-                            -phi, -phi,
+                            -phi*k, -phi*k,
                             dipoleCct345DirectθInner, dipoleCct345DirectθOuter
                     );
 
@@ -567,7 +577,7 @@ public class A0603分析真实磁场和光学设计差距 {
                 .stream()
                 .parallel()
                 .map(bi -> {
-                    CctFactory.Cct help = bi.getT2();
+                    Cct help = bi.getT2();
                     Double k = bi.getT1();
 
                     List<Point2> bzh = help.magnetBzAlongTrajectory(testTrajectory);
@@ -601,7 +611,7 @@ public class A0603分析真实磁场和光学设计差距 {
         dipoleCct345IInner = -dipoleCct345IInner;
         dipoleCct345IOuter = -dipoleCct345IOuter;
 
-        CctFactory.Cct dipoleCct345 = createDipoleCct345();
+        Cct dipoleCct345 = createDipoleCct345();
 
 //        List<Point2> bz = dipoleCct345.magnetBzAlongTrajectory(testTrajectory);
 //        Plot2d.plot2(bz, Plot2d.BLACK_SMALL_POINT);
@@ -616,7 +626,7 @@ public class A0603分析真实磁场和光学设计差距 {
                     double phi = BaseUtils.Converter.angleToRadian(17.5);
                     int windingNumber = 12;
 
-                    CctFactory.Cct help = createDipoleCct(
+                    Cct help = createDipoleCct(
                             dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                             angle, windingNumber,
                             dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * k,
@@ -634,12 +644,12 @@ public class A0603分析真实磁场和光学设计差距 {
                 .stream()
                 .parallel()
                 .map(bi -> {
-                    CctFactory.Cct help = bi.getT2();
+                    Cct help = bi.getT2();
                     Double k = bi.getT1();
 
 //                    List<Point2> bzh = help.magnetBzAlongTrajectory(testTrajectory);
 
-                    CctFactory.Elements empty = CctFactory.Elements.empty();
+                    Elements empty = Elements.empty();
                     empty.addElement(help);
                     empty.addElement(dipoleCct345);
 
@@ -670,7 +680,7 @@ public class A0603分析真实磁场和光学设计差距 {
     public void 二极CCT单粒子() {
         Trajectory testTrajectory = getTestTrajectory(0.75, 67.5);
 
-        CctFactory.Cct dipoleCct345 = createDipoleCct345();
+        Cct dipoleCct345 = createDipoleCct345();
 
 //        RunningParticle ip = ParticleFactory.createProton(
 //                testTrajectory.pointAtEnd().toPoint3(),
@@ -702,7 +712,7 @@ public class A0603分析真实磁场和光学设计差距 {
         agCct345IOuter = 0;
         agCct345IInner = 0;
 
-        CctFactory.Elements elementsOfAllPart2 = (CctFactory.Elements) getElementsOfAllPart2();
+        Elements elementsOfAllPart2 = (Elements) getElementsOfAllPart2();
 
 
         String[] le = BaseUtils.Python.linspaceStream(0.05, 0.15, switcher.getSize())
@@ -714,7 +724,7 @@ public class A0603分析真实磁场和光学设计差距 {
                     double phi1 = BaseUtils.Converter.angleToRadian(17.5);
                     int windingNumber = 12;
 
-                    CctFactory.Cct help0 = createDipoleCct(
+                    Cct help0 = createDipoleCct(
                             dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                             angle, windingNumber,
                             dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.1,
@@ -725,7 +735,7 @@ public class A0603分析真实磁场和光学设计差距 {
                             dipoleCct345DirectθInner, dipoleCct345DirectθOuter
                     );
 
-                    CctFactory.Cct help1 = createDipoleCct(
+                    Cct help1 = createDipoleCct(
                             dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                             angle, windingNumber,
                             dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.063,
@@ -736,7 +746,7 @@ public class A0603分析真实磁场和光学设计差距 {
                             dipoleCct345DirectθInner, dipoleCct345DirectθOuter
                     );
 
-                    CctFactory.Cct help2 = createDipoleCct(
+                    Cct help2 = createDipoleCct(
                             dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                             angle, windingNumber,
                             dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.075,
@@ -761,12 +771,12 @@ public class A0603分析真实磁场和光学设计差距 {
                     Point2 p = trajectoryPart2.pointAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2);
                     Vector2 d = trajectoryPart2.directAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2).rotateSelf(Math.PI / 2);
 
-                    CctFactory.Cct cct345_1 = getCct345_1();
+                    Cct cct345_1 = getCct345_1();
 
                     help1 = CctFactory.symmetryInXYPlaneByLine(help1, p, d);
                     help2 = CctFactory.symmetryInXYPlaneByLine(help2, p, d);
 
-                    CctFactory.Elements empty = CctFactory.Elements.empty();
+                    Elements empty = Elements.empty();
                     empty.addElement(elementsOfAllPart2);
                     empty.addElement(help0);
                     empty.addElement(help1);
@@ -778,7 +788,7 @@ public class A0603分析真实磁场和光学设计差距 {
                 .stream()
                 .parallel()
                 .map(bi -> {
-                    CctFactory.Elements e = bi.getT2();
+                    Elements e = bi.getT2();
                     Double k = bi.getT1();
 
                     List<Point2> x = trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(), e, true);
@@ -799,9 +809,9 @@ public class A0603分析真实磁场和光学设计差距 {
 
         Plot2d.plot2(mm2mmm(x0), Plot2d.BLACK_SMALL_POINT);
 
-        Plot2d.info("s/m","x/mm","辅助线圈",18);
+        Plot2d.info("s/m", "x/mm", "辅助线圈", 18);
 
-        Plot2d.legend(18,BaseUtils.ArrayUtils.append(le,"ORIGIN"));
+        Plot2d.legend(18, BaseUtils.ArrayUtils.append(le, "ORIGIN"));
 
         Plot2d.showThread();
 
@@ -815,7 +825,7 @@ public class A0603分析真实磁场和光学设计差距 {
 //        agCct345IOuter = 0;
 //        agCct345IInner = 0;
 
-        CctFactory.Elements elementsOfAllPart2 = (CctFactory.Elements) getElementsOfAllPart2();
+        Elements elementsOfAllPart2 = (Elements) getElementsOfAllPart2();
 
         ////////////////
         double angle = 5;
@@ -823,7 +833,7 @@ public class A0603分析真实磁场和光学设计差距 {
         double phi1 = BaseUtils.Converter.angleToRadian(17.5);
         int windingNumber = 12;
 
-        CctFactory.Cct help0 = createDipoleCct(
+        Cct help0 = createDipoleCct(
                 dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                 angle, windingNumber,
                 dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.1,
@@ -834,7 +844,7 @@ public class A0603分析真实磁场和光学设计差距 {
                 dipoleCct345DirectθInner, dipoleCct345DirectθOuter
         );
 
-        CctFactory.Cct help1 = createDipoleCct(
+        Cct help1 = createDipoleCct(
                 dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                 angle, windingNumber,
                 dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.063,
@@ -845,7 +855,7 @@ public class A0603分析真实磁场和光学设计差距 {
                 dipoleCct345DirectθInner, dipoleCct345DirectθOuter
         );
 
-        CctFactory.Cct help2 = createDipoleCct(
+        Cct help2 = createDipoleCct(
                 dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                 angle, windingNumber,
                 dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.075,
@@ -870,41 +880,40 @@ public class A0603分析真实磁场和光学设计差距 {
         Point2 p = trajectoryPart2.pointAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2);
         Vector2 d = trajectoryPart2.directAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2).rotateSelf(Math.PI / 2);
 
-        CctFactory.Cct cct345_1 = getCct345_1();
+        Cct cct345_1 = getCct345_1();
 
         help1 = CctFactory.symmetryInXYPlaneByLine(help1, p, d);
         help2 = CctFactory.symmetryInXYPlaneByLine(help2, p, d);
 
-        CctFactory.Elements empty = CctFactory.Elements.empty();
+        Elements empty = Elements.empty();
         empty.addElement(elementsOfAllPart2);
         empty.addElement(help0);
         empty.addElement(help1);
         empty.addElement(help2);
 
         phase相椭圆画图(
-                trajectoryPart2.getLength(),true,0,16,false, 1,
+                trajectoryPart2.getLength(), true, 0, 16, false, 1,
                 List.of(
-                        BaseUtils.Content.BiContent.create("ORIGIN TRACK",elementsOfAllPart2),
-                        BaseUtils.Content.BiContent.create("Auxiliary-Coil TRACK",empty)
+                        BaseUtils.Content.BiContent.create("ORIGIN TRACK", elementsOfAllPart2),
+                        BaseUtils.Content.BiContent.create("Auxiliary-Coil TRACK", empty)
                 ),
-                trajectoryPart2,512,5,
+                trajectoryPart2, 512, 5,
                 List.of(
-                        BaseUtils.Content.BiContent.create("OPTICS",CosyMap第二段.cosyMapIsoc())
+                        BaseUtils.Content.BiContent.create("OPTICS", CosyMap第二段.cosyMapIsoc())
                 ),
                 List.of(Plot2d.BLACK_POINT, Plot2d.RED_POINT, Plot2d.YELLOW_LINE)
         );
     }
 
 
-    @run(20) // 不好看
-    public void 辅助线圈画图(){
-
+    @run(17)
+    public void 调整前后单粒子跟踪() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
 //        agCct345IOuter = 0;
 //        agCct345IInner = 0;
 
-        CctFactory.Elements elementsOfAllPart2 = (CctFactory.Elements) getElementsOfAllPart2();
+        Elements elementsOfAllPart2 = (Elements) getElementsOfAllPart2();
 
         ////////////////
         double angle = 5;
@@ -912,7 +921,7 @@ public class A0603分析真实磁场和光学设计差距 {
         double phi1 = BaseUtils.Converter.angleToRadian(17.5);
         int windingNumber = 12;
 
-        CctFactory.Cct help0 = createDipoleCct(
+        Cct help0 = createDipoleCct(
                 dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                 angle, windingNumber,
                 dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.1,
@@ -923,7 +932,7 @@ public class A0603分析真实磁场和光学设计差距 {
                 dipoleCct345DirectθInner, dipoleCct345DirectθOuter
         );
 
-        CctFactory.Cct help1 = createDipoleCct(
+        Cct help1 = createDipoleCct(
                 dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                 angle, windingNumber,
                 dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.063,
@@ -934,7 +943,7 @@ public class A0603分析真实磁场和光学设计差距 {
                 dipoleCct345DirectθInner, dipoleCct345DirectθOuter
         );
 
-        CctFactory.Cct help2 = createDipoleCct(
+        Cct help2 = createDipoleCct(
                 dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                 angle, windingNumber,
                 dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.075,
@@ -959,18 +968,180 @@ public class A0603分析真实磁场和光学设计差距 {
         Point2 p = trajectoryPart2.pointAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2);
         Vector2 d = trajectoryPart2.directAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2).rotateSelf(Math.PI / 2);
 
-        CctFactory.Cct cct345_1 = getCct345_1();
+        Cct cct345_1 = getCct345_1();
 
         help1 = CctFactory.symmetryInXYPlaneByLine(help1, p, d);
         help2 = CctFactory.symmetryInXYPlaneByLine(help2, p, d);
 
-        CctFactory.Elements empty = CctFactory.Elements.empty();
+        Elements empty = Elements.empty();
         empty.addElement(elementsOfAllPart2);
         empty.addElement(help0);
         empty.addElement(help1);
         empty.addElement(help2);
 
-        if(true){
+        List<Point2> x0 = trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(), elementsOfAllPart2, true);
+        List<Point2> x = trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(), empty, true);
+
+        Plot2d.plot2(mm2mmm(x0), Plot2d.BLACK_LINE);
+        Plot2d.plot2(mm2mmm(x), Plot2d.RED_LINE);
+        Plot2d.plotXLine(0, 0, 7.4, Plot2d.GREY_DASH);
+
+        CosyMap第二段.drawElement(12.5, 12.5);
+
+        Plot2d.info("s/m", "x/mm", "单粒子", 18);
+
+        Plot2d.legend(18, "ORIGIN", "Auxiliary-Coil TRACK");
+
+
+        Plot2d.showThread();
+    }
+
+
+    @run(100)
+    public void 前后偏转段单粒子跟踪对比() {
+        Trajectory trajectoryPart1 = getTrajectoryPart1();
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+        double length1 = trajectoryPart1.getLength();
+        double length2 = trajectoryPart2.getLength();
+
+        Elements elementsOfAllPart1 = getElementsOfAllPart1();
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+
+        List<Point2> x1 = trackingIdealParticle(trajectoryPart1, length1, elementsOfAllPart1, true);
+        List<Point2> x2 = trackingIdealParticle(trajectoryPart2, length2, elementsOfAllPart2, true);
+
+        x1 = Point2.convert(x1, 1 / length1, 1 / MM);
+        x2 = Point2.convert(x2, 1 / length2, 1 / MM);
+
+        Plot2d.plot2(x1, Plot2d.BLACK_LINE);
+        Plot2d.plot2(x2, Plot2d.RED_LINE);
+
+        Plot2d.info("s/1", "x/mm", "前后偏转段参考粒子x", 18);
+        Plot2d.legend(18, "Previous", "Later");
+
+        Plot2d.showThread();
+    }
+
+
+    @run(101)
+    public void 有无四极CC的单粒子跟踪对比() {
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+
+        double length2 = trajectoryPart2.getLength();
+
+
+        MagnetAble origin = getElementsOfAllPart2();
+
+
+        agCct345IInner = 0;
+        agCct345IOuter = 0;
+
+        MagnetAble noQuad = getElementsOfAllPart2();
+
+        /////////////////
+
+        List<Point2> xo = trackingIdealParticle(trajectoryPart2, length2, origin, true);
+        List<Point2> noQ = trackingIdealParticle(trajectoryPart2, length2, noQuad, true);
+
+        Plot2d.plot2(mm2mmm(xo), Plot2d.BLACK_LINE);
+        Plot2d.plot2(mm2mmm(noQ), Plot2d.RED_LINE);
+
+        CosyMap第二段.drawElement(12.5, 12.5);
+
+        Plot2d.plotXLine(0, 0, 7.35, Plot2d.GREY_DASH);
+
+        Plot2d.info("s/m", "x/mm", "有无四极CCT 参考粒子 x", 18);
+        Plot2d.legend(18, "Di-CCT + Quad-CCT", "Di-CCT Only");
+
+        Plot2d.showThread();
+
+    }
+
+    @run(102)
+    public void 框架(){
+        CosyMap第二段.drawElement(20,20);
+
+        Plot2d.showThread();
+    }
+
+
+    @run(-20) // 不好看
+    public void 辅助线圈画图() {
+
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+//        agCct345IOuter = 0;
+//        agCct345IInner = 0;
+
+        Elements elementsOfAllPart2 = (Elements) getElementsOfAllPart2();
+
+        ////////////////
+        double angle = 5;
+        double phi0 = BaseUtils.Converter.angleToRadian(17.5 + 67.5);
+        double phi1 = BaseUtils.Converter.angleToRadian(17.5);
+        int windingNumber = 12;
+
+        Cct help0 = createDipoleCct(
+                dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
+                angle, windingNumber,
+                dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.1,
+                dipoleCct345A0Outer, dipoleCct345A1Outer, dipoleCct345A2Outer, dipoleCct345IOuter * 0.1,
+                numberPerWinding,
+                0.0, 0.0,
+                phi0, phi0,
+                dipoleCct345DirectθInner, dipoleCct345DirectθOuter
+        );
+
+        Cct help1 = createDipoleCct(
+                dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
+                angle, windingNumber,
+                dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.063,
+                dipoleCct345A0Outer, dipoleCct345A1Outer, dipoleCct345A2Outer, dipoleCct345IOuter * 0.063,
+                numberPerWinding,
+                0.0, 0.0,
+                -phi1, -phi1,
+                dipoleCct345DirectθInner, dipoleCct345DirectθOuter
+        );
+
+        Cct help2 = createDipoleCct(
+                dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
+                angle, windingNumber,
+                dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner * 0.075,
+                dipoleCct345A0Outer, dipoleCct345A1Outer, dipoleCct345A2Outer, dipoleCct345IOuter * 0.075,
+                numberPerWinding,
+                0.0, 0.0,
+                phi0, phi0,
+                dipoleCct345DirectθInner, dipoleCct345DirectθOuter
+        );
+
+
+        Point2 p1 = trajectoryPart2.pointAt(DL2);
+        Point2 p2 = trajectoryPart2.pointAt(DL2 + CCT345_LENGTH / 2);
+        Point2 p3 = trajectoryPart2.pointAt(DL2 + CCT345_LENGTH);
+
+        Point2 center3 = Arcs.center(p1, p2, p3);
+
+        help0 = CctFactory.positionInXYPlane(help0, center3, BaseUtils.Converter.angleToRadian(180 - dipoleCct345Angle - 45));
+        help1 = CctFactory.positionInXYPlane(help1, center3, BaseUtils.Converter.angleToRadian(180 - dipoleCct345Angle - 45));
+        help2 = CctFactory.positionInXYPlane(help2, center3, BaseUtils.Converter.angleToRadian(180 - dipoleCct345Angle - 45));
+
+        Point2 p = trajectoryPart2.pointAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2);
+        Vector2 d = trajectoryPart2.directAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2).rotateSelf(Math.PI / 2);
+
+        Cct cct345_1 = getCct345_1();
+
+        help1 = CctFactory.symmetryInXYPlaneByLine(help1, p, d);
+        help2 = CctFactory.symmetryInXYPlaneByLine(help2, p, d);
+
+        Elements empty = Elements.empty();
+        empty.addElement(elementsOfAllPart2);
+        empty.addElement(help0);
+        empty.addElement(help1);
+        empty.addElement(help2);
+
+        if (true) {
             help0.plot3(Plot2d.BLACK_LINE);
             help1.plot3(Plot2d.BLACK_LINE);
             help2.plot3(Plot2d.BLACK_LINE);
@@ -984,18 +1155,18 @@ public class A0603分析真实磁场和光学设计差距 {
             getTrajectoryPart2().plot3d();
 
             getQs3().plot3d(Plot2d.BLUE_LINE);
-            getQs12().forEach(qs->qs.plot3d(Plot2d.BLUE_LINE));
+            getQs12().forEach(qs -> qs.plot3d(Plot2d.BLUE_LINE));
 
 
-            Plot3d.setCenter(getTrajectoryPart1().pointAtEnd().toPoint3(),5);
+            Plot3d.setCenter(getTrajectoryPart1().pointAtEnd().toPoint3(), 5);
 
             Plot3d.plot3(List.of(
-                    Point3.create(-1,-0.5,0),
-                    Point3.create(-1,5.0,0),
-                    Point3.create(8.3,5.,0),
-                    Point3.create(8.3,-0.5,0),
-                    Point3.create(-1,-0.5,0)
-            ),Plot2d.GREY_DASH);
+                    Point3.create(-1, -0.5, 0),
+                    Point3.create(-1, 5.0, 0),
+                    Point3.create(8.3, 5., 0),
+                    Point3.create(8.3, -0.5, 0),
+                    Point3.create(-1, -0.5, 0)
+            ), Plot2d.GREY_DASH);
 
             Plot3d.offAxisAndBgColor();
 
@@ -1007,7 +1178,7 @@ public class A0603分析真实磁场和光学设计差距 {
     private void phase相椭圆画图(
             double distance, boolean xPlane, double delta, int numberParticleForTrack,
             boolean moveToCenter, double scaleForParticle,
-            CctFactory.MagnetAble magnetAble, Trajectory trajectory,
+            MagnetAble magnetAble, Trajectory trajectory,
             int numberParticleForCosyMap, int cosyOrder,
             List<BaseUtils.Content.BiContent<String, CosyArbitraryOrder.CosyMapArbitraryOrder>> mapInfo
     ) {
@@ -1043,14 +1214,14 @@ public class A0603分析真实磁场和光学设计差距 {
     private void phase相椭圆画图(
             double distance, boolean xPlane, double delta, int numberParticleForTrack,
             boolean moveToCenter, double scaleForParticle,
-            List<BaseUtils.Content.BiContent<String, CctFactory.MagnetAble>> magnetAblenfo, Trajectory trajectory,
+            List<BaseUtils.Content.BiContent<String, MagnetAble>> magnetAblenfo, Trajectory trajectory,
             int numberParticleForCosyMap, int cosyOrder,
             List<BaseUtils.Content.BiContent<String, CosyArbitraryOrder.CosyMapArbitraryOrder>> mapInfo, List<String> describes
     ) {
         List<CosyArbitraryOrder.CosyMapArbitraryOrder> maps = mapInfo.stream().map(BaseUtils.Content.
                 BiContent::getT2).collect(Collectors.toList());
 
-        List<CctFactory.MagnetAble> magnetAbles = magnetAblenfo.stream().map(BaseUtils.Content.BiContent::getT2).collect(Collectors.toList());
+        List<MagnetAble> magnetAbles = magnetAblenfo.stream().map(BaseUtils.Content.BiContent::getT2).collect(Collectors.toList());
 
         List<List<Point2>> lists = phase相椭圆研究(distance, xPlane, delta, numberParticleForTrack, moveToCenter,
                 scaleForParticle, magnetAbles, trajectory, numberParticleForCosyMap, cosyOrder, maps);
@@ -1080,7 +1251,7 @@ public class A0603分析真实磁场和光学设计差距 {
     private List<List<Point2>> phase相椭圆研究(
             double distance, boolean xPlane, double delta, int numberParticleForTrack,
             boolean moveToCenter, double scaleForParticle,
-            CctFactory.MagnetAble magnetAble, Trajectory trajectory,
+            MagnetAble magnetAble, Trajectory trajectory,
             int numberParticleForCosyMap, int cosyOrder, CosyArbitraryOrder.CosyMapArbitraryOrder... maps
     ) {
         List<List<Point2>> ret = new ArrayList<>(1 + maps.length);
@@ -1101,13 +1272,13 @@ public class A0603分析真实磁场和光学设计差距 {
     private List<List<Point2>> phase相椭圆研究(
             double distance, boolean xPlane, double delta, int numberParticleForTrack,
             boolean moveToCenter, double scaleForParticle,
-            List<CctFactory.MagnetAble> magnetAbles, Trajectory trajectory,
+            List<MagnetAble> magnetAbles, Trajectory trajectory,
             int numberParticleForCosyMap, int cosyOrder, List<CosyArbitraryOrder.CosyMapArbitraryOrder> maps
     ) {
         List<List<Point2>> ret = new ArrayList<>(magnetAbles.size() + maps.size());
 
 
-        for (CctFactory.MagnetAble magnetAble : magnetAbles) {
+        for (MagnetAble magnetAble : magnetAbles) {
             ret.add(
                     tracking相椭圆(distance, xPlane, delta, numberParticleForTrack, moveToCenter, scaleForParticle, magnetAble, trajectory)
             );
@@ -1158,7 +1329,7 @@ public class A0603分析真实磁场和光学设计差距 {
     private List<Point2> tracking相椭圆(
             double distance, boolean xPlane, double delta, int number,
             boolean moveToCenter, double scaleForParticle,
-            CctFactory.MagnetAble magnetAble, Trajectory trajectory) {
+            MagnetAble magnetAble, Trajectory trajectory) {
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 
@@ -1188,7 +1359,7 @@ public class A0603分析真实磁场和光学设计差距 {
 
 
     private List<Point2> trackingIdealParticle(
-            Line2 trajectory, double distance, CctFactory.MagnetAble magnetAble, boolean xPlane) {
+            Line2 trajectory, double distance, MagnetAble magnetAble, boolean xPlane) {
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 
         return ParticleRunner.runGetPoint3WithDistance(ip, magnetAble, distance, MM)
@@ -1213,7 +1384,7 @@ public class A0603分析真实磁场和光学设计差距 {
     }
 
     private List<List<Point2>> track多粒子(int number, double delta, Trajectory trajectory, double distance,
-                                        CctFactory.MagnetAble magnetAble, boolean xPlane) {
+                                        MagnetAble magnetAble, boolean xPlane) {
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 
         List<PhaseSpaceParticle> pp = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInPlane(
@@ -1242,7 +1413,7 @@ public class A0603分析真实磁场和光学设计差距 {
     }
 
     // 单位 mm/%
-    private List<Point2> track色散(Trajectory trajectory, CctFactory.MagnetAble magnetAble) {
+    private List<Point2> track色散(Trajectory trajectory, MagnetAble magnetAble) {
         double length = trajectory.getLength() + 0.1;
 
         List<RunningParticle> particles = BaseUtils.Python.linspaceStream(-5 * PRESENT, 5 * PRESENT, 2)
@@ -1315,7 +1486,7 @@ public class A0603分析真实磁场和光学设计差距 {
             double xMin, double xMax, int number,
             Trajectory trajectory,
             double distance,
-            CctFactory.MagnetAble magnetAble
+            MagnetAble magnetAble
     ) {
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
         RunningParticle ipEnd = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory, distance);
@@ -4956,17 +5127,17 @@ public class A0603分析真实磁场和光学设计差距 {
                 .addStraitLine(1.0);
     }
 
-    private CctFactory.Cct getCct12_1() {
-        CctFactory.Cct agCct12 = createAgCct12();
-        CctFactory.Cct dipoleCct12 = createDipoleCct12();
+    private Cct getCct12_1() {
+        Cct agCct12 = createAgCct12();
+        Cct dipoleCct12 = createDipoleCct12();
 
-        CctFactory.Cct cct = CctFactory.combineCct(agCct12, dipoleCct12);
+        Cct cct = CctFactory.combineCct(agCct12, dipoleCct12);
 
         return CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigRPart1), BaseUtils.Converter.angleToRadian(-90));
     }
 
-    private CctFactory.Cct getCct12_2() {
-        CctFactory.Cct cct12_1 = getCct12_1();
+    private Cct getCct12_2() {
+        Cct cct12_1 = getCct12_1();
 
         Trajectory trajectoryPart1 = getTrajectoryPart1();
         return CctFactory.symmetryInXYPlaneByLine(
@@ -4976,7 +5147,7 @@ public class A0603分析真实磁场和光学设计差距 {
         );
     }
 
-    private CctFactory.Cct getCct345_1() {
+    private Cct getCct345_1() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
         Point2 p1 = trajectoryPart2.pointAt(DL2);
@@ -4985,8 +5156,8 @@ public class A0603分析真实磁场和光学设计差距 {
 
         Point2 center3 = Arcs.center(p1, p2, p3);
 
-        CctFactory.Cct dipoleCct345 = createDipoleCct345();
-        CctFactory.Cct agCct345 = createAgCct345();
+        Cct dipoleCct345 = createDipoleCct345();
+        Cct agCct345 = createAgCct345();
 
 
         dipoleCct345 = CctFactory.positionInXYPlane(dipoleCct345, center3, BaseUtils.Converter.angleToRadian(180 - dipoleCct345Angle - 45));
@@ -4996,37 +5167,37 @@ public class A0603分析真实磁场和光学设计差距 {
         return CctFactory.combineCct(dipoleCct345, agCct345);
     }
 
-    private CctFactory.Cct getCct345_2() {
+    private Cct getCct345_2() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
         Point2 p = trajectoryPart2.pointAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2);
         Vector2 d = trajectoryPart2.directAt(DL2 + CCT345_LENGTH + GAP3 + QS3_LEN / 2).rotateSelf(Math.PI / 2);
 
-        CctFactory.Cct cct345_1 = getCct345_1();
+        Cct cct345_1 = getCct345_1();
 
         return CctFactory.symmetryInXYPlaneByLine(cct345_1, p, d);
     }
 
-    private CctFactory.Elements getElementsOfAllPart1() {
+    private Elements getElementsOfAllPart1() {
         List<QsHardPlaneMagnet> qs = getQs12();
-        CctFactory.Cct allCctIn45 = CctFactory.combineCct(getCct12_1(), getCct12_2());
+        Cct allCctIn45 = CctFactory.combineCct(getCct12_1(), getCct12_2());
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
         qs.forEach(elements::addElement);
         allCctIn45.getSoleLayerCctList().forEach(elements::addElement);
 
         return elements;
     }
 
-    private CctFactory.MagnetAble getElementsOfAllPart2() {
+    private MagnetAble getElementsOfAllPart2() {
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
-        CctFactory.Cct cct345_1 = getCct345_1();
-        CctFactory.Cct cct345_2 = getCct345_2();
+        Cct cct345_1 = getCct345_1();
+        Cct cct345_2 = getCct345_2();
 
         QsHardPlaneMagnet QS3 = getQs3();
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
 
         elements.addElement(cct345_1);
         elements.addElement(cct345_2);
@@ -5061,7 +5232,7 @@ public class A0603分析真实磁场和光学设计差距 {
                 trajectoryPart2.directAt(DL2 + CCT345_LENGTH + GAP3));
     }
 
-    private CctFactory.Cct createDipoleCct345() {
+    private Cct createDipoleCct345() {
         return createDipoleCct(
                 dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
                 dipoleCct345Angle, dipoleCct345WindingNumber,
@@ -5074,7 +5245,7 @@ public class A0603分析真实磁场和光学设计差距 {
         );
     }
 
-    private CctFactory.Cct createDipoleCct12() {
+    private Cct createDipoleCct12() {
         return createDipoleCct(
                 dipoleCct12SmallRInner, dipoleCct12SmallROuter, dipoleCct12BigR,
                 dipoleCct12Angle, dipoleCct12WindingNumber,
@@ -5087,7 +5258,7 @@ public class A0603分析真实磁场和光学设计差距 {
         );
     }
 
-    private CctFactory.Cct createAgCct12() {
+    private Cct createAgCct12() {
         return createAgCct(
                 agCct12SmallRInner, agCct12SmallROuter, agCct12BigR,
                 new double[]{agCctAngle1, agCctAngle2},
@@ -5101,7 +5272,7 @@ public class A0603分析真实磁场和光学设计差距 {
         );
     }
 
-    private CctFactory.Cct createAgCct345() {
+    private Cct createAgCct345() {
         return createAgCct(
                 agCct345SmallRInner, agCct345SmallROuter, agCct345BigR,
                 new double[]{agCctAngle5, agCctAngle4, agCctAngle3},
@@ -5115,7 +5286,7 @@ public class A0603分析真实磁场和光学设计差距 {
         );
     }
 
-    private CctFactory.Cct createDipoleCct(
+    private Cct createDipoleCct(
             double smallRInner, double smallROuter, double bigR, double angle, int windingNumber,
             double a0BipolarInner, double a1QuadrupleInner, double a2SextupleInner, double IInner,
             double a0BipolarOuter, double a1QuadrupleOuter, double a2SextupleOuter, double IOuter,
@@ -5135,7 +5306,7 @@ public class A0603分析真实磁场和光学设计差距 {
         );
     }
 
-    private CctFactory.Cct createAgCct(
+    private Cct createAgCct(
             double smallRInner, double smallROuter, double bigR, double[] angles, int[] windingNumbers,
             double a0BipolarInners, double a1QuadrupleInners, double a2SextupleInners, double IInner,
             double a0BipolarOuters, double a1QuadrupleOuters, double a2SextupleOuters, double IOuter,
@@ -5162,7 +5333,7 @@ public class A0603分析真实磁场和光学设计差距 {
         );
     }
 
-    private CctFactory.Cct createAgCct(
+    private Cct createAgCct(
             double smallRInner, double smallROuter, double bigR, double[] angles, int[] windingNumbers,
             double[] a0BipolarInners, double[] a1QuadrupleInners, double[] a2SextupleInners, double IInner,
             double[] a0BipolarOuters, double[] a1QuadrupleOuters, double[] a2SextupleOuters, double IOuter,

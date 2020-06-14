@@ -1,6 +1,7 @@
 package cn.edu.hust.zrx.cct.study.验证性研究;
 
 import cn.edu.hust.zrx.cct.Logger;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -62,7 +63,7 @@ public class A20200212AGCCT建模 {
 //                -5000,
 //                360);
 
-        CctFactory.Cct agCct = CctFactory.createAgCct(60 * MM, 75 * MM, 0.75,
+        Cct agCct = CctFactory.createAgCct(60 * MM, 75 * MM, 0.75,
                 new double[]{22.5, 22.5, 22.5},
                 new int[]{45, 45, 45},
                 0,

@@ -4,6 +4,7 @@ import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.advanced.FirstOrderTransportMatrixEquation;
 import cn.edu.hust.zrx.cct.advanced.FirstOrderTransportMatrixSolver;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -115,7 +116,7 @@ public class A20200317常微分方程 {
 //    @run
     public void 传输矩阵计算_复杂写法() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         FirstOrderTransportMatrixEquation transportMatrixFirstOrderEquation
                 = new FirstOrderTransportMatrixEquation() {
@@ -213,7 +214,7 @@ public class A20200317常微分方程 {
 
 //    @run
     public void 传输矩阵计算_新API()throws Exception{
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
         Trajectory trajectory = getTrajectory();
 
         String solveAndFormMatrix = FirstOrderTransportMatrixSolver
@@ -339,9 +340,9 @@ public class A20200317常微分方程 {
 
     //---------------------------------------------------------
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(dipoleCct, agCct);
     }
@@ -353,7 +354,7 @@ public class A20200317常微分方程 {
                 .addStraitLine(1.0);
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -376,7 +377,7 @@ public class A20200317常微分方程 {
                 numberPerWinding);
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

@@ -3,6 +3,7 @@ package cn.edu.hust.zrx.cct.study.验证性研究;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.CoordinateSystem3d;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -41,11 +42,11 @@ public class A20200315粒子相椭圆画图 {
     public void 单粒子运动() {
         //拿到 轨道 和 CCT
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         // 组合为 CCT
-        CctFactory.Cct cct = CctFactory.combineCct(dipoleCct, agCct);
+        Cct cct = CctFactory.combineCct(dipoleCct, agCct);
 
         // 拿到理想粒子
         RunningParticle idealProton = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -106,11 +107,11 @@ public class A20200315粒子相椭圆画图 {
     public void 相空间变化() {
         //拿到 轨道 和 CCT
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         // 组合为 CCT
-        CctFactory.Cct cct = CctFactory.combineCct(dipoleCct, agCct);
+        Cct cct = CctFactory.combineCct(dipoleCct, agCct);
 
         // 拿到理想粒子
         RunningParticle idealProton = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -171,7 +172,7 @@ public class A20200315粒子相椭圆画图 {
                 .addStraitLine(1.0);
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -194,7 +195,7 @@ public class A20200315粒子相椭圆画图 {
                 numberPerWinding);
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

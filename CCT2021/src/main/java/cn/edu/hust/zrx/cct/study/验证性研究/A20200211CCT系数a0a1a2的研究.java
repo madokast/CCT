@@ -2,7 +2,9 @@ package cn.edu.hust.zrx.cct.study.验证性研究;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
@@ -11,14 +13,11 @@ import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
-import com.google.common.reflect.Reflection;
-import org.reflections.ReflectionUtils;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.invoke.VarHandle;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
@@ -29,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
 /**
  * Description
@@ -66,7 +63,7 @@ public class A20200211CCT系数a0a1a2的研究 {
         // 研究 a0 = -0.2 ~ 0.2
         BaseUtils.Python.linspaceStream(-0.2, 0.2, 100).parallel()
                 .forEach(a0 -> {
-                    CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(60 * MM, 75 * MM,
+                    Cct dipoleCct = CctFactory.createDipoleCct(60 * MM, 75 * MM,
                             0.75, 67.5, 135,
                             a0, 0, 0, 18000,
                             0.1, 0, 0, 0,
@@ -110,7 +107,7 @@ public class A20200211CCT系数a0a1a2的研究 {
         // 研究 a0 = -0.2 ~ 0.2
         BaseUtils.Python.linspaceStream(-0.2, 0.2, 100).parallel()
                 .forEach(a0 -> {
-                    CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(60 * MM, 75 * MM,
+                    Cct dipoleCct = CctFactory.createDipoleCct(60 * MM, 75 * MM,
                             0.75, 67.5, 135,
                             a0, 0, 0, 18000,
                             -a0, 0, 0, -18000,
@@ -148,7 +145,7 @@ public class A20200211CCT系数a0a1a2的研究 {
                 .parallel()
                 .mapToObj(
                         a1 -> {
-                            CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(60 * MM, 75 * MM,
+                            Cct dipoleCct = CctFactory.createDipoleCct(60 * MM, 75 * MM,
                                     0.75, 67.5, 135,
                                     0.0, a1, 0, 5000,
                                     0.0, 0, 0, 0.0,
@@ -190,7 +187,7 @@ public class A20200211CCT系数a0a1a2的研究 {
                 .addArcLine(0.75, false, 67.5)
                 .addStraitLine(1.0);
 
-        CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(60 * MM, 75 * MM,
+        Cct dipoleCct = CctFactory.createDipoleCct(60 * MM, 75 * MM,
                 0.75, 67.5, 135,
                 0.0, 0.1, 0, 5000,
                 0.0, -0.1, 0, -5000,
@@ -219,7 +216,7 @@ public class A20200211CCT系数a0a1a2的研究 {
                 .parallel()
                 .mapToObj(
                         a1 -> {
-                            CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(60 * MM, 75 * MM,
+                            Cct dipoleCct = CctFactory.createDipoleCct(60 * MM, 75 * MM,
                                     0.75, 67.5, 135,
                                     0.0, a1, 0, 5000,
                                     0.0, -a1, 0, -5000,
@@ -264,7 +261,7 @@ public class A20200211CCT系数a0a1a2的研究 {
                 .parallel()
                 .forEach(
                         a1 -> {
-                            CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(60 * MM, 60 * MM,
+                            Cct dipoleCct = CctFactory.createDipoleCct(60 * MM, 60 * MM,
                                     0.75, 67.5, 135,
                                     0.0, a1, 0, 5000,
                                     0.0, -a1, 0, -5000,
@@ -311,7 +308,7 @@ public class A20200211CCT系数a0a1a2的研究 {
         List<Point2> list孔径_二极场 = BaseUtils.Python.linspaceStream(10, 100, 100)
                 .parallel()
                 .mapToObj(smallR -> {
-                    CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(smallR * MM, 75 * MM,
+                    Cct dipoleCct = CctFactory.createDipoleCct(smallR * MM, 75 * MM,
                             0.75, 67.5, 135,
                             smallR/50*0.1, 0, 0, 1000,
                             0.0, 0.0, 0.0, 0.0,
@@ -340,11 +337,11 @@ public class A20200211CCT系数a0a1a2的研究 {
 
         boolean 查看初始点和方向 = false;
         if(查看初始点和方向){
-            CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(70 * MM, 79 * MM, 1.0, 67.5,
+            Cct dipoleCct = CctFactory.createDipoleCct(70 * MM, 79 * MM, 1.0, 67.5,
                     241, 0.00001, 0, 0, 5000,
                     0, 0, 0, 0, 360);
 
-            CctFactory.SoleLayerCct soleLayerCct = dipoleCct.get(1);
+            SoleLayerCct soleLayerCct = dipoleCct.get(1);
 
             Logger.getLogger().info("电流 = " + soleLayerCct.getI());
 
@@ -382,7 +379,7 @@ public class A20200211CCT系数a0a1a2的研究 {
         if(计算a0和倾斜角){
             BaseUtils.Python.linspaceStream(-0.1,0.1,20)
                     .forEach(a0->{
-                        CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(
+                        Cct dipoleCct = CctFactory.createDipoleCct(
                                 70 * MM, 79 * MM, 1.0,
                                 67.5, 241,
                                 a0, 0, 0, 5000,
@@ -390,7 +387,7 @@ public class A20200211CCT系数a0a1a2的研究 {
                                 360
                         );
 
-                        CctFactory.SoleLayerCct soleLayerCct = dipoleCct.get(0);
+                        SoleLayerCct soleLayerCct = dipoleCct.get(0);
 
                         Logger.getLogger().info("电流 = " + soleLayerCct.getI());
 
@@ -441,7 +438,7 @@ public class A20200211CCT系数a0a1a2的研究 {
         if(计算a1和倾斜角){
             BaseUtils.Python.linspaceStream(-0.1,0.1,20)
                     .forEach(a1->{
-                        CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(
+                        Cct dipoleCct = CctFactory.createDipoleCct(
                                 70 * MM, 79 * MM, 1.0,
                                 67.5, 241,
                                 0, a1, 0, 5000,
@@ -449,7 +446,7 @@ public class A20200211CCT系数a0a1a2的研究 {
                                 360
                         );
 
-                        CctFactory.SoleLayerCct soleLayerCct = dipoleCct.get(0);
+                        SoleLayerCct soleLayerCct = dipoleCct.get(0);
 
                         Logger.getLogger().info("电流 = " + soleLayerCct.getI());
 

@@ -2,7 +2,9 @@ package cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.particle.ParticleFactory;
@@ -57,9 +59,9 @@ public class 四极CCT建模225度0308 {
         //     * @return 单层CCT
 
         //r = 23.5mm 内层agcct
-        CctFactory.SoleLayerCct agCctInner0 = CctFactory.createSoleLaterCct(agCctSmallRInner, bigR, agCctAngle0, agCctWindingNumber0,
+        SoleLayerCct agCctInner0 = CctFactory.createSoleLaterCct(agCctSmallRInner, bigR, agCctAngle0, agCctWindingNumber0,
                 agCctA0Inner, agCctA1Inner , agCctA2Inner, agCctIInner, numberPerWinding, 0, 0, true);
-        CctFactory.SoleLayerCct agCctInner1 = CctFactory.createSoleLaterCct(agCctSmallRInner, bigR, agCctAngle1, agCctWindingNumber1,
+        SoleLayerCct agCctInner1 = CctFactory.createSoleLaterCct(agCctSmallRInner, bigR, agCctAngle1, agCctWindingNumber1,
                 agCctA0Inner, agCctA1Inner , agCctA2Inner, agCctIInner, numberPerWinding,
                 agCctWindingNumber0*2*Math.PI, BaseUtils.Converter.angleToRadian(agCctAngle0), false);
         //(agCctWindingNumber0+agCctWindingNumber1)*2* Math.PI
@@ -68,18 +70,18 @@ public class 四极CCT建模225度0308 {
 //        agCctInner0.plot3(Plot2d.RED_LINE);
 //        agCctInner1.plot3(Plot2d.BLUE_LINE);
 
-        CctFactory.Cct agCctInner = CctFactory.combineCct(agCctInner0.toCct(), agCctInner1.toCct());
+        Cct agCctInner = CctFactory.combineCct(agCctInner0.toCct(), agCctInner1.toCct());
         List<Point2> gradientAlongTrajectoryFastInner = agCctInner.magnetGradientAlongTrajectoryFast(trajectory, MM, 2 * MM);
         Plot2d.plot2(gradientAlongTrajectoryFastInner,Plot2d.RED_LINE);
 
         //r = 33.5mm 外层agcct
-        CctFactory.SoleLayerCct agCctOuter0 = CctFactory.createSoleLaterCct(agCctSmallROuter, bigR, agCctAngle0, agCctWindingNumber0,
+        SoleLayerCct agCctOuter0 = CctFactory.createSoleLaterCct(agCctSmallROuter, bigR, agCctAngle0, agCctWindingNumber0,
                 agCctA0Outer, agCctA1Outer , agCctA2Outer, agCctIOuter, numberPerWinding, 0, 0, true);
-        CctFactory.SoleLayerCct agCctOuter1 = CctFactory.createSoleLaterCct(agCctSmallROuter, bigR, agCctAngle1, agCctWindingNumber1,
+        SoleLayerCct agCctOuter1 = CctFactory.createSoleLaterCct(agCctSmallROuter, bigR, agCctAngle1, agCctWindingNumber1,
                 agCctA0Outer, agCctA1Outer , agCctA2Outer, agCctIOuter, numberPerWinding,
                 agCctWindingNumber0*2*Math.PI, BaseUtils.Converter.angleToRadian(agCctAngle0), false);
 
-        CctFactory.Cct agCctOuter = CctFactory.combineCct(agCctOuter0.toCct(), agCctOuter1.toCct());
+        Cct agCctOuter = CctFactory.combineCct(agCctOuter0.toCct(), agCctOuter1.toCct());
         List<Point2> gradientAlongTrajectoryFastOuter = agCctOuter.magnetGradientAlongTrajectoryFast(trajectory, MM, 2 * MM);
         Plot2d.plot2(gradientAlongTrajectoryFastOuter,Plot2d.YELLOW_LINE);
 
@@ -91,7 +93,7 @@ public class 四极CCT建模225度0308 {
         Plot2d.plot2(gradientSum, Plot2d.BLUE_LINE);
 
         // api 建模
-        CctFactory.Cct agCct = createAgCct();
+        Cct agCct = createAgCct();
         List<Point2> gradientAgCct = agCct.magnetGradientAlongTrajectoryFast(trajectory, MM, 2 * MM);
         Plot2d.plot2(gradientAgCct, Plot2d.BLACK_LINE);
 
@@ -132,7 +134,7 @@ public class 四极CCT建模225度0308 {
 //        // zeroPoint = 4618.911905272398
 
 
-        CctFactory.Cct agCct = createAgCct();
+        Cct agCct = createAgCct();
         List<Point2> point2s = agCct.magnetGradientAlongTrajectoryFast(trajectory, MM, 2 * MM);
         point2s = Point2.convert(point2s,
                 (x, y) -> BaseUtils.Converter.radianToAngle((x - 1) / bigR),
@@ -160,9 +162,9 @@ public class 四极CCT建模225度0308 {
 
 //    @run
     public void 二极CCT(){
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.SoleLayerCct soleLayerCct = dipoleCct.get(0);
-        CctFactory.SoleLayerCct soleLayerCct1 = dipoleCct.get(1);
+        Cct dipoleCct = createDipoleCct();
+        SoleLayerCct soleLayerCct = dipoleCct.get(0);
+        SoleLayerCct soleLayerCct1 = dipoleCct.get(1);
 
         soleLayerCct.printToCad("cct0");
         soleLayerCct1.printToCad("cct1");
@@ -171,10 +173,10 @@ public class 四极CCT建模225度0308 {
 //    @run
     public void tracking(){
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct agCct = createAgCct();
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
+        Cct dipoleCct = createDipoleCct();
 
-        CctFactory.Cct cct = CctFactory.combineCct(agCct, dipoleCct);
+        Cct cct = CctFactory.combineCct(agCct, dipoleCct);
 
         List<Point2> magnetBzAlongTrajectory = cct.magnetBzAlongTrajectory(trajectory, MM);
         List<Point2> gradientAlongTrajectoryFast = cct.magnetGradientAlongTrajectoryFast(trajectory, MM, 2 * MM);
@@ -206,7 +208,7 @@ public class 四极CCT建模225度0308 {
                 .addStraitLine(1.0);
     }
 
-    public CctFactory.Cct createAgCct() {
+    public Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -229,7 +231,7 @@ public class 四极CCT建模225度0308 {
                 numberPerWinding);
     }
 
-    public CctFactory.Cct createDipoleCct() {
+    public Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

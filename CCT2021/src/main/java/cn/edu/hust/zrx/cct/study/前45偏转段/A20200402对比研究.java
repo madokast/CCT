@@ -6,7 +6,10 @@ import cn.edu.hust.zrx.cct.advanced.FirstOrderTransportMatrixSolver;
 import cn.edu.hust.zrx.cct.advanced.PolynomialFitter;
 import cn.edu.hust.zrx.cct.advanced.TransportCode;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.Elements;
+import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -53,7 +56,7 @@ public class A20200402对比研究 {
     @run(1)
     public void 画图() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
         Trajectory trajectory = getTrajectory();
 
         trajectory.plot3d();
@@ -73,7 +76,7 @@ public class A20200402对比研究 {
     @run(2)
     public void 二极场分布() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
         Trajectory trajectory = getTrajectory();
 
         List<List<Point2>> collect = allCctIn45.getSoleLayerCctList()
@@ -112,7 +115,7 @@ public class A20200402对比研究 {
     @run(3)
     public void 四极场分布() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
         Trajectory trajectory = getTrajectory();
 
         List<List<Point2>> collect = allCctIn45.getSoleLayerCctList()
@@ -167,7 +170,7 @@ public class A20200402对比研究 {
     @run(4)
     public void 六极场分布() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
         Trajectory trajectory = getTrajectory();
 
         List<List<Point2>> collect = allCctIn45.getSoleLayerCctList()
@@ -209,7 +212,7 @@ public class A20200402对比研究 {
 
     @run(5)
     public void 单粒子跟踪() {
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
 
         RunningParticle rp0 = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -301,7 +304,7 @@ public class A20200402对比研究 {
 
     @run(7)
     public void ode() {
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
 
         TransportCode.TransMatrix transMatrix = FirstOrderTransportMatrixSolver.build()
@@ -353,7 +356,7 @@ public class A20200402对比研究 {
         List<PhaseSpaceParticle> pp0;
         List<PhaseSpaceParticle> pp1;
 
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
 
 
@@ -447,14 +450,14 @@ public class A20200402对比研究 {
 
     @run(10)
     public void 其他小测试(){
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
         Vector3 vector3 = dipoleCct.magnetAt(Point3.origin());
 
         Logger.getLogger().info("vector3 = " + vector3);
         //[7.268938341807897E-5, -3.654342079159943E-4, 0.0025707585428348875]
 
 
-        CctFactory.Cct agCct = createAgCct();
+        Cct agCct = createAgCct();
 
         Vector3 vector31 = agCct.magnetAt(Point3.origin());
 
@@ -677,7 +680,7 @@ public class A20200402对比研究 {
 
     //----------------- 粒子跟踪包络 ------------------------------
     private List<Point2> track粒子跟踪包络0(boolean xxPlane, double delta) {
-        CctFactory.MagnetAble cct = getElementsOfAll();
+        MagnetAble cct = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -875,7 +878,7 @@ public class A20200402对比研究 {
 
     //------------------ 色散 -----------------------
     private List<Point2> track色散函数R16() {
-        CctFactory.MagnetAble cct = getElementsOfAll();
+        MagnetAble cct = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
         double length = trajectory.getLength() + 0.1;
 
@@ -946,11 +949,11 @@ public class A20200402对比研究 {
 
     //---------------------elements------------------------------
 
-    private CctFactory.Elements getElementsOfAll() {
+    private Elements getElementsOfAll() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
         qs.forEach(elements::addElement);
         allCctIn45.getSoleLayerCctList().forEach(elements::addElement);
 
@@ -976,33 +979,33 @@ public class A20200402对比研究 {
         return List.of(QS11, QS2, QS12);
     }
 
-    private CctFactory.Cct getAllCctIn45() {
+    private Cct getAllCctIn45() {
         return CctFactory.combineCct(getCct1(), getCct2());
     }
 
-    private CctFactory.Cct getCct1() {
+    private Cct getCct1() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
 
         return CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
     }
 
-    private CctFactory.Cct getCct2() {
+    private Cct getCct2() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
 
-        CctFactory.Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
+        Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle1, agCctAngle0},
                 new int[]{agCctWindingNumber1, agCctWindingNumber0},
                 agCctA0Inner, agCctA1Inner, agCctA2Inner, -agCctIInner,
                 agCctA0Outer, agCctA1Outer, agCctA2Outer, -agCctIOuter,
                 numberPerWinding);
 
-        CctFactory.Cct cct = CctFactory.combineCct(agCct, dipoleCct);
+        Cct cct = CctFactory.combineCct(agCct, dipoleCct);
 
         //CctFactory.Cct cct1 = CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
@@ -1018,9 +1021,9 @@ public class A20200402对比研究 {
 
     }
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(agCct, dipoleCct);
     }
@@ -1041,7 +1044,7 @@ public class A20200402对比研究 {
 
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -1064,7 +1067,7 @@ public class A20200402对比研究 {
                 numberPerWinding);
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

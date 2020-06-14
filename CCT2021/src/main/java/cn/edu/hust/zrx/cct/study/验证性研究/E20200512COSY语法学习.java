@@ -3,10 +3,9 @@ package cn.edu.hust.zrx.cct.study.验证性研究;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.CosyArbitraryOrder;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
-import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
-import cn.edu.hust.zrx.cct.base.opticsMagnet.NoMagnet;
 import cn.edu.hust.zrx.cct.base.opticsMagnet.bendingMagnet.HardBendingMagnet;
 import cn.edu.hust.zrx.cct.base.particle.*;
 import cn.edu.hust.zrx.cct.base.point.Point2;
@@ -1077,7 +1076,7 @@ public class E20200512COSY语法学习 {
 
 
     private void tracking束流轨迹(
-            CctFactory.MagnetAble magnetAble, Trajectory trajectory, boolean xPlane, double delta, int number,
+            MagnetAble magnetAble, Trajectory trajectory, boolean xPlane, double delta, int number,
             boolean toMM_MRAD, String plotDescribing
     ) {
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -1151,7 +1150,7 @@ public class E20200512COSY语法学习 {
 
     private List<Point2> tracking相椭圆(double distance, boolean xPlane, double delta, int number,
                                      boolean moveToCenter, double scaleForParticle,
-                                     CctFactory.MagnetAble magnetAble, Trajectory trajectory) {
+                                     MagnetAble magnetAble, Trajectory trajectory) {
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 

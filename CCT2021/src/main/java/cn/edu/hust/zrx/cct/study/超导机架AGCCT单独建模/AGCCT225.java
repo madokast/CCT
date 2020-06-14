@@ -3,8 +3,10 @@ package cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.advanced.UniEquationSolver;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.cct.CctLine2;
+import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.particle.ParticleFactory;
@@ -113,7 +115,7 @@ public class AGCCT225 {
     //但是可惜 似乎粒子偏离了中平面？ 2020年2月12日
     public void 解方程找最佳电流() {
         Function<Double, Double> function = I -> {
-            CctFactory.Cct dipoleCct = CctFactory.createDipoleCct(
+            Cct dipoleCct = CctFactory.createDipoleCct(
                     dipoleCctSmallRInner, dipoleCctSmallROuter, bigR,
                     dipoleCctAngle, dipoleCctWindingNumber,
                     dipoleCctA0Inner, dipoleCctA1Inner, dipoleCctA2Inner, I * kA,
@@ -150,7 +152,7 @@ public class AGCCT225 {
 
 //        @run
     public void 中平面粒子轨迹() {
-        CctFactory.Cct dipoleCct = creatDipoleCct();
+        Cct dipoleCct = creatDipoleCct();
         Trajectory trajectory = getTrajectory();
 
         RunningParticle idealProtonAtTrajectory250MeV =
@@ -175,7 +177,7 @@ public class AGCCT225 {
     public void 简单磁场分析() {
         Trajectory trajectory = getTrajectory();
         trajectory.plot3d(1 * MM, Plot2d.BLACK_LINE);
-        CctFactory.Cct dipoleCct = creatDipoleCct();
+        Cct dipoleCct = creatDipoleCct();
         dipoleCct.plot3(Plot2d.YELLOW_LINE, Plot2d.RED_LINE);
 
         List<Point2> magnetBzAlongTrajectory = dipoleCct.magnetBzAlongTrajectory(trajectory, 1 * MM);
@@ -259,7 +261,7 @@ public class AGCCT225 {
 
     //    @run
     public void 轨道上右手侧磁场() {
-        CctFactory.Cct cct = creatDipoleCct();
+        Cct cct = creatDipoleCct();
         Trajectory trajectory = getTrajectory();
 
 //        List<Point2> Bx = cct.magnetAlongTrajectory(trajectory, 1 * MM)
@@ -299,9 +301,9 @@ public class AGCCT225 {
     //    @run
     public void 轨道上右手侧磁场_两层CCT分别绘图() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = creatDipoleCct();
-        CctFactory.SoleLayerCct innerCct = cct.get(0);
-        CctFactory.SoleLayerCct outerCct = cct.get(1);
+        Cct cct = creatDipoleCct();
+        SoleLayerCct innerCct = cct.get(0);
+        SoleLayerCct outerCct = cct.get(1);
 
         List<Point2> innerCctB垂直于束流方向和z方向 = innerCct.magnetAlongTrajectory(trajectory, 1 * MM)
                 .stream()
@@ -363,8 +365,8 @@ public class AGCCT225 {
                     //底层代码。代码封装一时好，深入底层要哭了
                     CctLine2 cctLine2 = new CctLine2(dipoleCctSmallRInner, bigR, dipoleCctAngle, dipoleCctWindingNumber,
                             dipoleCctA0Inner, dipoleCctA1Inner, dipoleCctA2Inner, theta, 0.0, true);
-                    CctFactory.SoleLayerCct innerCct =
-                            new CctFactory.SoleLayerCct(cctLine2.disperseToPoint3(numberPerWinding), dipoleCctIInner);
+                    SoleLayerCct innerCct =
+                            new SoleLayerCct(cctLine2.disperseToPoint3(numberPerWinding), dipoleCctIInner);
                     List<Point2> inner右手侧 = innerCct.magnetAlongTrajectory(trajectory, 1 * MM)
                             .stream()
                             .map(point3WithDistance -> {
@@ -426,8 +428,8 @@ public class AGCCT225 {
                     //底层代码。代码封装一时好，深入底层要哭了
                     CctLine2 cctLine2 = new CctLine2(dipoleCctSmallROuter, bigR, dipoleCctAngle, dipoleCctWindingNumber,
                             dipoleCctA0Outer, dipoleCctA1Outer, dipoleCctA2Outer, theta, 0.0, true);
-                    CctFactory.SoleLayerCct innerCct =
-                            new CctFactory.SoleLayerCct(cctLine2.disperseToPoint3(numberPerWinding), dipoleCctIOuter);
+                    SoleLayerCct innerCct =
+                            new SoleLayerCct(cctLine2.disperseToPoint3(numberPerWinding), dipoleCctIOuter);
                     List<Point2> inner右手侧 = innerCct.magnetAlongTrajectory(trajectory, 1 * MM)
                             .stream()
                             .map(point3WithDistance -> {
@@ -483,7 +485,7 @@ public class AGCCT225 {
                 .addStraitLine(1.0);
     }
 
-    public CctFactory.Cct creatDipoleCct() {
+    public Cct creatDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber,
@@ -493,7 +495,7 @@ public class AGCCT225 {
         );
     }
 
-    public CctFactory.Cct createAgCct() {
+    public Cct createAgCct() {
         return null;
     }
 

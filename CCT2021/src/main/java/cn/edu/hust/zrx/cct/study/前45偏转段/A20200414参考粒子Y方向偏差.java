@@ -4,7 +4,7 @@ import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.COSY;
 import cn.edu.hust.zrx.cct.advanced.PolynomialFitter;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
-import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.*;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.particle.*;
@@ -47,7 +47,7 @@ public class A20200414参考粒子Y方向偏差 {
     public void 默认情况下左手侧磁场() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         List<Point2> leftHandMagnetAlongTrajectory = elementsOfAll.leftHandMagnetAlongTrajectory(trajectory, MM);
 
@@ -64,11 +64,11 @@ public class A20200414参考粒子Y方向偏差 {
 
     @run(2)
     public void 验证二极CCT绕线可调() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
 
-        CctFactory.Cct agCct = createAgCct();
+        Cct agCct = createAgCct();
 
-        CctFactory.Cct cct = CctFactory.combineCct(dipoleCct, agCct);
+        Cct cct = CctFactory.combineCct(dipoleCct, agCct);
 
         cct = CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
@@ -86,9 +86,9 @@ public class A20200414参考粒子Y方向偏差 {
         Trajectory trajectory = getTrajectory();
 
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
-        CctFactory.Cct cct2 = getCct2();
+        Cct cct2 = getCct2();
 
         cct1.plot3();
 
@@ -105,7 +105,7 @@ public class A20200414参考粒子Y方向偏差 {
     public void 验证() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         List<Point2> leftHandMagnetAlongTrajectory = elementsOfAll.leftHandMagnetAlongTrajectory(trajectory, MM);
 
@@ -117,7 +117,7 @@ public class A20200414参考粒子Y方向偏差 {
     @run(7)
     public void 二极场分布() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
         Trajectory trajectory = getTrajectory();
 
         List<List<Point2>> collect = allCctIn45.getSoleLayerCctList()
@@ -156,7 +156,7 @@ public class A20200414参考粒子Y方向偏差 {
     @run(8)
     public void 六极场分布() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
         Trajectory trajectory = getTrajectory();
 
         List<List<Point2>> collect = allCctIn45.getSoleLayerCctList()
@@ -257,7 +257,7 @@ public class A20200414参考粒子Y方向偏差 {
 
     @run(value = 10, code = "20200414solePtry")
     public void 跑一个单粒子试一试() {
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         Trajectory trajectory = getTrajectory();
 
@@ -302,7 +302,7 @@ public class A20200414参考粒子Y方向偏差 {
                      */
                     agCctStartingθOuter = radian;
 
-                    CctFactory.Elements elementsOfAll = getElementsOfAll();
+                    Elements elementsOfAll = getElementsOfAll();
 
                     return BaseUtils.Content.BiContent.create(ang, elementsOfAll);
                 })
@@ -311,7 +311,7 @@ public class A20200414参考粒子Y方向偏差 {
                 .parallel()
                 .map(bi -> {
                     Double r = bi.getT1();
-                    CctFactory.MagnetAble elements = bi.getT2();
+                    MagnetAble elements = bi.getT2();
 
                     List<Point2> leftHandMagnetAlongTrajectory = elements.leftHandMagnetAlongTrajectory(trajectory, MM);
 
@@ -355,7 +355,7 @@ public class A20200414参考粒子Y方向偏差 {
 
             Trajectory trajectory = getTrajectory();
 
-            CctFactory.Elements elementsOfAll = getElementsOfAll();
+            Elements elementsOfAll = getElementsOfAll();
 
             List<Point2> leftHandMagnetAlongTrajectory = elementsOfAll.leftHandMagnetAlongTrajectory(trajectory, MM);
 
@@ -372,7 +372,7 @@ public class A20200414参考粒子Y方向偏差 {
 
             Trajectory trajectory = getTrajectory();
 
-            CctFactory.Elements elementsOfAll = getElementsOfAll();
+            Elements elementsOfAll = getElementsOfAll();
 
             List<Point2> leftHandMagnetAlongTrajectory = elementsOfAll.leftHandMagnetAlongTrajectory(trajectory, MM);
 
@@ -389,7 +389,7 @@ public class A20200414参考粒子Y方向偏差 {
 
             Trajectory trajectory = getTrajectory();
 
-            CctFactory.Elements elementsOfAll = getElementsOfAll();
+            Elements elementsOfAll = getElementsOfAll();
 
             List<Point2> leftHandMagnetAlongTrajectory = elementsOfAll.leftHandMagnetAlongTrajectory(trajectory, MM);
 
@@ -406,7 +406,7 @@ public class A20200414参考粒子Y方向偏差 {
 
             Trajectory trajectory = getTrajectory();
 
-            CctFactory.Elements elementsOfAll = getElementsOfAll();
+            Elements elementsOfAll = getElementsOfAll();
 
             List<Point2> leftHandMagnetAlongTrajectory = elementsOfAll.leftHandMagnetAlongTrajectory(trajectory, MM);
 
@@ -446,7 +446,7 @@ public class A20200414参考粒子Y方向偏差 {
                      */
                     dipoleCctStartingθOuter = radian;
 
-                    CctFactory.Elements elementsOfAll = getElementsOfAll();
+                    Elements elementsOfAll = getElementsOfAll();
 
                     return BaseUtils.Content.BiContent.create(ang, elementsOfAll);
                 })
@@ -455,7 +455,7 @@ public class A20200414参考粒子Y方向偏差 {
                 .parallel()
                 .map(bi -> {
                     Double r = bi.getT1();
-                    CctFactory.MagnetAble elements = bi.getT2();
+                    MagnetAble elements = bi.getT2();
 
                     List<Point2> leftHandMagnetAlongTrajectory = elements.leftHandMagnetAlongTrajectory(trajectory, MM);
 
@@ -487,7 +487,7 @@ public class A20200414参考粒子Y方向偏差 {
 
     @run(-100)
     public void getCct1get() {
-        CctFactory.SoleLayerCct soleLayerCct = getCct1().get(5);
+        SoleLayerCct soleLayerCct = getCct1().get(5);
         Trajectory trajectory = getTrajectory();
 
         soleLayerCct.plot3(Plot2d.BLUE_LINE);
@@ -747,7 +747,7 @@ public class A20200414参考粒子Y方向偏差 {
 
     //----------------- 粒子跟踪包络 ------------------------------
     private List<Point2> track粒子跟踪包络0(boolean xxPlane, double delta) {
-        CctFactory.MagnetAble cct = getElementsOfAll();
+        MagnetAble cct = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -945,7 +945,7 @@ public class A20200414参考粒子Y方向偏差 {
 
     //------------------ 色散 -----------------------
     private List<Point2> track色散函数R16() {
-        CctFactory.MagnetAble cct = getElementsOfAll();
+        MagnetAble cct = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
         double length = trajectory.getLength() + 0.1;
 
@@ -1017,7 +1017,7 @@ public class A20200414参考粒子Y方向偏差 {
     // ------------------   调整 初始绕线 ------------
 
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,
@@ -1029,7 +1029,7 @@ public class A20200414参考粒子Y方向偏差 {
         );
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         return CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle0, agCctAngle1},
                 new int[]{agCctWindingNumber0, agCctWindingNumber1},
@@ -1043,11 +1043,11 @@ public class A20200414参考粒子Y方向偏差 {
 
     //---------------------elements 初始绕线位置不可调整------------------------------
 
-    private CctFactory.Elements getElementsOfAll() {
+    private Elements getElementsOfAll() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
         qs.forEach(elements::addElement);
         allCctIn45.getSoleLayerCctList().forEach(elements::addElement);
 
@@ -1073,26 +1073,26 @@ public class A20200414参考粒子Y方向偏差 {
         return List.of(QS11, QS2, QS12);
     }
 
-    private CctFactory.Cct getAllCctIn45() {
+    private Cct getAllCctIn45() {
         return CctFactory.combineCct(getCct1(), getCct2());
     }
 
-    private CctFactory.Cct getCct1() {
+    private Cct getCct1() {
 
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         return CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
     }
 
-    private CctFactory.Cct getCct2() {
+    private Cct getCct2() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
         // 关于面对称
 
-        CctFactory.Cct cct2 = CctFactory.symmetryInXYPlaneByLine(cct1, trajectory.midPoint(),
+        Cct cct2 = CctFactory.symmetryInXYPlaneByLine(cct1, trajectory.midPoint(),
                 trajectory.directAt(trajectory.getLength() / 2).rotateSelf(BaseUtils.Converter.angleToRadian(90)));
 
         return cct2;
@@ -1134,9 +1134,9 @@ public class A20200414参考粒子Y方向偏差 {
 //        return CctFactory.combineCct(agCct, dipoleCct);
     }
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(agCct, dipoleCct);
     }

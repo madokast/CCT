@@ -3,6 +3,7 @@ package cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.advanced.COSY;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -181,7 +182,7 @@ public class A0321包络计算_225CCT {
 
 
     private List<Point2> track粒子跟踪包络0(boolean xxPlane, double delta) {
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
         Trajectory trajectory = getTrajectory();
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -570,9 +571,9 @@ public class A0321包络计算_225CCT {
 
     //---------------------------------------------------------
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(dipoleCct, agCct);
     }
@@ -584,7 +585,7 @@ public class A0321包络计算_225CCT {
                 .addStraitLine(0.5);
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -607,7 +608,7 @@ public class A0321包络计算_225CCT {
                 numberPerWinding);
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

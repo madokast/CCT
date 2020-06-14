@@ -2,6 +2,7 @@ package cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
@@ -42,7 +43,7 @@ public class B20200402完整前45度偏转段模型 {
 
     @run(1)
     public void 磁场分析() {
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
 //        CctFactory.Cct allCctIn45 = getCct2();
 
         Logger.getLogger().info("allCctIn45.cctLayerNumber() = " + allCctIn45.cctLayerNumber());
@@ -97,7 +98,7 @@ public class B20200402完整前45度偏转段模型 {
 
     @run(-2)
     public void 粒子跟踪() {
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
         Trajectory trajectory = getTrajectory();
 
         RunningParticle rp = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -132,7 +133,7 @@ public class B20200402完整前45度偏转段模型 {
 
     @run(value = 3,code = "20200402003")
     public void 画图() {
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
 
         List<QsHardPlaneMagnet> qs = get3QS();
         Trajectory trajectory = getTrajectory();
@@ -192,14 +193,14 @@ public class B20200402完整前45度偏转段模型 {
     }
 
 
-    private CctFactory.Cct getAllCctIn45() {
+    private Cct getAllCctIn45() {
         return CctFactory.combineCct(getCct1(), getCct2());
     }
 
-    private CctFactory.Cct getCct1() {
+    private Cct getCct1() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         //        Point2 center = Arcs.center(
 //                trajectory.pointAt(DL1 + CCT_LENGTH + BETWEEN_CCT225),
@@ -215,10 +216,10 @@ public class B20200402完整前45度偏转段模型 {
     }
 
 
-    private CctFactory.Cct getCct2() {
+    private Cct getCct2() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -233,14 +234,14 @@ public class B20200402完整前45度偏转段模型 {
         //                                  double a2SextupleOuters,
         //                                  double IOuter,
         //                                  int numberPerWinding)
-        CctFactory.Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
+        Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle1, agCctAngle0},
                 new int[]{agCctWindingNumber1, agCctWindingNumber0},
                 agCctA0Inner, agCctA1Inner, agCctA2Inner, -agCctIInner,
                 agCctA0Outer, agCctA1Outer, agCctA2Outer, -agCctIOuter,
                 numberPerWinding);
 
-        CctFactory.Cct cct = CctFactory.combineCct( agCct,dipoleCct);
+        Cct cct = CctFactory.combineCct( agCct,dipoleCct);
 
         //CctFactory.Cct cct1 = CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
@@ -259,9 +260,9 @@ public class B20200402完整前45度偏转段模型 {
 
     //---------------------------------------------------------
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(agCct, dipoleCct);
     }
@@ -282,7 +283,7 @@ public class B20200402完整前45度偏转段模型 {
 
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -305,7 +306,7 @@ public class B20200402完整前45度偏转段模型 {
                 numberPerWinding);
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

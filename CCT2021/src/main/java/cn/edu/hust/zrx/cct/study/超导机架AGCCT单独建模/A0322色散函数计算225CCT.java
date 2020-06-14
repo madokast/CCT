@@ -5,6 +5,7 @@ import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.advanced.COSY;
 import cn.edu.hust.zrx.cct.advanced.MathFunction;
 import cn.edu.hust.zrx.cct.advanced.PolynomialFitter;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -88,7 +89,7 @@ public class A0322色散函数计算225CCT {
 
     @run(-100)
     public List<Point2> track色散函数R16() {
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
         Trajectory trajectory = getTrajectory();
         double length = trajectory.getLength() + 0.1;
 
@@ -130,7 +131,7 @@ public class A0322色散函数计算225CCT {
 
     @run(-10000)
     public void track色散函数0() {
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
         Trajectory trajectory = getTrajectory();
         double length = trajectory.getLength();
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -436,9 +437,9 @@ public class A0322色散函数计算225CCT {
 
     //---------------------------------------------------------
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(dipoleCct, agCct);
     }
@@ -450,7 +451,7 @@ public class A0322色散函数计算225CCT {
                 .addStraitLine(0.5);
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -473,7 +474,7 @@ public class A0322色散函数计算225CCT {
                 numberPerWinding);
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

@@ -2,14 +2,13 @@ package cn.edu.hust.zrx.cct.study.验证性研究;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
-import cn.edu.hust.zrx.cct.base.particle.ParticleFactory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
-import cn.edu.hust.zrx.cct.study.前45偏转段.A20200416强行消除左手磁场;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -40,7 +39,7 @@ public class C20200416多股线模型 {
         Trajectory trajectory = getTrajectory();
 
 
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
 
 
         List<Point2> list = dipoleCct.magnetBzAlongTrajectory(trajectory, MM);
@@ -56,7 +55,7 @@ public class C20200416多股线模型 {
 
     @run(2)
     public void 多股线dipole() {
-        CctFactory.Cct dipoleCctIn = CctFactory.createDipoleCct(
+        Cct dipoleCctIn = CctFactory.createDipoleCct(
                 dipoleCctSmallRInner - MM, dipoleCctSmallROuter - MM, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber,
                 -(dipoleCctSmallRInner - MM) * Math.sqrt(3), dipoleCctA1Inner, dipoleCctA2Inner, dipoleCctIInner / 6.0,
@@ -64,7 +63,7 @@ public class C20200416多股线模型 {
                 numberPerWinding
         );
 
-        CctFactory.Cct dipoleCctOut = CctFactory.createDipoleCct(
+        Cct dipoleCctOut = CctFactory.createDipoleCct(
                 dipoleCctSmallRInner + MM, dipoleCctSmallROuter + MM, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber,
                 -(dipoleCctSmallRInner + MM) * Math.sqrt(3), dipoleCctA1Inner, dipoleCctA2Inner, dipoleCctIInner / 6.0,
@@ -72,16 +71,16 @@ public class C20200416多股线模型 {
                 numberPerWinding
         );
 
-        CctFactory.Cct cctInPlus = CctFactory.rotateInXYPlane(dipoleCctIn, Point2.origin(), 2 * MM / bigR);
-        CctFactory.Cct cctInSub = CctFactory.rotateInXYPlane(dipoleCctIn, Point2.origin(), -2 * MM / bigR);
+        Cct cctInPlus = CctFactory.rotateInXYPlane(dipoleCctIn, Point2.origin(), 2 * MM / bigR);
+        Cct cctInSub = CctFactory.rotateInXYPlane(dipoleCctIn, Point2.origin(), -2 * MM / bigR);
 
-        CctFactory.Cct cctOutPlus = CctFactory.rotateInXYPlane(dipoleCctOut, Point2.origin(), 2 * MM / bigR);
-        CctFactory.Cct cctOutSub = CctFactory.rotateInXYPlane(dipoleCctOut, Point2.origin(), -2 * MM / bigR);
+        Cct cctOutPlus = CctFactory.rotateInXYPlane(dipoleCctOut, Point2.origin(), 2 * MM / bigR);
+        Cct cctOutSub = CctFactory.rotateInXYPlane(dipoleCctOut, Point2.origin(), -2 * MM / bigR);
 
-        CctFactory.Cct cct = CctFactory.combineCct(dipoleCctIn, dipoleCctOut, cctInPlus, cctInSub, cctOutPlus, cctOutSub);
+        Cct cct = CctFactory.combineCct(dipoleCctIn, dipoleCctOut, cctInPlus, cctInSub, cctOutPlus, cctOutSub);
 
 
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
 
 
         Trajectory trajectory = getTrajectory();
@@ -127,7 +126,7 @@ public class C20200416多股线模型 {
                 .addStraitLine(1.0);
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         return CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, bigR,
                 new double[]{agCctAngle0, agCctAngle1},
                 new int[]{agCctWindingNumber0, agCctWindingNumber1},
@@ -137,7 +136,7 @@ public class C20200416多股线模型 {
         );
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

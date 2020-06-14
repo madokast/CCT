@@ -3,6 +3,7 @@ package cn.edu.hust.zrx.cct.study.小论文画图三月三日;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.MathFunction;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
@@ -21,7 +22,6 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -44,7 +44,7 @@ public class 六十七点五三段AGCCT {
     //    @run
     public void 二极CCT() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
 
         List<Point2> magnetBzAlongTrajectory = dipoleCct.magnetBzAlongTrajectory(trajectory, 1 * MM);
         magnetBzAlongTrajectory = Point2.convert(
@@ -65,7 +65,7 @@ public class 六十七点五三段AGCCT {
     //    @run
     public void 四极AgCct() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct agCct = createAgCct();
+        Cct agCct = createAgCct();
 
         BaseUtils.Async async = new BaseUtils.Async();
         BaseUtils.Timer timer = new BaseUtils.Timer();
@@ -88,13 +88,13 @@ public class 六十七点五三段AGCCT {
             //只有内层，外层电流为 0
             double temp = this.agCctIOuter;
             this.agCctIOuter = 0;
-            CctFactory.Cct agCctInnerOnly = createAgCct();
+            Cct agCctInnerOnly = createAgCct();
             this.agCctIOuter = temp;
 
             //只有外层，内层电流 0
             temp = this.agCctIInner;
             this.agCctIInner = 0;
-            CctFactory.Cct agCctOuterOnly = createAgCct();
+            Cct agCctOuterOnly = createAgCct();
             this.agCctIInner = temp;
 
             async.execute(() -> {
@@ -126,7 +126,7 @@ public class 六十七点五三段AGCCT {
             //验证一下全层 对不对
             async.execute(() -> {
                 timer.printPeriodAfterInitial(Logger.getLogger());
-                CctFactory.Cct agCctBoth = createAgCct();
+                Cct agCctBoth = createAgCct();
                 Vector3 agCctBothOrigin = agCctBoth.magnetAt(Point3.origin());
                 Vector3 agCctOrigin = agCct.magnetAt(Point3.origin());
                 Logger.getLogger().info("agCctBothOrigin = " + agCctBothOrigin);
@@ -168,8 +168,8 @@ public class 六十七点五三段AGCCT {
         Trajectory trajectory = getTrajectory();
         trajectory.plot3d();
 
-        CctFactory.Cct agCct = createAgCct();
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
+        Cct dipoleCct = createDipoleCct();
 
         Plot2d.plot2(
                 Point2.convert(dipoleCct.magnetBzAlongTrajectory(trajectory, delta),
@@ -186,7 +186,7 @@ public class 六十七点五三段AGCCT {
                 Plot2d.BLUE_LINE);
         timer.printPeriodAfterInitial(Logger.getLogger());
 
-        CctFactory.Cct combineCct = CctFactory.combineCct(dipoleCct, agCct);
+        Cct combineCct = CctFactory.combineCct(dipoleCct, agCct);
 
         Plot2d.plot2(
                 Point2.convert(combineCct.magnetBzAlongTrajectory(trajectory, delta),
@@ -230,8 +230,8 @@ public class 六十七点五三段AGCCT {
         Trajectory trajectory = getTrajectory();
         trajectory.plot3d();
 
-        CctFactory.Cct agCct = createAgCct();
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
+        Cct dipoleCct = createDipoleCct();
 
         Plot2d.plot2(
                 Point2.convert(dipoleCct.magnetGradientAlongTrajectoryFast(trajectory, delta, 5 * MM),
@@ -248,7 +248,7 @@ public class 六十七点五三段AGCCT {
                 Plot2d.BLUE_LINE);
         timer.printPeriodAfterInitial(Logger.getLogger());
 
-        CctFactory.Cct combineCct = CctFactory.combineCct(dipoleCct, agCct);
+        Cct combineCct = CctFactory.combineCct(dipoleCct, agCct);
 
         Plot2d.plot2(
                 Point2.convert(combineCct.magnetGradientAlongTrajectoryFast(trajectory, delta, 5 * MM),
@@ -291,7 +291,7 @@ public class 六十七点五三段AGCCT {
     //    @run
     public void 解决四极CCT偏心问题画图() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct agCct = createAgCct();
+        Cct agCct = createAgCct();
 
         //二极场分布
 //        List<Point2> magnetBzAlongTrajectory = agCct.magnetBzAlongTrajectory(trajectory, 1 * MM);
@@ -348,7 +348,7 @@ public class 六十七点五三段AGCCT {
     @run // すごくきれい
     public void NC磁铁和CCT对比() {
 
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
 
         Trajectory trajectory = getTrajectory();
 
@@ -469,7 +469,7 @@ public class 六十七点五三段AGCCT {
                 .addStraitLine(1.0);
     }
 
-    public CctFactory.Cct createDipoleCct() {
+    public Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber,
@@ -479,7 +479,7 @@ public class 六十七点五三段AGCCT {
         );
     }
 
-    public CctFactory.Cct createAgCct() {
+    public Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,

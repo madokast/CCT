@@ -3,6 +3,7 @@ package cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.advanced.COSY;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -66,7 +67,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(value = 1, code = "A0320-0321-1720")
     public void 起始处对比XXP平面() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         // XX or YY
         List<PhaseSpaceParticle> phaseStart = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInXXpPlane(
@@ -125,7 +126,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(value = 2, code = "A0320-0321-1652")
     public void 入口处对比XXP平面() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         // XX or YY
         List<PhaseSpaceParticle> phaseStart = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInXXpPlane(
@@ -211,7 +212,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(value = 3, code = "A0320-0321-1720")
     public void 第二CCT处对比XXP平面() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         // XX or YY
         List<PhaseSpaceParticle> phaseStart = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInXXpPlane(
@@ -304,7 +305,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(value = 4, code = "A0320-0321-2027")
     public void 出口处对比XXP平面() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         // XX or YY
         List<PhaseSpaceParticle> phaseStart = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInXXpPlane(
@@ -397,7 +398,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(value = 5, code = "A0320-0321-2033")
     public void 终点对比XXP平面() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         // XX or YY
         List<PhaseSpaceParticle> phaseStart = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInXXpPlane(
@@ -491,7 +492,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(value = 11, code = "A0320-0321-2033")
     public void 终点对比XXP平面_动量分散() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         double delta = -5*PRESENT;
 
@@ -566,7 +567,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(value = 6, code = "A0320-0321-1720")
     public void 起始处对比yyP平面() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         // XX or YY
         List<PhaseSpaceParticle> phaseStart = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInYYpPlane(
@@ -625,7 +626,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(value = 7, code = "A0320-0321-1652")
     public void 入口处对比yyP平面() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         // XX or YY
         List<PhaseSpaceParticle> phaseStart = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInYYpPlane(
@@ -711,7 +712,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(value = 8, code = "A0320-0321-1720")
     public void 第二CCT处对比yyP平面() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         // XX or YY
         List<PhaseSpaceParticle> phaseStart = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInYYpPlane(
@@ -804,7 +805,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(value = 9, code = "A0320-0321-2027")
     public void 出口处对比yyP平面() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         // XX or YY
         List<PhaseSpaceParticle> phaseStart = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInYYpPlane(
@@ -897,7 +898,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(value = 10, code = "A0320-0321-2033")
     public void 终点对比yyP平面() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         // XX or YY
         List<PhaseSpaceParticle> phaseStart = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInYYpPlane(
@@ -1140,7 +1141,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
 
     @run(-1000)
     public void x变化() {
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
         Trajectory trajectory = getTrajectory();
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 
@@ -1201,7 +1202,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(-1)
     public void 回顾二极CCT四极场() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
 
         List<Point2> list = dipoleCct.magnetGradientAlongTrajectoryFast(trajectory, MM, 3 * MM);
 
@@ -1213,7 +1214,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(-2)
     public void 简单单粒子跟踪() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 
@@ -1229,8 +1230,8 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
 
     @run(-3)
     public void 悄悄试一试不同动量的粒子() {
-        CctFactory.Cct cct = getCct();
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct cct = getCct();
+        Cct dipoleCct = createDipoleCct();
         Trajectory trajectory = getTrajectory();
 
         double dpp0 = 5 * PRESENT;
@@ -1264,8 +1265,8 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(-4) //奇怪啊
     public void 有没有四极场CCT没有区别吗() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct cct = getCct();
+        Cct dipoleCct = createDipoleCct();
+        Cct cct = getCct();
 
         RunningParticle p = ParticleFactory.createIdealProtonAtTrajectory(trajectory, 220);
         RunningParticle p2 = ParticleFactory.createIdealProtonAtTrajectory(trajectory, 220);
@@ -1284,7 +1285,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
 
     @run(-15)
     public void 相椭圆() {
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
         Trajectory trajectory = getTrajectory();
         trajectory.plot3d();
 
@@ -1523,7 +1524,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(-16) //完成
     public void 修改粒子run方法让他跑的距离更准确() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         double trajectoryLength = trajectory.getLength();
 
@@ -1540,8 +1541,8 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
     @run(-10000)
     public void 先画个图() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct agCct = createAgCct();
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
+        Cct dipoleCct = createDipoleCct();
 
         trajectory.plot3d();
 
@@ -1716,9 +1717,9 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
 
     //---------------------------------------------------------
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(dipoleCct, agCct);
     }
@@ -1730,7 +1731,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
                 .addStraitLine(0.5);
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -1753,7 +1754,7 @@ public class A0320粒子跟踪_在修复二极CCT四极场和四极CCT二极场�
                 numberPerWinding);
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

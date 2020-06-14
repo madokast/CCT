@@ -2,7 +2,9 @@ package cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
@@ -11,9 +13,7 @@ import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
-import cn.hutool.core.collection.CollUtil;
 
-import java.awt.geom.Point2D;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -50,7 +50,7 @@ public class 左手侧磁场分析20200220 {
         ArrayList<Point2> data = BaseUtils.Python.linspaceStream(10, 90, switcher.getSize())
                 .parallel()
                 .mapToObj(smallR -> {
-                    CctFactory.SoleLayerCct soleLaterCctInner = CctFactory.createSoleLaterCct(smallR * MM, bigR,
+                    SoleLayerCct soleLaterCctInner = CctFactory.createSoleLaterCct(smallR * MM, bigR,
                             dipoleCctAngle, dipoleCctWindingNumber, K * (smallR * MM), 0.0,
                             0.0, dipoleCctIInner, numberPerWinding,
                             0.0, 0.0, true
@@ -123,13 +123,13 @@ public class 左手侧磁场分析20200220 {
 
     //    @run
     public void 存在对称性吗_存在的呢() {
-        CctFactory.SoleLayerCct soleLaterCctInner = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, bigR,
+        SoleLayerCct soleLaterCctInner = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Inner, 0.0,
                 0.0, dipoleCctIInner, numberPerWinding,
                 0.0, 0.0, true
         );
 
-        CctFactory.SoleLayerCct soleLaterCctOuter = CctFactory.createSoleLaterCct(
+        SoleLayerCct soleLaterCctOuter = CctFactory.createSoleLaterCct(
                 /*这里外层的孔径也和内层相同*/dipoleCctSmallRInner, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber, /*这里外层的a0也和内层相同*/dipoleCctA0Inner, 0.0,
                 0.0, dipoleCctIOuter, numberPerWinding,
@@ -183,7 +183,7 @@ public class 左手侧磁场分析20200220 {
                 .parallel()
                 .map(BaseUtils.Converter::angleToRadian)
                 .mapToObj(startPhi -> {
-                    CctFactory.SoleLayerCct soleLaterCctInner = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, bigR,
+                    SoleLayerCct soleLaterCctInner = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, bigR,
                             dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Inner, dipoleCctA1Inner,
                             dipoleCctA2Inner, dipoleCctIInner, numberPerWinding,
                             startPhi, 0.0, true);
@@ -243,7 +243,7 @@ public class 左手侧磁场分析20200220 {
 
                     //单CCT层方法
                     if (true) {
-                        CctFactory.SoleLayerCct soleLaterCctInner = CctFactory.createSoleLaterCct(smallR, bigR,
+                        SoleLayerCct soleLaterCctInner = CctFactory.createSoleLaterCct(smallR, bigR,
                                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Inner, dipoleCctA1Inner,
                                 dipoleCctA2Inner, dipoleCctIInner, numberPerWinding);
                         //Bz方向磁场
@@ -270,7 +270,7 @@ public class 左手侧磁场分析20200220 {
                     if (false) {
                         dipoleCctIOuter = 0;
                         dipoleCctSmallRInner = smallR;
-                        CctFactory.Cct dipoleCct = createDipoleCct();
+                        Cct dipoleCct = createDipoleCct();
                         point2s = dipoleCct.magnetBzAlongTrajectory(trajectory, 1 * MM);
                     }
 
@@ -302,7 +302,7 @@ public class 左手侧磁场分析20200220 {
     //    @run//2020年2月20日 验证成功
     public void 验证性分析() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
         //        return CctFactory.createDipoleCct(
         //                dipoleCctSmallRInner, dipoleCctSmallROuter, bigR,
         //                dipoleCctAngle, dipoleCctWindingNumber,
@@ -316,10 +316,10 @@ public class 左手侧磁场分析20200220 {
         Plot2d.plot2(magnetBzAlongTrajectory, Plot2d.RED_LINE);
 
         //单层分开建模
-        CctFactory.SoleLayerCct soleLaterCctInner = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, bigR,
+        SoleLayerCct soleLaterCctInner = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Inner, dipoleCctA1Inner,
                 dipoleCctA2Inner, dipoleCctIInner, numberPerWinding);
-        CctFactory.SoleLayerCct soleLaterCctOuter = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, bigR,
+        SoleLayerCct soleLaterCctOuter = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Outer, dipoleCctA1Outer,
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding);
 
@@ -346,7 +346,7 @@ public class 左手侧磁场分析20200220 {
                 .addStraitLine(1.0);
     }
 
-    public CctFactory.Cct createDipoleCct() {
+    public Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, bigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

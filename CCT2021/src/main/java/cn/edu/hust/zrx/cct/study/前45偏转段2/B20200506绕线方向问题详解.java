@@ -3,7 +3,10 @@ package cn.edu.hust.zrx.cct.study.前45偏转段2;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.*;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.Elements;
+import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -122,7 +125,7 @@ public class B20200506绕线方向问题详解 {
     public void 验证二极CCT构造方法正确() {
         Trajectory testTrajectory = createTestTrajectory();
 
-        CctFactory.Cct dipoleCct = createDipoleCct(
+        Cct dipoleCct = createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,
                 dipoleCctA0Inner, dipoleCctA1Inner, dipoleCctA2Inner, dipoleCctIInner,
@@ -183,7 +186,7 @@ public class B20200506绕线方向问题详解 {
     public void 创建绕线方向相反的四极CCT并验证() {
         Trajectory testTrajectory = createTestTrajectory();
 
-        CctFactory.Cct agCct = createAgCct(
+        Cct agCct = createAgCct(
                 agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle0, agCctAngle1},
                 new int[]{agCctWindingNumber0, agCctWindingNumber1},
@@ -195,7 +198,7 @@ public class B20200506绕线方向问题详解 {
                 agCctDirectθInner, agCctDirectθOuter
         );
 
-        CctFactory.Cct agCctInner = createAgCct(
+        Cct agCctInner = createAgCct(
                 agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle0, agCctAngle1},
                 new int[]{agCctWindingNumber0, agCctWindingNumber1},
@@ -207,7 +210,7 @@ public class B20200506绕线方向问题详解 {
                 agCctDirectθInner, agCctDirectθOuter
         );
 
-        CctFactory.Cct agCctOuter = createAgCct(
+        Cct agCctOuter = createAgCct(
                 agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle0, agCctAngle1},
                 new int[]{agCctWindingNumber0, agCctWindingNumber1},
@@ -245,7 +248,7 @@ public class B20200506绕线方向问题详解 {
 
     @run(103)
     public void 单粒子y方向位移() {
-        CctFactory.Elements elementsOfAll = getElementBefore();
+        Elements elementsOfAll = getElementBefore();
         Trajectory trajectory = getTrajectory();
 
         RunningParticle p = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -271,7 +274,7 @@ public class B20200506绕线方向问题详解 {
     public void y方向位移() {
         boolean xPlane = false;
 
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -436,7 +439,7 @@ public class B20200506绕线方向问题详解 {
 //        // sum = -0.9339210267816761 t f t f
 
 
-        CctFactory.Elements elementsOfAll = getElementBefore();
+        Elements elementsOfAll = getElementBefore();
 
 //        double dii = dipoleCctIInner;
 //        double dio = dipoleCctIOuter;
@@ -493,8 +496,8 @@ public class B20200506绕线方向问题详解 {
         Trajectory trajectory = getTrajectory();
         trajectory.plot3d();
 
-        CctFactory.Cct cct1 = getCct1();
-        CctFactory.Cct cctSymmetryCct1 = getCctSymmetryCct1();
+        Cct cct1 = getCct1();
+        Cct cctSymmetryCct1 = getCctSymmetryCct1();
 
         cct1.plot3();
         cctSymmetryCct1.plot3();
@@ -504,7 +507,7 @@ public class B20200506绕线方向问题详解 {
 
     @run(109)
     public void 磁场By分布() {
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         Trajectory trajectory = getTrajectory();
 
@@ -519,7 +522,7 @@ public class B20200506绕线方向问题详解 {
 
     @run(110)
     public void 磁场G分布() {
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         Trajectory trajectory = getTrajectory();
 
@@ -538,7 +541,7 @@ public class B20200506绕线方向问题详解 {
         agCctIInner = 0;
         agCctIOuter = 0;
 
-        CctFactory.MagnetAble elementsOfAll = getCct1();
+        MagnetAble elementsOfAll = getCct1();
         Trajectory trajectory = getTrajectory();
 
         RunningParticle p = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -590,7 +593,7 @@ public class B20200506绕线方向问题详解 {
 //                .forEach(bi-> Logger.getLogger().info("{}" +bi.toStringWithInfo("startingTheta","inter") ));
 
 
-        CctFactory.Cct agCct = createAgCct(
+        Cct agCct = createAgCct(
                 agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle0, agCctAngle1},
                 new int[]{agCctWindingNumber0, agCctWindingNumber1},
@@ -652,7 +655,7 @@ public class B20200506绕线方向问题详解 {
 
     @run(114)
     public void 磁场2G分布() {
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         Trajectory trajectory = getTrajectory();
 
@@ -713,14 +716,14 @@ public class B20200506绕线方向问题详解 {
                     agCctIInner = (1 + k) * agCctIInner0;
                     agCctIOuter = (1 + k) * agCctIOuter0;
 
-                    CctFactory.Cct cct = getCct();
+                    Cct cct = getCct();
 
                     return BaseUtils.Content.BiContent.create(k, cct);
                 }).collect(Collectors.toList())
                 .stream()
                 .parallel()
                 .map(bi -> {
-                    CctFactory.Cct cct = bi.getT2();
+                    Cct cct = bi.getT2();
                     Double k = bi.getT1();
 
                     RunningParticle ipT = ip.copy();
@@ -789,7 +792,7 @@ public class B20200506绕线方向问题详解 {
 
     @run(116)
     public void 单独分析CCT12() {
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
         Trajectory testTrajectory = createTestTrajectory();
 
 
@@ -800,7 +803,7 @@ public class B20200506绕线方向问题详解 {
     public void 调整绕线方前向后Bx分布() {
         // 调整后
 
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         Trajectory trajectory = getTrajectory();
 
@@ -816,7 +819,7 @@ public class B20200506绕线方向问题详解 {
         agCctIOuter *= -1;
         dipoleCctIOuter *= -1;
 
-        CctFactory.Elements elementsOfAllBefore = getElementsOfAll();
+        Elements elementsOfAllBefore = getElementsOfAll();
 
         List<Point2> listBefore = elementsOfAllBefore.leftHandMagnetAlongTrajectory(trajectory, MM);
 
@@ -837,7 +840,7 @@ public class B20200506绕线方向问题详解 {
         Trajectory trajectory = getTrajectory();
 
         // 调整后
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         // 调整前
         agCctDirectθOuter = true;
@@ -846,7 +849,7 @@ public class B20200506绕线方向问题详解 {
         agCctIOuter *= -1;
         dipoleCctIOuter *= -1;
 
-        CctFactory.Elements elementsOfAllBefore = getElementsOfAll();
+        Elements elementsOfAllBefore = getElementsOfAll();
 
 
         RunningParticle p0 = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -892,7 +895,7 @@ public class B20200506绕线方向问题详解 {
     public void 调整前后多粒子跟踪() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Elements eAfter = getElementsOfAll();
+        Elements eAfter = getElementsOfAll();
 //        CctFactory.Elements eBefore = getElementBefore();
 
         List<PhaseSpaceParticle> ppA = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInPlane(
@@ -996,7 +999,7 @@ public class B20200506绕线方向问题详解 {
 
     @run(1003)
     public void 六极场分布(){
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         Trajectory trajectory = getTrajectory();
 
@@ -1012,14 +1015,14 @@ public class B20200506绕线方向问题详解 {
     }
 
 
-    private CctFactory.Elements getElementBefore() {
+    private Elements getElementBefore() {
         agCctDirectθOuter = true;
         dipoleCctDirectθOuter = true;
 
         agCctIOuter *= -1;
         dipoleCctIOuter *= -1;
 
-        CctFactory.Elements elementsOfAllBefore = getElementsOfAll();
+        Elements elementsOfAllBefore = getElementsOfAll();
 
         return elementsOfAllBefore;
     }
@@ -3726,7 +3729,7 @@ public class B20200506绕线方向问题详解 {
 
     private List<Point2> tracking相椭圆(double distance, boolean xPlane, double delta, int number,
                                      boolean moveToCenter, double scaleForParticle) {
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -3801,7 +3804,7 @@ public class B20200506绕线方向问题详解 {
     }
 
     private List<Point2> track粒子跟踪包络0(boolean xxPlane, double delta) {
-        CctFactory.MagnetAble cct = getElementsOfAll();
+        MagnetAble cct = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -3859,7 +3862,7 @@ public class B20200506绕线方向问题详解 {
 
     //------------------ 色散 -----------------------
     private List<Point2> track色散函数R16() {
-        CctFactory.MagnetAble cct = getElementsOfAll();
+        MagnetAble cct = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
         double length = trajectory.getLength() + 0.1;
 
@@ -3899,11 +3902,11 @@ public class B20200506绕线方向问题详解 {
     }
 
 
-    private CctFactory.Elements getElementsOfAll() {
+    private Elements getElementsOfAll() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
         qs.forEach(elements::addElement);
         allCctIn45.getSoleLayerCctList().forEach(elements::addElement);
 
@@ -3929,26 +3932,26 @@ public class B20200506绕线方向问题详解 {
         return List.of(QS11, QS2, QS12);
     }
 
-    private CctFactory.Cct getAllCctIn45() {
+    private Cct getAllCctIn45() {
         return CctFactory.combineCct(getCct1(), getCctSymmetryCct1());
     }
 
 
-    private CctFactory.Cct getCct1() {
+    private Cct getCct1() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
 
         return CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
     }
 
-    private CctFactory.Cct getCct2() {
+    private Cct getCct2() {
 
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct dipoleCct = createDipoleCct(
+        Cct dipoleCct = createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,
                 dipoleCctA0Inner, dipoleCctA1Inner, dipoleCctA2Inner, dipoleCctIInner,
@@ -3959,7 +3962,7 @@ public class B20200506绕线方向问题详解 {
                 dipoleCctDirectθInner, dipoleCctDirectθOuter
         );
 
-        CctFactory.Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
+        Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle1, agCctAngle0},
                 new int[]{agCctWindingNumber1, agCctWindingNumber0},
                 agCctA0Inner, agCctA1Inner, agCctA2Inner, -agCctIInner,
@@ -3969,7 +3972,7 @@ public class B20200506绕线方向问题详解 {
                 agCctDirectθInner, agCctDirectθOuter
         );
 
-        CctFactory.Cct cct = CctFactory.combineCct(agCct, dipoleCct);
+        Cct cct = CctFactory.combineCct(agCct, dipoleCct);
 
         //CctFactory.Cct cct1 = CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
@@ -3985,7 +3988,7 @@ public class B20200506绕线方向问题详解 {
 
     }
 
-    private CctFactory.Cct getCctSymmetryCct1() {
+    private Cct getCctSymmetryCct1() {
         Trajectory trajectory = getTrajectory();
         return CctFactory.symmetryInXYPlaneByLine(
                 getCct1(),
@@ -3994,8 +3997,8 @@ public class B20200506绕线方向问题详解 {
         );
     }
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct(
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,
                 dipoleCctA0Inner, dipoleCctA1Inner, dipoleCctA2Inner, dipoleCctIInner,
@@ -4005,7 +4008,7 @@ public class B20200506绕线方向问题详解 {
                 dipoleCctStartingφInner, dipoleCctStartingφOuter,
                 dipoleCctDirectθInner, dipoleCctDirectθOuter
         );
-        CctFactory.Cct agCct = createAgCct(
+        Cct agCct = createAgCct(
                 agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle0, agCctAngle1},
                 new int[]{agCctWindingNumber0, agCctWindingNumber1},
@@ -4036,7 +4039,7 @@ public class B20200506绕线方向问题详解 {
 
     }
 
-    private CctFactory.Cct createDipoleCct(
+    private Cct createDipoleCct(
             double smallRInner, double smallROuter, double bigR, double angle, int windingNumber,
             double a0BipolarInner, double a1QuadrupleInner, double a2SextupleInner, double IInner,
             double a0BipolarOuter, double a1QuadrupleOuter, double a2SextupleOuter, double IOuter,
@@ -4056,7 +4059,7 @@ public class B20200506绕线方向问题详解 {
         );
     }
 
-    private CctFactory.Cct createAgCct(
+    private Cct createAgCct(
             double smallRInner, double smallROuter, double bigR, double[] angles, int[] windingNumbers,
             double a0BipolarInners, double a1QuadrupleInners, double a2SextupleInners, double IInner,
             double a0BipolarOuters, double a1QuadrupleOuters, double a2SextupleOuters, double IOuter,

@@ -3,6 +3,7 @@ package cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.CoordinateSystem3d;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -41,7 +42,7 @@ public class A0319AGCCT225修改四极CCT孔径以补充二极场 {
 
     //    @run
     public void 二机场分布画图() {
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
         Trajectory trajectory = getTrajectory();
 
         List<Point2> Bz = cct.magnetBzAlongTrajectory(trajectory, 1 * MM);
@@ -68,7 +69,7 @@ public class A0319AGCCT225修改四极CCT孔径以补充二极场 {
     //    @run
     public void 单粒子跟踪() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         RunningParticle idealParticle = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 
@@ -90,7 +91,7 @@ public class A0319AGCCT225修改四极CCT孔径以补充二极场 {
     //        @run
     public void 多粒子跟踪() {
 
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
         logPastTime("cct");
         Trajectory trajectory = getTrajectory();
         logPastTime("traj");
@@ -146,7 +147,7 @@ public class A0319AGCCT225修改四极CCT孔径以补充二极场 {
 
     @run(value = 2)
     public void AGCCT画图() {
-        CctFactory.Cct agCct = createAgCct();
+        Cct agCct = createAgCct();
 
         agCct.plot3(Plot2d.RED_LINE, Plot2d.RED_LINE, Plot2d.RED_LINE, Plot2d.RED_LINE);
 
@@ -178,7 +179,7 @@ public class A0319AGCCT225修改四极CCT孔径以补充二极场 {
 
         // 只检查四极CCT的二机场
         if (justHaveALook) {
-            CctFactory.Cct agCct = createAgCct();
+            Cct agCct = createAgCct();
             List<Point2> magnetBzAlongTrajectory = agCct.magnetBzAlongTrajectory(trajectory, 1 * MM);
             DoubleSummaryStatistics statistics = magnetBzAlongTrajectory.stream().
                     mapToDouble(Point2::getY).summaryStatistics();
@@ -224,7 +225,7 @@ public class A0319AGCCT225修改四极CCT孔径以补充二极场 {
 
                         A0319AGCCT225修改四极CCT孔径以补充二极场 a0319AGCCT225 = new A0319AGCCT225修改四极CCT孔径以补充二极场();
                         a0319AGCCT225.agCCTBigR = bigR;
-                        CctFactory.Cct agCct = a0319AGCCT225.createAgCct();
+                        Cct agCct = a0319AGCCT225.createAgCct();
 
                         List<Point2> magnetBzAlongTrajectory = agCct.magnetBzAlongTrajectory(trajectory, 1 * MM);
                         DoubleSummaryStatistics statistics = magnetBzAlongTrajectory.stream().
@@ -282,7 +283,7 @@ public class A0319AGCCT225修改四极CCT孔径以补充二极场 {
                 .mapToObj(bigR -> {
                     A0319AGCCT225修改四极CCT孔径以补充二极场 obj = new A0319AGCCT225修改四极CCT孔径以补充二极场();
                     obj.agCCTBigR = bigR;
-                    CctFactory.Cct agCct = obj.createAgCct();
+                    Cct agCct = obj.createAgCct();
                     List<Point2> magnetBzAlongTrajectory = agCct.magnetBzAlongTrajectory(trajectory, 10 * MM);
                     return BaseUtils.Content.BiContent.create(bigR, magnetBzAlongTrajectory);
                 })
@@ -357,9 +358,9 @@ public class A0319AGCCT225修改四极CCT孔径以补充二极场 {
 
     //---------------------------------------------------------
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(dipoleCct, agCct);
     }
@@ -371,7 +372,7 @@ public class A0319AGCCT225修改四极CCT孔径以补充二极场 {
                 .addStraitLine(1.0);
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -394,7 +395,7 @@ public class A0319AGCCT225修改四极CCT孔径以补充二极场 {
                 numberPerWinding);
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

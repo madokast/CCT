@@ -5,6 +5,7 @@ import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.advanced.COSY;
 import cn.edu.hust.zrx.cct.advanced.FirstOrderTransportMatrixSolver;
 import cn.edu.hust.zrx.cct.advanced.TransportCode;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -55,7 +56,7 @@ public class A0322传输矩阵计算225CCT {
 
     @run(code = "这代码如此简单，但实际上耗费心血")
     public TransportCode.TransMatrix computeMatrix(double length){
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
         Trajectory trajectory = getTrajectory();
 
         TransportCode.TransMatrix transMatrix = FirstOrderTransportMatrixSolver.build()
@@ -104,7 +105,7 @@ public class A0322传输矩阵计算225CCT {
 
 
     public List<Point2> trackOnEnd(boolean xxPlane,double delta,double length,int number){
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
         Trajectory trajectory = getTrajectory();
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -243,9 +244,9 @@ public class A0322传输矩阵计算225CCT {
 
     //---------------------------------------------------------
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(dipoleCct, agCct);
     }
@@ -257,7 +258,7 @@ public class A0322传输矩阵计算225CCT {
                 .addStraitLine(0.5);
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -280,7 +281,7 @@ public class A0322传输矩阵计算225CCT {
                 numberPerWinding);
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

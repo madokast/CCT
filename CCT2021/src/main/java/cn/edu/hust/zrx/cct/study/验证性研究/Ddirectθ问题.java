@@ -2,7 +2,10 @@ package cn.edu.hust.zrx.cct.study.验证性研究;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.Elements;
+import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -42,7 +45,7 @@ public class Ddirectθ问题 {
 
     @run(1)
     public void 画图() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
 
         dipoleCct.plot3(Plot2d.RED_LINE, Plot2d.BLUE_LINE);
 
@@ -52,16 +55,16 @@ public class Ddirectθ问题 {
     @run(2)
     public void 画图2() {
 
-        CctFactory.SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
+        SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Inner, dipoleCctA1Inner,
                 dipoleCctA2Inner, dipoleCctIInner, numberPerWinding,
                 0.0, 0.0, false);
-        CctFactory.SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
+        SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Outer, dipoleCctA1Outer,
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, true);
 
-        CctFactory.Cct dipoleCct = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -73,16 +76,16 @@ public class Ddirectθ问题 {
 
     @run(3)
     public void 对比之传统CCT() {
-        CctFactory.SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
+        SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Inner, dipoleCctA1Inner,
                 dipoleCctA2Inner, dipoleCctIInner, numberPerWinding,
                 0.0, 0.0, true);
-        CctFactory.SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
+        SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Outer, dipoleCctA1Outer,
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, true);
 
-        CctFactory.Cct dipoleCct_inTouT = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inTouT = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -95,7 +98,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, true);
 
-        CctFactory.Cct dipoleCct_inFouT = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inFouT = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -108,7 +111,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, -dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, false);
 
-        CctFactory.Cct dipoleCct_inTouF = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inTouF = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -122,7 +125,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, -dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, false);
 
-        CctFactory.Cct dipoleCct_inFouF = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inFouF = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -164,16 +167,16 @@ public class Ddirectθ问题 {
 
     @run(4)
     public void 对比左手侧磁场() {
-        CctFactory.SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
+        SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Inner, dipoleCctA1Inner,
                 dipoleCctA2Inner, dipoleCctIInner, numberPerWinding,
                 0.0, 0.0, true);
-        CctFactory.SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
+        SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Outer, dipoleCctA1Outer,
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, true);
 
-        CctFactory.Cct dipoleCct_inTouT = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inTouT = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -186,7 +189,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, true);
 
-        CctFactory.Cct dipoleCct_inFouT = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inFouT = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -199,7 +202,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, -dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, false);
 
-        CctFactory.Cct dipoleCct_inTouF = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inTouF = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -213,7 +216,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, -dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, false);
 
-        CctFactory.Cct dipoleCct_inFouF = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inFouF = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -255,16 +258,16 @@ public class Ddirectθ问题 {
 
     @run(5)
     public void 对比六极场分量() {
-        CctFactory.SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
+        SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Inner, dipoleCctA1Inner,
                 dipoleCctA2Inner, dipoleCctIInner, numberPerWinding,
                 0.0, 0.0, true);
-        CctFactory.SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
+        SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Outer, dipoleCctA1Outer,
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, true);
 
-        CctFactory.Cct dipoleCct_inTouT = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inTouT = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -277,7 +280,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, true);
 
-        CctFactory.Cct dipoleCct_inFouT = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inFouT = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -290,7 +293,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, -dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, false);
 
-        CctFactory.Cct dipoleCct_inTouF = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inTouF = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -304,7 +307,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, -dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, false);
 
-        CctFactory.Cct dipoleCct_inFouF = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inFouF = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -346,16 +349,16 @@ public class Ddirectθ问题 {
 
     @run(6)
     public void 对比单粒子跟踪() {
-        CctFactory.SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
+        SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Inner, dipoleCctA1Inner,
                 dipoleCctA2Inner, dipoleCctIInner, numberPerWinding,
                 0.0, 0.0, true);
-        CctFactory.SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
+        SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Outer, dipoleCctA1Outer,
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, true);
 
-        CctFactory.Cct dipoleCct_inTouT = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inTouT = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -368,7 +371,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, true);
 
-        CctFactory.Cct dipoleCct_inFouT = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inFouT = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -381,7 +384,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, -dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, false);
 
-        CctFactory.Cct dipoleCct_inTouF = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inTouF = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -395,7 +398,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, -dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, false);
 
-        CctFactory.Cct dipoleCct_inFouF = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inFouF = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -437,16 +440,16 @@ public class Ddirectθ问题 {
 
     @run(7)
     public void 对比四极场() {
-        CctFactory.SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
+        SoleLayerCct innerCct = CctFactory.createSoleLaterCct(dipoleCctSmallRInner, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Inner, dipoleCctA1Inner,
                 dipoleCctA2Inner, dipoleCctIInner, numberPerWinding,
                 0.0, 0.0, true);
-        CctFactory.SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
+        SoleLayerCct outerCct = CctFactory.createSoleLaterCct(dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber, dipoleCctA0Outer, dipoleCctA1Outer,
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, true);
 
-        CctFactory.Cct dipoleCct_inTouT = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inTouT = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -459,7 +462,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, true);
 
-        CctFactory.Cct dipoleCct_inFouT = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inFouT = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -472,7 +475,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, -dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, false);
 
-        CctFactory.Cct dipoleCct_inTouF = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inTouF = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -486,7 +489,7 @@ public class Ddirectθ问题 {
                 dipoleCctA2Outer, -dipoleCctIOuter, numberPerWinding,
                 0.0, 0.0, false);
 
-        CctFactory.Cct dipoleCct_inFouF = CctFactory.Cct.getEmptyCct().
+        Cct dipoleCct_inFouF = Cct.getEmptyCct().
                 addSoleLayerCct(innerCct).
                 addSoleLayerCct(outerCct);
 
@@ -528,11 +531,11 @@ public class Ddirectθ问题 {
 
     //---------------------elements------------------------------
 
-    private CctFactory.Elements getElementsOfAll() {
+    private Elements getElementsOfAll() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
         qs.forEach(elements::addElement);
         allCctIn45.getSoleLayerCctList().forEach(elements::addElement);
 
@@ -558,14 +561,14 @@ public class Ddirectθ问题 {
         return List.of(QS11, QS2, QS12);
     }
 
-    private CctFactory.Cct getAllCctIn45() {
+    private Cct getAllCctIn45() {
         return CctFactory.combineCct(getCct1(), getCct2());
     }
 
-    private CctFactory.Cct getCct1() {
+    private Cct getCct1() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         //        Point2 center = Arcs.center(
 //                trajectory.pointAt(DL1 + CCT_LENGTH + BETWEEN_CCT225),
@@ -580,10 +583,10 @@ public class Ddirectθ问题 {
 
     }
 
-    private CctFactory.Cct getCct2() {
+    private Cct getCct2() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -598,14 +601,14 @@ public class Ddirectθ问题 {
         //                                  double a2SextupleOuters,
         //                                  double IOuter,
         //                                  int numberPerWinding)
-        CctFactory.Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
+        Cct agCct = CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle1, agCctAngle0},
                 new int[]{agCctWindingNumber1, agCctWindingNumber0},
                 agCctA0Inner, agCctA1Inner, agCctA2Inner, -agCctIInner,
                 agCctA0Outer, agCctA1Outer, agCctA2Outer, -agCctIOuter,
                 numberPerWinding);
 
-        CctFactory.Cct cct = CctFactory.combineCct(agCct, dipoleCct);
+        Cct cct = CctFactory.combineCct(agCct, dipoleCct);
 
         //CctFactory.Cct cct1 = CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
@@ -621,9 +624,9 @@ public class Ddirectθ问题 {
 
     }
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(agCct, dipoleCct);
     }
@@ -644,7 +647,7 @@ public class Ddirectθ问题 {
 
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -667,7 +670,7 @@ public class Ddirectθ问题 {
                 numberPerWinding);
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

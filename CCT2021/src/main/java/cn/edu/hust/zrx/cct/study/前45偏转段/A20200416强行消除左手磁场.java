@@ -4,7 +4,10 @@ import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.COSY;
 import cn.edu.hust.zrx.cct.advanced.CosyArbitraryOrder;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.Elements;
+import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.particle.*;
@@ -61,7 +64,7 @@ public class A20200416强行消除左手磁场 {
         //private double dipoleCctIInner = 9.898121356964111 * kA;
 
 
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         Trajectory trajectory = getTrajectory();
 
@@ -142,7 +145,7 @@ public class A20200416强行消除左手磁场 {
         double delta = 5 * PRESENT;
         int number = 16;
 
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         Trajectory trajectory = getTrajectory();
 
@@ -193,7 +196,7 @@ public class A20200416强行消除左手磁场 {
 
 
     private List<BaseUtils.Content.BiContent<Double, RunningParticle>> runNoLeft(
-            RunningParticle particle, CctFactory.MagnetAble elements,
+            RunningParticle particle, MagnetAble elements,
             double distance, double footStep, Trajectory trajectory) {
         int count = (int) (distance / footStep) + 1;
         footStep = distance / (count - 1);
@@ -230,7 +233,7 @@ public class A20200416强行消除左手磁场 {
 
 
     private List<Point2> tracking相椭圆(boolean xPlane, double distance, double delta, int number) {
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
 
         Trajectory trajectory = getTrajectory();
 
@@ -272,7 +275,7 @@ public class A20200416强行消除左手磁场 {
 
     private List<Point2> cosy相椭圆End(boolean xPlane, double delta, int number, int order) {
 
-        CctFactory.Elements elementsOfAll = getElementsOfAll();
+        Elements elementsOfAll = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
 
 
@@ -1118,7 +1121,7 @@ public class A20200416强行消除左手磁场 {
 
     // ------------------   调整 初始绕线 ------------
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,
@@ -1130,7 +1133,7 @@ public class A20200416强行消除左手磁场 {
         );
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         return CctFactory.createAgCct(agCctSmallRInner, agCctSmallROuter, agCCTBigR,
                 new double[]{agCctAngle0, agCctAngle1},
                 new int[]{agCctWindingNumber0, agCctWindingNumber1},
@@ -1144,11 +1147,11 @@ public class A20200416强行消除左手磁场 {
 
     //---------------------elements 初始绕线位置不可调整------------------------------
 
-    private CctFactory.Elements getElementsOfAll() {
+    private Elements getElementsOfAll() {
         List<QsHardPlaneMagnet> qs = get3QS();
-        CctFactory.Cct allCctIn45 = getAllCctIn45();
+        Cct allCctIn45 = getAllCctIn45();
 
-        CctFactory.Elements elements = CctFactory.Elements.empty();
+        Elements elements = Elements.empty();
         qs.forEach(elements::addElement);
         allCctIn45.getSoleLayerCctList().forEach(elements::addElement);
 
@@ -1174,22 +1177,22 @@ public class A20200416强行消除左手磁场 {
         return List.of(QS11, QS2, QS12);
     }
 
-    private CctFactory.Cct getAllCctIn45() {
+    private Cct getAllCctIn45() {
         return CctFactory.combineCct(getCct1(), getCct2());
     }
 
-    private CctFactory.Cct getCct1() {
+    private Cct getCct1() {
 
-        CctFactory.Cct cct = getCct();
+        Cct cct = getCct();
 
         return CctFactory.positionInXYPlane(cct, Point2.create(DL1, trajectoryBigR), BaseUtils.Converter.angleToRadian(-90));
 
     }
 
-    private CctFactory.Cct getCct2() {
+    private Cct getCct2() {
         Trajectory trajectory = getTrajectory();
 
-        CctFactory.Cct cct1 = getCct1();
+        Cct cct1 = getCct1();
 
         // 关于面对称
 
@@ -1233,9 +1236,9 @@ public class A20200416强行消除左手磁场 {
 //        return CctFactory.combineCct(agCct, dipoleCct);
     }
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(agCct, dipoleCct);
     }

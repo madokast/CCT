@@ -2,6 +2,7 @@ package cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -37,7 +38,7 @@ public class A0320AGCCT225修改二极CCTa0抵消四极场 {
     @run(0)
     public void 回顾四极CCT的二极场() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct agCct = createAgCct();
+        Cct agCct = createAgCct();
 
         List<Point2> list = agCct.magnetBzAlongTrajectory(trajectory, MM);
 
@@ -51,7 +52,7 @@ public class A0320AGCCT225修改二极CCTa0抵消四极场 {
     @run(1)
     public void 二极CCT的四极场画图() {
         Trajectory trajectory = getTrajectory();
-        CctFactory.Cct dipoleCct = createDipoleCct();
+        Cct dipoleCct = createDipoleCct();
 
         List<Point2> gradientAlongTrajectoryFast =
                 dipoleCct.magnetGradientAlongTrajectoryFast(trajectory, 1 * MM, 3 * MM);
@@ -82,7 +83,7 @@ public class A0320AGCCT225修改二极CCTa0抵消四极场 {
                     A0320AGCCT225修改二极CCTa0抵消四极场 obj = new A0320AGCCT225修改二极CCTa0抵消四极场();
                     obj.dipoleCctA1Inner = -Math.pow(obj.dipoleCctSmallRInner, 2) * k;
                     obj.dipoleCctA1Outer = Math.pow(obj.dipoleCctSmallROuter, 2) * k;
-                    CctFactory.Cct dipoleCct = obj.createDipoleCct();
+                    Cct dipoleCct = obj.createDipoleCct();
 
                     List<Point2> list = dipoleCct.magnetGradientAlongTrajectoryFast(trajectory, 1*MM, 3 * MM);
 
@@ -108,9 +109,9 @@ public class A0320AGCCT225修改二极CCTa0抵消四极场 {
 
     //---------------------------------------------------------
 
-    private CctFactory.Cct getCct() {
-        CctFactory.Cct dipoleCct = createDipoleCct();
-        CctFactory.Cct agCct = createAgCct();
+    private Cct getCct() {
+        Cct dipoleCct = createDipoleCct();
+        Cct agCct = createAgCct();
 
         return CctFactory.combineCct(dipoleCct, agCct);
     }
@@ -122,7 +123,7 @@ public class A0320AGCCT225修改二极CCTa0抵消四极场 {
                 .addStraitLine(1.0);
     }
 
-    private CctFactory.Cct createAgCct() {
+    private Cct createAgCct() {
         //public static Cct createAgCct(double smallRInner,
         //                                  double smallROuter,
         //                                  double bigR,
@@ -145,7 +146,7 @@ public class A0320AGCCT225修改二极CCTa0抵消四极场 {
                 numberPerWinding);
     }
 
-    private CctFactory.Cct createDipoleCct() {
+    private Cct createDipoleCct() {
         return CctFactory.createDipoleCct(
                 dipoleCctSmallRInner, dipoleCctSmallROuter, dipoleCctBigR,
                 dipoleCctAngle, dipoleCctWindingNumber,

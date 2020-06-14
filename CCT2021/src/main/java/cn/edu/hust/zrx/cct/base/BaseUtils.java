@@ -78,6 +78,7 @@ public class BaseUtils {
         /**
          * 来自py numpy库的著名函数 linspace
          * 获得[start, end]上均匀分布的点，数目number个
+         * ## 2020年6月10日 重构 支持 start > end 的情况
          *
          * @param start  起始点 包含
          * @param end    终止点 包含
@@ -86,8 +87,8 @@ public class BaseUtils {
          * @since 2020年2月10日
          */
         public static double[] linspace(double start, double end, int number) {
-            if (start > end)
-                throw new IllegalArgumentException("start>end!!");
+//            if (start - end > 1e-8)
+//                throw new IllegalArgumentException("start(" + start + ")>end(" + end + ")!!");
 
             // 新建数组，长度 number
             double[] doubles = new double[number];
@@ -105,6 +106,7 @@ public class BaseUtils {
             return doubles;
         }
 
+        // 依赖 linspace(double start, double end, int number)
         public static Point3[] linspace(Point3 start, Point3 end, int number) {
             double[] xs = linspace(start.x, end.x, number);
             double[] ys = linspace(start.y, end.y, number);
@@ -119,16 +121,19 @@ public class BaseUtils {
             return ps;
         }
 
+        // 依赖 linspace(double start, double end, int number)
         public static DoubleStream linspaceStream(double start, double end, int number) {
             double[] linspace = linspace(start, end, number);
             return Arrays.stream(linspace);
         }
 
+        // 依赖 linspace(double start, double end, int number)
         public static Stream<Point3> linspaceStream(Point3 start, Point3 end, int number) {
             Point3[] linspace = linspace(start, end, number);
             return Arrays.stream(linspace);
         }
 
+        // 依赖 linspace(double start, double end, int number)
         public static DoubleStream disperse(double length, double footStep) {
             int number = (int) (length / footStep);
             return linspaceStream(0, length, number);
