@@ -45,6 +45,10 @@ public class Point3 {
         );
     }
 
+    public static double distance(Point3 c, Point3 p) {
+        return Vector3.from(c).to(p).length();
+    }
+
     public Point3 copy() {
         return create(this.x, this.y, this.z);
     }

@@ -25,11 +25,11 @@ public class SR {
         final SR sr = new SR();
 //        final Point3[] point3s = sr.sphericalUniformDistribution(100);
 //        printPoint3s(point3s);
-        sr.printSRx(2000,3.5e-3,7.5e-3,0.1432,2);
+        sr.printSRx(35, 4e-3, 6e-3, 0.1432, 2);
 //        sr.printSRy(700,3.5e-3,7.5e-3,8.94/100,2);
     }
 
-    public void printSRx(int number , double xMax ,double x1Max,double dE, int color){
+    public void printSRx(int number, double xMax, double x1Max, double dE, int color) {
         final Point3[] point3s = sphericalUniformDistribution(number);
 
         double max = 0;
@@ -37,46 +37,46 @@ public class SR {
         for (Point3 point3 : point3s) {
 
             double x126 = point3.y * x1Max * point3.z * dE;
-            if(Math.abs(x126)>max){
+            if (Math.abs(x126) > max) {
                 max = Math.abs(x126);
             }
-            Logger.getLogger().info("max = " + max);
+            //Logger.getLogger().info("max = " + max);
 
             System.out.println(
                     sr(
-                            point3.x*xMax,
-                            point3.y*x1Max,
+                            point3.x * xMax,
+                            point3.y * x1Max,
                             0,
                             0,
-                            point3.z*dE,
+                            point3.z * dE,
                             color
                     )
             );
         }
     }
 
-    public void printSRy(int number , double xMax ,double x1Max,double dE, int color){
+    public void printSRy(int number, double xMax, double x1Max, double dE, int color) {
         final Point3[] point3s = sphericalUniformDistribution(number);
         for (Point3 point3 : point3s) {
             System.out.println(
                     sr(
                             0,
                             0,
-                            point3.x*xMax,
-                            point3.y*x1Max,
-                            point3.z*dE,
+                            point3.x * xMax,
+                            point3.y * x1Max,
+                            point3.z * dE,
                             2
                     )
             );
         }
     }
 
-    public String sr(double x,double x1,double y,double y1,double dE,int color){
+    public String sr(double x, double x1, double y, double y1, double dE, int color) {
         return String.format("SR  %e  %e  %e  %e  0  %e  0  0  %d ;",
-                x,x1,y,y1,dE,color);
+                x, x1, y, y1, dE, color);
     }
 
-    public Point3[] sphericalUniformDistribution(int number) {
+    public static Point3[] sphericalUniformDistribution(int number) {
         int num = 0;
         Point3[] point3s = new Point3[number];
         while (true) {
@@ -94,23 +94,23 @@ public class SR {
 
             num++;
 
-            if(num==number)
+            if (num == number)
                 break;
         }
 
         return point3s;
     }
 
-    public static void printPoint3s(Point3[] point3s){
+    public static void printPoint3s(Point3[] point3s) {
         for (Point3 point3 : point3s) {
             System.out.println(point3);
         }
     }
 
-    private class Point3 {
-        double x;
-        double y;
-        double z;
+    public static class Point3 {
+        public double x;
+        public double y;
+        public double z;
 
         public Point3(double x, double y, double z) {
             this.x = x;
@@ -120,7 +120,7 @@ public class SR {
 
         @Override
         public String toString() {
-            return x+"  "+y+"  "+z;
+            return x + "  " + y + "  " + z;
         }
     }
 }

@@ -4,6 +4,7 @@ import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.PolynomialFitter;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.line.Line2;
+import cn.edu.hust.zrx.cct.base.line.Line3;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point2To3;
 import cn.edu.hust.zrx.cct.base.point.Point3;
@@ -249,6 +250,40 @@ public interface MagnetAble {
                 .collect(Collectors.toList());
     }
 
+    default List<BaseUtils.Content.BiContent<Double, double[]>> multiplePoleMagnetAlongTrajectory(
+            final Line3 trajectory, final double deltaLength, final double goodFieldAreaWidth,
+            final int order, final int dotNumber
+    ) {
+        PolynomialFitter fitter = PolynomialFitter.build(order);
+
+        List<Double> xList = BaseUtils.Python.linspaceStream(-goodFieldAreaWidth, goodFieldAreaWidth, dotNumber)
+                .boxed().collect(Collectors.toList());
+
+
+        final Line3 rightHandSideLine3 = trajectory.rightHandSideLine3(goodFieldAreaWidth, Vector3.getZDirect());
+        final Line3 leftHandSideLine3 = trajectory.rightHandSideLine3(-goodFieldAreaWidth, Vector3.getZDirect());
+
+        return trajectory.dispersePoint3sWithDistance(deltaLength)
+                .stream()
+                .parallel()
+                .map(point3WithDistance -> {
+                    double distance = point3WithDistance.getDistance();
+                    Point3 rightPoint = rightHandSideLine3.pointAt(distance);
+                    Point3 leftPoint = leftHandSideLine3.pointAt(distance);
+
+                    List<Double> bzList = BaseUtils.Python.linspaceStream(rightPoint, leftPoint, dotNumber)
+                            .mapToDouble(p -> magnetAt(p).z)
+                            .boxed()
+                            .collect(Collectors.toList());
+                    List<Point2> fitted = Point2.create(xList, bzList);
+
+                    return BaseUtils.Content.BiContent.create(distance, fitter.fit(fitted));
+                }).collect(Collectors.toList())
+                .stream()
+                .sorted(Comparator.comparingDouble(BaseUtils.Content.BiContent::getT1))
+                .collect(Collectors.toList());
+    }
+
 
     // 多级场 List<BaseUtils.Content.BiContent<Double, double[]>> -> List<List<Point2>>
     default List<List<Point2>> multiplePoleMagnetAlongTrajectoryBreak(
@@ -290,6 +325,127 @@ public interface MagnetAble {
     default List<String> sliceToCosyScript(
             final double Bp, final double aperture,
             final Line2 trajectory, final double goodFieldAreaWidth,
+            final double minStepLength, final double tolerance
+    ) {
+        List<String> answer = new ArrayList<>();
+
+        List<BaseUtils.Content.BiContent<Double, double[]>> multiplePoleMagnetAlongTrajectory =
+                multiplePoleMagnetAlongTrajectory(trajectory, minStepLength, goodFieldAreaWidth, 2, 6);
+
+        int size = multiplePoleMagnetAlongTrajectory.size();
+
+        final double STEP = multiplePoleMagnetAlongTrajectory.get(1).getT1()
+                - multiplePoleMagnetAlongTrajectory.get(0).getT1();
+
+        int i = 0;
+
+        double totalLength = 0;
+
+        while (i < size - 1) {
+            double[] multi0 = multiplePoleMagnetAlongTrajectory.get(i).getT2();
+
+            double B0 = multi0[0];
+            if (Math.abs(Bp / B0) > 50) B0 = 0;
+            double T0 = multi0[1];
+            if (Math.abs(T0) < 0.1) T0 = 0;
+            double L0 = multi0[2];
+            if (Math.abs(L0) < 1.) L0 = 0;
+
+            List<Double> Bs = BaseUtils.ListUtils.createListWithFirstElementIs(B0);
+            List<Double> Ts = BaseUtils.ListUtils.createListWithFirstElementIs(T0);
+            List<Double> Ls = BaseUtils.ListUtils.createListWithFirstElementIs(L0);
+
+            int j;
+
+            for (j = i + 1; j < size - 1; j++) {
+                double[] multi = multiplePoleMagnetAlongTrajectory.get(j).getT2();
+                double B = multi[0];
+                if (Math.abs(Bp / B) > 50) B = 0;
+                double T = multi[1];
+                if (Math.abs(T) < 0.1) T = 0;
+                double L = multi[2];
+                if (Math.abs(L) < 1.) L = 0;
+
+                Bs.add(B);
+                Ts.add(T);
+                Ls.add(L);
+
+//                    if ((Math.abs((B0 - B) / B0) > tolerance)
+//                            || (Math.abs((T0 - T) / T0) > tolerance)
+//                            || (Math.abs((L0 - L) / L0) > tolerance)
+//                    ) {
+//                        break;
+//                    }
+
+                if (// list 长度至少为2
+                        BaseUtils.Statistics.undulate(Bs) > tolerance ||
+                                BaseUtils.Statistics.undulate(Ts) > tolerance ||
+                                BaseUtils.Statistics.undulate(Ls) > tolerance
+                ) {
+                    break;
+                }
+            }
+
+            B0 = BaseUtils.Statistics.average(Bs);
+            T0 = BaseUtils.Statistics.average(Ts);
+            L0 = BaseUtils.Statistics.average(Ls);
+
+
+            double length = STEP * (j - i);
+
+            {
+                double len = multiplePoleMagnetAlongTrajectory.get(j).getT1()
+                        - multiplePoleMagnetAlongTrajectory.get(i).getT1();
+                BaseUtils.Equal.isEqual(len, length, 1e-10);
+            }
+
+
+            totalLength += length;
+            i = j;
+
+
+            double r = Bp / B0; // 半径 有正负
+
+            double angle = BaseUtils.Converter.radianToAngle(length / Math.abs(r)); // 角度
+
+            String changeDirect = r < 0 ? "CB ;" : ""; // 换方向
+
+            double n1 = -r / B0 * T0;
+
+            /**
+             * ///////////////////  ///////////////////
+             * 加上了奇怪的负号
+             */
+            double n2 = -r * r / B0 * L0;
+
+            double b2 = T0 * aperture;
+
+            double b3 = L0 * aperture * aperture;
+
+            String cosyScript = null;
+
+            if (Math.abs(r) > 50) {
+                cosyScript = String.format(
+                        "M5 %e %e %e 0 0 0 %e ;", length, b2, b3, aperture
+                );
+            } else {
+                cosyScript = String.format("%s MS %e %e %e %e %e 0 0 0 ; %s", changeDirect,
+                        Math.abs(r), angle, aperture, n1, n2, changeDirect);
+            }
+
+            //Logger.getLogger().debug("[{}]{}", totalLength, cosyScript);
+
+            answer.add(cosyScript);
+        }
+
+        Logger.getLogger().info("size() = " + answer.size());
+
+        return answer;
+    }
+
+    default List<String> sliceToCosyScript(
+            final double Bp, final double aperture,
+            final Line3 trajectory, final double goodFieldAreaWidth,
             final double minStepLength, final double tolerance
     ) {
         List<String> answer = new ArrayList<>();
