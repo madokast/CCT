@@ -399,7 +399,7 @@ public interface Line2 {
 
             @Override
             public Vector2 directAt(double s) {
-                return origin.directAt(getLength() - s).reverseSelf();
+                return origin.directAt(getLength() - s).copy().reverseSelf();
             }
         };
     }

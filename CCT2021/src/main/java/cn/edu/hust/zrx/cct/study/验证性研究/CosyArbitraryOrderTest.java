@@ -1,6 +1,7 @@
 package cn.edu.hust.zrx.cct.study.验证性研究;
 
 import cn.edu.hust.zrx.cct.advanced.COSY;
+import cn.edu.hust.zrx.cct.advanced.CosyArbitraryOrder;
 import cn.edu.hust.zrx.cct.base.particle.PhaseSpaceParticle;
 
 /**
@@ -19,7 +20,22 @@ public class CosyArbitraryOrderTest {
     private static final int ITEM_LENGTH = "-0.0000000E+00".length();
 
     public static void main(String[] args) {
-        test01();
+//        test01();
+        CosyArbitraryOrder.CosyMapArbitraryOrder cosyMapArbitraryOrder = CosyArbitraryOrder.readMap(
+                "  0.2596224      1.862474     0.0000000E+00 0.0000000E+00 0.1468336E-01 100000\n" +
+                        " -0.4184481     0.8498938     0.0000000E+00 0.0000000E+00-0.2101781E-02 010000\n" +
+                        "  0.0000000E+00 0.0000000E+00 0.8024085     0.7785208     0.0000000E+00 001000\n" +
+                        "  0.0000000E+00 0.0000000E+00-0.2431872      1.010301     0.0000000E+00 000100\n" +
+                        "  0.0000000E+00 0.0000000E+00 0.0000000E+00 0.0000000E+00  1.000000     000010\n" +
+                        "  0.5598556E-02-0.1639381E-01 0.0000000E+00 0.0000000E+00  2.077917     000001"
+        );
+
+        PhaseSpaceParticle p0 = PhaseSpaceParticle.create(3.5, 7.5, 3.5, 7.5, 0, 5);
+        PhaseSpaceParticle apply = cosyMapArbitraryOrder.apply(p0);
+
+        System.out.println("apply = " + apply);
+
+
     }
 
     private static void test01(){
