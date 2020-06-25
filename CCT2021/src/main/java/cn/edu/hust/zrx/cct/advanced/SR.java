@@ -2,6 +2,7 @@ package cn.edu.hust.zrx.cct.advanced;
 
 
 import cn.edu.hust.zrx.cct.Logger;
+import cn.edu.hust.zrx.cct.base.particle.PhaseSpaceParticle;
 
 /**
  * Description
@@ -75,6 +76,17 @@ public class SR {
     public String sr(double x, double x1, double y, double y1, double dE, int color) {
         return String.format("SR  %e  %e  %e  %e  0  %e  0  0  %d ;",
                 x, x1, y, y1, dE, color);
+    }
+
+    public String sr(PhaseSpaceParticle p, int color) {
+        return sr(
+                p.getX(),
+                p.getXp(),
+                p.getY(),
+                p.getYp(),
+                p.getDelta(),
+                color
+        );
     }
 
     public static Point3[] sphericalUniformDistribution(int number) {

@@ -1,8 +1,10 @@
 package cn.edu.hust.zrx.cct.study.验证性研究;
 
+import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.COSY;
 import cn.edu.hust.zrx.cct.advanced.CosyArbitraryOrder;
 import cn.edu.hust.zrx.cct.base.particle.PhaseSpaceParticle;
+import cn.edu.hust.zrx.cct.base.particle.Protons;
 
 /**
  * Description
@@ -20,6 +22,10 @@ public class CosyArbitraryOrderTest {
     private static final int ITEM_LENGTH = "-0.0000000E+00".length();
 
     public static void main(String[] args) {
+
+        Logger.getLogger().info("Protons.STATIC_ENERGY_MeV = " + Protons.STATIC_ENERGY_MeV);
+
+
 //        test01();
         CosyArbitraryOrder.CosyMapArbitraryOrder cosyMapArbitraryOrder = CosyArbitraryOrder.readMap(
                 "  0.2596224      1.862474     0.0000000E+00 0.0000000E+00 0.1468336E-01 100000\n" +
@@ -27,10 +33,25 @@ public class CosyArbitraryOrderTest {
                         "  0.0000000E+00 0.0000000E+00 0.8024085     0.7785208     0.0000000E+00 001000\n" +
                         "  0.0000000E+00 0.0000000E+00-0.2431872      1.010301     0.0000000E+00 000100\n" +
                         "  0.0000000E+00 0.0000000E+00 0.0000000E+00 0.0000000E+00  1.000000     000010\n" +
-                        "  0.5598556E-02-0.1639381E-01 0.0000000E+00 0.0000000E+00  2.077917     000001"
+                        "  0.5598556E-02-0.1639381E-01 0.0000000E+00 0.0000000E+00  2.077917     000001\n" +
+                        "  -10.83394      35.64159     0.0000000E+00 0.0000000E+00-0.5807074     200000\n" +
+                        "   12.13149      43.06895     0.0000000E+00 0.0000000E+00 0.4172653     110000\n" +
+                        "   7.280779     -2.334314     0.0000000E+00 0.0000000E+00 0.1246046     020000\n" +
+                        "  0.0000000E+00 0.0000000E+00  131.0832     -63.93487     0.0000000E+00 101000\n" +
+                        "  0.0000000E+00 0.0000000E+00  59.42912     -44.14807     0.0000000E+00 011000\n" +
+                        "   42.68960      10.90738     0.0000000E+00 0.0000000E+00 -3.584823     002000\n" +
+                        "  0.0000000E+00 0.0000000E+00  82.52457     -65.60024     0.0000000E+00 100100\n" +
+                        "  0.0000000E+00 0.0000000E+00  1.312573     -60.17280     0.0000000E+00 010100\n" +
+                        "   61.71111     -7.510766     0.0000000E+00 0.0000000E+00 -3.339891     001100\n" +
+                        " -0.5102503     0.9820063     0.0000000E+00 0.0000000E+00-0.2155202     100001\n" +
+                        " -0.6163846E-05 0.8754399E-01 0.0000000E+00 0.0000000E+00 0.4187320E-02 010001\n" +
+                        "  0.0000000E+00 0.0000000E+00 -5.571651      5.425942     0.0000000E+00 001001\n" +
+                        "   12.37878     -41.04267     0.0000000E+00 0.0000000E+00 0.6262018     000200\n" +
+                        "  0.0000000E+00 0.0000000E+00-0.1095823E-05  5.370732     0.0000000E+00 000101\n" +
+                        " -0.4401219E-01 0.9380933E-01 0.0000000E+00 0.0000000E+00 -1.795069     000002"
         );
 
-        PhaseSpaceParticle p0 = PhaseSpaceParticle.create(3.5, 7.5, 3.5, 7.5, 0, 5);
+        PhaseSpaceParticle p0 = PhaseSpaceParticle.create(3.5/1000, 7.5/1000, 3.5/1000, 7.5/1000, 0, 0.14);
         PhaseSpaceParticle apply = cosyMapArbitraryOrder.apply(p0);
 
         System.out.println("apply = " + apply);
