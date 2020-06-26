@@ -7,6 +7,7 @@ import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
@@ -194,6 +195,25 @@ public class PhaseSpaceParticles {
         return phaseSpaceParticles.stream()
                 .map(p -> convertDeltaFromMomentumDispersionToEnergyDispersion(p, centerKineticEnergy_MeV))
                 .collect(Collectors.toList());
+    }
+
+
+    //  COSY TRACKING
+    public static List<PhaseSpaceParticle> readFromCosy_PRAY(String data) {
+        String[] lines = data.split("\n");
+        System.out.println(lines.length);
+        return Arrays.stream(lines).map(line -> {
+            String[] split = line.trim().split(" +");
+
+            return PhaseSpaceParticle.create(
+                    Double.parseDouble(split[0]),
+                    Double.parseDouble(split[1]),
+                    Double.parseDouble(split[2]),
+                    Double.parseDouble(split[3]),
+                    0,
+                    Double.parseDouble(split[5])
+            );
+        }).collect(Collectors.toList());
     }
 
 }

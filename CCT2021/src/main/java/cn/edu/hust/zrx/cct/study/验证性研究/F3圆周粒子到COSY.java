@@ -28,9 +28,9 @@ public class F3圆周粒子到COSY {
         SR sr = new SR();
         boolean xPlane = true;
         double delta = 0.0;
-        int number = 8;
+        int number = 32;
         List<PhaseSpaceParticle> pp = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInPlane(
-                false, 3.5 * MM, 7.5 * MM, 0.1, number);
+                true, 3.5 * MM, 7.5 * MM, 0.1, number);
 
         pp.forEach(p -> {
             String sr1 = sr.sr(p, 1);

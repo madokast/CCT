@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>plot 绘制图像</title>
+    <title>COSY-MAP相椭圆绘制</title>
     <link rel="stylesheet" href="./css/element-ui.css">
     <style>
         .console {
@@ -19,6 +19,7 @@
                 <div class="grid-content bg-purple">
                     <h2 class="title">COSY MAP 相椭圆绘制工具 v1.0</h2>
                     <div style="margin: 20px 0;"></div>
+                    <h4>粒子参数设定</h4>
                     <el-form :inline="true" :model="inputpp" class="demo-form-inline">
                         <el-form-item label="σx/m">
                             <el-input v-model="inputpp.x"></el-input>
@@ -33,7 +34,7 @@
                             <el-input v-model="inputpp.yp"></el-input>
                         </el-form-item>
                         <el-form-item label="dp/1">
-                            <el-input v-model="inputpp.dp"></el-input>
+                            <el-input v-model="inputpp.dp_input"></el-input>
                         </el-form-item>
                         <el-form-item label="粒子数目">
                             <el-input v-model="number"></el-input>
@@ -49,11 +50,11 @@
                     <el-input type="textarea" :autosize="{ minRows: 10, maxRows: 30}" placeholder="把COSY MAP粘贴到此处..."
                         v-model="cosymap">
                     </el-input>
-                    <!-- <div class="console">
+                    <div class="console">
                         <div v-for="p in runP">
                             {{ p }}
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </el-col>
             <el-col :span="12">
@@ -71,6 +72,7 @@
 <script>
     var ITEM_LENGTH = "-0.0000000E+00".length;
     var ESP_0 = 1.0e-6;
+    var STATIC_ENERGY_MeV = 938.2719665019625;
     var app = new Vue({
         el: '#app',
         data() {
@@ -83,7 +85,8 @@
                     xp: 7.5 / 1000,
                     yp: 7.5 / 1000,
                     z: 0,
-                    dp: 5. / 100
+                    dp: 0.0,
+                    dp_input: 5. / 100
                 },
                 number: 32,
                 runP: [],
@@ -94,6 +97,9 @@
         methods: {
             plot() {
                 this.runP = [];
+                this.inputpp.dp = this.inputpp.dp_input / ((250 + STATIC_ENERGY_MeV) / (250 + 2 * STATIC_ENERGY_MeV));
+                console.log("能量分散：" + this.inputpp.dp);
+
 
                 if (this.legend.substring(0, 3) == "相椭圆") {
                     this.plotTimes++;
@@ -118,8 +124,8 @@
                     runppxs[i] = this.apply(ppxs[i]);
                     runppys[i] = this.apply(ppys[i]);
 
-                    this.runP.push(runppxs[i]);
-                    this.runP.push(runppys[i]);
+                    // this.runP.push(runppxs[i]);
+                    // this.runP.push(runppys[i]);
 
                     plxs[i] = { x: runppxs[i].x * 1000, y: runppxs[i].xp * 1000 };
                     plys[i] = { x: runppys[i].y * 1000, y: runppys[i].yp * 1000 };
@@ -127,6 +133,10 @@
 
                 plxs.push(plxs[0]);
                 plys.push(plys[0]);
+
+                // plxs.forEach(px=>{this.runP.push(px.x+" 去 "+px.y)});
+                // this.runP.push("---------------");
+                // plys.forEach(px=>{this.runP.push(px.x+" 去 "+px.y)});
 
                 this.plotly(plxs, "plotxx", "X-XP 相空间", this.legend);
                 this.plotly(plys, "plotyy", "Y-YP 相空间", this.legend);

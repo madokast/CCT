@@ -74,13 +74,13 @@ public class CosyArbitraryOrder {
 //                        )
 //                );
 
-                System.out.println(
-                        String.format("%s\t%2.4e\t%2.4e\t%2.4e\t%2.4e",
-                                contributionDescribing,xContribution * contributionBy,
-                                xpContribution * contributionBy,yContribution * contributionBy,
-                                ypContribution * contributionBy
-                        )
-                );
+//                System.out.println(
+//                        String.format("%s\t%2.4e\t%2.4e\t%2.4e\t%2.4e",
+//                                contributionDescribing,xContribution * contributionBy,
+//                                xpContribution * contributionBy,yContribution * contributionBy,
+//                                ypContribution * contributionBy
+//                        )
+//                );
             }
 
             return PhaseSpaceParticle.create(x, xp, y, yp, p0.getZ(), p0.getDelta());
