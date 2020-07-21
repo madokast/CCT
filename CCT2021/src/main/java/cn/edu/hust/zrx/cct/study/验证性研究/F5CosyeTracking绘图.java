@@ -41,11 +41,16 @@ public class F5CosyeTracking绘图 {
 //        new F5CosyeTracking绘图().二阶dp1432X();
 //        new F5CosyeTracking绘图().二阶dp1432y();
 
-        new F5CosyeTracking绘图().九阶dp1432X();
+//        new F5CosyeTracking绘图().九阶dp1432X();
 //        new F5CosyeTracking绘图().九阶dp1432y();
 
 
 //        new F5CosyeTracking绘图().fiveCosyMap();
+
+
+//        new F5CosyeTracking绘图().cosyTrack自身一致性x方向();
+        new F5CosyeTracking绘图().cosyTrack自身一致性y方向();
+
     }
 
 
@@ -447,6 +452,151 @@ public class F5CosyeTracking绘图 {
 
     }
 
+    public void cosyTrack自身一致性x方向(){
+        { // 1
+            List<PhaseSpaceParticle> phaseSpaceParticles = a一阶dp1432xCOSY();
+            System.out.println("phaseSpaceParticles.size() = " + phaseSpaceParticles.size());
+
+            boolean xxPlane = true;
+
+            List<Point2> cosyTrack = PhaseSpaceParticles.projectionToPlane(xxPlane, phaseSpaceParticles);
+
+
+            Plot2d.plot2circle(Point2.convert(cosyTrack, 1 / MM, 1 / MM), Plot2d.BLUE_LINE);
+        }
+
+        { // 2
+            List<PhaseSpaceParticle> phaseSpaceParticles = a二阶dp1432xCOSY();
+            System.out.println("phaseSpaceParticles.size() = " + phaseSpaceParticles.size());
+
+            boolean xxPlane = true;
+
+            List<Point2> cosyTrack = PhaseSpaceParticles.projectionToPlane(xxPlane, phaseSpaceParticles);
+
+
+            Plot2d.plot2circle(Point2.convert(cosyTrack, 1 / MM, 1 / MM), Plot2d.RED_LINE);
+        }
+
+        { // 3
+            List<PhaseSpaceParticle> phaseSpaceParticles = a三阶dp1432xCOSY();
+            System.out.println("phaseSpaceParticles.size() = " + phaseSpaceParticles.size());
+
+            boolean xxPlane = true;
+
+            List<Point2> cosyTrack = PhaseSpaceParticles.projectionToPlane(xxPlane, phaseSpaceParticles);
+
+
+            Plot2d.plot2circle(Point2.convert(cosyTrack, 1 / MM, 1 / MM), Plot2d.GREEN_LINE);
+        }
+
+        { // 5
+            List<PhaseSpaceParticle> phaseSpaceParticles = a五阶dp1432xCOSY();
+            System.out.println("phaseSpaceParticles.size() = " + phaseSpaceParticles.size());
+
+            boolean xxPlane = true;
+
+            List<Point2> cosyTrack = PhaseSpaceParticles.projectionToPlane(xxPlane, phaseSpaceParticles);
+
+
+            Plot2d.plot2circle(Point2.convert(cosyTrack, 1 / MM, 1 / MM), Plot2d.BLACK_LINE);
+        }
+
+        { // 9
+            List<PhaseSpaceParticle> phaseSpaceParticles = a九阶dp1432xCOSY();
+            System.out.println("phaseSpaceParticles.size() = " + phaseSpaceParticles.size());
+
+            boolean xxPlane = true;
+
+            List<Point2> cosyTrack = PhaseSpaceParticles.projectionToPlane(xxPlane, phaseSpaceParticles);
+
+
+            Plot2d.plot2circle(Point2.convert(cosyTrack, 1 / MM, 1 / MM), Plot2d.YELLOW_DASH);
+        }
+
+
+
+
+        Plot2d.info("x/mm", "xp/mrad", "", 18);
+        Plot2d.legend(18, "cosy track 1st","cosy track 2ed","cosy track 3rd","cosy track 5th","cosy track 9th");
+
+        Plot2d.equal();
+
+        Plot2d.showThread();
+    }
+
+    public void cosyTrack自身一致性y方向(){
+        boolean xxPlane = false;
+
+        { // 1
+            List<PhaseSpaceParticle> phaseSpaceParticles = a一阶dp1432yCOSY();
+            System.out.println("phaseSpaceParticles.size() = " + phaseSpaceParticles.size());
+
+//            boolean xxPlane = true;
+
+            List<Point2> cosyTrack = PhaseSpaceParticles.projectionToPlane(xxPlane, phaseSpaceParticles);
+
+
+            Plot2d.plot2circle(Point2.convert(cosyTrack, 1 / MM, 1 / MM), Plot2d.BLUE_LINE);
+        }
+
+        { // 2
+            List<PhaseSpaceParticle> phaseSpaceParticles = a二阶dp1432yCOSY();
+            System.out.println("phaseSpaceParticles.size() = " + phaseSpaceParticles.size());
+
+//            boolean xxPlane = true;
+
+            List<Point2> cosyTrack = PhaseSpaceParticles.projectionToPlane(xxPlane, phaseSpaceParticles);
+
+
+            Plot2d.plot2circle(Point2.convert(cosyTrack, 1 / MM, 1 / MM), Plot2d.RED_LINE);
+        }
+
+        { // 3
+            List<PhaseSpaceParticle> phaseSpaceParticles = a三阶dp1432yCOSY();
+            System.out.println("phaseSpaceParticles.size() = " + phaseSpaceParticles.size());
+
+//            boolean xxPlane = true;
+
+            List<Point2> cosyTrack = PhaseSpaceParticles.projectionToPlane(xxPlane, phaseSpaceParticles);
+
+
+            Plot2d.plot2circle(Point2.convert(cosyTrack, 1 / MM, 1 / MM), Plot2d.GREEN_LINE);
+        }
+
+        { // 5
+            List<PhaseSpaceParticle> phaseSpaceParticles = a五阶dp1432yCOSY();
+            System.out.println("phaseSpaceParticles.size() = " + phaseSpaceParticles.size());
+
+//            boolean xxPlane = true;
+
+            List<Point2> cosyTrack = PhaseSpaceParticles.projectionToPlane(xxPlane, phaseSpaceParticles);
+
+
+            Plot2d.plot2circle(Point2.convert(cosyTrack, 1 / MM, 1 / MM), Plot2d.BLACK_LINE);
+        }
+
+        { // 9
+            List<PhaseSpaceParticle> phaseSpaceParticles = a九阶dp1432yCOSY();
+            System.out.println("phaseSpaceParticles.size() = " + phaseSpaceParticles.size());
+
+//            boolean xxPlane = true;
+
+            List<Point2> cosyTrack = PhaseSpaceParticles.projectionToPlane(xxPlane, phaseSpaceParticles);
+
+
+            Plot2d.plot2circle(Point2.convert(cosyTrack, 1 / MM, 1 / MM), Plot2d.YELLOW_DASH);
+        }
+
+
+
+
+        Plot2d.info("y/mm", "yp/mrad", "", 18);
+        Plot2d.legend(18, "cosy track 1st","cosy track 2nd","cosy track 3rd","cosy track 5th","cosy track 9th");
+
+        Plot2d.equal();
+
+        Plot2d.showThread();
+    }
 
     private List<PhaseSpaceParticle> a一阶dp1432xCOSY() {
         return PhaseSpaceParticles.readFromCosy_PRAY(
@@ -891,6 +1041,80 @@ public class F5CosyeTracking绘图 {
                         " -0.3394558E-04 -0.8969319E-03  0.3418758E-02 -0.1816176E-02  0.2647930E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
                         "  0.7959147E-04 -0.6950677E-03  0.8734929E-03  0.7477702E-03  0.2647923E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
                         "  0.2872206E-03 -0.6033205E-03 -0.1560029E-02  0.3170689E-02  0.2647254E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0"
+        );
+    }
+
+    private List<PhaseSpaceParticle> a三阶dp1432yCOSY() {
+        return PhaseSpaceParticles.readFromCosy_PRAY(
+                "  0.4937896E-03 -0.6466225E-03 -0.3744121E-02  0.5514620E-02  0.2651733E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.8317616E-03 -0.7571072E-03 -0.5877371E-02  0.7816551E-02  0.2650083E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1170299E-02 -0.9688724E-03 -0.7847079E-02  0.1006956E-01  0.2648040E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1460304E-02 -0.1282247E-02 -0.9647226E-02  0.1228663E-01  0.2645669E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1644347E-02 -0.1690134E-02 -0.1124117E-01  0.1441775E-01  0.2643105E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1667680E-02 -0.2175088E-02 -0.1259730E-01  0.1636549E-01  0.2640575E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1485480E-02 -0.2691601E-02 -0.1366766E-01  0.1790982E-01  0.2638518E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1087654E-02 -0.3127891E-02 -0.1434699E-01  0.1857575E-01  0.2637802E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.5828676E-03 -0.3221960E-02 -0.1428151E-01  0.1744116E-01  0.2639848E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.2344673E-03 -0.2806792E-02 -0.1302917E-01  0.1439434E-01  0.2644235E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.4346500E-04 -0.2213346E-02 -0.1094310E-01  0.1088780E-01  0.2648285E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.8074029E-04 -0.1674086E-02 -0.8499296E-02  0.7594182E-02  0.2651116E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.1442245E-03 -0.1245299E-02 -0.5937365E-02  0.4589118E-02  0.2652807E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.1253693E-03 -0.9334406E-03 -0.3383194E-02  0.1834007E-02  0.2653560E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.9028063E-05 -0.7328654E-03 -0.8962490E-03 -0.7355265E-03  0.2653550E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.2029298E-03 -0.6385229E-03  0.1481166E-02 -0.3165258E-02  0.2652911E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.4946671E-03 -0.6467846E-03  0.3750139E-02 -0.5520968E-02  0.2651729E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.8317616E-03 -0.7571072E-03  0.5877371E-02 -0.7816551E-02  0.2650083E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1170299E-02 -0.9688724E-03  0.7847079E-02 -0.1006956E-01  0.2648040E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1460304E-02 -0.1282247E-02  0.9647226E-02 -0.1228663E-01  0.2645669E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1644347E-02 -0.1690134E-02  0.1124117E-01 -0.1441775E-01  0.2643105E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1667680E-02 -0.2175088E-02  0.1259730E-01 -0.1636549E-01  0.2640575E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1485480E-02 -0.2691601E-02  0.1366766E-01 -0.1790982E-01  0.2638518E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1087654E-02 -0.3127891E-02  0.1434699E-01 -0.1857575E-01  0.2637802E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.5828676E-03 -0.3221960E-02  0.1428151E-01 -0.1744116E-01  0.2639848E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.2344673E-03 -0.2806792E-02  0.1302917E-01 -0.1439434E-01  0.2644235E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.4346500E-04 -0.2213346E-02  0.1094310E-01 -0.1088780E-01  0.2648285E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.8074029E-04 -0.1674086E-02  0.8499296E-02 -0.7594182E-02  0.2651116E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.1442245E-03 -0.1245299E-02  0.5937365E-02 -0.4589118E-02  0.2652807E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.1253693E-03 -0.9334406E-03  0.3383194E-02 -0.1834007E-02  0.2653560E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.9028063E-05 -0.7328654E-03  0.8962490E-03  0.7355265E-03  0.2653550E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.2029298E-03 -0.6385229E-03 -0.1481166E-02  0.3165258E-02  0.2652911E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0"
+        );
+    }
+
+    private List<PhaseSpaceParticle> a三阶dp1432xCOSY() {
+        return PhaseSpaceParticles.readFromCosy_PRAY(
+                " -0.2442646E-03  0.6899969E-02  0.0000000E+00  0.0000000E+00  0.2652836E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.7050888E-03  0.7995966E-02  0.0000000E+00  0.0000000E+00  0.2652728E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.1135947E-02  0.8857331E-02  0.0000000E+00  0.0000000E+00  0.2652653E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.1552703E-02  0.9451266E-02  0.0000000E+00  0.0000000E+00  0.2652621E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.1965362E-02  0.9721947E-02  0.0000000E+00  0.0000000E+00  0.2652639E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.2383463E-02  0.9597266E-02  0.0000000E+00  0.0000000E+00  0.2652716E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.2807060E-02  0.8965935E-02  0.0000000E+00  0.0000000E+00  0.2652860E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.3211119E-02  0.7641149E-02  0.0000000E+00  0.0000000E+00  0.2653080E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.3484216E-02  0.5422617E-02  0.0000000E+00  0.0000000E+00  0.2653361E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.3447666E-02  0.2843086E-02  0.0000000E+00  0.0000000E+00  0.2653592E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.3165018E-02  0.6107998E-03  0.0000000E+00  0.0000000E+00  0.2653714E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.2759797E-02 -0.1242156E-02  0.0000000E+00  0.0000000E+00  0.2653761E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.2288183E-02 -0.2816645E-02  0.0000000E+00  0.0000000E+00  0.2653764E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.1775726E-02 -0.4176162E-02  0.0000000E+00  0.0000000E+00  0.2653741E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.1233605E-02 -0.5361037E-02  0.0000000E+00  0.0000000E+00  0.2653703E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.6698267E-03 -0.6389012E-02  0.0000000E+00  0.0000000E+00  0.2653659E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        " -0.8204783E-04 -0.7279958E-02  0.0000000E+00  0.0000000E+00  0.2653616E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.5242494E-03 -0.8030264E-02  0.0000000E+00  0.0000000E+00  0.2653579E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1148271E-02 -0.8638226E-02  0.0000000E+00  0.0000000E+00  0.2653551E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1791203E-02 -0.9096335E-02  0.0000000E+00  0.0000000E+00  0.2653536E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.2444178E-02 -0.9380668E-02  0.0000000E+00  0.0000000E+00  0.2653533E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.3093426E-02 -0.9451832E-02  0.0000000E+00  0.0000000E+00  0.2653542E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.3704414E-02 -0.9232524E-02  0.0000000E+00  0.0000000E+00  0.2653562E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.4194445E-02 -0.8560474E-02  0.0000000E+00  0.0000000E+00  0.2653588E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.4356999E-02 -0.7150874E-02  0.0000000E+00  0.0000000E+00  0.2653609E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.4017221E-02 -0.5131567E-02  0.0000000E+00  0.0000000E+00  0.2653605E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.3403087E-02 -0.3044683E-02  0.0000000E+00  0.0000000E+00  0.2653565E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.2717995E-02 -0.1062629E-02  0.0000000E+00  0.0000000E+00  0.2653490E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.2037682E-02  0.8023323E-03  0.0000000E+00  0.0000000E+00  0.2653383E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.1393731E-02  0.2543565E-02  0.0000000E+00  0.0000000E+00  0.2653253E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.7975808E-03  0.4153477E-02  0.0000000E+00  0.0000000E+00  0.2653110E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0\n" +
+                        "  0.2539380E-03  0.5609917E-02  0.0000000E+00  0.0000000E+00  0.2652968E+00  0.1432000E+00  0.0000000E+00  0.0000000E+00         1         0"
         );
     }
 

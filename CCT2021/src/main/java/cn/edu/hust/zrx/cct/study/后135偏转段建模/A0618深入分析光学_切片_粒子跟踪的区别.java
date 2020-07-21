@@ -11,6 +11,7 @@ import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.cct.Elements;
 import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
 import cn.edu.hust.zrx.cct.base.line.*;
+import cn.edu.hust.zrx.cct.base.opticsMagnet.NoMagnet;
 import cn.edu.hust.zrx.cct.base.opticsMagnet.qs.QsHardPlaneMagnet;
 import cn.edu.hust.zrx.cct.base.particle.*;
 import cn.edu.hust.zrx.cct.base.point.Point2;
@@ -27,10 +28,7 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -254,13 +252,24 @@ public class A0618深入分析光学_切片_粒子跟踪的区别 {
 
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
+        Logger.getLogger().info("trajectoryPart2.getLength() = " + trajectoryPart2.getLength());
+
         MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
+//         trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength()-DL2, elementsOfAllPart2);
         List<Point3> point3List = trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(), elementsOfAllPart2);
+
+//        Collections.reverse(point3List);
 
         Line3 trajectory3 = DiscretePointLine3.create(point3List);
 
-        List<String> script = elementsOfAllPart2.sliceToCosyScript(Bp, 60 * MM, trajectory3, 20 * MM, MM, 0.1);
+        List<String> script = elementsOfAllPart2.sliceToCosyScript(Bp,
+                60 * MM, trajectory3,
+                20 * MM,
+                1 * MM, 1000000 * MM,
+                0.2);
+
+//        Collections.reverse(script);
 
         script.forEach(System.out::println);
 
@@ -442,7 +451,7 @@ public class A0618深入分析光学_切片_粒子跟踪的区别 {
     // ------------- 继续像椭圆对比
 
     @run(1000)
-    public void CCT675_2出口相椭圆() {
+    public void CCT675_2出口相椭圆10() {
         MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
@@ -470,6 +479,349 @@ public class A0618深入分析光学_切片_粒子跟踪的区别 {
                 )
         );
     }
+
+    @run(1001)
+    public void CCT675_2出口相椭圆15() {
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+//        phase相椭圆画图(
+//                trajectoryPart2.getLength() - DL2, true, 0.05,
+//                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+//                512, 5, List.of(
+//                        BaseUtils.Content.BiContent.create("optics", CosyMap.optics_后偏转段CCT2出口.map)
+//                )
+//        );
+
+//        phase相椭圆画图(
+//                trajectoryPart2.getLength() - DL2 + 0.5, true, 0.05,
+//                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+//                512, 5, List.of(
+//                        BaseUtils.Content.BiContent.create("optics", CosyMap.optics_后偏转段CCT2出口加0点5米.map)
+//                )
+//        );
+
+        phase相椭圆画图(
+                trajectoryPart2.getLength() - DL2 + 1.5, false, 0.05,
+                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+                512, 5, List.of(
+                        BaseUtils.Content.BiContent.create("optics", CosyMap.optics_后偏转段CCT2出口加1点5米.map)
+                )
+        );
+    }
+
+    @run(1002)
+    public void CCT675_2出口相椭圆20() {
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+//        phase相椭圆画图(
+//                trajectoryPart2.getLength() - DL2, true, 0.05,
+//                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+//                512, 5, List.of(
+//                        BaseUtils.Content.BiContent.create("optics", CosyMap.optics_后偏转段CCT2出口.map)
+//                )
+//        );
+
+//        phase相椭圆画图(
+//                trajectoryPart2.getLength() - DL2 + 0.5, true, 0.05,
+//                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+//                512, 5, List.of(
+//                        BaseUtils.Content.BiContent.create("optics", CosyMap.optics_后偏转段CCT2出口加0点5米.map)
+//                )
+//        );
+
+        phase相椭圆画图(
+                trajectoryPart2.getLength() - DL2 + 2.0, false, 0.05,
+                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+                512, 5, List.of(
+                        BaseUtils.Content.BiContent.create("optics", CosyMap.optics_后偏转段CCT2出口加2点0米.map)
+                )
+        );
+    }
+
+    @run(1003)
+    public void CCT675_2出口相椭圆24() {
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+//        phase相椭圆画图(
+//                trajectoryPart2.getLength() - DL2, true, 0.05,
+//                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+//                512, 5, List.of(
+//                        BaseUtils.Content.BiContent.create("optics", CosyMap.optics_后偏转段CCT2出口.map)
+//                )
+//        );
+
+//        phase相椭圆画图(
+//                trajectoryPart2.getLength() - DL2 + 0.5, true, 0.05,
+//                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+//                512, 5, List.of(
+//                        BaseUtils.Content.BiContent.create("optics", CosyMap.optics_后偏转段CCT2出口加0点5米.map)
+//                )
+//        );
+
+        phase相椭圆画图(
+                trajectoryPart2.getLength(), false, 0.05,
+                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+                512, 5, List.of(
+                        BaseUtils.Content.BiContent.create("optics", CosyMap.optics_后偏转段CCT2出口加2点4米.map)
+                )
+        );
+    }
+
+    @run(1004)
+    public void CCT675_2出口相椭圆XX() {
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+//        phase相椭圆画图(
+//                trajectoryPart2.getLength() - DL2, true, 0.05,
+//                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+//                512, 5, List.of(
+//                        BaseUtils.Content.BiContent.create("optics", CosyMap.optics_后偏转段CCT2出口.map)
+//                )
+//        );
+
+//        phase相椭圆画图(
+//                trajectoryPart2.getLength() - DL2 + 0.5, true, 0.05,
+//                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+//                512, 5, List.of(
+//                        BaseUtils.Content.BiContent.create("optics", CosyMap.optics_后偏转段CCT2出口加0点5米.map)
+//                )
+//        );
+
+        phase相椭圆画图(
+                0.1, false, 0.05,
+                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+                512, 5, List.of(
+                        BaseUtils.Content.BiContent.create("optics", CosyMap.optics_后偏转段CCT2出口加2点4米.map)
+                )
+        );
+    }
+
+
+    // -------- 继续像椭圆对比 加上 slice 原map
+    @run(2000)
+    public void 第二段出口前00() {
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+        phase相椭圆画图(
+                trajectoryPart2.getLength(), false, 0.05,
+                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+                512, 5, List.of(
+                        BaseUtils.Content.BiContent.create("slice", CosyMap.slice_20200715_后偏转段全段.map),
+                        BaseUtils.Content.BiContent.create("optic", CosyMap.optics_后偏转段CCT2出口加2点4米.map)
+                )
+        );
+    }
+
+    @run(2001)
+    public void 第二段出口前05() {
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+        phase相椭圆画图(
+                trajectoryPart2.getLength() - DL2 + 1.5, false, 0.05,
+                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+                512, 5, List.of(
+                        BaseUtils.Content.BiContent.create("slice", CosyMap.slice_20200715_后偏转段_最后偏移段15.map),
+                        BaseUtils.Content.BiContent.create("optic", CosyMap.optics_后偏转段CCT2出口加1点5米.map)
+                )
+        );
+    }
+
+    @run(2002)
+    public void 偏转段CCT2出口加1点0米() {
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+        phase相椭圆画图(
+                trajectoryPart2.getLength() - DL2 + 1.0, false, 0.05,
+                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+                512, 5, List.of(
+                        BaseUtils.Content.BiContent.create("slice", CosyMap.slice_20200715_后偏转段_最后偏移段10.map),
+                        BaseUtils.Content.BiContent.create("optic", CosyMap.optics_后偏转段CCT2出口加1点0米.map)
+                )
+        );
+    }
+
+    @run(2003)
+    public void 偏转段CCT2出口加0点5米() {
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+        phase相椭圆画图(
+                trajectoryPart2.getLength() - DL2 + 0.5, false, 0.05,
+                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+                512, 5, List.of(
+                        BaseUtils.Content.BiContent.create("slice", CosyMap.slice_20200715_后偏转段_最后偏移段05.map),
+                        BaseUtils.Content.BiContent.create("optic", CosyMap.optics_后偏转段CCT2出口加0点5米.map)
+                )
+        );
+    }
+
+    @run(2004)
+    public void 偏转段CCT2出口加0点0米() {
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+        phase相椭圆画图(
+                trajectoryPart2.getLength() - DL2 + 0.0, true, 0.05,
+                32, true, 1, elementsOfAllPart2, trajectoryPart2,
+                512, 5, List.of(
+                        BaseUtils.Content.BiContent.create("slice", CosyMap.slice_20200715_后偏转段_最后偏移段00.map),
+                        BaseUtils.Content.BiContent.create("optic", CosyMap.optics_后偏转段CCT2出口.map)
+                )
+        );
+    }
+
+    @run(2010)
+    public void 偏转段CCT2出口后无磁场() {
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+
+        NoMagnet noMagnet = NoMagnet.create();
+
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+        boolean xPlane = true;
+
+        double delta = 0.00;
+
+        int number = 32;
+
+        double distancePre = trajectoryPart2.getLength() - DL2 + 0.4;
+        double distancePost = DL2 - 0.4;
+
+        double distance = trajectoryPart2.getLength();
+        /*---------------------------------------------------*/
+
+
+        RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectoryPart2);
+
+        List<PhaseSpaceParticle> pp = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInPlane(
+                xPlane, 3.5 * MM * 1, 7.5 * MM * 1, delta, number);
+
+        List<RunningParticle> ps = ParticleFactory.createParticlesFromPhaseSpaceParticle(ip, ip.computeNaturalCoordinateSystem(), pp);
+
+        ParticleRunner.runThread(ps, elementsOfAllPart2, distancePre, MM);
+
+        ParticleRunner.runThread(ps, noMagnet, distancePost, MM);
+
+        RunningParticle ipEnd = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectoryPart2, distance);
+
+        List<PhaseSpaceParticle> ppEnd = PhaseSpaceParticles.phaseSpaceParticlesFromRunningParticles(
+                ipEnd, ipEnd.computeNaturalCoordinateSystem(), ps);
+
+        List<Point2> projectionToPlaneCOSY = PhaseSpaceParticles.projectionToPlane(xPlane, ppEnd);
+
+        Vector2 average = Point2.average(projectionToPlaneCOSY).toVector2().reverseSelf();
+
+        projectionToPlaneCOSY.forEach(point2 -> point2.moveSelf(average));
+
+        // 改单位
+        List<Point2> tracked = Point2.convert(projectionToPlaneCOSY, 1 / MM, 1 / MRAD);
+
+        /*----------------------------------------------*/
+
+        List<Point2> cosyPhaseSlice = cosy相椭圆(xPlane, delta, 512, 5, false, 1, CosyMap.slice3d_后偏转段全部.map);
+        List<Point2> cosyPhaseOptics = cosy相椭圆(xPlane, delta, 512, 5, false, 1, CosyMap.optics_后偏转段CCT2出口加2点4米.map);
+
+        /*----------------------------------------------*/
+
+        List<List<Point2>> lists = List.of(tracked, cosyPhaseSlice, cosyPhaseOptics);
+
+        List<String> mapInfo = List.of("track noMagnet", "slice", "optics");
+
+        Plot2d.plot2(tracked, Plot2d.BLACK_POINT);
+
+        for (int i = 1; i < lists.size(); i++) {
+            List<Point2> list1 = lists.get(i);
+            Plot2d.plot2(list1, switcher.getAndSwitch());
+        }
+
+        if (xPlane)
+            Plot2d.info("x/mm", "xp/mrad", "x/xp dp=" + delta / PRESENT + "%, s=" + distance + "m", 18);
+        else
+            Plot2d.info("y/mm", "yp/mrad", "y/yp dp=" + delta / PRESENT + "%, s=" + distance + "m", 18);
+
+        List<String> info = mapInfo.stream().collect(Collectors.toList());
+
+        Plot2d.legend(18, info.toArray(String[]::new));
+
+        Plot2d.equal();
+
+        Plot2d.showThread();
+    }
+
+
+    //----------------2020年7月7日--------------------
+    @run(-10001)
+    public void 磁场分布() {
+        MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+
+        Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+        {
+            //final Line2 trajectory, final double deltaLength, final double goodFieldAreaWidth,
+            //            final int order, final int dotNumber
+            List<List<Point2>> lists = elementsOfAllPart2.multiplePoleMagnetAlongTrajectoryBreak(
+                    trajectoryPart2, MM, 20 * MM, 4, 12
+            );
+
+            List<Point2> bz = lists.get(3);
+
+            Plot2d.plot2(bz, Plot2d.BLACK_LINE);
+        }// 二极场 理想轨道
+
+        {
+            RunningParticle p = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectoryPart2);
+
+            List<Point3> tra = ParticleRunner.run(p, elementsOfAllPart2, trajectoryPart2.getLength(), MM);
+
+            Line3 tra3 = DiscretePointLine3.create(tra);
+
+            //final Line3 trajectory, final double deltaLength, final double goodFieldAreaWidth,
+            //            final int order, final int dotNumber
+            List<List<Point2>> lists = elementsOfAllPart2.multiplePoleMagnetAlongTrajectoryBreak(
+                    tra3, MM, 20 * MM, 4, 12
+            );
+
+            List<Point2> bz = lists.get(3);
+
+            Plot2d.plot2(bz, Plot2d.RED_LINE);
+
+        }// 二极场 实际轨道
+
+
+//        Plot2d.info("s/m","B/T","Field along trajectory",18);
+//        Plot2d.info("s/m", "G/(T/m)", "Field along trajectory", 18);
+        Plot2d.info("s/m", "L/(T/m2)", "Field along trajectory", 18);
+
+        Plot2d.legend(18, "indel traj", "real traj");
+
+        Plot2d.showThread();
+    }
+
+    @run(-10002)
+    public void 磁场分布_介绍0713() {
+        Elements elementsOfAllPart1 = getElementsOfAllPart1();
+        Trajectory trajectoryPart1 = getTrajectoryPart1();
+
+        List<List<Point2>> lists = elementsOfAllPart1.multiplePoleMagnetAlongTrajectoryBreak(trajectoryPart1,
+                trajectoryPart1.getLength(), 10 * MM, 1, 4);
+
+
+        List<Point2> bx = lists.get(0);
+        List<Point2> g = lists.get(1);
+    }
+
 
     // ------------------- method ----------------
     private void phase相椭圆画图(
@@ -1132,9 +1484,2307 @@ public class A0618深入分析光学_切片_粒子跟踪的区别 {
         slice_后偏转段CCT2入口, optics_后偏转段CCT2入口, slice3d_后偏转段全部,
         optics_后偏转段CCT2出口, optics_后偏转段CCT2出口加0点5米,
         optics_后偏转段CCT2出口加1点0米, optics_后偏转段CCT2出口加1点5米,
-        optics_后偏转段CCT2出口加2点0米, optics_后偏转段CCT2出口加2点4米;
+        optics_后偏转段CCT2出口加2点0米, optics_后偏转段CCT2出口加2点4米,
+        slice_20200715_后偏转段全段, slice_20200715_后偏转段_最后偏移段20,
+        slice_20200715_后偏转段_最后偏移段15, slice_20200715_后偏转段_最后偏移段10,
+        slice_20200715_后偏转段_最后偏移段05, slice_20200715_后偏转段_最后偏移段00;
 
         static {
+            slice_20200715_后偏转段_最后偏移段00.map = CosyArbitraryOrder.readMap(
+                    " -0.5004004     0.7182201     0.0000000E+00 0.0000000E+00 0.1956850E-01 100000\n" +
+                            "  -2.195638      1.152980     0.0000000E+00 0.0000000E+00 0.3404278E-01 010000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.321234     0.8248457E-01 0.0000000E+00 001000\n" +
+                            "  0.0000000E+00 0.0000000E+00  2.465952    -0.9108178     0.0000000E+00 000100\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.0000000E+00 0.0000000E+00  1.000000     000010\n" +
+                            "  0.2593034E-01 0.1888118E-02 0.0000000E+00 0.0000000E+00 0.8725335     000001\n" +
+                            "  -6.359273     -1.104255     0.0000000E+00 0.0000000E+00 0.7817876     200000\n" +
+                            "  -29.14138      2.830954     0.0000000E+00 0.0000000E+00  4.930617     110000\n" +
+                            "  -31.44763      17.77472     0.0000000E+00 0.0000000E+00  6.807920     020000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -15.09395     0.9215201     0.0000000E+00 101000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -38.31162     0.6730656E-01 0.0000000E+00 011000\n" +
+                            "  0.7382500     -1.087056     0.0000000E+00 0.0000000E+00-0.9553630     002000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -36.53639      10.96635     0.0000000E+00 100100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -86.51260      31.68621     0.0000000E+00 010100\n" +
+                            "   7.817488      11.71210     0.0000000E+00 0.0000000E+00  1.165972     001100\n" +
+                            "   1.103041      1.607916     0.0000000E+00 0.0000000E+00 0.3582441E-01 100001\n" +
+                            "   4.251192      3.494992     0.0000000E+00 0.0000000E+00 0.3685511E-01 010001\n" +
+                            "  0.0000000E+00 0.0000000E+00  3.407099     -1.614094     0.0000000E+00 001001\n" +
+                            "   6.680200     -3.357508     0.0000000E+00 0.0000000E+00 -5.557957     000200\n" +
+                            "  0.0000000E+00 0.0000000E+00  12.26061    -0.1016304     0.0000000E+00 000101\n" +
+                            "  0.7288129E-02-0.1424429E-01 0.0000000E+00 0.0000000E+00-0.7713578     000002\n" +
+                            "  -12.47249      11.91120     0.0000000E+00 0.0000000E+00  4.181033     300000\n" +
+                            "  -145.1414      78.32789     0.0000000E+00 0.0000000E+00  34.89557     210000\n" +
+                            "  -517.2974      161.1647     0.0000000E+00 0.0000000E+00  100.8812     120000\n" +
+                            "  -582.5067      102.9999     0.0000000E+00 0.0000000E+00  100.8921     030000\n" +
+                            "  0.0000000E+00 0.0000000E+00  15.57892     -44.76506     0.0000000E+00 201000\n" +
+                            "  0.0000000E+00 0.0000000E+00  39.94885     -251.3069     0.0000000E+00 111000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5.858421     -348.1983     0.0000000E+00 021000\n" +
+                            "  -17.07968     -60.22557     0.0000000E+00 0.0000000E+00 -16.11851     102000\n" +
+                            "  -48.91687     -164.8760     0.0000000E+00 0.0000000E+00 -40.81278     012000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -20.45137      19.64552     0.0000000E+00 003000\n" +
+                            "  0.0000000E+00 0.0000000E+00  32.71876     -29.03069     0.0000000E+00 200100\n" +
+                            "  0.0000000E+00 0.0000000E+00  40.46195     -178.8020     0.0000000E+00 110100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -136.5105     -251.9548     0.0000000E+00 020100\n" +
+                            "  -57.25400     -60.01882     0.0000000E+00 0.0000000E+00 -10.99964     101100\n" +
+                            "  -144.7160     -149.3246     0.0000000E+00 0.0000000E+00 -23.81362     011100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -211.1600     -28.56865     0.0000000E+00 002100\n" +
+                            "  -5.500780     -5.031257     0.0000000E+00 0.0000000E+00-0.4384138E-01 200001\n" +
+                            "  -12.19467     -22.18746     0.0000000E+00 0.0000000E+00 -2.278792     110001\n" +
+                            " -0.4661035E-01 -36.22091     0.0000000E+00 0.0000000E+00 -5.544920     020001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7.622536     -1.932934     0.0000000E+00 101001\n" +
+                            "  0.0000000E+00 0.0000000E+00  7.748337      1.599533     0.0000000E+00 011001\n" +
+                            "   2.066743      10.29154     0.0000000E+00 0.0000000E+00  4.965561     002001\n" +
+                            "   25.02351      162.4119     0.0000000E+00 0.0000000E+00  74.71939     100200\n" +
+                            "   27.52141      313.1695     0.0000000E+00 0.0000000E+00  178.4489     010200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -421.1866      232.4228     0.0000000E+00 001200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3.377584     -14.67287     0.0000000E+00 100101\n" +
+                            "  0.0000000E+00 0.0000000E+00  49.72464     -33.08744     0.0000000E+00 010101\n" +
+                            "  -2.236688      7.794487     0.0000000E+00 0.0000000E+00  2.586724     001101\n" +
+                            "  0.8937117E-01 0.4182831     0.0000000E+00 0.0000000E+00-0.3149350E-01 100002\n" +
+                            "  -2.315173    -0.5919148     0.0000000E+00 0.0000000E+00-0.2748973E-01 010002\n" +
+                            "  0.0000000E+00 0.0000000E+00-0.5150559E-01  3.558540     0.0000000E+00 001002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -438.8298     -73.13924     0.0000000E+00 000300\n" +
+                            "  -27.40221     -80.94478     0.0000000E+00 0.0000000E+00 -14.68125     000201\n" +
+                            "  0.0000000E+00 0.0000000E+00 -9.543930      8.705853     0.0000000E+00 000102\n" +
+                            " -0.3956309E-01-0.7852002E-02 0.0000000E+00 0.0000000E+00 0.6865840     000003\n" +
+                            "  -55.25781      45.67109     0.0000000E+00 0.0000000E+00  2.215719     400000\n" +
+                            "  -694.0995      526.4122     0.0000000E+00 0.0000000E+00  56.11902     310000\n" +
+                            "  -3323.845      2243.815     0.0000000E+00 0.0000000E+00  340.7058     220000\n" +
+                            "  -7201.900      4142.119     0.0000000E+00 0.0000000E+00  785.3058     130000\n" +
+                            "  -5938.059      2767.589     0.0000000E+00 0.0000000E+00  624.9948     040000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -41.41339     -267.4917     0.0000000E+00 301000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -295.6709     -2242.578     0.0000000E+00 211000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -744.3471     -6329.488     0.0000000E+00 121000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -702.1453     -6001.040     0.0000000E+00 031000\n" +
+                            "   35.15835     -296.9841     0.0000000E+00 0.0000000E+00 -63.54913     202000\n" +
+                            "   174.6419     -1667.670     0.0000000E+00 0.0000000E+00 -360.3461     112000\n" +
+                            "   224.5056     -2335.853     0.0000000E+00 0.0000000E+00 -516.8502     022000\n" +
+                            "  0.0000000E+00 0.0000000E+00  150.3260      401.1409     0.0000000E+00 103000\n" +
+                            "  0.0000000E+00 0.0000000E+00  338.2178      968.2094     0.0000000E+00 013000\n" +
+                            "  -15.67182     -59.73543     0.0000000E+00 0.0000000E+00 -29.46017     004000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -92.16265     -266.2128     0.0000000E+00 300100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -663.6503     -1890.030     0.0000000E+00 210100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1783.425     -4580.561     0.0000000E+00 120100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1882.210     -3825.309     0.0000000E+00 030100\n" +
+                            "  -1.221602     -1017.501     0.0000000E+00 0.0000000E+00 -447.1526     201100\n" +
+                            "   135.4860     -4941.477     0.0000000E+00 0.0000000E+00 -2321.054     111100\n" +
+                            "   313.0971     -6080.364     0.0000000E+00 0.0000000E+00 -3048.393     021100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -68.60913     -709.8887     0.0000000E+00 102100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -455.8463     -2186.558     0.0000000E+00 012100\n" +
+                            "  -68.18762     -360.8397     0.0000000E+00 0.0000000E+00 -112.0842     003100\n" +
+                            "  -38.41365     -32.85391     0.0000000E+00 0.0000000E+00  4.099579     300001\n" +
+                            "  -279.8869     -360.2841     0.0000000E+00 0.0000000E+00  7.632399     210001\n" +
+                            "  -555.6402     -1192.677     0.0000000E+00 0.0000000E+00 -58.07709     120001\n" +
+                            "  -209.6610     -1244.102     0.0000000E+00 0.0000000E+00 -138.1177     030001\n" +
+                            "  0.0000000E+00 0.0000000E+00  19.65137      82.45150     0.0000000E+00 201001\n" +
+                            "  0.0000000E+00 0.0000000E+00  57.36364      557.4906     0.0000000E+00 111001\n" +
+                            "  0.0000000E+00 0.0000000E+00  73.65930      925.3016     0.0000000E+00 021001\n" +
+                            "   28.41327      143.1158     0.0000000E+00 0.0000000E+00  57.80890     102001\n" +
+                            "   119.7949      496.0571     0.0000000E+00 0.0000000E+00  171.7211     012001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -39.32817     -144.2605     0.0000000E+00 003001\n" +
+                            "  -735.4382     -1669.801     0.0000000E+00 0.0000000E+00 -635.0864     200200\n" +
+                            "  -2602.474     -6271.660     0.0000000E+00 0.0000000E+00 -2858.615     110200\n" +
+                            "  -1788.960     -5078.153     0.0000000E+00 0.0000000E+00 -3145.168     020200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -482.6122     -2583.277     0.0000000E+00 101200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1684.464     -6841.303     0.0000000E+00 011200\n" +
+                            "  -188.9272     -78.19630     0.0000000E+00 0.0000000E+00 -193.4036     002200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -14.84617      266.0688     0.0000000E+00 200101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -139.1199      1414.086     0.0000000E+00 110101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -65.36672      1888.899     0.0000000E+00 020101\n" +
+                            "   248.1422      830.9958     0.0000000E+00 0.0000000E+00  265.3821     101101\n" +
+                            "   693.3043      2147.915     0.0000000E+00 0.0000000E+00  661.6197     011101\n" +
+                            "  0.0000000E+00 0.0000000E+00  207.8116     -77.83777     0.0000000E+00 002101\n" +
+                            "   2.488705     -1.931596     0.0000000E+00 0.0000000E+00 -1.214617     200002\n" +
+                            "   16.21677    -0.1425359     0.0000000E+00 0.0000000E+00 -5.629503     110002\n" +
+                            "   18.01188      17.73235     0.0000000E+00 0.0000000E+00 -6.187273     020002\n" +
+                            "  0.0000000E+00 0.0000000E+00  5.880730     -4.428462     0.0000000E+00 101002\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.8718540     -12.07670     0.0000000E+00 011002\n" +
+                            "  -4.511243     -18.40109     0.0000000E+00 0.0000000E+00 -13.83745     002002\n" +
+                            "  0.0000000E+00 0.0000000E+00  1925.550      4508.635     0.0000000E+00 100300\n" +
+                            "  0.0000000E+00 0.0000000E+00  4131.300      10055.59     0.0000000E+00 010300\n" +
+                            "   408.7219      1943.738     0.0000000E+00 0.0000000E+00  733.1921     001300\n" +
+                            "   523.9039      1090.707     0.0000000E+00 0.0000000E+00  217.6503     100201\n" +
+                            "   1209.561      2229.222     0.0000000E+00 0.0000000E+00  400.5578     010201\n" +
+                            "  0.0000000E+00 0.0000000E+00  821.9196      66.74381     0.0000000E+00 001201\n" +
+                            "  0.0000000E+00 0.0000000E+00  12.39115     -14.82511     0.0000000E+00 100102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -25.72721     -36.65403     0.0000000E+00 010102\n" +
+                            "  -28.32193     -124.4220     0.0000000E+00 0.0000000E+00 -44.62682     001102\n" +
+                            " -0.4271942    -0.3889939     0.0000000E+00 0.0000000E+00 0.4949287E-01 100003\n" +
+                            "  0.7134446    -0.5099879     0.0000000E+00 0.0000000E+00-0.3504251E-01 010003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.734620     -3.778753     0.0000000E+00 001003\n" +
+                            "   502.4356      2897.954     0.0000000E+00 0.0000000E+00  752.6680     000400\n" +
+                            "  0.0000000E+00 0.0000000E+00  360.0424     -1865.547     0.0000000E+00 000301\n" +
+                            "  -12.30164     -86.80326     0.0000000E+00 0.0000000E+00 -9.359987     000202\n" +
+                            "  0.0000000E+00 0.0000000E+00  4.008326     -14.22929     0.0000000E+00 000103\n" +
+                            "  0.7187398E-01 0.4248500E-02 0.0000000E+00 0.0000000E+00-0.6455254     000004\n" +
+                            "   406.9188      796.5244     0.0000000E+00 0.0000000E+00 -32.83620     500000\n" +
+                            "   5483.983      11744.50     0.0000000E+00 0.0000000E+00 -467.9096     410000\n" +
+                            "   29671.76      69295.90     0.0000000E+00 0.0000000E+00 -2508.709     320000\n" +
+                            "   80511.33      204775.6     0.0000000E+00 0.0000000E+00 -6273.606     230000\n" +
+                            "   109272.7      303283.1     0.0000000E+00 0.0000000E+00 -7150.850     140000\n" +
+                            "   59064.65      180138.9     0.0000000E+00 0.0000000E+00 -2794.585     050000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -163.8867     -1326.178     0.0000000E+00 401000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2084.615     -16440.21     0.0000000E+00 311000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -9650.004     -75450.38     0.0000000E+00 221000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -19411.24     -152596.6     0.0000000E+00 131000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -14463.09     -115130.9     0.0000000E+00 041000\n" +
+                            "  -308.6878     -1121.733     0.0000000E+00 0.0000000E+00  289.4394     302000\n" +
+                            "  -2396.656     -10581.83     0.0000000E+00 0.0000000E+00  1991.241     212000\n" +
+                            "  -5905.405     -32400.17     0.0000000E+00 0.0000000E+00  4461.868     122000\n" +
+                            "  -4581.334     -32551.16     0.0000000E+00 0.0000000E+00  3198.976     032000\n" +
+                            "  0.0000000E+00 0.0000000E+00  1128.387      3803.526     0.0000000E+00 203000\n" +
+                            "  0.0000000E+00 0.0000000E+00  5917.033      19965.95     0.0000000E+00 113000\n" +
+                            "  0.0000000E+00 0.0000000E+00  7841.787      26309.54     0.0000000E+00 023000\n" +
+                            "  -206.4819     -793.6952     0.0000000E+00 0.0000000E+00 -444.2374     104000\n" +
+                            "  -681.1137     -2335.866     0.0000000E+00 0.0000000E+00 -1144.525     014000\n" +
+                            "  0.0000000E+00 0.0000000E+00  269.4596      786.6171     0.0000000E+00 005000\n" +
+                            "  0.0000000E+00 0.0000000E+00  329.0539     -1301.354     0.0000000E+00 400100\n" +
+                            "  0.0000000E+00 0.0000000E+00  3486.059     -16686.36     0.0000000E+00 310100\n" +
+                            "  0.0000000E+00 0.0000000E+00  14551.31     -76719.33     0.0000000E+00 220100\n" +
+                            "  0.0000000E+00 0.0000000E+00  28274.09     -151851.3     0.0000000E+00 130100\n" +
+                            "  0.0000000E+00 0.0000000E+00  21130.30     -110088.3     0.0000000E+00 040100\n" +
+                            "   2562.273      993.3770     0.0000000E+00 0.0000000E+00  881.8541     301100\n" +
+                            "   17131.07     -2457.997     0.0000000E+00 0.0000000E+00  4477.995     211100\n" +
+                            "   38870.56     -31323.58     0.0000000E+00 0.0000000E+00  5296.393     121100\n" +
+                            "   30316.68     -47401.62     0.0000000E+00 0.0000000E+00 -1050.831     031100\n" +
+                            "  0.0000000E+00 0.0000000E+00  4003.559      13027.27     0.0000000E+00 202100\n" +
+                            "  0.0000000E+00 0.0000000E+00  19340.93      62829.92     0.0000000E+00 112100\n" +
+                            "  0.0000000E+00 0.0000000E+00  23552.22      75498.94     0.0000000E+00 022100\n" +
+                            "  -1631.140     -9736.840     0.0000000E+00 0.0000000E+00 -2213.388     103100\n" +
+                            "  -4730.523     -25814.59     0.0000000E+00 0.0000000E+00 -5562.370     013100\n" +
+                            "  0.0000000E+00 0.0000000E+00  873.4411      2764.506     0.0000000E+00 004100\n" +
+                            "  -109.5900     -47.90570     0.0000000E+00 0.0000000E+00  11.88967     400001\n" +
+                            "  -884.0397     -867.7220     0.0000000E+00 0.0000000E+00  132.9418     310001\n" +
+                            "  -1925.936     -5125.860     0.0000000E+00 0.0000000E+00  436.4514     220001\n" +
+                            "   727.9975     -12374.86     0.0000000E+00 0.0000000E+00  423.6538     130001\n" +
+                            "   4543.017     -10508.16     0.0000000E+00 0.0000000E+00 -55.40487     040001\n" +
+                            "  0.0000000E+00 0.0000000E+00  118.8552      87.67140     0.0000000E+00 301001\n" +
+                            "  0.0000000E+00 0.0000000E+00  1199.928      2369.554     0.0000000E+00 211001\n" +
+                            "  0.0000000E+00 0.0000000E+00  3774.386      11122.82     0.0000000E+00 121001\n" +
+                            "  0.0000000E+00 0.0000000E+00  3901.556      14551.07     0.0000000E+00 031001\n" +
+                            "   26.64115      340.7551     0.0000000E+00 0.0000000E+00 -45.41368     202001\n" +
+                            "   318.3824      3480.008     0.0000000E+00 0.0000000E+00  114.9702     112001\n" +
+                            "   614.7737      6907.929     0.0000000E+00 0.0000000E+00  677.0812     022001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -929.5732     -2522.514     0.0000000E+00 103001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2473.323     -6987.508     0.0000000E+00 013001\n" +
+                            "   64.58380      165.0640     0.0000000E+00 0.0000000E+00  174.1254     004001\n" +
+                            "   5821.705      6123.233     0.0000000E+00 0.0000000E+00  1423.939     300200\n" +
+                            "   31152.42      25159.50     0.0000000E+00 0.0000000E+00  6641.436     210200\n" +
+                            "   46415.67      11374.12     0.0000000E+00 0.0000000E+00  6638.388     120200\n" +
+                            "   13365.10     -31208.99     0.0000000E+00 0.0000000E+00 -2239.528     030200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -9358.994     -25193.77     0.0000000E+00 201200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -49652.85     -135931.0     0.0000000E+00 111200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -66389.04     -185820.2     0.0000000E+00 021200\n" +
+                            "  -8103.852     -34100.70     0.0000000E+00 0.0000000E+00 -10398.09     102200\n" +
+                            "  -20815.90     -84257.56     0.0000000E+00 0.0000000E+00 -25740.72     012200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -508.4795     -997.2119     0.0000000E+00 003200\n" +
+                            "  0.0000000E+00 0.0000000E+00  296.3829      764.0837     0.0000000E+00 300101\n" +
+                            "  0.0000000E+00 0.0000000E+00  2903.900      8797.444     0.0000000E+00 210101\n" +
+                            "  0.0000000E+00 0.0000000E+00  9097.526      30209.26     0.0000000E+00 120101\n" +
+                            "  0.0000000E+00 0.0000000E+00  9690.938      32649.12     0.0000000E+00 030101\n" +
+                            "  -1419.338      55.80517     0.0000000E+00 0.0000000E+00  208.4402     201101\n" +
+                            "  -5221.005      8167.908     0.0000000E+00 0.0000000E+00  3321.081     111101\n" +
+                            "  -4169.372      20430.78     0.0000000E+00 0.0000000E+00  7367.883     021101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2645.716     -7973.776     0.0000000E+00 102101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5365.244     -17720.63     0.0000000E+00 012101\n" +
+                            "   404.9554      2584.844     0.0000000E+00 0.0000000E+00  925.2619     003101\n" +
+                            "   26.77757     -11.73699     0.0000000E+00 0.0000000E+00 -3.628678     300002\n" +
+                            "   372.4937      99.43899     0.0000000E+00 0.0000000E+00 -29.41388     210002\n" +
+                            "   1347.473      976.4153     0.0000000E+00 0.0000000E+00 -22.34123     120002\n" +
+                            "   1372.769      1674.462     0.0000000E+00 0.0000000E+00  99.29404     030002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -44.54118     0.3257381     0.0000000E+00 201002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -260.3993     -357.9652     0.0000000E+00 111002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -386.6975     -1076.426     0.0000000E+00 021002\n" +
+                            "   4.653947     -46.09925     0.0000000E+00 0.0000000E+00 -79.52473     102002\n" +
+                            "  -127.5512     -534.3623     0.0000000E+00 0.0000000E+00 -317.0775     012002\n" +
+                            "  0.0000000E+00 0.0000000E+00  194.8568      476.2311     0.0000000E+00 003002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -28517.49     -75699.67     0.0000000E+00 200300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -133548.7     -352413.5     0.0000000E+00 110300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -154474.6     -404907.9     0.0000000E+00 020300\n" +
+                            "  -27699.27     -63404.85     0.0000000E+00 0.0000000E+00 -23754.59     101300\n" +
+                            "  -65700.94     -146975.7     0.0000000E+00 0.0000000E+00 -56660.62     011300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6341.906     -13833.99     0.0000000E+00 002300\n" +
+                            "  -3335.915     -2580.815     0.0000000E+00 0.0000000E+00  749.6491     200201\n" +
+                            "  -12244.12     -2376.781     0.0000000E+00 0.0000000E+00  6586.700     110201\n" +
+                            "  -10578.20      8383.693     0.0000000E+00 0.0000000E+00  11576.16     020201\n" +
+                            "  0.0000000E+00 0.0000000E+00  5017.869      14488.33     0.0000000E+00 101201\n" +
+                            "  0.0000000E+00 0.0000000E+00  15430.60      41143.33     0.0000000E+00 011201\n" +
+                            "   2339.709      9902.502     0.0000000E+00 0.0000000E+00  3685.102     002201\n" +
+                            "  0.0000000E+00 0.0000000E+00 -88.88649     -203.9243     0.0000000E+00 200102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -359.4272     -1913.242     0.0000000E+00 110102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -451.9281     -3633.481     0.0000000E+00 020102\n" +
+                            "   12.45072     -562.9532     0.0000000E+00 0.0000000E+00 -505.8031     101102\n" +
+                            "  -562.4855     -3167.954     0.0000000E+00 0.0000000E+00 -1674.108     011102\n" +
+                            "  0.0000000E+00 0.0000000E+00  340.2511      1590.203     0.0000000E+00 002102\n" +
+                            "  0.2622501      3.939609     0.0000000E+00 0.0000000E+00  1.346229     200003\n" +
+                            "  -4.988946      21.83206     0.0000000E+00 0.0000000E+00  10.93450     110003\n" +
+                            "  -12.12753      20.67116     0.0000000E+00 0.0000000E+00  20.97282     020003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4.571318     -2.611859     0.0000000E+00 101003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4.813270     -5.941312     0.0000000E+00 011003\n" +
+                            "   1.272511      6.871723     0.0000000E+00 0.0000000E+00  25.21896     002003\n" +
+                            "  -13567.15     -43322.62     0.0000000E+00 0.0000000E+00 -8072.518     100400\n" +
+                            "  -30517.50     -94147.59     0.0000000E+00 0.0000000E+00 -18415.77     010400\n" +
+                            "  0.0000000E+00 0.0000000E+00  7107.066      26832.38     0.0000000E+00 001400\n" +
+                            "  0.0000000E+00 0.0000000E+00  10710.18      35845.77     0.0000000E+00 100301\n" +
+                            "  0.0000000E+00 0.0000000E+00  25225.29      80886.62     0.0000000E+00 010301\n" +
+                            "   5005.965      14821.69     0.0000000E+00 0.0000000E+00  4996.405     001301\n" +
+                            "  -190.3556     -932.9794     0.0000000E+00 0.0000000E+00 -636.8717     100202\n" +
+                            "  -1089.346     -3650.756     0.0000000E+00 0.0000000E+00 -1754.326     010202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1507.372     -1432.858     0.0000000E+00 001202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -11.69084      12.65566     0.0000000E+00 100103\n" +
+                            "  0.0000000E+00 0.0000000E+00  21.09788      52.48635     0.0000000E+00 010103\n" +
+                            "   37.40633      143.2389     0.0000000E+00 0.0000000E+00  116.7498     001103\n" +
+                            "  0.6133547     0.3201570     0.0000000E+00 0.0000000E+00-0.4025733E-01 100004\n" +
+                            "  0.4445221     0.9139037     0.0000000E+00 0.0000000E+00 0.3055247     010004\n" +
+                            "  0.0000000E+00 0.0000000E+00  2.979887      4.076410     0.0000000E+00 001004\n" +
+                            "  0.0000000E+00 0.0000000E+00  16010.83      54119.28     0.0000000E+00 000500\n" +
+                            "   888.8165      7093.299     0.0000000E+00 0.0000000E+00 -486.3017     000401\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1717.732     -2037.259     0.0000000E+00 000302\n" +
+                            "   58.95050      246.1442     0.0000000E+00 0.0000000E+00  88.86714     000203\n" +
+                            "  0.0000000E+00 0.0000000E+00  2.309938      18.96143     0.0000000E+00 000104\n" +
+                            " -0.1189647     0.6672337E-03 0.0000000E+00 0.0000000E+00 0.6425721     000005"
+            );
+
+            slice_20200715_后偏转段_最后偏移段05.map = CosyArbitraryOrder.readMap(
+                    " -0.3676851     0.7182200     0.0000000E+00 0.0000000E+00 0.1956855E-01 100000\n" +
+                            "  -1.982587      1.152979     0.0000000E+00 0.0000000E+00 0.3404286E-01 010000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.305992     0.8248457E-01 0.0000000E+00 001000\n" +
+                            "  0.0000000E+00 0.0000000E+00  2.297648    -0.9108178     0.0000000E+00 000100\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.0000000E+00 0.0000000E+00  1.000000     000010\n" +
+                            "  0.2627930E-01 0.1888123E-02 0.0000000E+00 0.0000000E+00 0.9085061     000001\n" +
+                            "  -6.563322     -1.104256     0.0000000E+00 0.0000000E+00 0.7551563     200000\n" +
+                            "  -28.61827      2.830949     0.0000000E+00 0.0000000E+00  4.845114     110000\n" +
+                            "  -28.16315      17.77472     0.0000000E+00 0.0000000E+00  6.739291     020000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -14.92367     0.9215201     0.0000000E+00 101000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -38.29919     0.6730656E-01 0.0000000E+00 011000\n" +
+                            "  0.5373798     -1.087056     0.0000000E+00 0.0000000E+00-0.9557143     002000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -34.50999      10.96635     0.0000000E+00 100100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -80.65750      31.68621     0.0000000E+00 010100\n" +
+                            "   9.981693      11.71210     0.0000000E+00 0.0000000E+00  1.173730     001100\n" +
+                            "   1.325999      1.607916     0.0000000E+00 0.0000000E+00 0.3568443E-01 100001\n" +
+                            "   4.777960      3.494993     0.0000000E+00 0.0000000E+00 0.3663045E-01 010001\n" +
+                            "  0.0000000E+00 0.0000000E+00  3.100324     -1.614094     0.0000000E+00 001001\n" +
+                            "   6.059787     -3.357507     0.0000000E+00 0.0000000E+00 -5.600786     000200\n" +
+                            "  0.0000000E+00 0.0000000E+00  12.33587    -0.1016304     0.0000000E+00 000101\n" +
+                            "  0.4461012E-02-0.1424428E-01 0.0000000E+00 0.0000000E+00-0.8015092     000002\n" +
+                            "  -10.23726      11.91120     0.0000000E+00 0.0000000E+00  4.262924     300000\n" +
+                            "  -130.5028      78.32786     0.0000000E+00 0.0000000E+00  34.81710     210000\n" +
+                            "  -487.2521      161.1646     0.0000000E+00 0.0000000E+00  99.22602     120000\n" +
+                            "  -563.3325      102.9998     0.0000000E+00 0.0000000E+00  98.77600     030000\n" +
+                            "  0.0000000E+00 0.0000000E+00  7.310998     -44.76506     0.0000000E+00 201000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6.475948     -251.3069     0.0000000E+00 111000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -70.18965     -348.1983     0.0000000E+00 021000\n" +
+                            "  -28.20793     -60.22558     0.0000000E+00 0.0000000E+00 -16.04575     102000\n" +
+                            "  -79.38254     -164.8760     0.0000000E+00 0.0000000E+00 -40.68396     012000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -16.82115      19.64552     0.0000000E+00 003000\n" +
+                            "  0.0000000E+00 0.0000000E+00  27.31095     -29.03069     0.0000000E+00 200100\n" +
+                            "  0.0000000E+00 0.0000000E+00  7.282878     -178.8020     0.0000000E+00 110100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -183.1795     -251.9548     0.0000000E+00 020100\n" +
+                            "  -68.35448     -60.01883     0.0000000E+00 0.0000000E+00 -11.87494     101100\n" +
+                            "  -172.3248     -149.3246     0.0000000E+00 0.0000000E+00 -25.47149     011100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -216.4408     -28.56865     0.0000000E+00 002100\n" +
+                            "  -6.316187     -5.031258     0.0000000E+00 0.0000000E+00-0.1238274     200001\n" +
+                            "  -16.58599     -22.18746     0.0000000E+00 0.0000000E+00 -2.604607     110001\n" +
+                            "  -8.574252     -36.22091     0.0000000E+00 0.0000000E+00 -5.863856     020001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -8.074840     -1.932934     0.0000000E+00 101001\n" +
+                            "  0.0000000E+00 0.0000000E+00  8.036989      1.599533     0.0000000E+00 011001\n" +
+                            "   4.080694      10.29154     0.0000000E+00 0.0000000E+00  4.980036     002001\n" +
+                            "   55.08963      162.4119     0.0000000E+00 0.0000000E+00  75.99973     100200\n" +
+                            "   85.47840      313.1695     0.0000000E+00 0.0000000E+00  181.8286     010200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -378.2197      232.4228     0.0000000E+00 001200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7.221434     -14.67287     0.0000000E+00 100101\n" +
+                            "  0.0000000E+00 0.0000000E+00  40.33854     -33.08744     0.0000000E+00 010101\n" +
+                            "  -2.005736      7.794487     0.0000000E+00 0.0000000E+00  2.422136     001101\n" +
+                            "  0.5499727E-01 0.4182831     0.0000000E+00 0.0000000E+00-0.3054541E-01 100002\n" +
+                            "  -2.698159    -0.5919151     0.0000000E+00 0.0000000E+00-0.2614606E-01 010002\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.7789583      3.558540     0.0000000E+00 001002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -452.4146     -73.13924     0.0000000E+00 000300\n" +
+                            "  -42.01267     -80.94478     0.0000000E+00 0.0000000E+00 -14.62738     000201\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7.993670      8.705853     0.0000000E+00 000102\n" +
+                            " -0.3940030E-01-0.7852009E-02 0.0000000E+00 0.0000000E+00 0.7125524     000003\n" +
+                            "  -46.97643      45.67108     0.0000000E+00 0.0000000E+00  1.259146     400000\n" +
+                            "  -596.9293      526.4121     0.0000000E+00 0.0000000E+00  49.14896     310000\n" +
+                            "  -2905.791      2243.814     0.0000000E+00 0.0000000E+00  320.8829     220000\n" +
+                            "  -6427.302      4142.118     0.0000000E+00 0.0000000E+00  753.1151     130000\n" +
+                            "  -5420.105      2767.588     0.0000000E+00 0.0000000E+00  596.3535     040000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -90.80966     -267.4917     0.0000000E+00 301000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -709.9070     -2242.578     0.0000000E+00 211000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1913.565     -6329.488     0.0000000E+00 121000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1810.719     -6001.040     0.0000000E+00 031000\n" +
+                            "  -19.86548     -296.9841     0.0000000E+00 0.0000000E+00 -58.86969     202000\n" +
+                            "  -133.9965     -1667.670     0.0000000E+00 0.0000000E+00 -338.4985     112000\n" +
+                            "  -207.5100     -2335.853     0.0000000E+00 0.0000000E+00 -492.2623     022000\n" +
+                            "  0.0000000E+00 0.0000000E+00  224.4401      401.1409     0.0000000E+00 103000\n" +
+                            "  0.0000000E+00 0.0000000E+00  517.1081      968.2094     0.0000000E+00 013000\n" +
+                            "  -26.71063     -59.73544     0.0000000E+00 0.0000000E+00 -29.68850     004000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -140.6983     -266.2128     0.0000000E+00 300100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1009.837     -1890.030     0.0000000E+00 210100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2626.341     -4580.561     0.0000000E+00 120100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2588.622     -3825.309     0.0000000E+00 030100\n" +
+                            "  -187.5406     -1017.501     0.0000000E+00 0.0000000E+00 -446.3665     201100\n" +
+                            "  -771.9284     -4941.477     0.0000000E+00 0.0000000E+00 -2331.443     111100\n" +
+                            "  -805.8425     -6080.364     0.0000000E+00 0.0000000E+00 -3082.917     021100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -199.5431     -709.8887     0.0000000E+00 102100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -859.4127     -2186.558     0.0000000E+00 012100\n" +
+                            "  -134.8425     -360.8397     0.0000000E+00 0.0000000E+00 -108.6787     003100\n" +
+                            "  -45.54270     -32.85391     0.0000000E+00 0.0000000E+00  4.533542     300001\n" +
+                            "  -353.5869     -360.2841     0.0000000E+00 0.0000000E+00  9.904474     210001\n" +
+                            "  -790.8982     -1192.677     0.0000000E+00 0.0000000E+00 -54.32816     120001\n" +
+                            "  -449.1140     -1244.102     0.0000000E+00 0.0000000E+00 -137.1385     030001\n" +
+                            "  0.0000000E+00 0.0000000E+00  39.44350      82.45150     0.0000000E+00 201001\n" +
+                            "  0.0000000E+00 0.0000000E+00  186.1260      557.4906     0.0000000E+00 111001\n" +
+                            "  0.0000000E+00 0.0000000E+00  280.4394      925.3016     0.0000000E+00 021001\n" +
+                            "   61.05903      143.1158     0.0000000E+00 0.0000000E+00  57.30130     102001\n" +
+                            "   228.4536      496.0571     0.0000000E+00 0.0000000E+00  170.7291     012001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -68.01679     -144.2605     0.0000000E+00 003001\n" +
+                            "  -1045.880     -1669.801     0.0000000E+00 0.0000000E+00 -656.4856     200200\n" +
+                            "  -3768.657     -6271.660     0.0000000E+00 0.0000000E+00 -2952.994     110200\n" +
+                            "  -2733.343     -5078.153     0.0000000E+00 0.0000000E+00 -3251.903     020200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -961.6571     -2583.277     0.0000000E+00 101200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2952.261     -6841.303     0.0000000E+00 011200\n" +
+                            "  -203.6247     -78.19633     0.0000000E+00 0.0000000E+00 -205.5299     002200\n" +
+                            "  0.0000000E+00 0.0000000E+00  37.19318      266.0688     0.0000000E+00 200101\n" +
+                            "  0.0000000E+00 0.0000000E+00  140.1371      1414.086     0.0000000E+00 110101\n" +
+                            "  0.0000000E+00 0.0000000E+00  309.1902      1888.899     0.0000000E+00 020101\n" +
+                            "   408.0911      830.9958     0.0000000E+00 0.0000000E+00  265.9351     101101\n" +
+                            "   1105.927      2147.915     0.0000000E+00 0.0000000E+00  664.6387     011101\n" +
+                            "  0.0000000E+00 0.0000000E+00  196.4489     -77.83777     0.0000000E+00 002101\n" +
+                            "   2.566419     -1.931596     0.0000000E+00 0.0000000E+00 -1.253545     200002\n" +
+                            "   18.69220    -0.1425333     0.0000000E+00 0.0000000E+00 -5.700783     110002\n" +
+                            "   26.37152      17.73236     0.0000000E+00 0.0000000E+00 -6.223598     020002\n" +
+                            "  0.0000000E+00 0.0000000E+00  5.331199     -4.428462     0.0000000E+00 101002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.520642     -12.07670     0.0000000E+00 011002\n" +
+                            "  -9.056433     -18.40109     0.0000000E+00 0.0000000E+00 -14.02697     002002\n" +
+                            "  0.0000000E+00 0.0000000E+00  2761.600      4508.635     0.0000000E+00 100300\n" +
+                            "  0.0000000E+00 0.0000000E+00  5997.346      10055.59     0.0000000E+00 010300\n" +
+                            "   768.8373      1943.738     0.0000000E+00 0.0000000E+00  759.7434     001300\n" +
+                            "   708.7164      1090.707     0.0000000E+00 0.0000000E+00  221.0370     100201\n" +
+                            "   1589.275      2229.222     0.0000000E+00 0.0000000E+00  403.6111     010201\n" +
+                            "  0.0000000E+00 0.0000000E+00  809.8518      66.74381     0.0000000E+00 001201\n" +
+                            "  0.0000000E+00 0.0000000E+00  11.99827     -14.82511     0.0000000E+00 100102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -26.68356     -36.65403     0.0000000E+00 010102\n" +
+                            "  -51.23074     -124.4220     0.0000000E+00 0.0000000E+00 -44.12887     001102\n" +
+                            " -0.4653927    -0.3889940     0.0000000E+00 0.0000000E+00 0.5101569E-01 100003\n" +
+                            "  0.8728833    -0.5099878     0.0000000E+00 0.0000000E+00-0.3074624E-01 010003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2.927610     -3.778753     0.0000000E+00 001003\n" +
+                            "   1037.673      2897.954     0.0000000E+00 0.0000000E+00  745.1812     000400\n" +
+                            "  0.0000000E+00 0.0000000E+00  22.96633     -1865.547     0.0000000E+00 000301\n" +
+                            "  -20.23904     -86.80327     0.0000000E+00 0.0000000E+00 -8.595519     000202\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.5292150     -14.22929     0.0000000E+00 000103\n" +
+                            "  0.7227389E-01 0.4248511E-02 0.0000000E+00 0.0000000E+00-0.6685663     000004\n" +
+                            "   556.0625      796.5245     0.0000000E+00 0.0000000E+00 -34.80160     500000\n" +
+                            "   7670.094      11744.50     0.0000000E+00 0.0000000E+00 -506.7921     410000\n" +
+                            "   42532.03      69295.91     0.0000000E+00 0.0000000E+00 -2765.464     320000\n" +
+                            "   118478.7      204775.6     0.0000000E+00 0.0000000E+00 -7032.917     230000\n" +
+                            "   165516.6      303283.2     0.0000000E+00 0.0000000E+00 -8183.637     140000\n" +
+                            "   92490.45      180138.9     0.0000000E+00 0.0000000E+00 -3317.307     050000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -411.0701     -1326.178     0.0000000E+00 401000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5140.177     -16440.21     0.0000000E+00 311000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -23646.89     -75450.38     0.0000000E+00 221000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -47684.32     -152596.6     0.0000000E+00 131000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -35775.69     -115130.9     0.0000000E+00 041000\n" +
+                            "  -524.5401     -1121.733     0.0000000E+00 0.0000000E+00  312.5281     302000\n" +
+                            "  -4407.034     -10581.83     0.0000000E+00 0.0000000E+00  2201.468     212000\n" +
+                            "  -12007.82     -32400.17     0.0000000E+00 0.0000000E+00  5099.673     122000\n" +
+                            "  -10675.39     -32551.16     0.0000000E+00 0.0000000E+00  3844.978     032000\n" +
+                            "  0.0000000E+00 0.0000000E+00  1831.314      3803.526     0.0000000E+00 203000\n" +
+                            "  0.0000000E+00 0.0000000E+00  9605.817      19965.95     0.0000000E+00 113000\n" +
+                            "  0.0000000E+00 0.0000000E+00  12701.91      26309.54     0.0000000E+00 023000\n" +
+                            "  -352.7467     -793.6952     0.0000000E+00 0.0000000E+00 -451.8524     104000\n" +
+                            "  -1112.126     -2335.866     0.0000000E+00 0.0000000E+00 -1164.301     014000\n" +
+                            "  0.0000000E+00 0.0000000E+00  414.8596      786.6171     0.0000000E+00 005000\n" +
+                            "  0.0000000E+00 0.0000000E+00  84.03500     -1301.354     0.0000000E+00 400100\n" +
+                            "  0.0000000E+00 0.0000000E+00  375.2637     -16686.36     0.0000000E+00 310100\n" +
+                            "  0.0000000E+00 0.0000000E+00  336.5201     -76719.33     0.0000000E+00 220100\n" +
+                            "  0.0000000E+00 0.0000000E+00  236.8464     -151851.3     0.0000000E+00 130100\n" +
+                            "  0.0000000E+00 0.0000000E+00  830.1393     -110088.3     0.0000000E+00 040100\n" +
+                            "   2738.350      993.3774     0.0000000E+00 0.0000000E+00  965.9287     301100\n" +
+                            "   16674.02     -2457.994     0.0000000E+00 0.0000000E+00  5121.362     211100\n" +
+                            "   33186.77     -31323.57     0.0000000E+00 0.0000000E+00  6974.438     121100\n" +
+                            "   21706.19     -47401.61     0.0000000E+00 0.0000000E+00  428.8637     031100\n" +
+                            "  0.0000000E+00 0.0000000E+00  6417.555      13027.27     0.0000000E+00 202100\n" +
+                            "  0.0000000E+00 0.0000000E+00  30983.21      62829.92     0.0000000E+00 112100\n" +
+                            "  0.0000000E+00 0.0000000E+00  37542.42      75498.94     0.0000000E+00 022100\n" +
+                            "  -3437.156     -9736.841     0.0000000E+00 0.0000000E+00 -2096.315     103100\n" +
+                            "  -9511.396     -25814.59     0.0000000E+00 0.0000000E+00 -5291.231     013100\n" +
+                            "  0.0000000E+00 0.0000000E+00  1383.111      2764.506     0.0000000E+00 004100\n" +
+                            "  -124.3097     -47.90571     0.0000000E+00 0.0000000E+00  13.08801     400001\n" +
+                            "  -1104.833     -867.7221     0.0000000E+00 0.0000000E+00  154.7540     310001\n" +
+                            "  -3111.804     -5125.860     0.0000000E+00 0.0000000E+00  551.4664     220001\n" +
+                            "  -1976.939     -12374.86     0.0000000E+00 0.0000000E+00  678.5615     130001\n" +
+                            "   2331.189     -10508.16     0.0000000E+00 0.0000000E+00  162.6839     040001\n" +
+                            "  0.0000000E+00 0.0000000E+00  162.8693      87.67140     0.0000000E+00 301001\n" +
+                            "  0.0000000E+00 0.0000000E+00  1868.988      2369.554     0.0000000E+00 211001\n" +
+                            "  0.0000000E+00 0.0000000E+00  6478.216      11122.82     0.0000000E+00 121001\n" +
+                            "  0.0000000E+00 0.0000000E+00  7203.757      14551.07     0.0000000E+00 031001\n" +
+                            "   121.0750      340.7551     0.0000000E+00 0.0000000E+00 -60.19005     202001\n" +
+                            "   1135.936      3480.008     0.0000000E+00 0.0000000E+00  26.31370     112001\n" +
+                            "   2133.765      6907.929     0.0000000E+00 0.0000000E+00  553.0848     022001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1436.845     -2522.514     0.0000000E+00 103001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3863.942     -6987.508     0.0000000E+00 013001\n" +
+                            "   101.2884      165.0640     0.0000000E+00 0.0000000E+00  180.1299     004001\n" +
+                            "   6992.360      6123.234     0.0000000E+00 0.0000000E+00  1579.345     300200\n" +
+                            "   36012.45      25159.50     0.0000000E+00 0.0000000E+00  7446.103     210200\n" +
+                            "   48861.78      11374.13     0.0000000E+00 0.0000000E+00  7876.262     120200\n" +
+                            "   7744.559     -31208.99     0.0000000E+00 0.0000000E+00 -1705.355     030200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -13986.84     -25193.77     0.0000000E+00 201200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -74678.45     -135931.0     0.0000000E+00 111200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -100667.1     -185820.2     0.0000000E+00 021200\n" +
+                            "  -14371.92     -34100.70     0.0000000E+00 0.0000000E+00 -10356.59     102200\n" +
+                            "  -36328.57     -84257.56     0.0000000E+00 0.0000000E+00 -25627.80     012200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -683.3584     -997.2119     0.0000000E+00 003200\n" +
+                            "  0.0000000E+00 0.0000000E+00  466.5079      764.0837     0.0000000E+00 300101\n" +
+                            "  0.0000000E+00 0.0000000E+00  4734.773      8797.444     0.0000000E+00 210101\n" +
+                            "  0.0000000E+00 0.0000000E+00  15175.47      30209.26     0.0000000E+00 120101\n" +
+                            "  0.0000000E+00 0.0000000E+00  16133.98      32649.12     0.0000000E+00 030101\n" +
+                            "  -1300.740      55.80493     0.0000000E+00 0.0000000E+00  166.4610     201101\n" +
+                            "  -3188.320      8167.907     0.0000000E+00 0.0000000E+00  3165.460     111101\n" +
+                            "   250.3287      20430.78     0.0000000E+00 0.0000000E+00  7267.402     021101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4049.319     -7973.776     0.0000000E+00 102101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -8421.741     -17720.63     0.0000000E+00 012101\n" +
+                            "   919.0727      2584.844     0.0000000E+00 0.0000000E+00  891.3053     003101\n" +
+                            "   29.16777     -11.73698     0.0000000E+00 0.0000000E+00 -3.242008     300002\n" +
+                            "   435.4208      99.43905     0.0000000E+00 0.0000000E+00 -26.98216     210002\n" +
+                            "   1665.872      976.4155     0.0000000E+00 0.0000000E+00 -14.68288     120002\n" +
+                            "   1820.093      1674.463     0.0000000E+00 0.0000000E+00  111.0106     030002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -56.42627     0.3257381     0.0000000E+00 201002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -403.4744     -357.9652     0.0000000E+00 111002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -707.9429     -1076.426     0.0000000E+00 021002\n" +
+                            "  -22.98567     -46.09925     0.0000000E+00 0.0000000E+00 -79.84159     102002\n" +
+                            "  -289.6710     -534.3624     0.0000000E+00 0.0000000E+00 -317.2507     012002\n" +
+                            "  0.0000000E+00 0.0000000E+00  299.3115      476.2311     0.0000000E+00 003002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -42571.28     -75699.67     0.0000000E+00 200300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -198986.7     -352413.5     0.0000000E+00 110300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -229688.9     -404907.9     0.0000000E+00 020300\n" +
+                            "  -39488.53     -63404.85     0.0000000E+00 0.0000000E+00 -24654.89     101300\n" +
+                            "  -93011.03     -146975.7     0.0000000E+00 0.0000000E+00 -58814.29     011300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -8927.349     -13833.99     0.0000000E+00 002300\n" +
+                            "  -3652.539     -2580.815     0.0000000E+00 0.0000000E+00  703.7411     200201\n" +
+                            "  -12078.71     -2376.783     0.0000000E+00 0.0000000E+00  6552.619     110201\n" +
+                            "  -8546.731      8383.692     0.0000000E+00 0.0000000E+00  11774.05     020201\n" +
+                            "  0.0000000E+00 0.0000000E+00  7969.361      14488.33     0.0000000E+00 101201\n" +
+                            "  0.0000000E+00 0.0000000E+00  23764.31      41143.33     0.0000000E+00 011201\n" +
+                            "   4181.969      9902.503     0.0000000E+00 0.0000000E+00  3718.551     002201\n" +
+                            "  0.0000000E+00 0.0000000E+00 -155.8975     -203.9243     0.0000000E+00 200102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -871.3362     -1913.242     0.0000000E+00 110102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1336.473     -3633.481     0.0000000E+00 020102\n" +
+                            "  -182.1753     -562.9532     0.0000000E+00 0.0000000E+00 -506.7571     101102\n" +
+                            "  -1381.084     -3167.954     0.0000000E+00 0.0000000E+00 -1683.925     011102\n" +
+                            "  0.0000000E+00 0.0000000E+00  639.0555      1590.203     0.0000000E+00 002102\n" +
+                            "  0.8711989      3.939609     0.0000000E+00 0.0000000E+00  1.380099     200003\n" +
+                            "  -2.822857      21.83205     0.0000000E+00 0.0000000E+00  11.14463     110003\n" +
+                            "  -14.01516      20.67116     0.0000000E+00 0.0000000E+00  21.36126     020003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4.796960     -2.611859     0.0000000E+00 101003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4.542449     -5.941312     0.0000000E+00 011003\n" +
+                            "   5.290010      6.871723     0.0000000E+00 0.0000000E+00  26.13499     002003\n" +
+                            "  -21542.70     -43322.62     0.0000000E+00 0.0000000E+00 -7722.701     100400\n" +
+                            "  -47854.68     -94147.59     0.0000000E+00 0.0000000E+00 -17463.04     010400\n" +
+                            "  0.0000000E+00 0.0000000E+00  12128.47      26832.38     0.0000000E+00 001400\n" +
+                            "  0.0000000E+00 0.0000000E+00  16871.30      35845.77     0.0000000E+00 100301\n" +
+                            "  0.0000000E+00 0.0000000E+00  39131.84      80886.62     0.0000000E+00 010301\n" +
+                            "   7543.388      14821.69     0.0000000E+00 0.0000000E+00  5069.910     001301\n" +
+                            "  -464.1893     -932.9794     0.0000000E+00 0.0000000E+00 -633.6247     100202\n" +
+                            "  -1972.354     -3650.756     0.0000000E+00 0.0000000E+00 -1752.849     010202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1760.381     -1432.858     0.0000000E+00 001202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -9.611775      12.65566     0.0000000E+00 100103\n" +
+                            "  0.0000000E+00 0.0000000E+00  30.11019      52.48635     0.0000000E+00 010103\n" +
+                            "   76.57475      143.2389     0.0000000E+00 0.0000000E+00  117.3750     001103\n" +
+                            "  0.6830707     0.3201571     0.0000000E+00 0.0000000E+00-0.4113724E-01 100004\n" +
+                            "  0.4658792     0.9139037     0.0000000E+00 0.0000000E+00 0.3003181     010004\n" +
+                            "  0.0000000E+00 0.0000000E+00  4.497829      4.076410     0.0000000E+00 001004\n" +
+                            "  0.0000000E+00 0.0000000E+00  25993.38      54119.28     0.0000000E+00 000500\n" +
+                            "   1894.517      7093.299     0.0000000E+00 0.0000000E+00 -680.1469     000401\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1905.192     -2037.259     0.0000000E+00 000302\n" +
+                            "   107.4785      246.1442     0.0000000E+00 0.0000000E+00  86.37413     000203\n" +
+                            "  0.0000000E+00 0.0000000E+00  7.898637      18.96143     0.0000000E+00 000104\n" +
+                            " -0.1188828     0.6672139E-03 0.0000000E+00 0.0000000E+00 0.6634502     000005"
+            );
+
+            slice_20200715_后偏转段_最后偏移段10.map = CosyArbitraryOrder.readMap(
+                    " -0.8575134E-02 0.7182200     0.0000000E+00 0.0000000E+00 0.1956855E-01 100000\n" +
+                            "  -1.406097      1.152979     0.0000000E+00 0.0000000E+00 0.3404286E-01 010000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.264749     0.8248457E-01 0.0000000E+00 001000\n" +
+                            "  0.0000000E+00 0.0000000E+00  1.842239    -0.9108178     0.0000000E+00 000100\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.0000000E+00 0.0000000E+00  1.000000     000010\n" +
+                            "  0.2722336E-01 0.1888123E-02 0.0000000E+00 0.0000000E+00  1.005843     000001\n" +
+                            "  -7.115450     -1.104256     0.0000000E+00 0.0000000E+00 0.6830960     200000\n" +
+                            "  -27.20280      2.830949     0.0000000E+00 0.0000000E+00  4.613752     110000\n" +
+                            "  -19.27579      17.77472     0.0000000E+00 0.0000000E+00  6.553585     020000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -14.46291     0.9215201     0.0000000E+00 101000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -38.26553     0.6730656E-01 0.0000000E+00 011000\n" +
+                            " -0.6148234E-02 -1.087056     0.0000000E+00 0.0000000E+00-0.9566647     002000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -29.02682      10.96635     0.0000000E+00 100100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -64.81439      31.68621     0.0000000E+00 010100\n" +
+                            "   15.83774      11.71210     0.0000000E+00 0.0000000E+00  1.194720     001100\n" +
+                            "   1.929294      1.607916     0.0000000E+00 0.0000000E+00 0.3530555E-01 100001\n" +
+                            "   6.203325      3.494993     0.0000000E+00 0.0000000E+00 0.3602223E-01 010001\n" +
+                            "  0.0000000E+00 0.0000000E+00  2.270231     -1.614094     0.0000000E+00 001001\n" +
+                            "   4.381034     -3.357507     0.0000000E+00 0.0000000E+00 -5.716676     000200\n" +
+                            "  0.0000000E+00 0.0000000E+00  12.53953    -0.1016304     0.0000000E+00 000101\n" +
+                            " -0.3188653E-02-0.1424428E-01 0.0000000E+00 0.0000000E+00-0.8830949     000002\n" +
+                            "  -4.189038      11.91120     0.0000000E+00 0.0000000E+00  4.484508     300000\n" +
+                            "  -90.89285      78.32786     0.0000000E+00 0.0000000E+00  34.60474     210000\n" +
+                            "  -405.9537      161.1646     0.0000000E+00 0.0000000E+00  94.74734     120000\n" +
+                            "  -511.4494      102.9998     0.0000000E+00 0.0000000E+00  93.05021     030000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -15.06090     -44.76506     0.0000000E+00 201000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -132.0952     -251.3069     0.0000000E+00 111000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -244.2614     -348.1983     0.0000000E+00 021000\n" +
+                            "  -58.31950     -60.22558     0.0000000E+00 0.0000000E+00 -15.84885     102000\n" +
+                            "  -161.8186     -164.8760     0.0000000E+00 0.0000000E+00 -40.33533     012000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6.998247      19.64552     0.0000000E+00 003000\n" +
+                            "  0.0000000E+00 0.0000000E+00  12.67815     -29.03069     0.0000000E+00 200100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -82.49526     -178.8020     0.0000000E+00 110100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -309.4596     -251.9548     0.0000000E+00 020100\n" +
+                            "  -98.39087     -60.01883     0.0000000E+00 0.0000000E+00 -14.24335     101100\n" +
+                            "  -247.0304     -149.3246     0.0000000E+00 0.0000000E+00 -29.95741     011100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -230.7298     -28.56865     0.0000000E+00 002100\n" +
+                            "  -8.522566     -5.031258     0.0000000E+00 0.0000000E+00-0.3402584     200001\n" +
+                            "  -28.46832     -22.18746     0.0000000E+00 0.0000000E+00 -3.486214     110001\n" +
+                            "  -31.64891     -36.22091     0.0000000E+00 0.0000000E+00 -6.726844     020001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -9.298715     -1.932934     0.0000000E+00 101001\n" +
+                            "  0.0000000E+00 0.0000000E+00  8.818040      1.599533     0.0000000E+00 011001\n" +
+                            "   9.530179      10.29154     0.0000000E+00 0.0000000E+00  5.019200     002001\n" +
+                            "   136.4445      162.4119     0.0000000E+00 0.0000000E+00  79.46410     100200\n" +
+                            "   242.3023      313.1695     0.0000000E+00 0.0000000E+00  190.9735     010200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -261.9570      232.4228     0.0000000E+00 001200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -17.62238     -14.67287     0.0000000E+00 100101\n" +
+                            "  0.0000000E+00 0.0000000E+00  14.94100     -33.08744     0.0000000E+00 010101\n" +
+                            "  -1.380812      7.794487     0.0000000E+00 0.0000000E+00  1.976785     001101\n" +
+                            " -0.3801389E-01 0.4182831     0.0000000E+00 0.0000000E+00-0.2797990E-01 100002\n" +
+                            "  -3.734466    -0.5919151     0.0000000E+00 0.0000000E+00-0.2250959E-01 010002\n" +
+                            "  0.0000000E+00 0.0000000E+00  3.026083      3.558540     0.0000000E+00 001002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -489.1731     -73.13924     0.0000000E+00 000300\n" +
+                            "  -81.54661     -80.94478     0.0000000E+00 0.0000000E+00 -14.48158     000201\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3.798873      8.705853     0.0000000E+00 000102\n" +
+                            " -0.3895993E-01-0.7852009E-02 0.0000000E+00 0.0000000E+00 0.7828195     000003\n" +
+                            "  -24.56810      45.67108     0.0000000E+00 0.0000000E+00 -1.329221     400000\n" +
+                            "  -333.9997      526.4121     0.0000000E+00 0.0000000E+00  30.28881     310000\n" +
+                            "  -1774.591      2243.814     0.0000000E+00 0.0000000E+00  267.2444     220000\n" +
+                            "  -4331.342      4142.118     0.0000000E+00 0.0000000E+00  666.0105     130000\n" +
+                            "  -4018.589      2767.588     0.0000000E+00 0.0000000E+00  518.8535     040000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -224.4694     -267.4917     0.0000000E+00 301000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1830.775     -2242.578     0.0000000E+00 211000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5077.314     -6329.488     0.0000000E+00 121000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4810.371     -6001.040     0.0000000E+00 031000\n" +
+                            "  -168.7527     -296.9841     0.0000000E+00 0.0000000E+00 -46.20771     202000\n" +
+                            "  -969.1311     -1667.670     0.0000000E+00 0.0000000E+00 -279.3818     112000\n" +
+                            "  -1376.487     -2335.853     0.0000000E+00 0.0000000E+00 -425.7303     022000\n" +
+                            "  0.0000000E+00 0.0000000E+00  424.9831      401.1409     0.0000000E+00 103000\n" +
+                            "  0.0000000E+00 0.0000000E+00  1001.161      968.2094     0.0000000E+00 013000\n" +
+                            "  -56.58020     -59.73544     0.0000000E+00 0.0000000E+00 -30.30632     004000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -272.0293     -266.2128     0.0000000E+00 300100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1946.571     -1890.030     0.0000000E+00 210100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4907.158     -4580.561     0.0000000E+00 120100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4500.079     -3825.309     0.0000000E+00 030100\n" +
+                            "  -691.6950     -1017.501     0.0000000E+00 0.0000000E+00 -444.2392     201100\n" +
+                            "  -3227.271     -4941.477     0.0000000E+00 0.0000000E+00 -2359.551     111100\n" +
+                            "  -3833.543     -6080.364     0.0000000E+00 0.0000000E+00 -3176.333     021100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -553.8328     -709.8887     0.0000000E+00 102100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1951.410     -2186.558     0.0000000E+00 012100\n" +
+                            "  -315.2015     -360.8397     0.0000000E+00 0.0000000E+00 -99.46373     003100\n" +
+                            "  -64.83298     -32.85391     0.0000000E+00 0.0000000E+00  5.707796     300001\n" +
+                            "  -553.0093     -360.2841     0.0000000E+00 0.0000000E+00  16.05249     210001\n" +
+                            "  -1427.475     -1192.677     0.0000000E+00 0.0000000E+00 -44.18380     120001\n" +
+                            "  -1097.042     -1244.102     0.0000000E+00 0.0000000E+00 -134.4889     030001\n" +
+                            "  0.0000000E+00 0.0000000E+00  92.99836      82.45150     0.0000000E+00 201001\n" +
+                            "  0.0000000E+00 0.0000000E+00  534.5397      557.4906     0.0000000E+00 111001\n" +
+                            "  0.0000000E+00 0.0000000E+00  839.9587      925.3016     0.0000000E+00 021001\n" +
+                            "   149.3941      143.1158     0.0000000E+00 0.0000000E+00  55.92775     102001\n" +
+                            "   522.4692      496.0571     0.0000000E+00 0.0000000E+00  168.0447     012001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -145.6444     -144.2605     0.0000000E+00 003001\n" +
+                            "  -1885.896     -1669.801     0.0000000E+00 0.0000000E+00 -714.3887     200200\n" +
+                            "  -6924.193     -6271.660     0.0000000E+00 0.0000000E+00 -3208.370     110200\n" +
+                            "  -5288.719     -5078.153     0.0000000E+00 0.0000000E+00 -3540.714     020200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2257.888     -2583.277     0.0000000E+00 101200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6382.751     -6841.303     0.0000000E+00 011200\n" +
+                            "  -243.3940     -78.19633     0.0000000E+00 0.0000000E+00 -238.3418     002200\n" +
+                            "  0.0000000E+00 0.0000000E+00  178.0047      266.0688     0.0000000E+00 200101\n" +
+                            "  0.0000000E+00 0.0000000E+00  895.7692      1414.086     0.0000000E+00 110101\n" +
+                            "  0.0000000E+00 0.0000000E+00  1322.691      1888.899     0.0000000E+00 020101\n" +
+                            "   840.8913      830.9958     0.0000000E+00 0.0000000E+00  267.4311     101101\n" +
+                            "   2222.429      2147.915     0.0000000E+00 0.0000000E+00  672.8072     011101\n" +
+                            "  0.0000000E+00 0.0000000E+00  165.7028     -77.83777     0.0000000E+00 002101\n" +
+                            "   2.776701     -1.931596     0.0000000E+00 0.0000000E+00 -1.358878     200002\n" +
+                            "   25.39037    -0.1425333     0.0000000E+00 0.0000000E+00 -5.893664     110002\n" +
+                            "   48.99160      17.73236     0.0000000E+00 0.0000000E+00 -6.321906     020002\n" +
+                            "  0.0000000E+00 0.0000000E+00  3.844242     -4.428462     0.0000000E+00 101002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7.994417     -12.07670     0.0000000E+00 011002\n" +
+                            "  -21.35511     -18.40109     0.0000000E+00 0.0000000E+00 -14.53977     002002\n" +
+                            "  0.0000000E+00 0.0000000E+00  5023.839      4508.635     0.0000000E+00 100300\n" +
+                            "  0.0000000E+00 0.0000000E+00  11046.62      10055.59     0.0000000E+00 010300\n" +
+                            "   1743.262      1943.738     0.0000000E+00 0.0000000E+00  831.5871     001300\n" +
+                            "   1208.794      1090.707     0.0000000E+00 0.0000000E+00  230.2007     100201\n" +
+                            "   2616.729      2229.222     0.0000000E+00 0.0000000E+00  411.8723     010201\n" +
+                            "  0.0000000E+00 0.0000000E+00  777.1978      66.74381     0.0000000E+00 001201\n" +
+                            "  0.0000000E+00 0.0000000E+00  10.93518     -14.82511     0.0000000E+00 100102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -29.27129     -36.65403     0.0000000E+00 010102\n" +
+                            "  -113.2189     -124.4220     0.0000000E+00 0.0000000E+00 -42.78147     001102\n" +
+                            " -0.5687527    -0.3889940     0.0000000E+00 0.0000000E+00 0.5513618E-01 100003\n" +
+                            "   1.304303    -0.5099878     0.0000000E+00 0.0000000E+00-0.1912189E-01 010003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6.155681     -3.778753     0.0000000E+00 001003\n" +
+                            "   2485.953      2897.954     0.0000000E+00 0.0000000E+00  724.9223     000400\n" +
+                            "  0.0000000E+00 0.0000000E+00 -889.1163     -1865.547     0.0000000E+00 000301\n" +
+                            "  -41.71658     -86.80327     0.0000000E+00 0.0000000E+00 -6.526974     000202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -8.884795     -14.22929     0.0000000E+00 000103\n" +
+                            "  0.7335608E-01 0.4248511E-02 0.0000000E+00 0.0000000E+00-0.7309120     000004\n" +
+                            "   959.6257      796.5245     0.0000000E+00 0.0000000E+00 -40.11985     500000\n" +
+                            "   13585.42      11744.50     0.0000000E+00 0.0000000E+00 -612.0053     410000\n" +
+                            "   77330.19      69295.91     0.0000000E+00 0.0000000E+00 -3460.224     320000\n" +
+                            "   221213.3      204775.6     0.0000000E+00 0.0000000E+00 -9087.551     230000\n" +
+                            "   317705.2      303283.2     0.0000000E+00 0.0000000E+00 -10978.28     140000\n" +
+                            "   182936.2      180138.9     0.0000000E+00 0.0000000E+00 -4731.758     050000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1079.915     -1326.178     0.0000000E+00 401000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -13408.12     -16440.21     0.0000000E+00 311000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -61520.58     -75450.38     0.0000000E+00 221000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -124187.5     -152596.6     0.0000000E+00 131000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -93444.74     -115130.9     0.0000000E+00 041000\n" +
+                            "  -1108.608     -1121.733     0.0000000E+00 0.0000000E+00  375.0034     302000\n" +
+                            "  -9846.850     -10581.83     0.0000000E+00 0.0000000E+00  2770.315     212000\n" +
+                            "  -28520.15     -32400.17     0.0000000E+00 0.0000000E+00  6825.496     122000\n" +
+                            "  -27165.10     -32551.16     0.0000000E+00 0.0000000E+00  5592.981     032000\n" +
+                            "  0.0000000E+00 0.0000000E+00  3733.341      3803.526     0.0000000E+00 203000\n" +
+                            "  0.0000000E+00 0.0000000E+00  19587.17      19965.95     0.0000000E+00 113000\n" +
+                            "  0.0000000E+00 0.0000000E+00  25852.75      26309.54     0.0000000E+00 023000\n" +
+                            "  -748.5196     -793.6952     0.0000000E+00 0.0000000E+00 -472.4574     104000\n" +
+                            "  -2278.386     -2335.866     0.0000000E+00 0.0000000E+00 -1217.812     014000\n" +
+                            "  0.0000000E+00 0.0000000E+00  808.2928      786.6171     0.0000000E+00 005000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -578.9534     -1301.354     0.0000000E+00 400100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -8042.132     -16686.36     0.0000000E+00 310100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -38126.81     -76719.33     0.0000000E+00 220100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -75628.20     -151851.3     0.0000000E+00 130100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -54099.38     -110088.3     0.0000000E+00 040100\n" +
+                            "   3214.793      993.3774     0.0000000E+00 0.0000000E+00  1193.423     301100\n" +
+                            "   15437.30     -2457.994     0.0000000E+00 0.0000000E+00  6862.228     211100\n" +
+                            "   17807.16     -31323.57     0.0000000E+00 0.0000000E+00  11515.01     121100\n" +
+                            "  -1592.650     -47401.61     0.0000000E+00 0.0000000E+00  4432.728     031100\n" +
+                            "  0.0000000E+00 0.0000000E+00  12949.51      13027.27     0.0000000E+00 202100\n" +
+                            "  0.0000000E+00 0.0000000E+00  62485.66      62829.92     0.0000000E+00 112100\n" +
+                            "  0.0000000E+00 0.0000000E+00  75398.06      75498.94     0.0000000E+00 022100\n" +
+                            "  -8323.994     -9736.841     0.0000000E+00 0.0000000E+00 -1779.528     103100\n" +
+                            "  -22447.80     -25814.59     0.0000000E+00 0.0000000E+00 -4557.562     013100\n" +
+                            "  0.0000000E+00 0.0000000E+00  2762.210      2764.506     0.0000000E+00 004100\n" +
+                            "  -164.1394     -47.90571     0.0000000E+00 0.0000000E+00  16.33061     400001\n" +
+                            "  -1702.271     -867.7221     0.0000000E+00 0.0000000E+00  213.7751     310001\n" +
+                            "  -6320.606     -5125.860     0.0000000E+00 0.0000000E+00  862.6831     220001\n" +
+                            "  -9296.140     -12374.86     0.0000000E+00 0.0000000E+00  1368.311     130001\n" +
+                            "  -3653.724     -10508.16     0.0000000E+00 0.0000000E+00  752.8056     040001\n" +
+                            "  0.0000000E+00 0.0000000E+00  281.9655      87.67140     0.0000000E+00 301001\n" +
+                            "  0.0000000E+00 0.0000000E+00  3679.377      2369.554     0.0000000E+00 211001\n" +
+                            "  0.0000000E+00 0.0000000E+00  13794.42      11122.82     0.0000000E+00 121001\n" +
+                            "  0.0000000E+00 0.0000000E+00  16139.07      14551.07     0.0000000E+00 031001\n" +
+                            "   376.6004      340.7551     0.0000000E+00 0.0000000E+00 -100.1731     202001\n" +
+                            "   3348.127      3480.008     0.0000000E+00 0.0000000E+00 -213.5800     112001\n" +
+                            "   6243.953      6907.929     0.0000000E+00 0.0000000E+00  217.5650     022001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2809.454     -2522.514     0.0000000E+00 103001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7626.771     -6987.508     0.0000000E+00 013001\n" +
+                            "   200.6061      165.0640     0.0000000E+00 0.0000000E+00  196.3771     004001\n" +
+                            "   10159.99      6123.234     0.0000000E+00 0.0000000E+00  1999.853     300200\n" +
+                            "   49163.04      25159.50     0.0000000E+00 0.0000000E+00  9623.418     210200\n" +
+                            "   55480.62      11374.13     0.0000000E+00 0.0000000E+00  11225.78     120200\n" +
+                            "  -7463.867     -31208.99     0.0000000E+00 0.0000000E+00 -259.9489     030200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -26509.16     -25193.77     0.0000000E+00 201200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -142394.4     -135931.0     0.0000000E+00 111200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -193419.1     -185820.2     0.0000000E+00 021200\n" +
+                            "  -31332.49     -34100.70     0.0000000E+00 0.0000000E+00 -10244.28     102200\n" +
+                            "  -78303.79     -84257.56     0.0000000E+00 0.0000000E+00 -25322.21     012200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1156.557     -997.2119     0.0000000E+00 003200\n" +
+                            "  0.0000000E+00 0.0000000E+00  926.8435      764.0837     0.0000000E+00 300101\n" +
+                            "  0.0000000E+00 0.0000000E+00  9688.872      8797.444     0.0000000E+00 210101\n" +
+                            "  0.0000000E+00 0.0000000E+00  31621.59      30209.26     0.0000000E+00 120101\n" +
+                            "  0.0000000E+00 0.0000000E+00  33567.98      32649.12     0.0000000E+00 030101\n" +
+                            "  -979.8296      55.80493     0.0000000E+00 0.0000000E+00  52.87069     201101\n" +
+                            "   2311.855      8167.907     0.0000000E+00 0.0000000E+00  2744.369     111101\n" +
+                            "   12209.45      20430.78     0.0000000E+00 0.0000000E+00  6995.509     021101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7847.280     -7973.776     0.0000000E+00 102101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -16692.22     -17720.63     0.0000000E+00 012101\n" +
+                            "   2310.205      2584.844     0.0000000E+00 0.0000000E+00  799.4225     003101\n" +
+                            "   35.63533     -11.73698     0.0000000E+00 0.0000000E+00 -2.195742     300002\n" +
+                            "   605.6932      99.43905     0.0000000E+00 0.0000000E+00 -20.40240     210002\n" +
+                            "   2527.417      976.4155     0.0000000E+00 0.0000000E+00  6.039018     120002\n" +
+                            "   3030.491      1674.463     0.0000000E+00 0.0000000E+00  142.7132     030002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -88.58574     0.3257381     0.0000000E+00 201002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -790.6166     -357.9652     0.0000000E+00 111002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1577.190     -1076.426     0.0000000E+00 021002\n" +
+                            "  -97.77477     -46.09925     0.0000000E+00 0.0000000E+00 -80.69892     102002\n" +
+                            "  -728.3457     -534.3624     0.0000000E+00 0.0000000E+00 -317.7192     012002\n" +
+                            "  0.0000000E+00 0.0000000E+00  581.9518      476.2311     0.0000000E+00 003002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -80598.94     -75699.67     0.0000000E+00 200300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -376053.0     -352413.5     0.0000000E+00 110300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -433208.7     -404907.9     0.0000000E+00 020300\n" +
+                            "  -71388.70     -63404.85     0.0000000E+00 0.0000000E+00 -27090.98     101300\n" +
+                            "  -166908.5     -146975.7     0.0000000E+00 0.0000000E+00 -64641.80     011300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -15923.21     -13833.99     0.0000000E+00 002300\n" +
+                            "  -4509.280     -2580.815     0.0000000E+00 0.0000000E+00  579.5201     200201\n" +
+                            "  -11631.12     -2376.783     0.0000000E+00 0.0000000E+00  6460.400     110201\n" +
+                            "  -3049.833      8383.692     0.0000000E+00 0.0000000E+00  12309.51     020201\n" +
+                            "  0.0000000E+00 0.0000000E+00  15955.71      14488.33     0.0000000E+00 101201\n" +
+                            "  0.0000000E+00 0.0000000E+00  46314.19      41143.33     0.0000000E+00 011201\n" +
+                            "   9166.877      9902.503     0.0000000E+00 0.0000000E+00  3809.059     002201\n" +
+                            "  0.0000000E+00 0.0000000E+00 -337.2202     -203.9243     0.0000000E+00 200102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2256.493     -1913.242     0.0000000E+00 110102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3729.935     -3633.481     0.0000000E+00 020102\n" +
+                            "  -708.8075     -562.9532     0.0000000E+00 0.0000000E+00 -509.3380     101102\n" +
+                            "  -3596.104     -3167.954     0.0000000E+00 0.0000000E+00 -1710.487     011102\n" +
+                            "  0.0000000E+00 0.0000000E+00  1447.580      1590.203     0.0000000E+00 002102\n" +
+                            "   2.518933      3.939609     0.0000000E+00 0.0000000E+00  1.471746     200003\n" +
+                            "   3.038288      21.83205     0.0000000E+00 0.0000000E+00  11.71324     110003\n" +
+                            "  -19.12284      20.67116     0.0000000E+00 0.0000000E+00  22.41232     020003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5.407518     -2.611859     0.0000000E+00 101003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3.809641     -5.941312     0.0000000E+00 011003\n" +
+                            "   16.16082      6.871723     0.0000000E+00 0.0000000E+00  28.61364     002003\n" +
+                            "  -43123.47     -43322.62     0.0000000E+00 0.0000000E+00 -6776.133     100400\n" +
+                            "  -94766.77     -94147.59     0.0000000E+00 0.0000000E+00 -14885.03     010400\n" +
+                            "  0.0000000E+00 0.0000000E+00  25715.70      26832.38     0.0000000E+00 001400\n" +
+                            "  0.0000000E+00 0.0000000E+00  33542.46      35845.77     0.0000000E+00 100301\n" +
+                            "  0.0000000E+00 0.0000000E+00  76761.12      80886.62     0.0000000E+00 010301\n" +
+                            "   14409.32      14821.69     0.0000000E+00 0.0000000E+00  5268.802     001301\n" +
+                            "  -1205.147     -932.9794     0.0000000E+00 0.0000000E+00 -624.8384     100202\n" +
+                            "  -4361.658     -3650.756     0.0000000E+00 0.0000000E+00 -1748.852     010202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2444.989     -1432.858     0.0000000E+00 001202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3.986093      12.65566     0.0000000E+00 100103\n" +
+                            "  0.0000000E+00 0.0000000E+00  54.49631      52.48635     0.0000000E+00 010103\n" +
+                            "   182.5593      143.2389     0.0000000E+00 0.0000000E+00  119.0665     001103\n" +
+                            "  0.8717128     0.3201571     0.0000000E+00 0.0000000E+00-0.4351815E-01 100004\n" +
+                            "  0.5236689     0.9139037     0.0000000E+00 0.0000000E+00 0.2862304     010004\n" +
+                            "  0.0000000E+00 0.0000000E+00  8.605176      4.076410     0.0000000E+00 001004\n" +
+                            "  0.0000000E+00 0.0000000E+00  53004.83      54119.28     0.0000000E+00 000500\n" +
+                            "   4615.810      7093.299     0.0000000E+00 0.0000000E+00 -1204.667     000401\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2412.433     -2037.259     0.0000000E+00 000302\n" +
+                            "   238.7889      246.1442     0.0000000E+00 0.0000000E+00  79.62834     000203\n" +
+                            "  0.0000000E+00 0.0000000E+00  23.02091      18.96143     0.0000000E+00 000104\n" +
+                            " -0.1186615     0.6672139E-03 0.0000000E+00 0.0000000E+00 0.7199433     000005"
+            );
+
+            slice_20200715_后偏转段_最后偏移段15.map = CosyArbitraryOrder.readMap(
+                    "  0.3505348     0.7182200     0.0000000E+00 0.0000000E+00 0.1956855E-01 100000\n" +
+                            " -0.8296074      1.152979     0.0000000E+00 0.0000000E+00 0.3404286E-01 010000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.223507     0.8248457E-01 0.0000000E+00 001000\n" +
+                            "  0.0000000E+00 0.0000000E+00  1.386830    -0.9108178     0.0000000E+00 000100\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.0000000E+00 0.0000000E+00  1.000000     000010\n" +
+                            "  0.2816742E-01 0.1888123E-02 0.0000000E+00 0.0000000E+00  1.103180     000001\n" +
+                            "  -7.667578     -1.104256     0.0000000E+00 0.0000000E+00 0.6110356     200000\n" +
+                            "  -25.78732      2.830949     0.0000000E+00 0.0000000E+00  4.382391     110000\n" +
+                            "  -10.38843      17.77472     0.0000000E+00 0.0000000E+00  6.367880     020000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -14.00215     0.9215201     0.0000000E+00 101000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -38.23188     0.6730656E-01 0.0000000E+00 011000\n" +
+                            " -0.5496763     -1.087056     0.0000000E+00 0.0000000E+00-0.9576152     002000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -23.54364      10.96635     0.0000000E+00 100100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -48.97129      31.68621     0.0000000E+00 010100\n" +
+                            "   21.69379      11.71210     0.0000000E+00 0.0000000E+00  1.215710     001100\n" +
+                            "   2.532588      1.607916     0.0000000E+00 0.0000000E+00 0.3492667E-01 100001\n" +
+                            "   7.628691      3.494993     0.0000000E+00 0.0000000E+00 0.3541401E-01 010001\n" +
+                            "  0.0000000E+00 0.0000000E+00  1.440139     -1.614094     0.0000000E+00 001001\n" +
+                            "   2.702281     -3.357507     0.0000000E+00 0.0000000E+00 -5.832565     000200\n" +
+                            "  0.0000000E+00 0.0000000E+00  12.74319    -0.1016304     0.0000000E+00 000101\n" +
+                            " -0.1083832E-01-0.1424428E-01 0.0000000E+00 0.0000000E+00-0.9646806     000002\n" +
+                            "   1.859184      11.91120     0.0000000E+00 0.0000000E+00  4.706092     300000\n" +
+                            "  -51.28285      78.32786     0.0000000E+00 0.0000000E+00  34.39239     210000\n" +
+                            "  -324.6553      161.1646     0.0000000E+00 0.0000000E+00  90.26866     120000\n" +
+                            "  -459.5662      102.9998     0.0000000E+00 0.0000000E+00  87.32441     030000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -37.43279     -44.76506     0.0000000E+00 201000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -257.7145     -251.3069     0.0000000E+00 111000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -418.3331     -348.1983     0.0000000E+00 021000\n" +
+                            "  -88.43106     -60.22558     0.0000000E+00 0.0000000E+00 -15.65196     102000\n" +
+                            "  -244.2546     -164.8760     0.0000000E+00 0.0000000E+00 -39.98671     012000\n" +
+                            "  0.0000000E+00 0.0000000E+00  2.824652      19.64552     0.0000000E+00 003000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.954657     -29.03069     0.0000000E+00 200100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -172.2734     -178.8020     0.0000000E+00 110100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -435.7397     -251.9548     0.0000000E+00 020100\n" +
+                            "  -128.4273     -60.01883     0.0000000E+00 0.0000000E+00 -16.61177     101100\n" +
+                            "  -321.7360     -149.3246     0.0000000E+00 0.0000000E+00 -34.44334     011100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -245.0187     -28.56865     0.0000000E+00 002100\n" +
+                            "  -10.72895     -5.031258     0.0000000E+00 0.0000000E+00-0.5566894     200001\n" +
+                            "  -40.35064     -22.18746     0.0000000E+00 0.0000000E+00 -4.367822     110001\n" +
+                            "  -54.72357     -36.22091     0.0000000E+00 0.0000000E+00 -7.589832     020001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -10.52259     -1.932934     0.0000000E+00 101001\n" +
+                            "  0.0000000E+00 0.0000000E+00  9.599092      1.599533     0.0000000E+00 011001\n" +
+                            "   14.97966      10.29154     0.0000000E+00 0.0000000E+00  5.058365     002001\n" +
+                            "   217.7995      162.4119     0.0000000E+00 0.0000000E+00  82.92848     100200\n" +
+                            "   399.1261      313.1695     0.0000000E+00 0.0000000E+00  200.1183     010200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -145.6942      232.4228     0.0000000E+00 001200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -28.02333     -14.67287     0.0000000E+00 100101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -10.45654     -33.08744     0.0000000E+00 010101\n" +
+                            " -0.7558871      7.794487     0.0000000E+00 0.0000000E+00  1.531433     001101\n" +
+                            " -0.1310250     0.4182831     0.0000000E+00 0.0000000E+00-0.2541438E-01 100002\n" +
+                            "  -4.770773    -0.5919151     0.0000000E+00 0.0000000E+00-0.1887312E-01 010002\n" +
+                            "  0.0000000E+00 0.0000000E+00  5.273207      3.558540     0.0000000E+00 001002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -525.9316     -73.13924     0.0000000E+00 000300\n" +
+                            "  -121.0806     -80.94478     0.0000000E+00 0.0000000E+00 -14.33578     000201\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.3959246      8.705853     0.0000000E+00 000102\n" +
+                            " -0.3851955E-01-0.7852009E-02 0.0000000E+00 0.0000000E+00 0.8530867     000003\n" +
+                            "  -2.159778      45.67108     0.0000000E+00 0.0000000E+00 -3.917588     400000\n" +
+                            "  -71.07007      526.4121     0.0000000E+00 0.0000000E+00  11.42865     310000\n" +
+                            "  -643.3921      2243.814     0.0000000E+00 0.0000000E+00  213.6058     220000\n" +
+                            "  -2235.382      4142.118     0.0000000E+00 0.0000000E+00  578.9059     130000\n" +
+                            "  -2617.073      2767.588     0.0000000E+00 0.0000000E+00  441.3535     040000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -358.1291     -267.4917     0.0000000E+00 301000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2951.642     -2242.578     0.0000000E+00 211000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -8241.063     -6329.488     0.0000000E+00 121000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7810.024     -6001.040     0.0000000E+00 031000\n" +
+                            "  -317.6399     -296.9841     0.0000000E+00 0.0000000E+00 -33.54574     202000\n" +
+                            "  -1804.266     -1667.670     0.0000000E+00 0.0000000E+00 -220.2650     112000\n" +
+                            "  -2545.463     -2335.853     0.0000000E+00 0.0000000E+00 -359.1984     022000\n" +
+                            "  0.0000000E+00 0.0000000E+00  625.5260      401.1409     0.0000000E+00 103000\n" +
+                            "  0.0000000E+00 0.0000000E+00  1485.215      968.2094     0.0000000E+00 013000\n" +
+                            "  -86.44977     -59.73544     0.0000000E+00 0.0000000E+00 -30.92414     004000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -403.3603     -266.2128     0.0000000E+00 300100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2883.305     -1890.030     0.0000000E+00 210100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7187.974     -4580.561     0.0000000E+00 120100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6411.536     -3825.309     0.0000000E+00 030100\n" +
+                            "  -1195.849     -1017.501     0.0000000E+00 0.0000000E+00 -442.1119     201100\n" +
+                            "  -5682.613     -4941.477     0.0000000E+00 0.0000000E+00 -2387.659     111100\n" +
+                            "  -6861.244     -6080.364     0.0000000E+00 0.0000000E+00 -3269.749     021100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -908.1226     -709.8887     0.0000000E+00 102100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3043.407     -2186.558     0.0000000E+00 012100\n" +
+                            "  -495.5606     -360.8397     0.0000000E+00 0.0000000E+00 -90.24875     003100\n" +
+                            "  -84.12325     -32.85391     0.0000000E+00 0.0000000E+00  6.882051     300001\n" +
+                            "  -752.4316     -360.2841     0.0000000E+00 0.0000000E+00  22.20051     210001\n" +
+                            "  -2064.052     -1192.677     0.0000000E+00 0.0000000E+00 -34.03943     120001\n" +
+                            "  -1744.970     -1244.102     0.0000000E+00 0.0000000E+00 -131.8392     030001\n" +
+                            "  0.0000000E+00 0.0000000E+00  146.5532      82.45150     0.0000000E+00 201001\n" +
+                            "  0.0000000E+00 0.0000000E+00  882.9535      557.4906     0.0000000E+00 111001\n" +
+                            "  0.0000000E+00 0.0000000E+00  1399.478      925.3016     0.0000000E+00 021001\n" +
+                            "   237.7292      143.1158     0.0000000E+00 0.0000000E+00  54.55420     102001\n" +
+                            "   816.4849      496.0571     0.0000000E+00 0.0000000E+00  165.3604     012001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -223.2719     -144.2605     0.0000000E+00 003001\n" +
+                            "  -2725.911     -1669.801     0.0000000E+00 0.0000000E+00 -772.2918     200200\n" +
+                            "  -10079.73     -6271.660     0.0000000E+00 0.0000000E+00 -3463.745     110200\n" +
+                            "  -7844.094     -5078.153     0.0000000E+00 0.0000000E+00 -3829.526     020200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3554.120     -2583.277     0.0000000E+00 101200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -9813.241     -6841.303     0.0000000E+00 011200\n" +
+                            "  -283.1632     -78.19633     0.0000000E+00 0.0000000E+00 -271.1538     002200\n" +
+                            "  0.0000000E+00 0.0000000E+00  318.8163      266.0688     0.0000000E+00 200101\n" +
+                            "  0.0000000E+00 0.0000000E+00  1651.401      1414.086     0.0000000E+00 110101\n" +
+                            "  0.0000000E+00 0.0000000E+00  2336.192      1888.899     0.0000000E+00 020101\n" +
+                            "   1273.692      830.9958     0.0000000E+00 0.0000000E+00  268.9271     101101\n" +
+                            "   3338.932      2147.915     0.0000000E+00 0.0000000E+00  680.9757     011101\n" +
+                            "  0.0000000E+00 0.0000000E+00  134.9567     -77.83777     0.0000000E+00 002101\n" +
+                            "   2.986984     -1.931596     0.0000000E+00 0.0000000E+00 -1.464212     200002\n" +
+                            "   32.08855    -0.1425333     0.0000000E+00 0.0000000E+00 -6.086545     110002\n" +
+                            "   71.61168      17.73236     0.0000000E+00 0.0000000E+00 -6.420214     020002\n" +
+                            "  0.0000000E+00 0.0000000E+00  2.357284     -4.428462     0.0000000E+00 101002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -14.46819     -12.07670     0.0000000E+00 011002\n" +
+                            "  -33.65378     -18.40109     0.0000000E+00 0.0000000E+00 -15.05258     002002\n" +
+                            "  0.0000000E+00 0.0000000E+00  7286.077      4508.635     0.0000000E+00 100300\n" +
+                            "  0.0000000E+00 0.0000000E+00  16095.89      10055.59     0.0000000E+00 010300\n" +
+                            "   2717.686      1943.738     0.0000000E+00 0.0000000E+00  903.4309     001300\n" +
+                            "   1708.872      1090.707     0.0000000E+00 0.0000000E+00  239.3645     100201\n" +
+                            "   3644.182      2229.222     0.0000000E+00 0.0000000E+00  420.1336     010201\n" +
+                            "  0.0000000E+00 0.0000000E+00  744.5438      66.74381     0.0000000E+00 001201\n" +
+                            "  0.0000000E+00 0.0000000E+00  9.872101     -14.82511     0.0000000E+00 100102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -31.85903     -36.65403     0.0000000E+00 010102\n" +
+                            "  -175.2071     -124.4220     0.0000000E+00 0.0000000E+00 -41.43407     001102\n" +
+                            " -0.6721127    -0.3889940     0.0000000E+00 0.0000000E+00 0.5925668E-01 100003\n" +
+                            "   1.735723    -0.5099878     0.0000000E+00 0.0000000E+00-0.7497547E-02 010003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -9.383752     -3.778753     0.0000000E+00 001003\n" +
+                            "   3934.234      2897.954     0.0000000E+00 0.0000000E+00  704.6634     000400\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1801.199     -1865.547     0.0000000E+00 000301\n" +
+                            "  -63.19412     -86.80327     0.0000000E+00 0.0000000E+00 -4.458430     000202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -18.29881     -14.22929     0.0000000E+00 000103\n" +
+                            "  0.7443828E-01 0.4248511E-02 0.0000000E+00 0.0000000E+00-0.7932578     000004\n" +
+                            "   1363.189      796.5245     0.0000000E+00 0.0000000E+00 -45.43810     500000\n" +
+                            "   19500.74      11744.50     0.0000000E+00 0.0000000E+00 -717.2185     410000\n" +
+                            "   112128.4      69295.91     0.0000000E+00 0.0000000E+00 -4154.983     320000\n" +
+                            "   323947.9      204775.6     0.0000000E+00 0.0000000E+00 -11142.18     230000\n" +
+                            "   469893.8      303283.2     0.0000000E+00 0.0000000E+00 -13772.92     140000\n" +
+                            "   273382.0      180138.9     0.0000000E+00 0.0000000E+00 -6146.208     050000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1748.760     -1326.178     0.0000000E+00 401000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -21676.06     -16440.21     0.0000000E+00 311000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -99394.28     -75450.38     0.0000000E+00 221000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -200690.7     -152596.6     0.0000000E+00 131000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -151113.8     -115130.9     0.0000000E+00 041000\n" +
+                            "  -1692.675     -1121.733     0.0000000E+00 0.0000000E+00  437.4787     302000\n" +
+                            "  -15286.67     -10581.83     0.0000000E+00 0.0000000E+00  3339.163     212000\n" +
+                            "  -45032.48     -32400.17     0.0000000E+00 0.0000000E+00  8551.318     122000\n" +
+                            "  -43654.81     -32551.16     0.0000000E+00 0.0000000E+00  7340.984     032000\n" +
+                            "  0.0000000E+00 0.0000000E+00  5635.367      3803.526     0.0000000E+00 203000\n" +
+                            "  0.0000000E+00 0.0000000E+00  29568.53      19965.95     0.0000000E+00 113000\n" +
+                            "  0.0000000E+00 0.0000000E+00  39003.59      26309.54     0.0000000E+00 023000\n" +
+                            "  -1144.292     -793.6952     0.0000000E+00 0.0000000E+00 -493.0624     104000\n" +
+                            "  -3444.646     -2335.866     0.0000000E+00 0.0000000E+00 -1271.323     014000\n" +
+                            "  0.0000000E+00 0.0000000E+00  1201.726      786.6171     0.0000000E+00 005000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1241.942     -1301.354     0.0000000E+00 400100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -16459.53     -16686.36     0.0000000E+00 310100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -76590.14     -76719.33     0.0000000E+00 220100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -151493.3     -151851.3     0.0000000E+00 130100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -109028.9     -110088.3     0.0000000E+00 040100\n" +
+                            "   3691.235      993.3774     0.0000000E+00 0.0000000E+00  1420.918     301100\n" +
+                            "   14200.57     -2457.994     0.0000000E+00 0.0000000E+00  8603.093     211100\n" +
+                            "   2427.558     -31323.57     0.0000000E+00 0.0000000E+00  16055.58     121100\n" +
+                            "  -24891.49     -47401.61     0.0000000E+00 0.0000000E+00  8436.592     031100\n" +
+                            "  0.0000000E+00 0.0000000E+00  19481.46      13027.27     0.0000000E+00 202100\n" +
+                            "  0.0000000E+00 0.0000000E+00  93988.12      62829.92     0.0000000E+00 112100\n" +
+                            "  0.0000000E+00 0.0000000E+00  113253.7      75498.94     0.0000000E+00 022100\n" +
+                            "  -13210.83     -9736.841     0.0000000E+00 0.0000000E+00 -1462.742     103100\n" +
+                            "  -35384.21     -25814.59     0.0000000E+00 0.0000000E+00 -3823.892     013100\n" +
+                            "  0.0000000E+00 0.0000000E+00  4141.309      2764.506     0.0000000E+00 004100\n" +
+                            "  -203.9691     -47.90571     0.0000000E+00 0.0000000E+00  19.57320     400001\n" +
+                            "  -2299.709     -867.7221     0.0000000E+00 0.0000000E+00  272.7963     310001\n" +
+                            "  -9529.409     -5125.860     0.0000000E+00 0.0000000E+00  1173.900     220001\n" +
+                            "  -16615.34     -12374.86     0.0000000E+00 0.0000000E+00  2058.061     130001\n" +
+                            "  -9638.637     -10508.16     0.0000000E+00 0.0000000E+00  1342.927     040001\n" +
+                            "  0.0000000E+00 0.0000000E+00  401.0618      87.67140     0.0000000E+00 301001\n" +
+                            "  0.0000000E+00 0.0000000E+00  5489.766      2369.554     0.0000000E+00 211001\n" +
+                            "  0.0000000E+00 0.0000000E+00  21110.62      11122.82     0.0000000E+00 121001\n" +
+                            "  0.0000000E+00 0.0000000E+00  25074.38      14551.07     0.0000000E+00 031001\n" +
+                            "   632.1259      340.7551     0.0000000E+00 0.0000000E+00 -140.1561     202001\n" +
+                            "   5560.317      3480.008     0.0000000E+00 0.0000000E+00 -453.4738     112001\n" +
+                            "   10354.14      6907.929     0.0000000E+00 0.0000000E+00 -117.9547     022001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4182.063     -2522.514     0.0000000E+00 103001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -11389.60     -6987.508     0.0000000E+00 013001\n" +
+                            "   299.9238      165.0640     0.0000000E+00 0.0000000E+00  212.6243     004001\n" +
+                            "   13327.63      6123.234     0.0000000E+00 0.0000000E+00  2420.362     300200\n" +
+                            "   62313.63      25159.50     0.0000000E+00 0.0000000E+00  11800.73     210200\n" +
+                            "   62099.47      11374.13     0.0000000E+00 0.0000000E+00  14575.30     120200\n" +
+                            "  -22672.29     -31208.99     0.0000000E+00 0.0000000E+00  1185.457     030200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -39031.48     -25193.77     0.0000000E+00 201200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -210110.3     -135931.0     0.0000000E+00 111200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -286171.1     -185820.2     0.0000000E+00 021200\n" +
+                            "  -48293.06     -34100.70     0.0000000E+00 0.0000000E+00 -10131.97     102200\n" +
+                            "  -120279.0     -84257.56     0.0000000E+00 0.0000000E+00 -25016.62     012200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1629.756     -997.2119     0.0000000E+00 003200\n" +
+                            "  0.0000000E+00 0.0000000E+00  1387.179      764.0837     0.0000000E+00 300101\n" +
+                            "  0.0000000E+00 0.0000000E+00  14642.97      8797.444     0.0000000E+00 210101\n" +
+                            "  0.0000000E+00 0.0000000E+00  48067.70      30209.26     0.0000000E+00 120101\n" +
+                            "  0.0000000E+00 0.0000000E+00  51001.99      32649.12     0.0000000E+00 030101\n" +
+                            "  -658.9191      55.80493     0.0000000E+00 0.0000000E+00 -60.71961     201101\n" +
+                            "   7812.031      8167.907     0.0000000E+00 0.0000000E+00  2323.277     111101\n" +
+                            "   24168.57      20430.78     0.0000000E+00 0.0000000E+00  6723.616     021101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -11645.24     -7973.776     0.0000000E+00 102101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -24962.69     -17720.63     0.0000000E+00 012101\n" +
+                            "   3701.338      2584.844     0.0000000E+00 0.0000000E+00  707.5397     003101\n" +
+                            "   42.10290     -11.73698     0.0000000E+00 0.0000000E+00 -1.149475     300002\n" +
+                            "   775.9656      99.43905     0.0000000E+00 0.0000000E+00 -13.82264     210002\n" +
+                            "   3388.963      976.4155     0.0000000E+00 0.0000000E+00  26.76092     120002\n" +
+                            "   4240.889      1674.463     0.0000000E+00 0.0000000E+00  174.4159     030002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -120.7452     0.3257381     0.0000000E+00 201002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1177.759     -357.9652     0.0000000E+00 111002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2446.437     -1076.426     0.0000000E+00 021002\n" +
+                            "  -172.5639     -46.09925     0.0000000E+00 0.0000000E+00 -81.55626     102002\n" +
+                            "  -1167.020     -534.3624     0.0000000E+00 0.0000000E+00 -318.1877     012002\n" +
+                            "  0.0000000E+00 0.0000000E+00  864.5922      476.2311     0.0000000E+00 003002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -118626.6     -75699.67     0.0000000E+00 200300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -553119.3     -352413.5     0.0000000E+00 110300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -636728.6     -404907.9     0.0000000E+00 020300\n" +
+                            "  -103288.9     -63404.85     0.0000000E+00 0.0000000E+00 -29527.06     101300\n" +
+                            "  -240806.0     -146975.7     0.0000000E+00 0.0000000E+00 -70469.32     011300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -22919.08     -13833.99     0.0000000E+00 002300\n" +
+                            "  -5366.022     -2580.815     0.0000000E+00 0.0000000E+00  455.2991     200201\n" +
+                            "  -11183.54     -2376.783     0.0000000E+00 0.0000000E+00  6368.180     110201\n" +
+                            "   2447.065      8383.692     0.0000000E+00 0.0000000E+00  12844.96     020201\n" +
+                            "  0.0000000E+00 0.0000000E+00  23942.05      14488.33     0.0000000E+00 101201\n" +
+                            "  0.0000000E+00 0.0000000E+00  68864.08      41143.33     0.0000000E+00 011201\n" +
+                            "   14151.79      9902.503     0.0000000E+00 0.0000000E+00  3899.567     002201\n" +
+                            "  0.0000000E+00 0.0000000E+00 -518.5430     -203.9243     0.0000000E+00 200102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3641.651     -1913.242     0.0000000E+00 110102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6123.397     -3633.481     0.0000000E+00 020102\n" +
+                            "  -1235.440     -562.9532     0.0000000E+00 0.0000000E+00 -511.9189     101102\n" +
+                            "  -5811.123     -3167.954     0.0000000E+00 0.0000000E+00 -1737.049     011102\n" +
+                            "  0.0000000E+00 0.0000000E+00  2256.105      1590.203     0.0000000E+00 002102\n" +
+                            "   4.166667      3.939609     0.0000000E+00 0.0000000E+00  1.563392     200003\n" +
+                            "   8.899433      21.83205     0.0000000E+00 0.0000000E+00  12.28184     110003\n" +
+                            "  -24.23051      20.67116     0.0000000E+00 0.0000000E+00  23.46339     020003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6.018076     -2.611859     0.0000000E+00 101003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3.076833     -5.941312     0.0000000E+00 011003\n" +
+                            "   27.03164      6.871723     0.0000000E+00 0.0000000E+00  31.09230     002003\n" +
+                            "  -64704.24     -43322.62     0.0000000E+00 0.0000000E+00 -5829.565     100400\n" +
+                            "  -141678.9     -94147.59     0.0000000E+00 0.0000000E+00 -12307.03     010400\n" +
+                            "  0.0000000E+00 0.0000000E+00  39302.94      26832.38     0.0000000E+00 001400\n" +
+                            "  0.0000000E+00 0.0000000E+00  50213.63      35845.77     0.0000000E+00 100301\n" +
+                            "  0.0000000E+00 0.0000000E+00  114390.4      80886.62     0.0000000E+00 010301\n" +
+                            "   21275.24      14821.69     0.0000000E+00 0.0000000E+00  5467.694     001301\n" +
+                            "  -1946.105     -932.9794     0.0000000E+00 0.0000000E+00 -616.0522     100202\n" +
+                            "  -6750.962     -3650.756     0.0000000E+00 0.0000000E+00 -1744.855     010202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3129.597     -1432.858     0.0000000E+00 001202\n" +
+                            "  0.0000000E+00 0.0000000E+00  1.639589      12.65566     0.0000000E+00 100103\n" +
+                            "  0.0000000E+00 0.0000000E+00  78.88242      52.48635     0.0000000E+00 010103\n" +
+                            "   288.5438      143.2389     0.0000000E+00 0.0000000E+00  120.7580     001103\n" +
+                            "   1.060355     0.3201571     0.0000000E+00 0.0000000E+00-0.4589906E-01 100004\n" +
+                            "  0.5814586     0.9139037     0.0000000E+00 0.0000000E+00 0.2721427     010004\n" +
+                            "  0.0000000E+00 0.0000000E+00  12.71252      4.076410     0.0000000E+00 001004\n" +
+                            "  0.0000000E+00 0.0000000E+00  80016.28      54119.28     0.0000000E+00 000500\n" +
+                            "   7337.102      7093.299     0.0000000E+00 0.0000000E+00 -1729.186     000401\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2919.675     -2037.259     0.0000000E+00 000302\n" +
+                            "   370.0992      246.1442     0.0000000E+00 0.0000000E+00  72.88255     000203\n" +
+                            "  0.0000000E+00 0.0000000E+00  38.14318      18.96143     0.0000000E+00 000104\n" +
+                            " -0.1184402     0.6672139E-03 0.0000000E+00 0.0000000E+00 0.7764365     000005"
+            );
+
+            slice_20200715_后偏转段_最后偏移段20.map = CosyArbitraryOrder.readMap(
+                    "  0.7096448     0.7182200     0.0000000E+00 0.0000000E+00 0.1956855E-01 100000\n" +
+                            " -0.2531178      1.152979     0.0000000E+00 0.0000000E+00 0.3404286E-01 010000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.182265     0.8248457E-01 0.0000000E+00 001000\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.9314213    -0.9108178     0.0000000E+00 000100\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.0000000E+00 0.0000000E+00  1.000000     000010\n" +
+                            "  0.2911149E-01 0.1888123E-02 0.0000000E+00 0.0000000E+00  1.200518     000001\n" +
+                            "  -8.219706     -1.104256     0.0000000E+00 0.0000000E+00 0.5389752     200000\n" +
+                            "  -24.37185      2.830949     0.0000000E+00 0.0000000E+00  4.151030     110000\n" +
+                            "  -1.501069      17.77472     0.0000000E+00 0.0000000E+00  6.182174     020000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -13.54139     0.9215201     0.0000000E+00 101000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -38.19823     0.6730656E-01 0.0000000E+00 011000\n" +
+                            "  -1.093204     -1.087056     0.0000000E+00 0.0000000E+00-0.9585656     002000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -18.06047      10.96635     0.0000000E+00 100100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -33.12818      31.68621     0.0000000E+00 010100\n" +
+                            "   27.54984      11.71210     0.0000000E+00 0.0000000E+00  1.236700     001100\n" +
+                            "   3.135883      1.607916     0.0000000E+00 0.0000000E+00 0.3454779E-01 100001\n" +
+                            "   9.054056      3.494993     0.0000000E+00 0.0000000E+00 0.3480578E-01 010001\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.6100459     -1.614094     0.0000000E+00 001001\n" +
+                            "   1.023527     -3.357507     0.0000000E+00 0.0000000E+00 -5.948455     000200\n" +
+                            "  0.0000000E+00 0.0000000E+00  12.94685    -0.1016304     0.0000000E+00 000101\n" +
+                            " -0.1848798E-01-0.1424428E-01 0.0000000E+00 0.0000000E+00 -1.046266     000002\n" +
+                            "   7.907405      11.91120     0.0000000E+00 0.0000000E+00  4.927677     300000\n" +
+                            "  -11.67286      78.32786     0.0000000E+00 0.0000000E+00  34.18004     210000\n" +
+                            "  -243.3569      161.1646     0.0000000E+00 0.0000000E+00  85.78998     120000\n" +
+                            "  -407.6831      102.9998     0.0000000E+00 0.0000000E+00  81.59862     030000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -59.80468     -44.76506     0.0000000E+00 201000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -383.3338     -251.3069     0.0000000E+00 111000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -592.4048     -348.1983     0.0000000E+00 021000\n" +
+                            "  -118.5426     -60.22558     0.0000000E+00 0.0000000E+00 -15.45506     102000\n" +
+                            "  -326.6906     -164.8760     0.0000000E+00 0.0000000E+00 -39.63808     012000\n" +
+                            "  0.0000000E+00 0.0000000E+00  12.64755      19.64552     0.0000000E+00 003000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -16.58746     -29.03069     0.0000000E+00 200100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -262.0515     -178.8020     0.0000000E+00 110100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -562.0197     -251.9548     0.0000000E+00 020100\n" +
+                            "  -158.4637     -60.01883     0.0000000E+00 0.0000000E+00 -18.98018     101100\n" +
+                            "  -396.4417     -149.3246     0.0000000E+00 0.0000000E+00 -38.92927     011100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -259.3077     -28.56865     0.0000000E+00 002100\n" +
+                            "  -12.93533     -5.031258     0.0000000E+00 0.0000000E+00-0.7731203     200001\n" +
+                            "  -52.23296     -22.18746     0.0000000E+00 0.0000000E+00 -5.249430     110001\n" +
+                            "  -77.79823     -36.22091     0.0000000E+00 0.0000000E+00 -8.452820     020001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -11.74646     -1.932934     0.0000000E+00 101001\n" +
+                            "  0.0000000E+00 0.0000000E+00  10.38014      1.599533     0.0000000E+00 011001\n" +
+                            "   20.42915      10.29154     0.0000000E+00 0.0000000E+00  5.097529     002001\n" +
+                            "   299.1544      162.4119     0.0000000E+00 0.0000000E+00  86.39286     100200\n" +
+                            "   555.9500      313.1695     0.0000000E+00 0.0000000E+00  209.2632     010200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -29.43152      232.4228     0.0000000E+00 001200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -38.42427     -14.67287     0.0000000E+00 100101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -35.85408     -33.08744     0.0000000E+00 010101\n" +
+                            " -0.1309625      7.794487     0.0000000E+00 0.0000000E+00  1.086082     001101\n" +
+                            " -0.2240362     0.4182831     0.0000000E+00 0.0000000E+00-0.2284887E-01 100002\n" +
+                            "  -5.807081    -0.5919151     0.0000000E+00 0.0000000E+00-0.1523665E-01 010002\n" +
+                            "  0.0000000E+00 0.0000000E+00  7.520332      3.558540     0.0000000E+00 001002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -562.6902     -73.13924     0.0000000E+00 000300\n" +
+                            "  -160.6145     -80.94478     0.0000000E+00 0.0000000E+00 -14.18999     000201\n" +
+                            "  0.0000000E+00 0.0000000E+00  4.590722      8.705853     0.0000000E+00 000102\n" +
+                            " -0.3807917E-01-0.7852009E-02 0.0000000E+00 0.0000000E+00 0.9233538     000003\n" +
+                            "   20.24855      45.67108     0.0000000E+00 0.0000000E+00 -6.505955     400000\n" +
+                            "   191.8596      526.4121     0.0000000E+00 0.0000000E+00 -7.431498     310000\n" +
+                            "   487.8072      2243.814     0.0000000E+00 0.0000000E+00  159.9672     220000\n" +
+                            "  -139.4216      4142.118     0.0000000E+00 0.0000000E+00  491.8013     130000\n" +
+                            "  -1215.557      2767.588     0.0000000E+00 0.0000000E+00  363.8535     040000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -491.7889     -267.4917     0.0000000E+00 301000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4072.510     -2242.578     0.0000000E+00 211000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -11404.81     -6329.488     0.0000000E+00 121000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -10809.68     -6001.040     0.0000000E+00 031000\n" +
+                            "  -466.5271     -296.9841     0.0000000E+00 0.0000000E+00 -20.88376     202000\n" +
+                            "  -2639.400     -1667.670     0.0000000E+00 0.0000000E+00 -161.1483     112000\n" +
+                            "  -3714.440     -2335.853     0.0000000E+00 0.0000000E+00 -292.6664     022000\n" +
+                            "  0.0000000E+00 0.0000000E+00  826.0690      401.1409     0.0000000E+00 103000\n" +
+                            "  0.0000000E+00 0.0000000E+00  1969.268      968.2094     0.0000000E+00 013000\n" +
+                            "  -116.3193     -59.73544     0.0000000E+00 0.0000000E+00 -31.54196     004000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -534.6913     -266.2128     0.0000000E+00 300100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3820.040     -1890.030     0.0000000E+00 210100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -9468.791     -4580.561     0.0000000E+00 120100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -8322.993     -3825.309     0.0000000E+00 030100\n" +
+                            "  -1700.004     -1017.501     0.0000000E+00 0.0000000E+00 -439.9846     201100\n" +
+                            "  -8137.956     -4941.477     0.0000000E+00 0.0000000E+00 -2415.767     111100\n" +
+                            "  -9888.945     -6080.364     0.0000000E+00 0.0000000E+00 -3363.165     021100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1262.412     -709.8887     0.0000000E+00 102100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4135.404     -2186.558     0.0000000E+00 012100\n" +
+                            "  -675.9197     -360.8397     0.0000000E+00 0.0000000E+00 -81.03378     003100\n" +
+                            "  -103.4135     -32.85391     0.0000000E+00 0.0000000E+00  8.056306     300001\n" +
+                            "  -951.8539     -360.2841     0.0000000E+00 0.0000000E+00  28.34853     210001\n" +
+                            "  -2700.629     -1192.677     0.0000000E+00 0.0000000E+00 -23.89506     120001\n" +
+                            "  -2392.898     -1244.102     0.0000000E+00 0.0000000E+00 -129.1896     030001\n" +
+                            "  0.0000000E+00 0.0000000E+00  200.1081      82.45150     0.0000000E+00 201001\n" +
+                            "  0.0000000E+00 0.0000000E+00  1231.367      557.4906     0.0000000E+00 111001\n" +
+                            "  0.0000000E+00 0.0000000E+00  1958.997      925.3016     0.0000000E+00 021001\n" +
+                            "   326.0642      143.1158     0.0000000E+00 0.0000000E+00  53.18065     102001\n" +
+                            "   1110.501      496.0571     0.0000000E+00 0.0000000E+00  162.6760     012001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -300.8995     -144.2605     0.0000000E+00 003001\n" +
+                            "  -3565.926     -1669.801     0.0000000E+00 0.0000000E+00 -830.1949     200200\n" +
+                            "  -13235.26     -6271.660     0.0000000E+00 0.0000000E+00 -3719.121     110200\n" +
+                            "  -10399.47     -5078.153     0.0000000E+00 0.0000000E+00 -4118.337     020200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4850.351     -2583.277     0.0000000E+00 101200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -13243.73     -6841.303     0.0000000E+00 011200\n" +
+                            "  -322.9325     -78.19633     0.0000000E+00 0.0000000E+00 -303.9657     002200\n" +
+                            "  0.0000000E+00 0.0000000E+00  459.6278      266.0688     0.0000000E+00 200101\n" +
+                            "  0.0000000E+00 0.0000000E+00  2407.033      1414.086     0.0000000E+00 110101\n" +
+                            "  0.0000000E+00 0.0000000E+00  3349.693      1888.899     0.0000000E+00 020101\n" +
+                            "   1706.492      830.9958     0.0000000E+00 0.0000000E+00  270.4231     101101\n" +
+                            "   4455.434      2147.915     0.0000000E+00 0.0000000E+00  689.1442     011101\n" +
+                            "  0.0000000E+00 0.0000000E+00  104.2107     -77.83777     0.0000000E+00 002101\n" +
+                            "   3.197267     -1.931596     0.0000000E+00 0.0000000E+00 -1.569546     200002\n" +
+                            "   38.78673    -0.1425333     0.0000000E+00 0.0000000E+00 -6.279426     110002\n" +
+                            "   94.23176      17.73236     0.0000000E+00 0.0000000E+00 -6.518523     020002\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.8703271     -4.428462     0.0000000E+00 101002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -20.94197     -12.07670     0.0000000E+00 011002\n" +
+                            "  -45.95246     -18.40109     0.0000000E+00 0.0000000E+00 -15.56538     002002\n" +
+                            "  0.0000000E+00 0.0000000E+00  9548.316      4508.635     0.0000000E+00 100300\n" +
+                            "  0.0000000E+00 0.0000000E+00  21145.16      10055.59     0.0000000E+00 010300\n" +
+                            "   3692.110      1943.738     0.0000000E+00 0.0000000E+00  975.2746     001300\n" +
+                            "   2208.950      1090.707     0.0000000E+00 0.0000000E+00  248.5283     100201\n" +
+                            "   4671.636      2229.222     0.0000000E+00 0.0000000E+00  428.3949     010201\n" +
+                            "  0.0000000E+00 0.0000000E+00  711.8898      66.74381     0.0000000E+00 001201\n" +
+                            "  0.0000000E+00 0.0000000E+00  8.809019     -14.82511     0.0000000E+00 100102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -34.44676     -36.65403     0.0000000E+00 010102\n" +
+                            "  -237.1953     -124.4220     0.0000000E+00 0.0000000E+00 -40.08668     001102\n" +
+                            " -0.7754727    -0.3889940     0.0000000E+00 0.0000000E+00 0.6337717E-01 100003\n" +
+                            "   2.167143    -0.5099878     0.0000000E+00 0.0000000E+00 0.4126799E-02 010003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -12.61182     -3.778753     0.0000000E+00 001003\n" +
+                            "   5382.514      2897.954     0.0000000E+00 0.0000000E+00  684.4045     000400\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2713.282     -1865.547     0.0000000E+00 000301\n" +
+                            "  -84.67166     -86.80327     0.0000000E+00 0.0000000E+00 -2.389885     000202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -27.71282     -14.22929     0.0000000E+00 000103\n" +
+                            "  0.7552048E-01 0.4248511E-02 0.0000000E+00 0.0000000E+00-0.8556035     000004\n" +
+                            "   1766.752      796.5245     0.0000000E+00 0.0000000E+00 -50.75635     500000\n" +
+                            "   25416.07      11744.50     0.0000000E+00 0.0000000E+00 -822.4317     410000\n" +
+                            "   146926.5      69295.91     0.0000000E+00 0.0000000E+00 -4849.743     320000\n" +
+                            "   426682.6      204775.6     0.0000000E+00 0.0000000E+00 -13196.82     230000\n" +
+                            "   622082.4      303283.2     0.0000000E+00 0.0000000E+00 -16567.56     140000\n" +
+                            "   363827.7      180138.9     0.0000000E+00 0.0000000E+00 -7560.658     050000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2417.606     -1326.178     0.0000000E+00 401000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -29944.00     -16440.21     0.0000000E+00 311000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -137268.0     -75450.38     0.0000000E+00 221000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -277193.8     -152596.6     0.0000000E+00 131000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -208782.8     -115130.9     0.0000000E+00 041000\n" +
+                            "  -2276.743     -1121.733     0.0000000E+00 0.0000000E+00  499.9540     302000\n" +
+                            "  -20726.48     -10581.83     0.0000000E+00 0.0000000E+00  3908.011     212000\n" +
+                            "  -61544.81     -32400.17     0.0000000E+00 0.0000000E+00  10277.14     122000\n" +
+                            "  -60144.51     -32551.16     0.0000000E+00 0.0000000E+00  9088.987     032000\n" +
+                            "  0.0000000E+00 0.0000000E+00  7537.394      3803.526     0.0000000E+00 203000\n" +
+                            "  0.0000000E+00 0.0000000E+00  39549.89      19965.95     0.0000000E+00 113000\n" +
+                            "  0.0000000E+00 0.0000000E+00  52154.44      26309.54     0.0000000E+00 023000\n" +
+                            "  -1540.065     -793.6952     0.0000000E+00 0.0000000E+00 -513.6674     104000\n" +
+                            "  -4610.906     -2335.866     0.0000000E+00 0.0000000E+00 -1324.834     014000\n" +
+                            "  0.0000000E+00 0.0000000E+00  1595.159      786.6171     0.0000000E+00 005000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1904.930     -1301.354     0.0000000E+00 400100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -24876.92     -16686.36     0.0000000E+00 310100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -115053.5     -76719.33     0.0000000E+00 220100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -227358.3     -151851.3     0.0000000E+00 130100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -163958.4     -110088.3     0.0000000E+00 040100\n" +
+                            "   4167.677      993.3774     0.0000000E+00 0.0000000E+00  1648.413     301100\n" +
+                            "   12963.85     -2457.994     0.0000000E+00 0.0000000E+00  10343.96     211100\n" +
+                            "  -12952.05     -31323.57     0.0000000E+00 0.0000000E+00  20596.15     121100\n" +
+                            "  -48190.33     -47401.61     0.0000000E+00 0.0000000E+00  12440.46     031100\n" +
+                            "  0.0000000E+00 0.0000000E+00  26013.41      13027.27     0.0000000E+00 202100\n" +
+                            "  0.0000000E+00 0.0000000E+00  125490.6      62829.92     0.0000000E+00 112100\n" +
+                            "  0.0000000E+00 0.0000000E+00  151109.3      75498.94     0.0000000E+00 022100\n" +
+                            "  -18097.67     -9736.841     0.0000000E+00 0.0000000E+00 -1145.955     103100\n" +
+                            "  -48320.61     -25814.59     0.0000000E+00 0.0000000E+00 -3090.222     013100\n" +
+                            "  0.0000000E+00 0.0000000E+00  5520.408      2764.506     0.0000000E+00 004100\n" +
+                            "  -243.7988     -47.90571     0.0000000E+00 0.0000000E+00  22.81580     400001\n" +
+                            "  -2897.147     -867.7221     0.0000000E+00 0.0000000E+00  331.8174     310001\n" +
+                            "  -12738.21     -5125.860     0.0000000E+00 0.0000000E+00  1485.116     220001\n" +
+                            "  -23934.54     -12374.86     0.0000000E+00 0.0000000E+00  2747.810     130001\n" +
+                            "  -15623.55     -10508.16     0.0000000E+00 0.0000000E+00  1933.049     040001\n" +
+                            "  0.0000000E+00 0.0000000E+00  520.1580      87.67140     0.0000000E+00 301001\n" +
+                            "  0.0000000E+00 0.0000000E+00  7300.155      2369.554     0.0000000E+00 211001\n" +
+                            "  0.0000000E+00 0.0000000E+00  28426.83      11122.82     0.0000000E+00 121001\n" +
+                            "  0.0000000E+00 0.0000000E+00  34009.70      14551.07     0.0000000E+00 031001\n" +
+                            "   887.6513      340.7551     0.0000000E+00 0.0000000E+00 -180.1391     202001\n" +
+                            "   7772.508      3480.008     0.0000000E+00 0.0000000E+00 -693.3675     112001\n" +
+                            "   14464.33      6907.929     0.0000000E+00 0.0000000E+00 -453.4744     022001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5554.672     -2522.514     0.0000000E+00 103001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -15152.43     -6987.508     0.0000000E+00 013001\n" +
+                            "   399.2415      165.0640     0.0000000E+00 0.0000000E+00  228.8715     004001\n" +
+                            "   16495.26      6123.234     0.0000000E+00 0.0000000E+00  2840.870     300200\n" +
+                            "   75464.22      25159.50     0.0000000E+00 0.0000000E+00  13978.05     210200\n" +
+                            "   68718.32      11374.13     0.0000000E+00 0.0000000E+00  17924.81     120200\n" +
+                            "  -37880.72     -31208.99     0.0000000E+00 0.0000000E+00  2630.863     030200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -51553.80     -25193.77     0.0000000E+00 201200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -277826.3     -135931.0     0.0000000E+00 111200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -378923.1     -185820.2     0.0000000E+00 021200\n" +
+                            "  -65253.63     -34100.70     0.0000000E+00 0.0000000E+00 -10019.66     102200\n" +
+                            "  -162254.2     -84257.56     0.0000000E+00 0.0000000E+00 -24711.03     012200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2102.955     -997.2119     0.0000000E+00 003200\n" +
+                            "  0.0000000E+00 0.0000000E+00  1847.515      764.0837     0.0000000E+00 300101\n" +
+                            "  0.0000000E+00 0.0000000E+00  19597.07      8797.444     0.0000000E+00 210101\n" +
+                            "  0.0000000E+00 0.0000000E+00  64513.82      30209.26     0.0000000E+00 120101\n" +
+                            "  0.0000000E+00 0.0000000E+00  68435.99      32649.12     0.0000000E+00 030101\n" +
+                            "  -338.0087      55.80493     0.0000000E+00 0.0000000E+00 -174.3099     201101\n" +
+                            "   13312.21      8167.907     0.0000000E+00 0.0000000E+00  1902.186     111101\n" +
+                            "   36127.69      20430.78     0.0000000E+00 0.0000000E+00  6451.723     021101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -15443.20     -7973.776     0.0000000E+00 102101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -33233.17     -17720.63     0.0000000E+00 012101\n" +
+                            "   5092.471      2584.844     0.0000000E+00 0.0000000E+00  615.6569     003101\n" +
+                            "   48.57046     -11.73698     0.0000000E+00 0.0000000E+00-0.1032081     300002\n" +
+                            "   946.2380      99.43905     0.0000000E+00 0.0000000E+00 -7.242885     210002\n" +
+                            "   4250.509      976.4155     0.0000000E+00 0.0000000E+00  47.48282     120002\n" +
+                            "   5451.287      1674.463     0.0000000E+00 0.0000000E+00  206.1186     030002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -152.9047     0.3257381     0.0000000E+00 201002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1564.901     -357.9652     0.0000000E+00 111002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3315.684     -1076.426     0.0000000E+00 021002\n" +
+                            "  -247.3530     -46.09925     0.0000000E+00 0.0000000E+00 -82.41359     102002\n" +
+                            "  -1605.695     -534.3624     0.0000000E+00 0.0000000E+00 -318.6562     012002\n" +
+                            "  0.0000000E+00 0.0000000E+00  1147.233      476.2311     0.0000000E+00 003002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -156654.3     -75699.67     0.0000000E+00 200300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -730185.6     -352413.5     0.0000000E+00 110300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -840248.5     -404907.9     0.0000000E+00 020300\n" +
+                            "  -135189.0     -63404.85     0.0000000E+00 0.0000000E+00 -31963.15     101300\n" +
+                            "  -314703.4     -146975.7     0.0000000E+00 0.0000000E+00 -76296.83     011300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -29914.94     -13833.99     0.0000000E+00 002300\n" +
+                            "  -6222.763     -2580.815     0.0000000E+00 0.0000000E+00  331.0781     200201\n" +
+                            "  -10735.95     -2376.783     0.0000000E+00 0.0000000E+00  6275.960     110201\n" +
+                            "   7943.963      8383.692     0.0000000E+00 0.0000000E+00  13380.42     020201\n" +
+                            "  0.0000000E+00 0.0000000E+00  31928.39      14488.33     0.0000000E+00 101201\n" +
+                            "  0.0000000E+00 0.0000000E+00  91413.97      41143.33     0.0000000E+00 011201\n" +
+                            "   19136.69      9902.503     0.0000000E+00 0.0000000E+00  3990.074     002201\n" +
+                            "  0.0000000E+00 0.0000000E+00 -699.8658     -203.9243     0.0000000E+00 200102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5026.808     -1913.242     0.0000000E+00 110102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -8516.859     -3633.481     0.0000000E+00 020102\n" +
+                            "  -1762.072     -562.9532     0.0000000E+00 0.0000000E+00 -514.4998     101102\n" +
+                            "  -8026.142     -3167.954     0.0000000E+00 0.0000000E+00 -1763.611     011102\n" +
+                            "  0.0000000E+00 0.0000000E+00  3064.630      1590.203     0.0000000E+00 002102\n" +
+                            "   5.814401      3.939609     0.0000000E+00 0.0000000E+00  1.655039     200003\n" +
+                            "   14.76058      21.83205     0.0000000E+00 0.0000000E+00  12.85044     110003\n" +
+                            "  -29.33819      20.67116     0.0000000E+00 0.0000000E+00  24.51446     020003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6.628634     -2.611859     0.0000000E+00 101003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2.344025     -5.941312     0.0000000E+00 011003\n" +
+                            "   37.90245      6.871723     0.0000000E+00 0.0000000E+00  33.57095     002003\n" +
+                            "  -86285.01     -43322.62     0.0000000E+00 0.0000000E+00 -4882.997     100400\n" +
+                            "  -188591.0     -94147.59     0.0000000E+00 0.0000000E+00 -9729.033     010400\n" +
+                            "  0.0000000E+00 0.0000000E+00  52890.17      26832.38     0.0000000E+00 001400\n" +
+                            "  0.0000000E+00 0.0000000E+00  66884.79      35845.77     0.0000000E+00 100301\n" +
+                            "  0.0000000E+00 0.0000000E+00  152019.7      80886.62     0.0000000E+00 010301\n" +
+                            "   28141.17      14821.69     0.0000000E+00 0.0000000E+00  5666.585     001301\n" +
+                            "  -2687.062     -932.9794     0.0000000E+00 0.0000000E+00 -607.2659     100202\n" +
+                            "  -9140.265     -3650.756     0.0000000E+00 0.0000000E+00 -1740.858     010202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3814.205     -1432.858     0.0000000E+00 001202\n" +
+                            "  0.0000000E+00 0.0000000E+00  7.265270      12.65566     0.0000000E+00 100103\n" +
+                            "  0.0000000E+00 0.0000000E+00  103.2685      52.48635     0.0000000E+00 010103\n" +
+                            "   394.5283      143.2389     0.0000000E+00 0.0000000E+00  122.4495     001103\n" +
+                            "   1.248997     0.3201571     0.0000000E+00 0.0000000E+00-0.4827996E-01 100004\n" +
+                            "  0.6392483     0.9139037     0.0000000E+00 0.0000000E+00 0.2580551     010004\n" +
+                            "  0.0000000E+00 0.0000000E+00  16.81987      4.076410     0.0000000E+00 001004\n" +
+                            "  0.0000000E+00 0.0000000E+00  107027.7      54119.28     0.0000000E+00 000500\n" +
+                            "   10058.39      7093.299     0.0000000E+00 0.0000000E+00 -2253.706     000401\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3426.917     -2037.259     0.0000000E+00 000302\n" +
+                            "   501.4095      246.1442     0.0000000E+00 0.0000000E+00  66.13676     000203\n" +
+                            "  0.0000000E+00 0.0000000E+00  53.26545      18.96143     0.0000000E+00 000104\n" +
+                            " -0.1182189     0.6672139E-03 0.0000000E+00 0.0000000E+00 0.8329297     000005"
+            );
+
+            slice_20200715_后偏转段全段.map = CosyArbitraryOrder.readMap(
+                    "  0.9969328     0.7182200     0.0000000E+00 0.0000000E+00 0.1956855E-01 100000\n" +
+                            "  0.2080739      1.152979     0.0000000E+00 0.0000000E+00 0.3404286E-01 010000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.149271     0.8248457E-01 0.0000000E+00 001000\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.5670942    -0.9108178     0.0000000E+00 000100\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.0000000E+00 0.0000000E+00  1.000000     000010\n" +
+                            "  0.2986673E-01 0.1888123E-02 0.0000000E+00 0.0000000E+00  1.278387     000001\n" +
+                            "  -8.661409     -1.104256     0.0000000E+00 0.0000000E+00 0.4813269     200000\n" +
+                            "  -23.23947      2.830949     0.0000000E+00 0.0000000E+00  3.965941     110000\n" +
+                            "   5.608818      17.77472     0.0000000E+00 0.0000000E+00  6.033610     020000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -13.17278     0.9215201     0.0000000E+00 101000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -38.17130     0.6730656E-01 0.0000000E+00 011000\n" +
+                            "  -1.528027     -1.087056     0.0000000E+00 0.0000000E+00-0.9593260     002000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -13.67393      10.96635     0.0000000E+00 100100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -20.45369      31.68621     0.0000000E+00 010100\n" +
+                            "   32.23468      11.71210     0.0000000E+00 0.0000000E+00  1.253493     001100\n" +
+                            "   3.618518      1.607916     0.0000000E+00 0.0000000E+00 0.3424469E-01 100001\n" +
+                            "   10.19435      3.494993     0.0000000E+00 0.0000000E+00 0.3431921E-01 010001\n" +
+                            "  0.0000000E+00 0.0000000E+00-0.5402818E-01 -1.614094     0.0000000E+00 001001\n" +
+                            " -0.3194756     -3.357507     0.0000000E+00 0.0000000E+00 -6.041167     000200\n" +
+                            "  0.0000000E+00 0.0000000E+00  13.10978    -0.1016304     0.0000000E+00 000101\n" +
+                            " -0.2460772E-01-0.1424428E-01 0.0000000E+00 0.0000000E+00 -1.111535     000002\n" +
+                            "   12.74598      11.91120     0.0000000E+00 0.0000000E+00  5.104944     300000\n" +
+                            "   20.01514      78.32786     0.0000000E+00 0.0000000E+00  34.01015     210000\n" +
+                            "  -178.3182      161.1646     0.0000000E+00 0.0000000E+00  82.20704     120000\n" +
+                            "  -366.1767      102.9998     0.0000000E+00 0.0000000E+00  77.01798     030000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -77.70220     -44.76506     0.0000000E+00 201000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -483.8293     -251.3069     0.0000000E+00 111000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -731.6622     -348.1983     0.0000000E+00 021000\n" +
+                            "  -142.6319     -60.22558     0.0000000E+00 0.0000000E+00 -15.29754     102000\n" +
+                            "  -392.6395     -164.8760     0.0000000E+00 0.0000000E+00 -39.35919     012000\n" +
+                            "  0.0000000E+00 0.0000000E+00  20.50587      19.64552     0.0000000E+00 003000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -28.29370     -29.03069     0.0000000E+00 200100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -333.8740     -178.8020     0.0000000E+00 110100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -663.0438     -251.9548     0.0000000E+00 020100\n" +
+                            "  -182.4928     -60.01883     0.0000000E+00 0.0000000E+00 -20.87491     101100\n" +
+                            "  -456.2062     -149.3246     0.0000000E+00 0.0000000E+00 -42.51801     011100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -270.7389     -28.56865     0.0000000E+00 002100\n" +
+                            "  -14.70043     -5.031258     0.0000000E+00 0.0000000E+00-0.9462651     200001\n" +
+                            "  -61.73882     -22.18746     0.0000000E+00 0.0000000E+00 -5.954716     110001\n" +
+                            "  -96.25795     -36.22091     0.0000000E+00 0.0000000E+00 -9.143211     020001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -12.72556     -1.932934     0.0000000E+00 101001\n" +
+                            "  0.0000000E+00 0.0000000E+00  11.00498      1.599533     0.0000000E+00 011001\n" +
+                            "   24.78874      10.29154     0.0000000E+00 0.0000000E+00  5.128860     002001\n" +
+                            "   364.2383      162.4119     0.0000000E+00 0.0000000E+00  89.16436     100200\n" +
+                            "   681.4090      313.1695     0.0000000E+00 0.0000000E+00  216.5791     010200\n" +
+                            "  0.0000000E+00 0.0000000E+00  63.57865      232.4228     0.0000000E+00 001200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -46.74503     -14.67287     0.0000000E+00 100101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -56.17211     -33.08744     0.0000000E+00 010101\n" +
+                            "  0.3689772      7.794487     0.0000000E+00 0.0000000E+00 0.7298004     001101\n" +
+                            " -0.2984451     0.4182831     0.0000000E+00 0.0000000E+00-0.2079646E-01 100002\n" +
+                            "  -6.636126    -0.5919151     0.0000000E+00 0.0000000E+00-0.1232748E-01 010002\n" +
+                            "  0.0000000E+00 0.0000000E+00  9.318031      3.558540     0.0000000E+00 001002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -592.0970     -73.13924     0.0000000E+00 000300\n" +
+                            "  -192.2417     -80.94478     0.0000000E+00 0.0000000E+00 -14.07335     000201\n" +
+                            "  0.0000000E+00 0.0000000E+00  7.946559      8.705853     0.0000000E+00 000102\n" +
+                            " -0.3772687E-01-0.7852009E-02 0.0000000E+00 0.0000000E+00 0.9795675     000003\n" +
+                            "   38.17521      45.67108     0.0000000E+00 0.0000000E+00 -8.576648     400000\n" +
+                            "   402.2033      526.4121     0.0000000E+00 0.0000000E+00 -22.51962     310000\n" +
+                            "   1392.767      2243.814     0.0000000E+00 0.0000000E+00  117.0564     220000\n" +
+                            "   1537.346      4142.118     0.0000000E+00 0.0000000E+00  422.1176     130000\n" +
+                            "  -94.34468      2767.588     0.0000000E+00 0.0000000E+00  301.8534     040000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -598.7166     -267.4917     0.0000000E+00 301000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4969.204     -2242.578     0.0000000E+00 211000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -13935.81     -6329.488     0.0000000E+00 121000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -13209.40     -6001.040     0.0000000E+00 031000\n" +
+                            "  -585.6368     -296.9841     0.0000000E+00 0.0000000E+00 -10.75418     202000\n" +
+                            "  -3307.508     -1667.670     0.0000000E+00 0.0000000E+00 -113.8549     112000\n" +
+                            "  -4649.621     -2335.853     0.0000000E+00 0.0000000E+00 -239.4408     022000\n" +
+                            "  0.0000000E+00 0.0000000E+00  986.5034      401.1409     0.0000000E+00 103000\n" +
+                            "  0.0000000E+00 0.0000000E+00  2356.511      968.2094     0.0000000E+00 013000\n" +
+                            "  -140.2150     -59.73544     0.0000000E+00 0.0000000E+00 -32.03622     004000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -639.7561     -266.2128     0.0000000E+00 300100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4569.427     -1890.030     0.0000000E+00 210100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -11293.44     -4580.561     0.0000000E+00 120100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -9852.159     -3825.309     0.0000000E+00 030100\n" +
+                            "  -2103.327     -1017.501     0.0000000E+00 0.0000000E+00 -438.2828     201100\n" +
+                            "  -10102.23     -4941.477     0.0000000E+00 0.0000000E+00 -2438.254     111100\n" +
+                            "  -12311.11     -6080.364     0.0000000E+00 0.0000000E+00 -3437.898     021100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1545.844     -709.8887     0.0000000E+00 102100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5009.001     -2186.558     0.0000000E+00 012100\n" +
+                            "  -820.2070     -360.8397     0.0000000E+00 0.0000000E+00 -73.66180     003100\n" +
+                            "  -118.8457     -32.85391     0.0000000E+00 0.0000000E+00  8.995709     300001\n" +
+                            "  -1111.392     -360.2841     0.0000000E+00 0.0000000E+00  33.26694     210001\n" +
+                            "  -3209.890     -1192.677     0.0000000E+00 0.0000000E+00 -15.77957     120001\n" +
+                            "  -2911.240     -1244.102     0.0000000E+00 0.0000000E+00 -127.0699     030001\n" +
+                            "  0.0000000E+00 0.0000000E+00  242.9520      82.45150     0.0000000E+00 201001\n" +
+                            "  0.0000000E+00 0.0000000E+00  1510.098      557.4906     0.0000000E+00 111001\n" +
+                            "  0.0000000E+00 0.0000000E+00  2406.613      925.3016     0.0000000E+00 021001\n" +
+                            "   396.7323      143.1158     0.0000000E+00 0.0000000E+00  52.08181     102001\n" +
+                            "   1345.713      496.0571     0.0000000E+00 0.0000000E+00  160.5285     012001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -363.0015     -144.2605     0.0000000E+00 003001\n" +
+                            "  -4237.939     -1669.801     0.0000000E+00 0.0000000E+00 -876.5174     200200\n" +
+                            "  -15759.69     -6271.660     0.0000000E+00 0.0000000E+00 -3923.422     110200\n" +
+                            "  -12443.77     -5078.153     0.0000000E+00 0.0000000E+00 -4349.386     020200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5887.336     -2583.277     0.0000000E+00 101200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -15988.12     -6841.303     0.0000000E+00 011200\n" +
+                            "  -354.7479     -78.19633     0.0000000E+00 0.0000000E+00 -330.2153     002200\n" +
+                            "  0.0000000E+00 0.0000000E+00  572.2770      266.0688     0.0000000E+00 200101\n" +
+                            "  0.0000000E+00 0.0000000E+00  3011.539      1414.086     0.0000000E+00 110101\n" +
+                            "  0.0000000E+00 0.0000000E+00  4160.494      1888.899     0.0000000E+00 020101\n" +
+                            "   2052.732      830.9958     0.0000000E+00 0.0000000E+00  271.6199     101101\n" +
+                            "   5348.636      2147.915     0.0000000E+00 0.0000000E+00  695.6790     011101\n" +
+                            "  0.0000000E+00 0.0000000E+00  79.61381     -77.83777     0.0000000E+00 002101\n" +
+                            "   3.365493     -1.931596     0.0000000E+00 0.0000000E+00 -1.653812     200002\n" +
+                            "   44.14528    -0.1425333     0.0000000E+00 0.0000000E+00 -6.433731     110002\n" +
+                            "   112.3278      17.73236     0.0000000E+00 0.0000000E+00 -6.597170     020002\n" +
+                            "  0.0000000E+00 0.0000000E+00-0.3192387     -4.428462     0.0000000E+00 101002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -26.12099     -12.07670     0.0000000E+00 011002\n" +
+                            "  -55.79140     -18.40109     0.0000000E+00 0.0000000E+00 -15.97562     002002\n" +
+                            "  0.0000000E+00 0.0000000E+00  11358.11      4508.635     0.0000000E+00 100300\n" +
+                            "  0.0000000E+00 0.0000000E+00  25184.58      10055.59     0.0000000E+00 010300\n" +
+                            "   4471.650      1943.738     0.0000000E+00 0.0000000E+00  1032.750     001300\n" +
+                            "   2609.012      1090.707     0.0000000E+00 0.0000000E+00  255.8593     100201\n" +
+                            "   5493.599      2229.222     0.0000000E+00 0.0000000E+00  435.0039     010201\n" +
+                            "  0.0000000E+00 0.0000000E+00  685.7666      66.74381     0.0000000E+00 001201\n" +
+                            "  0.0000000E+00 0.0000000E+00  7.958553     -14.82511     0.0000000E+00 100102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -36.51695     -36.65403     0.0000000E+00 010102\n" +
+                            "  -286.7858     -124.4220     0.0000000E+00 0.0000000E+00 -39.00876     001102\n" +
+                            " -0.8581607    -0.3889940     0.0000000E+00 0.0000000E+00 0.6667356E-01 100003\n" +
+                            "   2.512279    -0.5099878     0.0000000E+00 0.0000000E+00 0.1342628E-01 010003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -15.19428     -3.778753     0.0000000E+00 001003\n" +
+                            "   6541.139      2897.954     0.0000000E+00 0.0000000E+00  668.1974     000400\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3442.948     -1865.547     0.0000000E+00 000301\n" +
+                            "  -101.8537     -86.80327     0.0000000E+00 0.0000000E+00-0.7350498     000202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -35.24402     -14.22929     0.0000000E+00 000103\n" +
+                            "  0.7638624E-01 0.4248511E-02 0.0000000E+00 0.0000000E+00-0.9054801     000004\n" +
+                            "   2089.602      796.5245     0.0000000E+00 0.0000000E+00 -55.01095     500000\n" +
+                            "   30148.33      11744.50     0.0000000E+00 0.0000000E+00 -906.6022     410000\n" +
+                            "   174765.0      69295.91     0.0000000E+00 0.0000000E+00 -5405.551     320000\n" +
+                            "   508870.2      204775.6     0.0000000E+00 0.0000000E+00 -14840.52     230000\n" +
+                            "   743833.3      303283.2     0.0000000E+00 0.0000000E+00 -18803.27     140000\n" +
+                            "   436184.3      180138.9     0.0000000E+00 0.0000000E+00 -8692.219     050000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2952.682     -1326.178     0.0000000E+00 401000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -36558.35     -16440.21     0.0000000E+00 311000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -167566.9     -75450.38     0.0000000E+00 221000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -338396.4     -152596.6     0.0000000E+00 131000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -254918.1     -115130.9     0.0000000E+00 041000\n" +
+                            "  -2743.997     -1121.733     0.0000000E+00 0.0000000E+00  549.9342     302000\n" +
+                            "  -25078.33     -10581.83     0.0000000E+00 0.0000000E+00  4363.089     212000\n" +
+                            "  -74754.68     -32400.17     0.0000000E+00 0.0000000E+00  11657.80     122000\n" +
+                            "  -73336.28     -32551.16     0.0000000E+00 0.0000000E+00  10487.39     032000\n" +
+                            "  0.0000000E+00 0.0000000E+00  9059.015      3803.526     0.0000000E+00 203000\n" +
+                            "  0.0000000E+00 0.0000000E+00  47534.98      19965.95     0.0000000E+00 113000\n" +
+                            "  0.0000000E+00 0.0000000E+00  62675.11      26309.54     0.0000000E+00 023000\n" +
+                            "  -1856.684     -793.6952     0.0000000E+00 0.0000000E+00 -530.1514     104000\n" +
+                            "  -5543.914     -2335.866     0.0000000E+00 0.0000000E+00 -1367.643     014000\n" +
+                            "  0.0000000E+00 0.0000000E+00  1909.906      786.6171     0.0000000E+00 005000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2435.321     -1301.354     0.0000000E+00 400100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -31610.84     -16686.36     0.0000000E+00 310100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -145824.1     -76719.33     0.0000000E+00 220100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -288050.3     -151851.3     0.0000000E+00 130100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -207902.0     -110088.3     0.0000000E+00 040100\n" +
+                            "   4548.830      993.3774     0.0000000E+00 0.0000000E+00  1830.409     301100\n" +
+                            "   11974.47     -2457.994     0.0000000E+00 0.0000000E+00  11736.65     211100\n" +
+                            "  -25255.73     -31323.57     0.0000000E+00 0.0000000E+00  24228.61     121100\n" +
+                            "  -66829.40     -47401.61     0.0000000E+00 0.0000000E+00  15643.55     031100\n" +
+                            "  0.0000000E+00 0.0000000E+00  31238.97      13027.27     0.0000000E+00 202100\n" +
+                            "  0.0000000E+00 0.0000000E+00  150692.5      62829.92     0.0000000E+00 112100\n" +
+                            "  0.0000000E+00 0.0000000E+00  181393.8      75498.94     0.0000000E+00 022100\n" +
+                            "  -22007.14     -9736.841     0.0000000E+00 0.0000000E+00 -892.5258     103100\n" +
+                            "  -58669.74     -25814.59     0.0000000E+00 0.0000000E+00 -2503.287     013100\n" +
+                            "  0.0000000E+00 0.0000000E+00  6623.687      2764.506     0.0000000E+00 004100\n" +
+                            "  -275.6625     -47.90571     0.0000000E+00 0.0000000E+00  25.40987     400001\n" +
+                            "  -3375.097     -867.7221     0.0000000E+00 0.0000000E+00  379.0344     310001\n" +
+                            "  -15305.25     -5125.860     0.0000000E+00 0.0000000E+00  1734.090     220001\n" +
+                            "  -29789.90     -12374.86     0.0000000E+00 0.0000000E+00  3299.610     130001\n" +
+                            "  -20411.48     -10508.16     0.0000000E+00 0.0000000E+00  2405.146     040001\n" +
+                            "  0.0000000E+00 0.0000000E+00  615.4350      87.67140     0.0000000E+00 301001\n" +
+                            "  0.0000000E+00 0.0000000E+00  8748.467      2369.554     0.0000000E+00 211001\n" +
+                            "  0.0000000E+00 0.0000000E+00  34279.79      11122.82     0.0000000E+00 121001\n" +
+                            "  0.0000000E+00 0.0000000E+00  41157.95      14551.07     0.0000000E+00 031001\n" +
+                            "   1092.072      340.7551     0.0000000E+00 0.0000000E+00 -212.1255     202001\n" +
+                            "   9542.261      3480.008     0.0000000E+00 0.0000000E+00 -885.2825     112001\n" +
+                            "   17752.48      6907.929     0.0000000E+00 0.0000000E+00 -721.8902     022001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6652.759     -2522.514     0.0000000E+00 103001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -18162.69     -6987.508     0.0000000E+00 013001\n" +
+                            "   478.6956      165.0640     0.0000000E+00 0.0000000E+00  241.8692     004001\n" +
+                            "   19029.37      6123.234     0.0000000E+00 0.0000000E+00  3177.276     300200\n" +
+                            "   85984.70      25159.50     0.0000000E+00 0.0000000E+00  15719.90     210200\n" +
+                            "   74013.39      11374.13     0.0000000E+00 0.0000000E+00  20604.43     120200\n" +
+                            "  -50047.46     -31208.99     0.0000000E+00 0.0000000E+00  3787.188     030200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -61571.66     -25193.77     0.0000000E+00 201200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -331999.0     -135931.0     0.0000000E+00 111200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -453124.7     -185820.2     0.0000000E+00 021200\n" +
+                            "  -78822.09     -34100.70     0.0000000E+00 0.0000000E+00 -9929.814     102200\n" +
+                            "  -195834.4     -84257.56     0.0000000E+00 0.0000000E+00 -24466.56     012200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2481.515     -997.2119     0.0000000E+00 003200\n" +
+                            "  0.0000000E+00 0.0000000E+00  2215.783      764.0837     0.0000000E+00 300101\n" +
+                            "  0.0000000E+00 0.0000000E+00  23560.35      8797.444     0.0000000E+00 210101\n" +
+                            "  0.0000000E+00 0.0000000E+00  77670.71      30209.26     0.0000000E+00 120101\n" +
+                            "  0.0000000E+00 0.0000000E+00  82383.20      32649.12     0.0000000E+00 030101\n" +
+                            "  -81.28033      55.80493     0.0000000E+00 0.0000000E+00 -265.1822     201101\n" +
+                            "   17712.35      8167.907     0.0000000E+00 0.0000000E+00  1565.313     111101\n" +
+                            "   45694.99      20430.78     0.0000000E+00 0.0000000E+00  6234.209     021101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -18481.57     -7973.776     0.0000000E+00 102101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -39849.54     -17720.63     0.0000000E+00 012101\n" +
+                            "   6205.377      2584.844     0.0000000E+00 0.0000000E+00  542.1507     003101\n" +
+                            "   53.74451     -11.73698     0.0000000E+00 0.0000000E+00 0.7338053     300002\n" +
+                            "   1082.456      99.43905     0.0000000E+00 0.0000000E+00 -1.979077     210002\n" +
+                            "   4939.745      976.4155     0.0000000E+00 0.0000000E+00  64.06034     120002\n" +
+                            "   6419.606      1674.463     0.0000000E+00 0.0000000E+00  231.4807     030002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -178.6323     0.3257381     0.0000000E+00 201002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1874.615     -357.9652     0.0000000E+00 111002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4011.081     -1076.426     0.0000000E+00 021002\n" +
+                            "  -307.1843     -46.09925     0.0000000E+00 0.0000000E+00 -83.09945     102002\n" +
+                            "  -1956.635     -534.3624     0.0000000E+00 0.0000000E+00 -319.0310     012002\n" +
+                            "  0.0000000E+00 0.0000000E+00  1373.345      476.2311     0.0000000E+00 003002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -187076.4     -75699.67     0.0000000E+00 200300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -871838.6     -352413.5     0.0000000E+00 110300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1003064.     -404907.9     0.0000000E+00 020300\n" +
+                            "  -160709.2     -63404.85     0.0000000E+00 0.0000000E+00 -33912.02     101300\n" +
+                            "  -373821.4     -146975.7     0.0000000E+00 0.0000000E+00 -80958.84     011300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -35511.63     -13833.99     0.0000000E+00 002300\n" +
+                            "  -6908.156     -2580.815     0.0000000E+00 0.0000000E+00  231.7013     200201\n" +
+                            "  -10377.88     -2376.783     0.0000000E+00 0.0000000E+00  6202.185     110201\n" +
+                            "   12341.48      8383.692     0.0000000E+00 0.0000000E+00  13808.79     020201\n" +
+                            "  0.0000000E+00 0.0000000E+00  38317.47      14488.33     0.0000000E+00 101201\n" +
+                            "  0.0000000E+00 0.0000000E+00  109453.9      41143.33     0.0000000E+00 011201\n" +
+                            "   23124.62      9902.503     0.0000000E+00 0.0000000E+00  4062.481     002201\n" +
+                            "  0.0000000E+00 0.0000000E+00 -844.9240     -203.9243     0.0000000E+00 200102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6134.934     -1913.242     0.0000000E+00 110102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -10431.63     -3633.481     0.0000000E+00 020102\n" +
+                            "  -2183.378     -562.9532     0.0000000E+00 0.0000000E+00 -516.5645     101102\n" +
+                            "  -9798.158     -3167.954     0.0000000E+00 0.0000000E+00 -1784.861     011102\n" +
+                            "  0.0000000E+00 0.0000000E+00  3711.450      1590.203     0.0000000E+00 002102\n" +
+                            "   7.132588      3.939609     0.0000000E+00 0.0000000E+00  1.728356     200003\n" +
+                            "   19.44949      21.83205     0.0000000E+00 0.0000000E+00  13.30532     110003\n" +
+                            "  -33.42433      20.67116     0.0000000E+00 0.0000000E+00  25.35531     020003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7.117081     -2.611859     0.0000000E+00 101003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.757779     -5.941312     0.0000000E+00 011003\n" +
+                            "   46.59910      6.871723     0.0000000E+00 0.0000000E+00  35.55387     002003\n" +
+                            "  -103549.6     -43322.62     0.0000000E+00 0.0000000E+00 -4125.742     100400\n" +
+                            "  -226120.6     -94147.59     0.0000000E+00 0.0000000E+00 -7666.632     010400\n" +
+                            "  0.0000000E+00 0.0000000E+00  63759.96      26832.38     0.0000000E+00 001400\n" +
+                            "  0.0000000E+00 0.0000000E+00  80221.72      35845.77     0.0000000E+00 100301\n" +
+                            "  0.0000000E+00 0.0000000E+00  182123.1      80886.62     0.0000000E+00 010301\n" +
+                            "   33633.91      14821.69     0.0000000E+00 0.0000000E+00  5825.699     001301\n" +
+                            "  -3279.829     -932.9794     0.0000000E+00 0.0000000E+00 -600.2369     100202\n" +
+                            "  -11051.71     -3650.756     0.0000000E+00 0.0000000E+00 -1737.660     010202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4361.891     -1432.858     0.0000000E+00 001202\n" +
+                            "  0.0000000E+00 0.0000000E+00  11.76582      12.65566     0.0000000E+00 100103\n" +
+                            "  0.0000000E+00 0.0000000E+00  122.7774      52.48635     0.0000000E+00 010103\n" +
+                            "   479.3159      143.2389     0.0000000E+00 0.0000000E+00  123.8027     001103\n" +
+                            "   1.399911     0.3201571     0.0000000E+00 0.0000000E+00-0.5018469E-01 100004\n" +
+                            "  0.6854801     0.9139037     0.0000000E+00 0.0000000E+00 0.2467850     010004\n" +
+                            "  0.0000000E+00 0.0000000E+00  20.10575      4.076410     0.0000000E+00 001004\n" +
+                            "  0.0000000E+00 0.0000000E+00  128636.9      54119.28     0.0000000E+00 000500\n" +
+                            "   12235.43      7093.299     0.0000000E+00 0.0000000E+00 -2673.322     000401\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3832.710     -2037.259     0.0000000E+00 000302\n" +
+                            "   606.4578      246.1442     0.0000000E+00 0.0000000E+00  60.74013     000203\n" +
+                            "  0.0000000E+00 0.0000000E+00  65.36327      18.96143     0.0000000E+00 000104\n" +
+                            " -0.1180419     0.6672139E-03 0.0000000E+00 0.0000000E+00 0.8781243     000005"
+            );
+
+            optics_后偏转段CCT2出口加2点4米.map = CosyArbitraryOrder.readMap(
+                    "  0.8560639     0.6426617     0.0000000E+00 0.0000000E+00 0.9122470E-02 100000\n" +
+                            " -0.4157002     0.8560639     0.0000000E+00 0.0000000E+00-0.2043148E-02 010000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.013995     0.1209793     0.0000000E+00 001000\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.2329814     -1.013995     0.0000000E+00 000100\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.0000000E+00 0.0000000E+00  1.000000     000010\n" +
+                            "  0.2043148E-02-0.9122470E-02 0.0000000E+00 0.0000000E+00  1.274693     000001\n" +
+                            "  -5.639219    -0.9384987     0.0000000E+00 0.0000000E+00-0.1807699     200000\n" +
+                            "  -15.67769     0.4203887     0.0000000E+00 0.0000000E+00-0.3370804E-01 110000\n" +
+                            "   1.755656      9.054778     0.0000000E+00 0.0000000E+00-0.3263133E-01 020000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -16.58085     0.7224144E-01 0.0000000E+00 101000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -48.47883    -0.1617982E-01 0.0000000E+00 011000\n" +
+                            "  -2.919111     -1.062605     0.0000000E+00 0.0000000E+00-0.7957914     002000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3.327242      16.96122     0.0000000E+00 100100\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.7451981      48.39364     0.0000000E+00 010100\n" +
+                            "   49.06714      17.21543     0.0000000E+00 0.0000000E+00  1.114787     001100\n" +
+                            " -0.1308558E-01 0.2878382     0.0000000E+00 0.0000000E+00-0.5877258E-02 100001\n" +
+                            " -0.6988145E-01-0.1791484     0.0000000E+00 0.0000000E+00 0.1316322E-02 010001\n" +
+                            "  0.0000000E+00 0.0000000E+00-0.2834559     -1.478991     0.0000000E+00 001001\n" +
+                            "  -5.269520     -3.618418     0.0000000E+00 0.0000000E+00 -5.843334     000200\n" +
+                            "  0.0000000E+00 0.0000000E+00  11.59050    -0.7595797     0.0000000E+00 000101\n" +
+                            " -0.3260473E-03 0.3461719E-02 0.0000000E+00 0.0000000E+00 -1.085339     000002\n" +
+                            "   16.16456      7.152302     0.0000000E+00 0.0000000E+00  1.770778     300000\n" +
+                            "   91.45580      49.65767     0.0000000E+00 0.0000000E+00  7.028247     210000\n" +
+                            "   159.4661      119.5897     0.0000000E+00 0.0000000E+00  5.194792     120000\n" +
+                            "   87.31837      104.1643     0.0000000E+00 0.0000000E+00 -1.264830     030000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -126.0292     -49.36324     0.0000000E+00 201000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -770.5523     -283.7283     0.0000000E+00 111000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1173.504     -408.8501     0.0000000E+00 021000\n" +
+                            "  -173.7893     -61.78520     0.0000000E+00 0.0000000E+00 -12.46591     102000\n" +
+                            "  -505.3297     -179.9722     0.0000000E+00 0.0000000E+00 -37.53233     012000\n" +
+                            "  0.0000000E+00 0.0000000E+00  6.733567      7.991398     0.0000000E+00 003000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -290.3424     -105.1012     0.0000000E+00 200100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1711.900     -562.3613     0.0000000E+00 110100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2515.282     -746.1342     0.0000000E+00 020100\n" +
+                            "  -270.6266     -81.13102     0.0000000E+00 0.0000000E+00 -25.70689     101100\n" +
+                            "  -618.9886     -177.8524     0.0000000E+00 0.0000000E+00 -40.69442     011100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -109.7295     -8.898953     0.0000000E+00 002100\n" +
+                            "   2.003650    -0.3124955     0.0000000E+00 0.0000000E+00 -1.181508     200001\n" +
+                            "   13.45981     -1.071271     0.0000000E+00 0.0000000E+00 -6.961490     110001\n" +
+                            "  -2.662812     -9.397693     0.0000000E+00 0.0000000E+00 -10.12061     020001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.328183      1.466717     0.0000000E+00 101001\n" +
+                            "  0.0000000E+00 0.0000000E+00  28.32791      3.999954     0.0000000E+00 011001\n" +
+                            "   39.23882      13.34967     0.0000000E+00 0.0000000E+00  3.843765     002001\n" +
+                            "   1069.290      394.1066     0.0000000E+00 0.0000000E+00  109.4270     100200\n" +
+                            "   2779.446      1028.766     0.0000000E+00 0.0000000E+00  294.7823     010200\n" +
+                            "  0.0000000E+00 0.0000000E+00  24.94059      118.5879     0.0000000E+00 001200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.258815      3.141818     0.0000000E+00 100101\n" +
+                            "  0.0000000E+00 0.0000000E+00  27.02191     -8.411894     0.0000000E+00 010101\n" +
+                            "   12.13186      10.96079     0.0000000E+00 0.0000000E+00 0.5049545     001101\n" +
+                            "  -3.602286     -1.257206     0.0000000E+00 0.0000000E+00 0.6506947E-01 100002\n" +
+                            "  -10.10104     -3.396481     0.0000000E+00 0.0000000E+00 0.3911568E-01 010002\n" +
+                            "  0.0000000E+00 0.0000000E+00  7.632859      2.479513     0.0000000E+00 001002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -308.1594     -37.71632     0.0000000E+00 000300\n" +
+                            "  -291.3815     -107.5448     0.0000000E+00 0.0000000E+00 -12.90238     000201\n" +
+                            "  0.0000000E+00 0.0000000E+00  8.098020      7.949245     0.0000000E+00 000102\n" +
+                            "  0.5320448E-01 0.7711552E-03 0.0000000E+00 0.0000000E+00 0.9119250     000003\n" +
+                            "  -36.41269     -5.141206     0.0000000E+00 0.0000000E+00 -3.276358     400000\n" +
+                            "  -240.0839      12.33565     0.0000000E+00 0.0000000E+00  1.069799     310000\n" +
+                            "  -420.6474      315.1893     0.0000000E+00 0.0000000E+00  107.6025     220000\n" +
+                            "   64.61248      1009.924     0.0000000E+00 0.0000000E+00  297.9029     130000\n" +
+                            "   460.3569      949.0020     0.0000000E+00 0.0000000E+00  217.8983     040000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -161.2827     -89.00278     0.0000000E+00 301000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1796.676     -941.0648     0.0000000E+00 211000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6354.001     -3206.121     0.0000000E+00 121000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7260.207     -3550.247     0.0000000E+00 031000\n" +
+                            "  -664.6231     -269.1820     0.0000000E+00 0.0000000E+00 -22.53895     202000\n" +
+                            "  -4462.360     -1779.914     0.0000000E+00 0.0000000E+00 -245.0190     112000\n" +
+                            "  -7319.792     -2883.765     0.0000000E+00 0.0000000E+00 -517.7190     022000\n" +
+                            "  0.0000000E+00 0.0000000E+00  336.2990      152.4807     0.0000000E+00 103000\n" +
+                            "  0.0000000E+00 0.0000000E+00  947.5792      436.9210     0.0000000E+00 013000\n" +
+                            "  -144.6195     -51.60734     0.0000000E+00 0.0000000E+00 -14.54474     004000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -620.3584     -275.0352     0.0000000E+00 300100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6170.616     -2711.648     0.0000000E+00 210100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -20241.19     -8792.925     0.0000000E+00 120100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -21928.52     -9381.292     0.0000000E+00 030100\n" +
+                            "  -6315.386     -2290.130     0.0000000E+00 0.0000000E+00 -428.5574     201100\n" +
+                            "  -36339.90     -13143.96     0.0000000E+00 0.0000000E+00 -2755.233     111100\n" +
+                            "  -52190.18     -18843.52     0.0000000E+00 0.0000000E+00 -4297.324     021100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1001.485     -446.2564     0.0000000E+00 102100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3235.356     -1402.148     0.0000000E+00 012100\n" +
+                            "  -504.8874     -167.2618     0.0000000E+00 0.0000000E+00  1.149484     003100\n" +
+                            "   33.40340      13.64079     0.0000000E+00 0.0000000E+00 -3.943900     300001\n" +
+                            "   278.1239      94.46927     0.0000000E+00 0.0000000E+00 -35.03786     210001\n" +
+                            "   854.6251      226.4735     0.0000000E+00 0.0000000E+00 -93.61814     120001\n" +
+                            "   892.7184      175.4815     0.0000000E+00 0.0000000E+00 -84.54098     030001\n" +
+                            "  0.0000000E+00 0.0000000E+00  74.03675      11.62783     0.0000000E+00 201001\n" +
+                            "  0.0000000E+00 0.0000000E+00  814.4964      209.7734     0.0000000E+00 111001\n" +
+                            "  0.0000000E+00 0.0000000E+00  1813.577      514.6545     0.0000000E+00 021001\n" +
+                            "   421.1781      128.1295     0.0000000E+00 0.0000000E+00  32.52388     102001\n" +
+                            "   1589.861      502.9321     0.0000000E+00 0.0000000E+00  139.5210     012001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -131.0812     -53.50182     0.0000000E+00 003001\n" +
+                            "  -11736.83     -4024.352     0.0000000E+00 0.0000000E+00 -1331.095     200200\n" +
+                            "  -57843.99     -19785.78     0.0000000E+00 0.0000000E+00 -6405.461     110200\n" +
+                            "  -70128.97     -23913.15     0.0000000E+00 0.0000000E+00 -7601.883     020200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3718.446     -1687.788     0.0000000E+00 101200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -10109.04     -4497.940     0.0000000E+00 011200\n" +
+                            "  -1386.773     -458.4595     0.0000000E+00 0.0000000E+00 -360.1933     002200\n" +
+                            "  0.0000000E+00 0.0000000E+00  314.9102      81.57972     0.0000000E+00 200101\n" +
+                            "  0.0000000E+00 0.0000000E+00  2612.832      714.1154     0.0000000E+00 110101\n" +
+                            "  0.0000000E+00 0.0000000E+00  4977.412      1318.235     0.0000000E+00 020101\n" +
+                            "   3408.924      1171.044     0.0000000E+00 0.0000000E+00  288.3788     101101\n" +
+                            "   9674.152      3338.694     0.0000000E+00 0.0000000E+00  821.1018     011101\n" +
+                            "  0.0000000E+00 0.0000000E+00  44.88871     -19.24578     0.0000000E+00 002101\n" +
+                            "   4.712436      1.827216     0.0000000E+00 0.0000000E+00  2.710937     200002\n" +
+                            "   15.60770      8.109118     0.0000000E+00 0.0000000E+00  17.43379     110002\n" +
+                            "   30.33584      15.35664     0.0000000E+00 0.0000000E+00  28.36872     020002\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.4875794     -3.346234     0.0000000E+00 101002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -11.02085     -6.022921     0.0000000E+00 011002\n" +
+                            "  -79.67103     -21.70561     0.0000000E+00 0.0000000E+00 -10.47816     002002\n" +
+                            "  0.0000000E+00 0.0000000E+00  5937.135      2541.632     0.0000000E+00 100300\n" +
+                            "  0.0000000E+00 0.0000000E+00  15369.89      6631.442     0.0000000E+00 010300\n" +
+                            "   4783.491      1782.203     0.0000000E+00 0.0000000E+00  579.7876     001300\n" +
+                            "   4591.474      1769.837     0.0000000E+00 0.0000000E+00  301.7717     100201\n" +
+                            "   10274.00      3980.427     0.0000000E+00 0.0000000E+00  505.5914     010201\n" +
+                            "  0.0000000E+00 0.0000000E+00  141.2155     -2.960204     0.0000000E+00 001201\n" +
+                            "  0.0000000E+00 0.0000000E+00  1.000612     -13.07404     0.0000000E+00 100102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -38.54930     -25.63350     0.0000000E+00 010102\n" +
+                            "  -445.3324     -156.6929     0.0000000E+00 0.0000000E+00 -30.21381     001102\n" +
+                            "   4.691831     0.9201753     0.0000000E+00 0.0000000E+00-0.1700657     100003\n" +
+                            "   18.01681      4.287405     0.0000000E+00 0.0000000E+00-0.1590967     010003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -9.852822     -1.435093     0.0000000E+00 001003\n" +
+                            "   4515.257      1678.475     0.0000000E+00 0.0000000E+00  235.5919     000400\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1566.210     -919.2420     0.0000000E+00 000301\n" +
+                            "  -138.1382     -95.61125     0.0000000E+00 0.0000000E+00 0.9847976     000202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -30.46606     -10.65300     0.0000000E+00 000103\n" +
+                            " -0.1102275     0.9122754E-03 0.0000000E+00 0.0000000E+00-0.7743762     000004\n" +
+                            "   71.82599      43.32422     0.0000000E+00 0.0000000E+00  40.28549     500000\n" +
+                            "   488.9632      519.1536     0.0000000E+00 0.0000000E+00  438.0605     410000\n" +
+                            "   601.2691      2657.028     0.0000000E+00 0.0000000E+00  2013.158     320000\n" +
+                            "  -2279.503      7452.509     0.0000000E+00 0.0000000E+00  5037.216     230000\n" +
+                            "  -6121.946      11492.56     0.0000000E+00 0.0000000E+00  6902.973     140000\n" +
+                            "  -3709.672      7639.827     0.0000000E+00 0.0000000E+00  4040.029     050000\n" +
+                            "  0.0000000E+00 0.0000000E+00  447.3288      52.31768     0.0000000E+00 401000\n" +
+                            "  0.0000000E+00 0.0000000E+00  3931.153      50.22695     0.0000000E+00 311000\n" +
+                            "  0.0000000E+00 0.0000000E+00  11721.79     -2209.912     0.0000000E+00 221000\n" +
+                            "  0.0000000E+00 0.0000000E+00  12155.65     -9082.975     0.0000000E+00 131000\n" +
+                            "  0.0000000E+00 0.0000000E+00  833.2368     -10236.52     0.0000000E+00 041000\n" +
+                            "   3522.033      1075.329     0.0000000E+00 0.0000000E+00  191.7570     302000\n" +
+                            "   26657.97      7792.566     0.0000000E+00 0.0000000E+00  1645.683     212000\n" +
+                            "   65602.62      18080.12     0.0000000E+00 0.0000000E+00  4425.015     122000\n" +
+                            "   51796.63      13063.34     0.0000000E+00 0.0000000E+00  3664.599     032000\n" +
+                            "  0.0000000E+00 0.0000000E+00  4566.077      2066.746     0.0000000E+00 203000\n" +
+                            "  0.0000000E+00 0.0000000E+00  27107.26      12288.51     0.0000000E+00 113000\n" +
+                            "  0.0000000E+00 0.0000000E+00  40102.63      18198.93     0.0000000E+00 023000\n" +
+                            "  -2314.057     -880.5830     0.0000000E+00 0.0000000E+00 -314.8972     104000\n" +
+                            "  -6974.421     -2644.850     0.0000000E+00 0.0000000E+00 -992.7145     014000\n" +
+                            "  0.0000000E+00 0.0000000E+00  375.1008      166.7971     0.0000000E+00 005000\n" +
+                            "  0.0000000E+00 0.0000000E+00  555.3282     -45.30959     0.0000000E+00 400100\n" +
+                            "  0.0000000E+00 0.0000000E+00  2830.684     -1949.615     0.0000000E+00 310100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3417.094     -14706.56     0.0000000E+00 220100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -37710.27     -40756.77     0.0000000E+00 130100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -50910.92     -38802.34     0.0000000E+00 040100\n" +
+                            "   14548.90      4119.674     0.0000000E+00 0.0000000E+00  2593.007     301100\n" +
+                            "   81445.83      19785.50     0.0000000E+00 0.0000000E+00  17559.09     211100\n" +
+                            "   110634.3      13193.57     0.0000000E+00 0.0000000E+00  36188.50     121100\n" +
+                            "  -9610.160     -27871.57     0.0000000E+00 0.0000000E+00  20505.57     031100\n" +
+                            "  0.0000000E+00 0.0000000E+00  16286.09      7478.098     0.0000000E+00 202100\n" +
+                            "  0.0000000E+00 0.0000000E+00  86914.73      39893.66     0.0000000E+00 112100\n" +
+                            "  0.0000000E+00 0.0000000E+00  115382.6      52927.86     0.0000000E+00 022100\n" +
+                            "  -9788.161     -3516.772     0.0000000E+00 0.0000000E+00  755.1295     103100\n" +
+                            "  -27009.57     -9799.116     0.0000000E+00 0.0000000E+00  2158.698     013100\n" +
+                            "  0.0000000E+00 0.0000000E+00  678.1534      341.7025     0.0000000E+00 004100\n" +
+                            "   9.109785    -0.4278971     0.0000000E+00 0.0000000E+00 -16.10315     400001\n" +
+                            "   343.6918      48.04626     0.0000000E+00 0.0000000E+00 -221.5556     310001\n" +
+                            "   2019.402      189.4998     0.0000000E+00 0.0000000E+00 -1144.947     220001\n" +
+                            "   4480.256      18.10270     0.0000000E+00 0.0000000E+00 -2475.217     130001\n" +
+                            "   3725.257     -343.0320     0.0000000E+00 0.0000000E+00 -1853.932     040001\n" +
+                            "  0.0000000E+00 0.0000000E+00  67.17055      28.98270     0.0000000E+00 301001\n" +
+                            "  0.0000000E+00 0.0000000E+00  2041.502      889.1035     0.0000000E+00 211001\n" +
+                            "  0.0000000E+00 0.0000000E+00  11322.56      4919.217     0.0000000E+00 121001\n" +
+                            "  0.0000000E+00 0.0000000E+00  17283.96      7465.877     0.0000000E+00 031001\n" +
+                            "  -1977.060     -727.9282     0.0000000E+00 0.0000000E+00 -233.5265     202001\n" +
+                            "  -6601.120     -2479.123     0.0000000E+00 0.0000000E+00 -951.4137     112001\n" +
+                            "  -1670.706     -782.2825     0.0000000E+00 0.0000000E+00 -589.5354     022001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2611.856     -1055.112     0.0000000E+00 103001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -8139.112     -3339.352     0.0000000E+00 013001\n" +
+                            "   710.4590      235.7421     0.0000000E+00 0.0000000E+00  119.3089     004001\n" +
+                            "   17704.33      4643.392     0.0000000E+00 0.0000000E+00  5903.826     300200\n" +
+                            "   52186.15      6429.200     0.0000000E+00 0.0000000E+00  32738.87     210200\n" +
+                            "  -108235.1     -67960.72     0.0000000E+00 0.0000000E+00  49239.31     120200\n" +
+                            "  -321499.4     -137954.4     0.0000000E+00 0.0000000E+00  10909.88     030200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -31378.42     -13578.81     0.0000000E+00 201200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -191376.4     -82966.55     0.0000000E+00 111200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -289675.7     -125769.5     0.0000000E+00 021200\n" +
+                            "  -61353.86     -21975.98     0.0000000E+00 0.0000000E+00 -1778.535     102200\n" +
+                            "  -175505.7     -62673.38     0.0000000E+00 0.0000000E+00 -7586.939     012200\n" +
+                            "  0.0000000E+00 0.0000000E+00  823.0558      407.8439     0.0000000E+00 003200\n" +
+                            "  0.0000000E+00 0.0000000E+00  489.7238      203.9615     0.0000000E+00 300101\n" +
+                            "  0.0000000E+00 0.0000000E+00  8997.842      3663.105     0.0000000E+00 210101\n" +
+                            "  0.0000000E+00 0.0000000E+00  42270.86      17046.26     0.0000000E+00 120101\n" +
+                            "  0.0000000E+00 0.0000000E+00  58984.46      23560.07     0.0000000E+00 030101\n" +
+                            "  -5386.939     -2447.638     0.0000000E+00 0.0000000E+00 -838.6173     201101\n" +
+                            "   6701.519     -641.6613     0.0000000E+00 0.0000000E+00 -304.5775     111101\n" +
+                            "   62635.48      17898.49     0.0000000E+00 0.0000000E+00  6076.146     021101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7334.352     -3541.639     0.0000000E+00 102101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -17288.58     -8729.309     0.0000000E+00 012101\n" +
+                            "   3651.373      1203.745     0.0000000E+00 0.0000000E+00 -147.6211     003101\n" +
+                            "  -40.07315     -8.445100     0.0000000E+00 0.0000000E+00 0.7917710     300002\n" +
+                            "  -483.6455     -107.8521     0.0000000E+00 0.0000000E+00  44.45839     210002\n" +
+                            "  -1872.436     -392.8324     0.0000000E+00 0.0000000E+00  226.2596     120002\n" +
+                            "  -2295.102     -429.1439     0.0000000E+00 0.0000000E+00  306.9168     030002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -83.23378     -13.69250     0.0000000E+00 201002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -950.2565     -214.1229     0.0000000E+00 111002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2449.292     -628.5572     0.0000000E+00 021002\n" +
+                            "   120.5435      103.0616     0.0000000E+00 0.0000000E+00 -8.854317     102002\n" +
+                            "  -940.9818     -106.0903     0.0000000E+00 0.0000000E+00 -174.4523     012002\n" +
+                            "  0.0000000E+00 0.0000000E+00  475.6157      165.9634     0.0000000E+00 003002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -101010.9     -43846.10     0.0000000E+00 200300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -522665.4     -226718.0     0.0000000E+00 110300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -672358.2     -291243.8     0.0000000E+00 020300\n" +
+                            "  -193879.2     -68306.67     0.0000000E+00 0.0000000E+00 -29974.11     101300\n" +
+                            "  -509986.3     -179928.3     0.0000000E+00 0.0000000E+00 -77550.07     011300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -10679.58     -4092.945     0.0000000E+00 002300\n" +
+                            "   2806.670     -442.0413     0.0000000E+00 0.0000000E+00  123.4596     200201\n" +
+                            "   66926.99      16620.38     0.0000000E+00 0.0000000E+00  7921.702     110201\n" +
+                            "   153527.0      45872.52     0.0000000E+00 0.0000000E+00  19279.43     020201\n" +
+                            "  0.0000000E+00 0.0000000E+00  21175.54      8164.989     0.0000000E+00 101201\n" +
+                            "  0.0000000E+00 0.0000000E+00  65983.18      25736.39     0.0000000E+00 011201\n" +
+                            "   18597.83      6208.505     0.0000000E+00 0.0000000E+00  1505.757     002201\n" +
+                            "  0.0000000E+00 0.0000000E+00 -375.8611     -86.99716     0.0000000E+00 200102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3457.551     -873.2438     0.0000000E+00 110102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7479.947     -1902.447     0.0000000E+00 020102\n" +
+                            "  -2448.135     -344.7222     0.0000000E+00 0.0000000E+00 -324.4735     101102\n" +
+                            "  -13234.98     -3242.857     0.0000000E+00 0.0000000E+00 -1614.410     011102\n" +
+                            "  0.0000000E+00 0.0000000E+00  1272.423      568.3360     0.0000000E+00 002102\n" +
+                            "  -10.99955     -2.526971     0.0000000E+00 0.0000000E+00 -3.458818     200003\n" +
+                            "  -57.18196     -14.60326     0.0000000E+00 0.0000000E+00 -26.60908     110003\n" +
+                            "  -80.44288     -23.18605     0.0000000E+00 0.0000000E+00 -50.56815     020003\n" +
+                            "  0.0000000E+00 0.0000000E+00  15.25455      7.281695     0.0000000E+00 101003\n" +
+                            "  0.0000000E+00 0.0000000E+00  27.18193      13.65670     0.0000000E+00 011003\n" +
+                            "   55.21238      5.297607     0.0000000E+00 0.0000000E+00  19.16616     002003\n" +
+                            "  -57156.40     -20003.51     0.0000000E+00 0.0000000E+00  2192.332     100400\n" +
+                            "  -145176.2     -50667.76     0.0000000E+00 0.0000000E+00  7954.607     010400\n" +
+                            "  0.0000000E+00 0.0000000E+00  22357.45      10087.31     0.0000000E+00 001400\n" +
+                            "  0.0000000E+00 0.0000000E+00  39674.73      19492.13     0.0000000E+00 100301\n" +
+                            "  0.0000000E+00 0.0000000E+00  98175.81      48303.36     0.0000000E+00 010301\n" +
+                            "   36392.36      13730.97     0.0000000E+00 0.0000000E+00  4902.104     001301\n" +
+                            "  -8317.495     -2191.539     0.0000000E+00 0.0000000E+00 -825.5049     100202\n" +
+                            "  -27780.65     -8147.170     0.0000000E+00 0.0000000E+00 -2567.074     010202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1920.034     -785.3102     0.0000000E+00 001202\n" +
+                            "  0.0000000E+00 0.0000000E+00  48.09505      31.78482     0.0000000E+00 100103\n" +
+                            "  0.0000000E+00 0.0000000E+00  146.2021      80.66497     0.0000000E+00 010103\n" +
+                            "   747.0664      187.8787     0.0000000E+00 0.0000000E+00  84.24979     001103\n" +
+                            "  -4.715054    -0.5831851     0.0000000E+00 0.0000000E+00 0.2976229     100004\n" +
+                            "  -22.08529     -4.009389     0.0000000E+00 0.0000000E+00 0.2556717     010004\n" +
+                            "  0.0000000E+00 0.0000000E+00  7.845325    -0.2450467     0.0000000E+00 001004\n" +
+                            "  0.0000000E+00 0.0000000E+00  28351.40      13275.94     0.0000000E+00 000500\n" +
+                            "  -3464.046     -554.2254     0.0000000E+00 0.0000000E+00 -2216.809     000401\n" +
+                            "  0.0000000E+00 0.0000000E+00 -920.3368     -784.7085     0.0000000E+00 000302\n" +
+                            "   995.6177      331.9975     0.0000000E+00 0.0000000E+00  47.25857     000203\n" +
+                            "  0.0000000E+00 0.0000000E+00  44.85353      9.220976     0.0000000E+00 000104\n" +
+                            "  0.2344651     0.1385446E-01 0.0000000E+00 0.0000000E+00 0.6519569     000005"
+            );
+
+            optics_后偏转段CCT2出口加2点0米.map = CosyArbitraryOrder.readMap(
+                    "  0.5989992     0.6426617     0.0000000E+00 0.0000000E+00 0.9122470E-02 100000\n" +
+                            " -0.7581258     0.8560639     0.0000000E+00 0.0000000E+00-0.2043148E-02 010000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.062387     0.1209793     0.0000000E+00 001000\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.6385794     -1.013995     0.0000000E+00 000100\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.0000000E+00 0.0000000E+00  1.000000     000010\n" +
+                            "  0.5692136E-02-0.9122470E-02 0.0000000E+00 0.0000000E+00  1.196823     000001\n" +
+                            "  -5.263820    -0.9384987     0.0000000E+00 0.0000000E+00-0.1346130     200000\n" +
+                            "  -15.84585     0.4203887     0.0000000E+00 0.0000000E+00 0.8925939E-01 110000\n" +
+                            "  -1.866255      9.054778     0.0000000E+00 0.0000000E+00 0.4926865E-01 020000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -16.60975     0.7224144E-01 0.0000000E+00 101000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -48.47236    -0.1617982E-01 0.0000000E+00 011000\n" +
+                            "  -2.494069     -1.062605     0.0000000E+00 0.0000000E+00-0.7941557     002000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -10.11173      16.96122     0.0000000E+00 100100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -18.61226      48.39364     0.0000000E+00 010100\n" +
+                            "   42.18097      17.21543     0.0000000E+00 0.0000000E+00  1.087369     001100\n" +
+                            "  0.1542194E-01 0.2878382     0.0000000E+00 0.0000000E+00-0.7187636E-02 100001\n" +
+                            "  0.1931187    -0.1791484     0.0000000E+00 0.0000000E+00-0.4291792E-03 010001\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.3351808     -1.478991     0.0000000E+00 001001\n" +
+                            "  -3.822153     -3.618418     0.0000000E+00 0.0000000E+00 -5.728428     000200\n" +
+                            "  0.0000000E+00 0.0000000E+00  11.66769    -0.7595797     0.0000000E+00 000101\n" +
+                            " -0.3749720E-02 0.3461719E-02 0.0000000E+00 0.0000000E+00 -1.020061     000002\n" +
+                            "   13.25055      7.152302     0.0000000E+00 0.0000000E+00  1.635970     300000\n" +
+                            "   71.38059      49.65767     0.0000000E+00 0.0000000E+00  6.909059     210000\n" +
+                            "   111.3477      119.5897     0.0000000E+00 0.0000000E+00  6.575883     120000\n" +
+                            "   45.52716      104.1643     0.0000000E+00 0.0000000E+00 0.4677188     030000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -106.2939     -49.36324     0.0000000E+00 201000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -657.0877     -283.7283     0.0000000E+00 111000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1009.982     -408.8501     0.0000000E+00 021000\n" +
+                            "  -149.0771     -61.78520     0.0000000E+00 0.0000000E+00 -12.61659     102000\n" +
+                            "  -433.3433     -179.9722     0.0000000E+00 0.0000000E+00 -37.73609     012000\n" +
+                            "  0.0000000E+00 0.0000000E+00  3.536653      7.991398     0.0000000E+00 003000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -248.2182     -105.1012     0.0000000E+00 200100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1486.732     -562.3613     0.0000000E+00 110100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2216.679     -746.1342     0.0000000E+00 020100\n" +
+                            "  -238.1427     -81.13102     0.0000000E+00 0.0000000E+00 -22.79175     101100\n" +
+                            "  -547.8056     -177.8524     0.0000000E+00 0.0000000E+00 -36.08816     011100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -106.1610     -8.898953     0.0000000E+00 002100\n" +
+                            "   1.921143    -0.3124955     0.0000000E+00 0.0000000E+00 -1.205913     200001\n" +
+                            "   13.98830     -1.071271     0.0000000E+00 0.0000000E+00 -7.113270     110001\n" +
+                            "   3.124130     -9.397693     0.0000000E+00 0.0000000E+00 -10.29341     020001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.898439      1.466717     0.0000000E+00 101001\n" +
+                            "  0.0000000E+00 0.0000000E+00  26.72469      3.999954     0.0000000E+00 011001\n" +
+                            "   33.66147      13.34967     0.0000000E+00 0.0000000E+00  3.803541     002001\n" +
+                            "   911.5156      394.1066     0.0000000E+00 0.0000000E+00  105.0631     100200\n" +
+                            "   2367.764      1028.766     0.0000000E+00 0.0000000E+00  283.1220     010200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -22.56919      118.5879     0.0000000E+00 001200\n" +
+                            "  0.0000000E+00 0.0000000E+00  1.273122      3.141818     0.0000000E+00 100101\n" +
+                            "  0.0000000E+00 0.0000000E+00  41.20007     -8.411894     0.0000000E+00 010101\n" +
+                            "   11.59496      10.96079     0.0000000E+00 0.0000000E+00 0.8247069     001101\n" +
+                            "  -3.140387     -1.257206     0.0000000E+00 0.0000000E+00 0.6690078E-01 100002\n" +
+                            "  -8.922784     -3.396481     0.0000000E+00 0.0000000E+00 0.4270215E-01 010002\n" +
+                            "  0.0000000E+00 0.0000000E+00  6.290659      2.479513     0.0000000E+00 001002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -292.8644     -37.71632     0.0000000E+00 000300\n" +
+                            "  -249.1704     -107.5448     0.0000000E+00 0.0000000E+00 -12.89130     000201\n" +
+                            "  0.0000000E+00 0.0000000E+00  4.914686      7.949245     0.0000000E+00 000102\n" +
+                            "  0.5516444E-01 0.7711552E-03 0.0000000E+00 0.0000000E+00 0.8556972     000003\n" +
+                            "  -34.12364     -5.141206     0.0000000E+00 0.0000000E+00 -2.136251     400000\n" +
+                            "  -244.5028      12.33565     0.0000000E+00 0.0000000E+00  9.559292     310000\n" +
+                            "  -548.8318      315.1893     0.0000000E+00 0.0000000E+00  132.5549     220000\n" +
+                            "  -345.5198      1009.924     0.0000000E+00 0.0000000E+00  336.7337     130000\n" +
+                            "   76.77469      949.0020     0.0000000E+00 0.0000000E+00  247.0369     040000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -125.6584     -89.00278     0.0000000E+00 301000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1420.239     -941.0648     0.0000000E+00 211000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5071.858     -3206.121     0.0000000E+00 121000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5840.481     -3550.247     0.0000000E+00 031000\n" +
+                            "  -556.6865     -269.1820     0.0000000E+00 0.0000000E+00 -32.52425     202000\n" +
+                            "  -3749.697     -1779.914     0.0000000E+00 0.0000000E+00 -290.4623     112000\n" +
+                            "  -6165.844     -2883.765     0.0000000E+00 0.0000000E+00 -565.3592     022000\n" +
+                            "  0.0000000E+00 0.0000000E+00  275.3391      152.4807     0.0000000E+00 103000\n" +
+                            "  0.0000000E+00 0.0000000E+00  772.8549      436.9210     0.0000000E+00 013000\n" +
+                            "  -123.9735     -51.60734     0.0000000E+00 0.0000000E+00 -14.20244     004000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -511.9899     -275.0352     0.0000000E+00 300100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5093.903     -2711.648     0.0000000E+00 210100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -16734.65     -8792.925     0.0000000E+00 120100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -18179.95     -9381.292     0.0000000E+00 030100\n" +
+                            "  -5404.155     -2290.130     0.0000000E+00 0.0000000E+00 -435.2198     201100\n" +
+                            "  -31095.85     -13143.96     0.0000000E+00 0.0000000E+00 -2744.914     111100\n" +
+                            "  -44661.91     -18843.52     0.0000000E+00 0.0000000E+00 -4224.232     021100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -823.9329     -446.2564     0.0000000E+00 102100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2676.006     -1402.148     0.0000000E+00 012100\n" +
+                            "  -438.0852     -167.2618     0.0000000E+00 0.0000000E+00 -4.991676     003100\n" +
+                            "   29.55677      13.64079     0.0000000E+00 0.0000000E+00 -3.866939     300001\n" +
+                            "   251.6395      94.46927     0.0000000E+00 0.0000000E+00 -35.11668     210001\n" +
+                            "   791.2985      226.4735     0.0000000E+00 0.0000000E+00 -96.88010     120001\n" +
+                            "   846.1818      175.4815     0.0000000E+00 0.0000000E+00 -89.45586     030001\n" +
+                            "  0.0000000E+00 0.0000000E+00  58.48205      11.62783     0.0000000E+00 201001\n" +
+                            "  0.0000000E+00 0.0000000E+00  667.5343      209.7734     0.0000000E+00 111001\n" +
+                            "  0.0000000E+00 0.0000000E+00  1516.590      514.6545     0.0000000E+00 021001\n" +
+                            "   356.1574      128.1295     0.0000000E+00 0.0000000E+00  34.73573     102001\n" +
+                            "   1348.518      502.9321     0.0000000E+00 0.0000000E+00  142.8970     012001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -107.8811     -53.50182     0.0000000E+00 003001\n" +
+                            "  -10121.57     -4024.352     0.0000000E+00 0.0000000E+00 -1217.684     200200\n" +
+                            "  -49908.88     -19785.78     0.0000000E+00 0.0000000E+00 -5871.512     110200\n" +
+                            "  -60547.18     -23913.15     0.0000000E+00 0.0000000E+00 -6981.405     020200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3036.279     -1687.788     0.0000000E+00 101200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -8296.607     -4497.940     0.0000000E+00 011200\n" +
+                            "  -1202.315     -458.4595     0.0000000E+00 0.0000000E+00 -320.9815     002200\n" +
+                            "  0.0000000E+00 0.0000000E+00  258.8276      81.57972     0.0000000E+00 200101\n" +
+                            "  0.0000000E+00 0.0000000E+00  2201.502      714.1154     0.0000000E+00 110101\n" +
+                            "  0.0000000E+00 0.0000000E+00  4283.265      1318.235     0.0000000E+00 020101\n" +
+                            "   2922.100      1171.044     0.0000000E+00 0.0000000E+00  281.0867     101101\n" +
+                            "   8298.544      3338.694     0.0000000E+00 0.0000000E+00  798.9916     011101\n" +
+                            "  0.0000000E+00 0.0000000E+00  50.38355     -19.24578     0.0000000E+00 002101\n" +
+                            "   4.062881      1.827216     0.0000000E+00 0.0000000E+00  2.559790     200002\n" +
+                            "   12.04477      8.109118     0.0000000E+00 0.0000000E+00  16.87754     110002\n" +
+                            "   20.59887      15.35664     0.0000000E+00 0.0000000E+00  27.97440     020002\n" +
+                            "  0.0000000E+00 0.0000000E+00  2.138142     -3.346234     0.0000000E+00 101002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -7.720470     -6.022921     0.0000000E+00 011002\n" +
+                            "  -67.83154     -21.70561     0.0000000E+00 0.0000000E+00 -10.13629     002002\n" +
+                            "  0.0000000E+00 0.0000000E+00  4909.076      2541.632     0.0000000E+00 100300\n" +
+                            "  0.0000000E+00 0.0000000E+00  12686.21      6631.442     0.0000000E+00 010300\n" +
+                            "   4066.892      1782.203     0.0000000E+00 0.0000000E+00  537.9255     001300\n" +
+                            "   3971.503      1769.837     0.0000000E+00 0.0000000E+00  288.0908     100201\n" +
+                            "   8911.626      3980.427     0.0000000E+00 0.0000000E+00  493.8421     010201\n" +
+                            "  0.0000000E+00 0.0000000E+00  169.7659     -2.960204     0.0000000E+00 001201\n" +
+                            "  0.0000000E+00 0.0000000E+00  4.155479     -13.07404     0.0000000E+00 100102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -38.10036     -25.63350     0.0000000E+00 010102\n" +
+                            "  -383.0206     -156.6929     0.0000000E+00 0.0000000E+00 -30.77827     001102\n" +
+                            "   4.082463     0.9201753     0.0000000E+00 0.0000000E+00-0.1694129     100003\n" +
+                            "   15.68778      4.287405     0.0000000E+00 0.0000000E+00-0.1568333     010003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -8.465912     -1.435093     0.0000000E+00 001003\n" +
+                            "   3844.611      1678.475     0.0000000E+00 0.0000000E+00  245.6918     000400\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1206.811     -919.2420     0.0000000E+00 000301\n" +
+                            "  -123.3394     -95.61125     0.0000000E+00 0.0000000E+00-0.5907330     000202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -24.44064     -10.65300     0.0000000E+00 000103\n" +
+                            " -0.1122197     0.9122754E-03 0.0000000E+00 0.0000000E+00-0.7245015     000004\n" +
+                            "   52.36783      43.32422     0.0000000E+00 0.0000000E+00  37.96316     500000\n" +
+                            "   264.0166      519.1536     0.0000000E+00 0.0000000E+00  428.8079     410000\n" +
+                            "  -520.5069      2657.028     0.0000000E+00 0.0000000E+00  2055.359     320000\n" +
+                            "  -5381.792      7452.509     0.0000000E+00 0.0000000E+00  5335.702     230000\n" +
+                            "  -10876.11      11492.56     0.0000000E+00 0.0000000E+00  7488.728     140000\n" +
+                            "  -6853.586      7639.827     0.0000000E+00 0.0000000E+00  4434.329     050000\n" +
+                            "  0.0000000E+00 0.0000000E+00  430.2498      52.31768     0.0000000E+00 401000\n" +
+                            "  0.0000000E+00 0.0000000E+00  3943.536      50.22695     0.0000000E+00 311000\n" +
+                            "  0.0000000E+00 0.0000000E+00  12703.61     -2209.912     0.0000000E+00 221000\n" +
+                            "  0.0000000E+00 0.0000000E+00  15911.81     -9082.975     0.0000000E+00 131000\n" +
+                            "  0.0000000E+00 0.0000000E+00  4981.513     -10236.52     0.0000000E+00 041000\n" +
+                            "   3107.959      1075.329     0.0000000E+00 0.0000000E+00  161.0526     302000\n" +
+                            "   23636.37      7792.566     0.0000000E+00 0.0000000E+00  1328.432     212000\n" +
+                            "   58548.51      18080.12     0.0000000E+00 0.0000000E+00  3407.112     122000\n" +
+                            "   46676.95      13063.34     0.0000000E+00 0.0000000E+00  2629.133     032000\n" +
+                            "  0.0000000E+00 0.0000000E+00  3741.045      2066.746     0.0000000E+00 203000\n" +
+                            "  0.0000000E+00 0.0000000E+00  22200.79      12288.51     0.0000000E+00 113000\n" +
+                            "  0.0000000E+00 0.0000000E+00  32833.39      18198.93     0.0000000E+00 023000\n" +
+                            "  -1962.324     -880.5830     0.0000000E+00 0.0000000E+00 -303.3870     104000\n" +
+                            "  -5916.867     -2644.850     0.0000000E+00 0.0000000E+00 -948.0636     014000\n" +
+                            "  0.0000000E+00 0.0000000E+00  308.2844      166.7971     0.0000000E+00 005000\n" +
+                            "  0.0000000E+00 0.0000000E+00  588.2945     -45.30959     0.0000000E+00 400100\n" +
+                            "  0.0000000E+00 0.0000000E+00  3710.811     -1949.615     0.0000000E+00 310100\n" +
+                            "  0.0000000E+00 0.0000000E+00  2680.001     -14706.56     0.0000000E+00 220100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -21262.68     -40756.77     0.0000000E+00 130100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -35377.80     -38802.34     0.0000000E+00 040100\n" +
+                            "   12924.79      4119.674     0.0000000E+00 0.0000000E+00  2134.341     301100\n" +
+                            "   73574.17      19785.50     0.0000000E+00 0.0000000E+00  13983.02     211100\n" +
+                            "   105220.6      13193.57     0.0000000E+00 0.0000000E+00  27116.26     121100\n" +
+                            "   1329.647     -27871.57     0.0000000E+00 0.0000000E+00  13076.62     031100\n" +
+                            "  0.0000000E+00 0.0000000E+00  13280.99      7478.098     0.0000000E+00 202100\n" +
+                            "  0.0000000E+00 0.0000000E+00  70880.97      39893.66     0.0000000E+00 112100\n" +
+                            "  0.0000000E+00 0.0000000E+00  94110.34      52927.86     0.0000000E+00 022100\n" +
+                            "  -8366.998     -3516.772     0.0000000E+00 0.0000000E+00  496.2780     103100\n" +
+                            "  -23073.79     -9799.116     0.0000000E+00 0.0000000E+00  1426.137     013100\n" +
+                            "  0.0000000E+00 0.0000000E+00  543.8413      341.7025     0.0000000E+00 004100\n" +
+                            "   8.084030    -0.4278971     0.0000000E+00 0.0000000E+00 -15.26572     400001\n" +
+                            "   327.3110      48.04626     0.0000000E+00 0.0000000E+00 -214.7332     310001\n" +
+                            "   2019.737      189.4998     0.0000000E+00 0.0000000E+00 -1124.747     220001\n" +
+                            "   4716.308      18.10270     0.0000000E+00 0.0000000E+00 -2467.068     130001\n" +
+                            "   4088.485     -343.0320     0.0000000E+00 0.0000000E+00 -1888.345     040001\n" +
+                            "  0.0000000E+00 0.0000000E+00  35.07213      28.98270     0.0000000E+00 301001\n" +
+                            "  0.0000000E+00 0.0000000E+00  1473.766      889.1035     0.0000000E+00 211001\n" +
+                            "  0.0000000E+00 0.0000000E+00  8639.771      4919.217     0.0000000E+00 121001\n" +
+                            "  0.0000000E+00 0.0000000E+00  13507.94      7465.877     0.0000000E+00 031001\n" +
+                            "  -1750.100     -727.9282     0.0000000E+00 0.0000000E+00 -190.0005     202001\n" +
+                            "  -6019.215     -2479.123     0.0000000E+00 0.0000000E+00 -692.5369     112001\n" +
+                            "  -2010.626     -782.2825     0.0000000E+00 0.0000000E+00 -232.1128     022001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2156.594     -1055.112     0.0000000E+00 103001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6706.981     -3339.352     0.0000000E+00 013001\n" +
+                            "   604.5167      235.7421     0.0000000E+00 0.0000000E+00  111.6525     004001\n" +
+                            "   15674.31      4643.392     0.0000000E+00 0.0000000E+00  4898.282     300200\n" +
+                            "   48627.62      6429.200     0.0000000E+00 0.0000000E+00  26239.02     210200\n" +
+                            "  -82802.77     -67960.72     0.0000000E+00 0.0000000E+00  35875.57     120200\n" +
+                            "  -267240.3     -137954.4     0.0000000E+00 0.0000000E+00  2377.565     030200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -26076.26     -13578.81     0.0000000E+00 201200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -158672.9     -82966.55     0.0000000E+00 111200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -239738.8     -125769.5     0.0000000E+00 021200\n" +
+                            "  -52700.08     -21975.98     0.0000000E+00 0.0000000E+00 -2177.924     102200\n" +
+                            "  -150636.5     -62673.38     0.0000000E+00 0.0000000E+00 -8360.588     012200\n" +
+                            "  0.0000000E+00 0.0000000E+00  637.8574      407.8439     0.0000000E+00 003200\n" +
+                            "  0.0000000E+00 0.0000000E+00  347.2028      203.9615     0.0000000E+00 300101\n" +
+                            "  0.0000000E+00 0.0000000E+00  6932.957      3663.105     0.0000000E+00 210101\n" +
+                            "  0.0000000E+00 0.0000000E+00  33501.50      17046.26     0.0000000E+00 120101\n" +
+                            "  0.0000000E+00 0.0000000E+00  47471.73      23560.07     0.0000000E+00 030101\n" +
+                            "  -4911.787     -2447.638     0.0000000E+00 0.0000000E+00 -616.2590     201101\n" +
+                            "   4059.825     -641.6613     0.0000000E+00 0.0000000E+00  636.5295     111101\n" +
+                            "   51300.31      17898.49     0.0000000E+00 0.0000000E+00  6918.007     021101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6002.915     -3541.639     0.0000000E+00 102101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -14083.42     -8729.309     0.0000000E+00 012101\n" +
+                            "   3134.882      1203.745     0.0000000E+00 0.0000000E+00 -76.30195     003101\n" +
+                            "  -34.52574     -8.445100     0.0000000E+00 0.0000000E+00  1.208158     300002\n" +
+                            "  -426.0693     -107.8521     0.0000000E+00 0.0000000E+00  46.51477     210002\n" +
+                            "  -1682.231     -392.8324     0.0000000E+00 0.0000000E+00  230.5469     120002\n" +
+                            "  -2100.500     -429.1439     0.0000000E+00 0.0000000E+00  309.7073     030002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -67.33062     -13.69250     0.0000000E+00 201002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -772.1227     -214.1229     0.0000000E+00 111002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2016.626     -628.5572     0.0000000E+00 021002\n" +
+                            "   117.7750      103.0616     0.0000000E+00 0.0000000E+00 -14.85020     102002\n" +
+                            "  -757.0800     -106.0903     0.0000000E+00 0.0000000E+00 -185.8718     012002\n" +
+                            "  0.0000000E+00 0.0000000E+00  395.7722      165.9634     0.0000000E+00 003002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -83109.43     -43846.10     0.0000000E+00 200300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -430153.4     -226718.0     0.0000000E+00 110300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -553565.9     -291243.8     0.0000000E+00 020300\n" +
+                            "  -166319.0     -68306.67     0.0000000E+00 0.0000000E+00 -27229.71     101300\n" +
+                            "  -437474.7     -179928.3     0.0000000E+00 0.0000000E+00 -70613.70     011300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -8954.419     -4092.945     0.0000000E+00 002300\n" +
+                            "   2112.401     -442.0413     0.0000000E+00 0.0000000E+00  279.2412     200201\n" +
+                            "   55926.44      16620.38     0.0000000E+00 0.0000000E+00  8067.026     110201\n" +
+                            "   129873.6      45872.52     0.0000000E+00 0.0000000E+00  18666.14     020201\n" +
+                            "  0.0000000E+00 0.0000000E+00  17503.38      8164.989     0.0000000E+00 101201\n" +
+                            "  0.0000000E+00 0.0000000E+00  54589.76      25736.39     0.0000000E+00 011201\n" +
+                            "   16000.39      6208.505     0.0000000E+00 0.0000000E+00  1472.555     002201\n" +
+                            "  0.0000000E+00 0.0000000E+00 -306.6286     -86.99716     0.0000000E+00 200102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2859.744     -873.2438     0.0000000E+00 110102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6304.511     -1902.447     0.0000000E+00 020102\n" +
+                            "  -2034.898     -344.7222     0.0000000E+00 0.0000000E+00 -335.2140     101102\n" +
+                            "  -11162.04     -3242.857     0.0000000E+00 0.0000000E+00 -1604.423     011102\n" +
+                            "  0.0000000E+00 0.0000000E+00  1043.923      568.3360     0.0000000E+00 002102\n" +
+                            "  -9.662418     -2.526971     0.0000000E+00 0.0000000E+00 -3.179145     200003\n" +
+                            "  -49.31861     -14.60326     0.0000000E+00 0.0000000E+00 -25.12891     110003\n" +
+                            "  -64.98927     -23.18605     0.0000000E+00 0.0000000E+00 -49.00786     020003\n" +
+                            "  0.0000000E+00 0.0000000E+00  11.37473      7.281695     0.0000000E+00 101003\n" +
+                            "  0.0000000E+00 0.0000000E+00  19.73339      13.65670     0.0000000E+00 011003\n" +
+                            "   45.91699      5.297607     0.0000000E+00 0.0000000E+00  17.87454     002003\n" +
+                            "  -49275.91     -20003.51     0.0000000E+00 0.0000000E+00  1388.944     100400\n" +
+                            "  -125211.7     -50667.76     0.0000000E+00 0.0000000E+00  5514.844     010400\n" +
+                            "  0.0000000E+00 0.0000000E+00  18218.14      10087.31     0.0000000E+00 001400\n" +
+                            "  0.0000000E+00 0.0000000E+00  32416.54      19492.13     0.0000000E+00 100301\n" +
+                            "  0.0000000E+00 0.0000000E+00  80306.70      48303.36     0.0000000E+00 010301\n" +
+                            "   31292.61      13730.97     0.0000000E+00 0.0000000E+00  4505.717     001301\n" +
+                            "  -7108.218     -2191.539     0.0000000E+00 0.0000000E+00 -794.3577     100202\n" +
+                            "  -23797.95     -8147.170     0.0000000E+00 0.0000000E+00 -2471.270     010202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1626.521     -785.3102     0.0000000E+00 001202\n" +
+                            "  0.0000000E+00 0.0000000E+00  34.25744      31.78482     0.0000000E+00 100103\n" +
+                            "  0.0000000E+00 0.0000000E+00  116.1556      80.66497     0.0000000E+00 010103\n" +
+                            "   637.4097      187.8787     0.0000000E+00 0.0000000E+00  82.28752     001103\n" +
+                            "  -4.106870    -0.5831851     0.0000000E+00 0.0000000E+00 0.2933042     100004\n" +
+                            "  -19.09169     -4.009389     0.0000000E+00 0.0000000E+00 0.2398180     010004\n" +
+                            "  0.0000000E+00 0.0000000E+00  7.002280    -0.2450467     0.0000000E+00 001004\n" +
+                            "  0.0000000E+00 0.0000000E+00  23067.11      13275.94     0.0000000E+00 000500\n" +
+                            "  -2845.001     -554.2254     0.0000000E+00 0.0000000E+00 -1933.140     000401\n" +
+                            "  0.0000000E+00 0.0000000E+00 -810.2422     -784.7085     0.0000000E+00 000302\n" +
+                            "   858.5546      331.9975     0.0000000E+00 0.0000000E+00  50.74725     000203\n" +
+                            "  0.0000000E+00 0.0000000E+00  37.49832      9.220976     0.0000000E+00 000104\n" +
+                            "  0.2305421     0.1385446E-01 0.0000000E+00 0.0000000E+00 0.6067424     000005"
+            );
+
+            optics_后偏转段CCT2出口加1点5米.map = CosyArbitraryOrder.readMap(
+                    "  0.2776683     0.6426617     0.0000000E+00 0.0000000E+00 0.9122470E-02 100000\n" +
+                            "  -1.186158     0.8560639     0.0000000E+00 0.0000000E+00-0.2043148E-02 010000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1.122876     0.1209793     0.0000000E+00 001000\n" +
+                            "  0.0000000E+00 0.0000000E+00  1.145577     -1.013995     0.0000000E+00 000100\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.0000000E+00 0.0000000E+00  1.000000     000010\n" +
+                            "  0.1025337E-01-0.9122470E-02 0.0000000E+00 0.0000000E+00  1.099486     000001\n" +
+                            "  -4.794570    -0.9384987     0.0000000E+00 0.0000000E+00-0.7691690E-01 200000\n" +
+                            "  -16.05604     0.4203887     0.0000000E+00 0.0000000E+00 0.2429687     110000\n" +
+                            "  -6.393644      9.054778     0.0000000E+00 0.0000000E+00 0.1516436     020000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -16.64587     0.7224144E-01 0.0000000E+00 101000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -48.46427    -0.1617982E-01 0.0000000E+00 011000\n" +
+                            "  -1.962767     -1.062605     0.0000000E+00 0.0000000E+00-0.7921112     002000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -18.59234      16.96122     0.0000000E+00 100100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -42.80908      48.39364     0.0000000E+00 010100\n" +
+                            "   33.57326      17.21543     0.0000000E+00 0.0000000E+00  1.053095     001100\n" +
+                            "  0.5105635E-01 0.2878382     0.0000000E+00 0.0000000E+00-0.8825607E-02 100001\n" +
+                            "  0.5218690    -0.1791484     0.0000000E+00 0.0000000E+00-0.2611056E-02 010001\n" +
+                            "  0.0000000E+00 0.0000000E+00  1.108477     -1.478991     0.0000000E+00 001001\n" +
+                            "  -2.012944     -3.618418     0.0000000E+00 0.0000000E+00 -5.584795     000200\n" +
+                            "  0.0000000E+00 0.0000000E+00  11.76418    -0.7595797     0.0000000E+00 000101\n" +
+                            " -0.8029310E-02 0.3461719E-02 0.0000000E+00 0.0000000E+00-0.9384646     000002\n" +
+                            "   9.608044      7.152302     0.0000000E+00 0.0000000E+00  1.467459     300000\n" +
+                            "   46.28658      49.65767     0.0000000E+00 0.0000000E+00  6.760075     210000\n" +
+                            "   51.19955      119.5897     0.0000000E+00 0.0000000E+00  8.302247     120000\n" +
+                            "  -6.711845      104.1643     0.0000000E+00 0.0000000E+00  2.633405     030000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -81.62473     -49.36324     0.0000000E+00 201000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -515.2568     -283.7283     0.0000000E+00 111000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -805.5788     -408.8501     0.0000000E+00 021000\n" +
+                            "  -118.1868     -61.78520     0.0000000E+00 0.0000000E+00 -12.80494     102000\n" +
+                            "  -343.3604     -179.9722     0.0000000E+00 0.0000000E+00 -37.99079     012000\n" +
+                            "  0.0000000E+00 0.0000000E+00-0.4594881      7.991398     0.0000000E+00 003000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -195.5629     -105.1012     0.0000000E+00 200100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1205.273     -562.3613     0.0000000E+00 110100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1843.427     -746.1342     0.0000000E+00 020100\n" +
+                            "  -197.5378     -81.13102     0.0000000E+00 0.0000000E+00 -19.14783     101100\n" +
+                            "  -458.8269     -177.8524     0.0000000E+00 0.0000000E+00 -30.33033     011100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -101.7004     -8.898953     0.0000000E+00 002100\n" +
+                            "   1.818009    -0.3124955     0.0000000E+00 0.0000000E+00 -1.236418     200001\n" +
+                            "   14.64892     -1.071271     0.0000000E+00 0.0000000E+00 -7.302995     110001\n" +
+                            "   10.35781     -9.397693     0.0000000E+00 0.0000000E+00 -10.50941     020001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2.611260      1.466717     0.0000000E+00 101001\n" +
+                            "  0.0000000E+00 0.0000000E+00  24.72067      3.999954     0.0000000E+00 011001\n" +
+                            "   26.68979      13.34967     0.0000000E+00 0.0000000E+00  3.753262     002001\n" +
+                            "   714.2971      394.1066     0.0000000E+00 0.0000000E+00  99.60832     100200\n" +
+                            "   1853.161      1028.766     0.0000000E+00 0.0000000E+00  268.5466     010200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -81.95641      118.5879     0.0000000E+00 001200\n" +
+                            "  0.0000000E+00 0.0000000E+00  4.438044      3.141818     0.0000000E+00 100101\n" +
+                            "  0.0000000E+00 0.0000000E+00  58.92278     -8.411894     0.0000000E+00 010101\n" +
+                            "   10.92382      10.96079     0.0000000E+00 0.0000000E+00  1.224397     001101\n" +
+                            "  -2.563014     -1.257206     0.0000000E+00 0.0000000E+00 0.6918991E-01 100002\n" +
+                            "  -7.449959     -3.396481     0.0000000E+00 0.0000000E+00 0.4718524E-01 010002\n" +
+                            "  0.0000000E+00 0.0000000E+00  4.612909      2.479513     0.0000000E+00 001002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -273.7456     -37.71632     0.0000000E+00 000300\n" +
+                            "  -196.4067     -107.5448     0.0000000E+00 0.0000000E+00 -12.87745     000201\n" +
+                            "  0.0000000E+00 0.0000000E+00 0.9355174      7.949245     0.0000000E+00 000102\n" +
+                            "  0.5761438E-01 0.7711552E-03 0.0000000E+00 0.0000000E+00 0.7854125     000003\n" +
+                            "  -31.26232     -5.141206     0.0000000E+00 0.0000000E+00-0.7111171     400000\n" +
+                            "  -250.0263      12.33565     0.0000000E+00 0.0000000E+00  20.17116     310000\n" +
+                            "  -709.0624      315.1893     0.0000000E+00 0.0000000E+00  163.7453     220000\n" +
+                            "  -858.1851      1009.924     0.0000000E+00 0.0000000E+00  385.2723     130000\n" +
+                            "  -402.7031      949.0020     0.0000000E+00 0.0000000E+00  283.4603     040000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -81.12796     -89.00278     0.0000000E+00 301000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -949.6926     -941.0648     0.0000000E+00 211000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3469.180     -3206.121     0.0000000E+00 121000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4065.823     -3550.247     0.0000000E+00 031000\n" +
+                            "  -421.7657     -269.1820     0.0000000E+00 0.0000000E+00 -45.00588     202000\n" +
+                            "  -2858.868     -1779.914     0.0000000E+00 0.0000000E+00 -347.2664     112000\n" +
+                            "  -4723.410     -2883.765     0.0000000E+00 0.0000000E+00 -624.9095     022000\n" +
+                            "  0.0000000E+00 0.0000000E+00  199.1393      152.4807     0.0000000E+00 103000\n" +
+                            "  0.0000000E+00 0.0000000E+00  554.4497      436.9210     0.0000000E+00 013000\n" +
+                            "  -98.16593     -51.60734     0.0000000E+00 0.0000000E+00 -13.77457     004000\n" +
+                            "  0.0000000E+00 0.0000000E+00 -376.5294     -275.0352     0.0000000E+00 300100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3748.012     -2711.648     0.0000000E+00 210100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -12351.47     -8792.925     0.0000000E+00 120100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -13494.24     -9381.292     0.0000000E+00 030100\n" +
+                            "  -4265.116     -2290.130     0.0000000E+00 0.0000000E+00 -443.5480     201100\n" +
+                            "  -24540.79     -13143.96     0.0000000E+00 0.0000000E+00 -2732.015     111100\n" +
+                            "  -35251.57     -18843.52     0.0000000E+00 0.0000000E+00 -4132.867     021100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -601.9931     -446.2564     0.0000000E+00 102100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1976.819     -1402.148     0.0000000E+00 012100\n" +
+                            "  -354.5824     -167.2618     0.0000000E+00 0.0000000E+00 -12.66813     003100\n" +
+                            "   24.74848      13.64079     0.0000000E+00 0.0000000E+00 -3.770737     300001\n" +
+                            "   218.5339      94.46927     0.0000000E+00 0.0000000E+00 -35.21520     210001\n" +
+                            "   712.1403      226.4735     0.0000000E+00 0.0000000E+00 -100.9575     120001\n" +
+                            "   788.0110      175.4815     0.0000000E+00 0.0000000E+00 -95.59945     030001\n" +
+                            "  0.0000000E+00 0.0000000E+00  39.03867      11.62783     0.0000000E+00 201001\n" +
+                            "  0.0000000E+00 0.0000000E+00  483.8318      209.7734     0.0000000E+00 111001\n" +
+                            "  0.0000000E+00 0.0000000E+00  1145.356      514.6545     0.0000000E+00 021001\n" +
+                            "   274.8815      128.1295     0.0000000E+00 0.0000000E+00  37.50053     102001\n" +
+                            "   1046.839      502.9321     0.0000000E+00 0.0000000E+00  147.1170     012001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -78.88113     -53.50182     0.0000000E+00 003001\n" +
+                            "  -8102.510     -4024.352     0.0000000E+00 0.0000000E+00 -1075.920     200200\n" +
+                            "  -39989.98     -19785.78     0.0000000E+00 0.0000000E+00 -5204.075     110200\n" +
+                            "  -48569.94     -23913.15     0.0000000E+00 0.0000000E+00 -6205.806     020200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2183.570     -1687.788     0.0000000E+00 101200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6031.060     -4497.940     0.0000000E+00 011200\n" +
+                            "  -971.7430     -458.4595     0.0000000E+00 0.0000000E+00 -271.9668     002200\n" +
+                            "  0.0000000E+00 0.0000000E+00  188.7242      81.57972     0.0000000E+00 200101\n" +
+                            "  0.0000000E+00 0.0000000E+00  1687.340      714.1154     0.0000000E+00 110101\n" +
+                            "  0.0000000E+00 0.0000000E+00  3415.582      1318.235     0.0000000E+00 020101\n" +
+                            "   2313.570      1171.044     0.0000000E+00 0.0000000E+00  271.9714     101101\n" +
+                            "   6579.033      3338.694     0.0000000E+00 0.0000000E+00  771.3538     011101\n" +
+                            "  0.0000000E+00 0.0000000E+00  57.25211     -19.24578     0.0000000E+00 002101\n" +
+                            "   3.250937      1.827216     0.0000000E+00 0.0000000E+00  2.370856     200002\n" +
+                            "   7.591117      8.109118     0.0000000E+00 0.0000000E+00  16.18222     110002\n" +
+                            "   8.427655      15.35664     0.0000000E+00 0.0000000E+00  27.48150     020002\n" +
+                            "  0.0000000E+00 0.0000000E+00  4.201344     -3.346234     0.0000000E+00 101002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -3.594992     -6.022921     0.0000000E+00 011002\n" +
+                            "  -53.03218     -21.70561     0.0000000E+00 0.0000000E+00 -9.708939     002002\n" +
+                            "  0.0000000E+00 0.0000000E+00  3624.002      2541.632     0.0000000E+00 100300\n" +
+                            "  0.0000000E+00 0.0000000E+00  9331.596      6631.442     0.0000000E+00 010300\n" +
+                            "   3171.143      1782.203     0.0000000E+00 0.0000000E+00  485.5978     001300\n" +
+                            "   3196.539      1769.837     0.0000000E+00 0.0000000E+00  270.9897     100201\n" +
+                            "   7208.659      3980.427     0.0000000E+00 0.0000000E+00  479.1555     010201\n" +
+                            "  0.0000000E+00 0.0000000E+00  205.4538     -2.960204     0.0000000E+00 001201\n" +
+                            "  0.0000000E+00 0.0000000E+00  8.099064     -13.07404     0.0000000E+00 100102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -37.53919     -25.63350     0.0000000E+00 010102\n" +
+                            "  -305.1308     -156.6929     0.0000000E+00 0.0000000E+00 -31.48385     001102\n" +
+                            "   3.320753     0.9201753     0.0000000E+00 0.0000000E+00-0.1685969     100003\n" +
+                            "   12.77648      4.287405     0.0000000E+00 0.0000000E+00-0.1540039     010003\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6.732275     -1.435093     0.0000000E+00 001003\n" +
+                            "   3006.303      1678.475     0.0000000E+00 0.0000000E+00  258.3166     000400\n" +
+                            "  0.0000000E+00 0.0000000E+00 -757.5618     -919.2420     0.0000000E+00 000301\n" +
+                            "  -104.8408     -95.61125     0.0000000E+00 0.0000000E+00 -2.560146     000202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -16.90886     -10.65300     0.0000000E+00 000103\n" +
+                            " -0.1147099     0.9122754E-03 0.0000000E+00 0.0000000E+00-0.6621582     000004\n" +
+                            "   28.04513      43.32422     0.0000000E+00 0.0000000E+00  35.06026     500000\n" +
+                            "  -17.16662      519.1536     0.0000000E+00 0.0000000E+00  417.2422     410000\n" +
+                            "  -1922.727      2657.028     0.0000000E+00 0.0000000E+00  2108.110     320000\n" +
+                            "  -9259.653      7452.509     0.0000000E+00 0.0000000E+00  5708.808     230000\n" +
+                            "  -16818.81      11492.56     0.0000000E+00 0.0000000E+00  8220.921     140000\n" +
+                            "  -10783.48      7639.827     0.0000000E+00 0.0000000E+00  4927.205     050000\n" +
+                            "  0.0000000E+00 0.0000000E+00  408.9012      52.31768     0.0000000E+00 401000\n" +
+                            "  0.0000000E+00 0.0000000E+00  3959.014      50.22695     0.0000000E+00 311000\n" +
+                            "  0.0000000E+00 0.0000000E+00  13930.90     -2209.912     0.0000000E+00 221000\n" +
+                            "  0.0000000E+00 0.0000000E+00  20607.00     -9082.975     0.0000000E+00 131000\n" +
+                            "  0.0000000E+00 0.0000000E+00  10166.86     -10236.52     0.0000000E+00 041000\n" +
+                            "   2590.366      1075.329     0.0000000E+00 0.0000000E+00  122.6722     302000\n" +
+                            "   19859.37      7792.566     0.0000000E+00 0.0000000E+00  931.8667     212000\n" +
+                            "   49730.88      18080.12     0.0000000E+00 0.0000000E+00  2134.735     122000\n" +
+                            "   40277.35      13063.34     0.0000000E+00 0.0000000E+00  1334.800     032000\n" +
+                            "  0.0000000E+00 0.0000000E+00  2709.754      2066.746     0.0000000E+00 203000\n" +
+                            "  0.0000000E+00 0.0000000E+00  16067.70      12288.51     0.0000000E+00 113000\n" +
+                            "  0.0000000E+00 0.0000000E+00  23746.84      18198.93     0.0000000E+00 023000\n" +
+                            "  -1522.656     -880.5830     0.0000000E+00 0.0000000E+00 -288.9993     104000\n" +
+                            "  -4594.923     -2644.850     0.0000000E+00 0.0000000E+00 -892.2500     014000\n" +
+                            "  0.0000000E+00 0.0000000E+00  224.7640      166.7971     0.0000000E+00 005000\n" +
+                            "  0.0000000E+00 0.0000000E+00  629.5025     -45.30959     0.0000000E+00 400100\n" +
+                            "  0.0000000E+00 0.0000000E+00  4810.968     -1949.615     0.0000000E+00 310100\n" +
+                            "  0.0000000E+00 0.0000000E+00  10301.37     -14706.56     0.0000000E+00 220100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -703.1872     -40756.77     0.0000000E+00 130100\n" +
+                            "  0.0000000E+00 0.0000000E+00 -15961.39     -38802.34     0.0000000E+00 040100\n" +
+                            "   10894.66      4119.674     0.0000000E+00 0.0000000E+00  1561.008     301100\n" +
+                            "   63734.58      19785.50     0.0000000E+00 0.0000000E+00  9512.936     211100\n" +
+                            "   98453.53      13193.57     0.0000000E+00 0.0000000E+00  15775.97     121100\n" +
+                            "   15004.41     -27871.57     0.0000000E+00 0.0000000E+00  3790.439     031100\n" +
+                            "  0.0000000E+00 0.0000000E+00  9524.616      7478.098     0.0000000E+00 202100\n" +
+                            "  0.0000000E+00 0.0000000E+00  50838.78      39893.66     0.0000000E+00 112100\n" +
+                            "  0.0000000E+00 0.0000000E+00  67520.07      52927.86     0.0000000E+00 022100\n" +
+                            "  -6590.543     -3516.772     0.0000000E+00 0.0000000E+00  172.7137     103100\n" +
+                            "  -18154.07     -9799.116     0.0000000E+00 0.0000000E+00  510.4348     013100\n" +
+                            "  0.0000000E+00 0.0000000E+00  375.9512      341.7025     0.0000000E+00 004100\n" +
+                            "   6.801836    -0.4278971     0.0000000E+00 0.0000000E+00 -14.21893     400001\n" +
+                            "   306.8351      48.04626     0.0000000E+00 0.0000000E+00 -206.2052     310001\n" +
+                            "   2020.156      189.4998     0.0000000E+00 0.0000000E+00 -1099.498     220001\n" +
+                            "   5011.374      18.10270     0.0000000E+00 0.0000000E+00 -2456.881     130001\n" +
+                            "   4542.520     -343.0320     0.0000000E+00 0.0000000E+00 -1931.362     040001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -5.050889      28.98270     0.0000000E+00 301001\n" +
+                            "  0.0000000E+00 0.0000000E+00  764.0966      889.1035     0.0000000E+00 211001\n" +
+                            "  0.0000000E+00 0.0000000E+00  5286.282      4919.217     0.0000000E+00 121001\n" +
+                            "  0.0000000E+00 0.0000000E+00  8787.922      7465.877     0.0000000E+00 031001\n" +
+                            "  -1466.400     -727.9282     0.0000000E+00 0.0000000E+00 -135.5931     202001\n" +
+                            "  -5291.834     -2479.123     0.0000000E+00 0.0000000E+00 -368.9408     112001\n" +
+                            "  -2435.526     -782.2825     0.0000000E+00 0.0000000E+00  214.6655     022001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1587.518     -1055.112     0.0000000E+00 103001\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4916.818     -3339.352     0.0000000E+00 013001\n" +
+                            "   472.0888      235.7421     0.0000000E+00 0.0000000E+00  102.0819     004001\n" +
+                            "   13136.79      4643.392     0.0000000E+00 0.0000000E+00  3641.351     300200\n" +
+                            "   44179.47      6429.200     0.0000000E+00 0.0000000E+00  18114.21     210200\n" +
+                            "  -51012.37     -67960.72     0.0000000E+00 0.0000000E+00  19170.88     120200\n" +
+                            "  -199416.3     -137954.4     0.0000000E+00 0.0000000E+00 -8287.830     030200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -19448.57     -13578.81     0.0000000E+00 201200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -117793.6     -82966.55     0.0000000E+00 111200\n" +
+                            "  0.0000000E+00 0.0000000E+00 -177317.6     -125769.5     0.0000000E+00 021200\n" +
+                            "  -41882.86     -21975.98     0.0000000E+00 0.0000000E+00 -2677.161     102200\n" +
+                            "  -119550.1     -62673.38     0.0000000E+00 0.0000000E+00 -9327.649     012200\n" +
+                            "  0.0000000E+00 0.0000000E+00  406.3595      407.8439     0.0000000E+00 003200\n" +
+                            "  0.0000000E+00 0.0000000E+00  169.0516      203.9615     0.0000000E+00 300101\n" +
+                            "  0.0000000E+00 0.0000000E+00  4351.851      3663.105     0.0000000E+00 210101\n" +
+                            "  0.0000000E+00 0.0000000E+00  22539.80      17046.26     0.0000000E+00 120101\n" +
+                            "  0.0000000E+00 0.0000000E+00  33080.82      23560.07     0.0000000E+00 030101\n" +
+                            "  -4317.848     -2447.638     0.0000000E+00 0.0000000E+00 -338.3112     201101\n" +
+                            "   757.7083     -641.6613     0.0000000E+00 0.0000000E+00  1812.913     111101\n" +
+                            "   37131.35      17898.49     0.0000000E+00 0.0000000E+00  7970.334     021101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4338.619     -3541.639     0.0000000E+00 102101\n" +
+                            "  0.0000000E+00 0.0000000E+00 -10076.97     -8729.309     0.0000000E+00 012101\n" +
+                            "   2489.268      1203.745     0.0000000E+00 0.0000000E+00  12.84693     003101\n" +
+                            "  -27.59147     -8.445100     0.0000000E+00 0.0000000E+00  1.728641     300002\n" +
+                            "  -354.0990     -107.8521     0.0000000E+00 0.0000000E+00  49.08524     210002\n" +
+                            "  -1444.476     -392.8324     0.0000000E+00 0.0000000E+00  235.9060     120002\n" +
+                            "  -1857.247     -429.1439     0.0000000E+00 0.0000000E+00  313.1955     030002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -47.45168     -13.69250     0.0000000E+00 201002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -549.4554     -214.1229     0.0000000E+00 111002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1475.794     -628.5572     0.0000000E+00 021002\n" +
+                            "   114.3145      103.0616     0.0000000E+00 0.0000000E+00 -22.34505     102002\n" +
+                            "  -527.2029     -106.0903     0.0000000E+00 0.0000000E+00 -200.1462     012002\n" +
+                            "  0.0000000E+00 0.0000000E+00  295.9678      165.9634     0.0000000E+00 003002\n" +
+                            "  0.0000000E+00 0.0000000E+00 -60732.64     -43846.10     0.0000000E+00 200300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -314513.5     -226718.0     0.0000000E+00 110300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -405075.5     -291243.8     0.0000000E+00 020300\n" +
+                            "  -131868.8     -68306.67     0.0000000E+00 0.0000000E+00 -23799.22     101300\n" +
+                            "  -346835.2     -179928.3     0.0000000E+00 0.0000000E+00 -61943.23     011300\n" +
+                            "  0.0000000E+00 0.0000000E+00 -6797.973     -4092.945     0.0000000E+00 002300\n" +
+                            "   1244.565     -442.0413     0.0000000E+00 0.0000000E+00  473.9682     200201\n" +
+                            "   42175.74      16620.38     0.0000000E+00 0.0000000E+00  8248.681     110201\n" +
+                            "   100306.9      45872.52     0.0000000E+00 0.0000000E+00  17899.52     020201\n" +
+                            "  0.0000000E+00 0.0000000E+00  12913.19      8164.989     0.0000000E+00 101201\n" +
+                            "  0.0000000E+00 0.0000000E+00  40347.97      25736.39     0.0000000E+00 011201\n" +
+                            "   12753.59      6208.505     0.0000000E+00 0.0000000E+00  1431.054     002201\n" +
+                            "  0.0000000E+00 0.0000000E+00 -220.0880     -86.99716     0.0000000E+00 200102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -2112.486     -873.2438     0.0000000E+00 110102\n" +
+                            "  0.0000000E+00 0.0000000E+00 -4835.215     -1902.447     0.0000000E+00 020102\n" +
+                            "  -1518.352     -344.7222     0.0000000E+00 0.0000000E+00 -348.6397     101102\n" +
+                            "  -8570.872     -3242.857     0.0000000E+00 0.0000000E+00 -1591.941     011102\n" +
+                            "  0.0000000E+00 0.0000000E+00  758.2972      568.3360     0.0000000E+00 002102\n" +
+                            "  -7.991007     -2.526971     0.0000000E+00 0.0000000E+00 -2.829554     200003\n" +
+                            "  -39.48943     -14.60326     0.0000000E+00 0.0000000E+00 -23.27869     110003\n" +
+                            "  -45.67225     -23.18605     0.0000000E+00 0.0000000E+00 -47.05749     020003\n" +
+                            "  0.0000000E+00 0.0000000E+00  6.524969      7.281695     0.0000000E+00 101003\n" +
+                            "  0.0000000E+00 0.0000000E+00  10.42272      13.65670     0.0000000E+00 011003\n" +
+                            "   34.29776      5.297607     0.0000000E+00 0.0000000E+00  16.26002     002003\n" +
+                            "  -39425.31     -20003.51     0.0000000E+00 0.0000000E+00  384.7094     100400\n" +
+                            "  -100256.0     -50667.76     0.0000000E+00 0.0000000E+00  2465.141     010400\n" +
+                            "  0.0000000E+00 0.0000000E+00  13044.00      10087.31     0.0000000E+00 001400\n" +
+                            "  0.0000000E+00 0.0000000E+00  23343.80      19492.13     0.0000000E+00 100301\n" +
+                            "  0.0000000E+00 0.0000000E+00  57970.32      48303.36     0.0000000E+00 010301\n" +
+                            "   24917.93      13730.97     0.0000000E+00 0.0000000E+00  4010.234     001301\n" +
+                            "  -5596.621     -2191.539     0.0000000E+00 0.0000000E+00 -755.4236     100202\n" +
+                            "  -18819.58     -8147.170     0.0000000E+00 0.0000000E+00 -2351.515     010202\n" +
+                            "  0.0000000E+00 0.0000000E+00 -1259.631     -785.3102     0.0000000E+00 001202\n" +
+                            "  0.0000000E+00 0.0000000E+00  16.96043      31.78482     0.0000000E+00 100103\n" +
+                            "  0.0000000E+00 0.0000000E+00  78.59749      80.66497     0.0000000E+00 010103\n" +
+                            "   500.3388      187.8787     0.0000000E+00 0.0000000E+00  79.83468     001103\n" +
+                            "  -3.346642    -0.5831851     0.0000000E+00 0.0000000E+00 0.2879058     100004\n" +
+                            "  -15.34969     -4.009389     0.0000000E+00 0.0000000E+00 0.2200009     010004\n" +
+                            "  0.0000000E+00 0.0000000E+00  5.948474    -0.2450467     0.0000000E+00 001004\n" +
+                            "  0.0000000E+00 0.0000000E+00  16461.74      13275.94     0.0000000E+00 000500\n" +
+                            "  -2071.194     -554.2254     0.0000000E+00 0.0000000E+00 -1578.555     000401\n" +
+                            "  0.0000000E+00 0.0000000E+00 -672.6239     -784.7085     0.0000000E+00 000302\n" +
+                            "   687.2258      331.9975     0.0000000E+00 0.0000000E+00  55.10810     000203\n" +
+                            "  0.0000000E+00 0.0000000E+00  28.30431      9.220976     0.0000000E+00 000104\n" +
+                            "  0.2256383     0.1385446E-01 0.0000000E+00 0.0000000E+00 0.5502242     000005"
+            );
+
             optics_后偏转段CCT2出口加1点0米.map = CosyArbitraryOrder.readMap(
                     " -0.4366255E-01 0.6426617     0.0000000E+00 0.0000000E+00 0.9122470E-02 100000\n" +
                             "  -1.614190     0.8560639     0.0000000E+00 0.0000000E+00-0.2043148E-02 010000\n" +
@@ -3393,3 +6043,271 @@ public class A0618深入分析光学_切片_粒子跟踪的区别 {
         String code() default "";
     }
 }
+
+/*
+cosy code
+-------------
+{cosy script for HUST SC Gantry DownStream, B. Qin, 2019-12-25}
+
+INCLUDE 'COSY' ;
+PROCEDURE RUN ;
+
+VARIABLE I 1 ; {number of iteration} VARIABLE refresh 1 ; {print picture per refresh}
+VARIABLE DL1 1 ; VARIABLE DL2 1 ;
+VARIABLE CCT12_APER 1 ; VARIABLE CCT345_APER 1 ; {half aperture}
+VARIABLE CCT1_ANG 1 ; VARIABLE CCT2_ANG 1 ; VARIABLE CCT3_ANG 1 ;
+VARIABLE CCT12_ANG_MIN 1 ; VARIABLE CCT345_ANG_MIN 1 ;
+VARIABLE CCT4_ANG 1 ; VARIABLE CCT5_ANG 1 ;{angle}
+VARIABLE CCT12_n 1 ; VARIABLE CCT345_n 1 ;
+VARIABLE CCT12_R 1 ; VARIABLE CCT345_R 1 ;
+VARIABLE QS1_LEN 1 ; VARIABLE QS1_Q 1 ; VARIABLE QS1_S 1 ; VARIABLE QS1_APER 1 ;
+VARIABLE QS2_LEN 1 ; VARIABLE QS2_Q 1 ; VARIABLE QS2_S 1 ; VARIABLE QS2_APER 1 ;
+VARIABLE QS3_LEN 1 ; VARIABLE QS3_Q 1 ; VARIABLE QS3_S 1 ; VARIABLE QS3_APER 1 ;
+VARIABLE GAP1 1 ; VARIABLE GAP2 1 ; VARIABLE GAP3 1 ;
+VARIABLE DP 1 ;
+VARIABLE BEAM_X 1 ; VARIABLE BEAM_Y 1 ; {x y 方向束斑大小}
+VARIABLE BEAM_X_MAX 1 ; VARIABLE BEAM_X_MIN 1 ;
+VARIABLE BEAM_Y_MAX 1 ; VARIABLE BEAM_Y_MIN 1 ;
+VARIABLE BEAM_X_AFTER_DL1 1 ;
+
+VARIABLE OBJ_ANG45 1 ; VARIABLE OBJ_ANG135 1 ;
+VARIABLE OBJ_R16_1 1 ; VARIABLE OBJ_R16_2 1;
+VARIABLE OBJ_R26_1 1 ; VARIABLE OBJ_R26_2 1;
+VARIABLE OBJ_R11_1 1 ; VARIABLE OBJ_R11_2 1;
+VARIABLE OBJ_R12_1 1 ; VARIABLE OBJ_R12_2 1;
+VARIABLE OBJ_R21_1 1 ; VARIABLE OBJ_R21_2 1;
+VARIABLE OBJ_R33_1 1 ; VARIABLE OBJ_R33_2 1;
+VARIABLE OBJ_R34_1 1 ; VARIABLE OBJ_R34_2 1;
+VARIABLE OBJ_R43_1 1 ; VARIABLE OBJ_R43_2 1;
+VARIABLE OBJ_T126_1 1 ; VARIABLE OBJ_T126_2 1;
+VARIABLE OBJ_T226_1 1 ; VARIABLE OBJ_T226_2 1;
+VARIABLE OBJ_T346_1 1 ; VARIABLE OBJ_T346_2 1;
+VARIABLE OBJ_T446_1 1 ; VARIABLE OBJ_T446_2 1;
+VARIABLE OBJ_SIGMA11_1 1 ; VARIABLE OBJ_SIGMA11_2 1 ;
+VARIABLE OBJ_SIGMA33_1 1 ; VARIABLE OBJ_SIGMA33_2 1 ;
+VARIABLE OBJ_ALIGN 1 ; VARIABLE IGNORE 1 ;
+VARIABLE OBJ_BEAM_X_BEFORE_DL1 1 ;
+
+
+FUNCTION SQUA X ; SQUA := X * X ; ENDFUNCTION ;
+
+FUNCTION GET_ONE IGNORE ; GET_ONE := 1 ; ENDFUNCTION ; {COSY函数必须传参}
+
+FUNCTION BEAM_SPOT_X RAY ;
+BEAM_SPOT_X := 0.0 ; BEAM_X_MAX := -1E9 ; BEAM_X_MIN := 1E9 ;
+LOOP I 1 LENGTH(RAY(1)) ;
+BEAM_X_MAX := MAX((RAY(1)|I),BEAM_X_MAX);
+BEAM_X_MIN := MIN((RAY(1)|I),BEAM_X_MIN);
+ENDLOOP ;
+BEAM_SPOT_X := BEAM_X_MAX - BEAM_X_MIN ;
+ENDFUNCTION ;
+
+FUNCTION BEAM_SPOT_Y RAY ;
+BEAM_SPOT_Y := 0.0 ; BEAM_Y_MAX := -1E9 ; BEAM_Y_MIN := 1E9 ;
+LOOP I 1 LENGTH(RAY(1)) ;
+BEAM_Y_MAX := MAX((RAY(3)|I),BEAM_Y_MAX);
+BEAM_Y_MIN := MIN((RAY(3)|I),BEAM_Y_MIN);
+ENDLOOP ;
+BEAM_SPOT_Y := BEAM_Y_MAX - BEAM_Y_MIN ;
+ENDFUNCTION ;
+
+
+BEAM_X_MAX := -1000. ; BEAM_X_MIN := 1000. ;
+BEAM_Y_MAX := -1000. ; BEAM_Y_MIN := 1000. ;
+
+I := 0 ; {number of iteration}
+refresh := 1 ; {print picture per refresh}
+
+{--------------PARAMETER SET--------------------}
+CCT12_R := 0.75 ;
+CCT345_R := 0.75 ;
+
+CCT12_APER := 0.020 ;
+CCT345_APER := 0.060 ;
+QS1_APER := 0.030 ;
+QS2_APER := 0.030 ;
+QS3_APER := 0.060 ;
+
+DL1 := 1.1759 ;
+DL2 := 2.40 ;
+QS1_LEN := 0.2;
+QS2_LEN := 0.2;
+QS3_LEN := 0.2;
+GAP1 := 0.15 ;
+GAP2 := 0.15 ;
+GAP3:=0.2585751675857585;
+
+CCT12_ANG_MIN := 5 ;
+CCT345_ANG_MIN := 8 ;
+
+CCT1_ANG:= 4.116696651312341;
+CCT2_ANG:= 8.383304669429050;
+CCT3_ANG:=0.3926893224425800E-005;
+CCT4_ANG:= 21.99845340255313;
+CCT5_ANG:= 21.50155751013952;
+
+CCT12_n:=-13.63885007227421;
+CCT345_n:=-4.216451945875646;
+
+QS1_Q:= 1.596245173043834;
+QS2_Q:=-1.133857472311528;
+QS3_Q:=0.4569;
+
+QS1_S:=-0.1924;
+QS2_S:=.6062;
+QS3_S:=.1470;
+
+
+OV 5 3 0 ; {order 1, phase space MSm 3, # of parameters 0}
+PTY 0.0 ; {picture type 0.0 for straight-line and nonzore for lab}
+RPP 250 ; {particle type = proton, kinetic energy = 250MeV}
+SB 3.5E-3 7.5E-3 0    3.5E-3 7.5E-3 0    0 0 0 0 0;
+{<x><x'><r12>       <y><y'><r34>     <t'><dE/E><r56><dm/m><z'>}
+{x=2.0mm x'=3.0mr y=2.0mm y'=3.0mm z=0.0mm DP/p=5.0% momentum=729.134GeV/c}
+CR ;
+
+ENVEL ;
+
+SR  -2.720497e-03  -8.397257e-04  0.000000e+00  0.000000e+00  0  -8.865599e-02  0  0  2 ;
+SR  -2.710292e-03  -1.541299e-03  0.000000e+00  0.000000e+00  0  8.569529e-02  0  0  2 ;
+SR  1.454720e-03  -6.167730e-03  0.000000e+00  0.000000e+00  0  5.563935e-02  0  0  2 ;
+SR  2.530787e-03  3.622343e-03  0.000000e+00  0.000000e+00  0  -7.071869e-02  0  0  2 ;
+SR  -1.289776e-03  -3.349264e-03  0.000000e+00  0.000000e+00  0  -1.167566e-01  0  0  2 ;
+SR  9.287557e-05  -1.203443e-03  0.000000e+00  0.000000e+00  0  -1.412934e-01  0  0  2 ;
+SR  -1.698824e-03  6.207546e-03  0.000000e+00  0.000000e+00  0  -4.034219e-02  0  0  2 ;
+SR  3.299369e-03  -2.409030e-03  0.000000e+00  0.000000e+00  0  1.295793e-02  0  0  2 ;
+SR  7.277577e-04  -4.567211e-03  0.000000e+00  0.000000e+00  0  1.096140e-01  0  0  2 ;
+SR  2.996202e-03  2.132803e-03  0.000000e+00  0.000000e+00  0  -6.180811e-02  0  0  2 ;
+SR  6.169990e-04  -2.036978e-03  0.000000e+00  0.000000e+00  0  1.354856e-01  0  0  2 ;
+SR  5.939528e-04  -3.266379e-03  0.000000e+00  0.000000e+00  0  1.265945e-01  0  0  2 ;
+SR  -2.560700e-03  -6.558904e-04  0.000000e+00  0.000000e+00  0  -9.681336e-02  0  0  2 ;
+SR  -4.469585e-05  7.495641e-03  0.000000e+00  0.000000e+00  0  4.526333e-03  0  0  2 ;
+SR  -2.145509e-03  4.922801e-03  0.000000e+00  0.000000e+00  0  -6.297572e-02  0  0  2 ;
+SR  -1.654091e-04  -6.494969e-03  0.000000e+00  0.000000e+00  0  7.128681e-02  0  0  2 ;
+SR  3.056339e-03  -2.876077e-03  0.000000e+00  0.000000e+00  0  4.305480e-02  0  0  2 ;
+SR  -2.444495e-04  -6.904690e-03  0.000000e+00  0.000000e+00  0  -5.501023e-02  0  0  2 ;
+SR  -2.365166e-03  5.518938e-03  0.000000e+00  0.000000e+00  0  -6.173870e-03  0  0  2 ;
+SR  5.585674e-04  -7.117425e-03  0.000000e+00  0.000000e+00  0  -3.894110e-02  0  0  2 ;
+SR  3.065401e-03  -2.880084e-03  0.000000e+00  0.000000e+00  0  4.186217e-02  0  0  2 ;
+SR  -6.542977e-04  -3.078570e-03  0.000000e+00  0.000000e+00  0  1.278065e-01  0  0  2 ;
+SR  2.991888e-03  3.481236e-03  0.000000e+00  0.000000e+00  0  3.322273e-02  0  0  2 ;
+SR  2.768994e-04  -6.851030e-03  0.000000e+00  0.000000e+00  0  5.715676e-02  0  0  2 ;
+SR  -7.826101e-04  -5.254914e-03  0.000000e+00  0.000000e+00  0  -9.702621e-02  0  0  2 ;
+SR  -1.868872e-03  -6.161874e-03  0.000000e+00  0.000000e+00  0  2.859851e-02  0  0  2 ;
+SR  1.882646e-03  5.329345e-03  0.000000e+00  0.000000e+00  0  -6.495377e-02  0  0  2 ;
+SR  -3.467490e-03  -1.002111e-03  0.000000e+00  0.000000e+00  0  3.616517e-03  0  0  2 ;
+SR  3.239399e-03  -1.633336e-04  0.000000e+00  0.000000e+00  0  5.413195e-02  0  0  2 ;
+SR  -1.221241e-03  -5.667483e-03  0.000000e+00  0.000000e+00  0  -7.937233e-02  0  0  2 ;
+
+SR  0.000000e+00  0.000000e+00  -1.096077e-03  6.327117e-05  0  1.359915e-01  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  -1.675346e-03  -6.547495e-03  0  1.339282e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  -6.832267e-04  -1.825517e-04  0  -1.404019e-01  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  5.063675e-04  -5.872317e-03  0  -8.663517e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  -1.823738e-03  3.630495e-03  0  1.006654e-01  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  1.087291e-03  5.300814e-03  0  9.101511e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  -1.067058e-03  7.142890e-03  0  5.400112e-04  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  1.816442e-03  -6.333762e-03  0  -1.892904e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  -3.077618e-03  2.901837e-03  0  3.976131e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  1.440804e-03  -4.751994e-03  0  9.380304e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  1.624999e-04  -7.444588e-03  0  1.605272e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  -1.361737e-03  -6.704299e-03  0  -3.187843e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  8.676178e-04  -6.622504e-03  0  -5.707560e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  -2.900130e-03  -3.053534e-03  0  5.502437e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  -5.379993e-04  -5.607661e-03  0  -9.250924e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  -7.458753e-04  6.561275e-03  0  -6.229548e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  6.338758e-04  7.340164e-03  0  -1.386079e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  1.273425e-03  -6.835749e-04  0  -1.327454e-01  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  1.931545e-03  -4.645982e-03  0  -7.994917e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  -9.409321e-04  2.801209e-03  0  -1.271361e-01  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  1.098956e-05  -7.277099e-04  0  1.425236e-01  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  2.730249e-04  -5.897201e-03  0  -8.776856e-02  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  2.152974e-03  1.468675e-05  0  -1.129016e-01  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  1.313572e-03  -6.676160e-04  0  1.321187e-01  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  4.786816e-04  4.468924e-03  0  -1.133227e-01  0  0  2 ;
+SR  0.000000e+00  0.000000e+00  -3.066289e-03  3.918676e-04  0  -6.863884e-02  0  0  2 ;
+
+UM ;    {sets map to unity} BP ;
+
+{-------------------------BEAMLINE START-------------------------}
+
+
+
+{ DL ABS(DL1) ; }
+{ CB ; MS CCT12_R ABS(CCT1_ANG)+CCT12_ANG_MIN CCT12_APER CCT12_n 0 0 0 0; CB ;  }
+{ CB ; MS CCT12_R ABS(CCT2_ANG)+CCT12_ANG_MIN CCT12_APER -CCT12_n 0 0 0 0; CB ;  }
+{ DL ABS(GAP1); }
+{ M5 ABS(QS1_LEN) QS1_Q QS1_S 0 0 0 QS1_APER; }
+{ DL ABS(GAP2); }
+{ M5 ABS(QS2_LEN) QS2_Q QS2_S 0 0 0 QS2_APER; }
+{ DL ABS(GAP2); }
+{ M5 ABS(QS1_LEN) QS1_Q QS1_S 0 0 0 QS1_APER; }
+{ DL ABS(GAP1); }
+{ CB ; MS CCT12_R ABS(CCT2_ANG)+CCT12_ANG_MIN CCT12_APER -CCT12_n 0 0 0 0; CB ;  }
+{ CB ; MS CCT12_R ABS(CCT1_ANG)+CCT12_ANG_MIN CCT12_APER CCT12_n 0 0 0 0; CB ;  }
+{ DL ABS(DL1) ; }
+
+
+
+
+DL ABS(DL2) ;
+MS CCT345_R ABS(CCT3_ANG)+CCT345_ANG_MIN CCT345_APER CCT345_n 0 0 0 0;
+MS CCT345_R ABS(CCT4_ANG)+CCT345_ANG_MIN CCT345_APER -CCT345_n 0 0 0 0;
+MS CCT345_R ABS(CCT5_ANG)+CCT345_ANG_MIN CCT345_APER CCT345_n 0 0 0 0;
+DL ABS(GAP3);
+M5 ABS(QS3_LEN) QS3_Q QS3_S 0 0 0 QS3_APER;
+DL ABS(GAP3);
+MS CCT345_R ABS(CCT5_ANG)+CCT345_ANG_MIN CCT345_APER CCT345_n 0 0 0 0;
+MS CCT345_R ABS(CCT4_ANG)+CCT345_ANG_MIN CCT345_APER -CCT345_n 0 0 0 0;
+MS CCT345_R ABS(CCT3_ANG)+CCT345_ANG_MIN CCT345_APER CCT345_n 0 0 0 0;
+
+DL ABS(2.0);
+PM 6 ;
+DL ABS(DL2-2.0);
+
+
+
+
+
+WRITE 6 ' SIGMA11' (SIGMA(3,3));
+WRITE 6 'SQRT SIGMA11' SQRT(SIGMA(3,3));
+
+{ PRAY 6 ; }
+
+
+WRITE 6 BEAM_SPOT_X(RAY);
+WRITE 6 BEAM_SPOT_Y(RAY);
+
+
+
+{----------------------------------------------------------------}
+
+EP ; {end the picture} PG -1 -2 ;
+
+
+ENDPROCEDURE ;
+RUN ; END ;
+
+{动量分散 - 能量分散对照表 250MeV}
+{ dp[-0.100]-dE[-0.179] }
+{ dp[-0.090]-dE[-0.161] }
+{ dp[-0.080]-dE[-0.143] }
+{ dp[-0.070]-dE[-0.125] }
+{ dp[-0.060]-dE[-0.107] }
+{ dp[-0.050]-dE[-0.089] }
+{ dp[-0.040]-dE[-0.072] }
+{ dp[-0.030]-dE[-0.054] }
+{ dp[-0.020]-dE[-0.036] }
+{ dp[-0.010]-dE[-0.018] }
+{ dp[+0.000]-dE[+0.000] }
+{ dp[+0.010]-dE[+0.018] }
+{ dp[+0.020]-dE[+0.036] }
+{ dp[+0.030]-dE[+0.054] }
+{ dp[+0.040]-dE[+0.072] }
+{ dp[+0.050]-dE[+0.089] }
+{ dp[+0.060]-dE[+0.107] }
+{ dp[+0.070]-dE[+0.125] }
+{ dp[+0.080]-dE[+0.143] }
+{ dp[+0.090]-dE[+0.161] }
+{ dp[+0.100]-dE[+0.179] }
+
+ */

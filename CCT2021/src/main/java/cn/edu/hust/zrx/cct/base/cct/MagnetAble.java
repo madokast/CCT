@@ -311,6 +311,31 @@ public interface MagnetAble {
         return ret;
     }
 
+    default List<List<Point2>> multiplePoleMagnetAlongTrajectoryBreak(
+            final Line3 trajectory, final double deltaLength, final double goodFieldAreaWidth,
+            final int order, final int dotNumber
+    ) {
+
+        List<List<Point2>> ret = new ArrayList<>();
+
+        List<BaseUtils.Content.BiContent<Double, double[]>> biContents =
+                multiplePoleMagnetAlongTrajectory(trajectory, deltaLength, goodFieldAreaWidth, order, dotNumber);
+
+        for (int i = 0; i <= order; i++) {
+            int finalI = i;
+            List<Point2> collect = biContents.stream().map(bi -> {
+                Double d = bi.getT1();
+                double[] doubles = bi.getT2();
+
+                return Point2.create(d, doubles[finalI]);
+            }).collect(Collectors.toList());
+
+            ret.add(collect);
+        }
+
+        return ret;
+    }
+
     default double magnetGradientAtTrajectoryOfDistanceFast(
             final Line2 trajectory, final double distance, final double goodFieldAreaWidth) {
         Point3 leftHandSidePoint = trajectory.leftHandSidePoint(distance, goodFieldAreaWidth).toPoint3();
@@ -446,7 +471,7 @@ public interface MagnetAble {
     default List<String> sliceToCosyScript(
             final double Bp, final double aperture,
             final Line3 trajectory, final double goodFieldAreaWidth,
-            final double minStepLength, final double tolerance
+            final double minStepLength, final double maxStepLength, final double tolerance
     ) {
         List<String> answer = new ArrayList<>();
 
@@ -501,7 +526,8 @@ public interface MagnetAble {
                 if (// list 长度至少为2
                         BaseUtils.Statistics.undulate(Bs) > tolerance ||
                                 BaseUtils.Statistics.undulate(Ts) > tolerance ||
-                                BaseUtils.Statistics.undulate(Ls) > tolerance
+                                BaseUtils.Statistics.undulate(Ls) > tolerance ||
+                                STEP * (j - i) > maxStepLength
                 ) {
                     break;
                 }
