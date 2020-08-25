@@ -8,6 +8,8 @@ import cn.edu.hust.zrx.cct.base.vector.Vector3;
 /**
  * Description
  * MovedMagnetable
+ * 果然我写过这么神奇的类~
+ * 2020年8月25日
  * <p>
  * Data
  * 22:33
@@ -29,6 +31,10 @@ public class MovedMagnetable implements MagnetAble {
 
     public static MovedMagnetable create(MagnetAble magnetAble, Vector3 direct, double length) {
         return new MovedMagnetable(direct, length, magnetAble);
+    }
+
+    public static MovedMagnetable create(MagnetAble magnetAble, Vector3 movingVector) {
+        return new MovedMagnetable(movingVector, movingVector.length(), magnetAble);
     }
 
     @Override

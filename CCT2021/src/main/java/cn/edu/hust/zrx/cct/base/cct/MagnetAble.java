@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 /**
  * 可以求磁场，接口： Vector3 magnetAt(Point3 p);
  */
+
+@FunctionalInterface
 public interface MagnetAble {
 
     double MM = 1e-3;
@@ -571,7 +573,12 @@ public interface MagnetAble {
 
             String cosyScript = null;
 
-            if (Math.abs(r) > 50) {
+
+            //--------------------
+            //  半径从50m改为10m  |
+            //  2020年8月24日     |
+            //--------------------
+            if (Math.abs(r) > 10) {
                 cosyScript = String.format(
                         "M5 %e %e %e 0 0 0 %e ;", length, b2, b3, aperture
                 );
@@ -583,6 +590,8 @@ public interface MagnetAble {
             //Logger.getLogger().debug("[{}]{}", totalLength, cosyScript);
 
             answer.add(cosyScript);
+
+
         }
 
         Logger.getLogger().info("size() = " + answer.size());

@@ -166,7 +166,7 @@ public class Vector3 {
     }
 
     public static Vector3 getXDirect(double x) {
-        return create(x,0,0);
+        return create(x, 0, 0);
     }
 
     public static Vector3 getYDirect() {
@@ -193,12 +193,25 @@ public class Vector3 {
         return this;
     }
 
+    public static Vector3 add(final Vector3 a, final Vector3 b) {
+        return Vector3.create(
+                a.x + b.x,
+                a.y + b.y,
+                a.z + b.z
+        );
+    }
+
+    // final this and v
+    public Vector3 add(final Vector3 v) {
+        return Vector3.add(this, v);
+    }
+
     public static Vector3From from(Point3 source) {
         return new Vector3From(source);
     }
 
     public Vector2 toVector2() {
-        return Vector2.create(x,y);
+        return Vector2.create(x, y);
     }
 
     public static class Vector3From {

@@ -1172,7 +1172,13 @@ public class BaseUtils {
 
                 double average = doubleSummaryStatistics.getAverage();
 
-                if (Equal.isEqual(max, 0, 1e-5) && Equal.isEqual(min, 0, 1e-5) && Equal.isEqual(average, 0, 1e-5))
+                if (
+                        (
+                                Equal.isEqual(max, 0, 1e-5) &&
+                                        Equal.isEqual(min, 0, 1e-5)
+                        )
+                                || Equal.isEqual(average, 0, 1e-5)
+                )
                     return 0.0;
 
                 return Math.abs((max - min) / average);

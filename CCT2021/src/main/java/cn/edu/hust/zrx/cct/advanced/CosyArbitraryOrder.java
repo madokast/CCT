@@ -66,16 +66,9 @@ public class CosyArbitraryOrder {
                 double ypContribution = Double.parseDouble(ypContributionString);
                 yp += ypContribution * contributionBy;
 
+                /*|||||||||||||||计算各矩阵项目贡献|||||||||||||||||*/
 //                System.out.println(
-//                        String.format("Order[%s]x[%2.4e]xp[%2.4e]y[%2.4e]yp[%2.4e]",
-//                                contributionDescribing,xContribution * contributionBy,
-//                                xpContribution * contributionBy,yContribution * contributionBy,
-//                                ypContribution * contributionBy
-//                        )
-//                );
-
-//                System.out.println(
-//                        String.format("%s\t%2.4e\t%2.4e\t%2.4e\t%2.4e",
+//                        String.format("%s\t%+2.4e\t%+2.4e\t%+2.4e\t%+2.4e",
 //                                contributionDescribing,xContribution * contributionBy,
 //                                xpContribution * contributionBy,yContribution * contributionBy,
 //                                ypContribution * contributionBy

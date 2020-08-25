@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 public class C20200521六极场改变 {
 
 
-    @run(1)
+    @run(10)
     public void 美味的相椭圆(){
         Elements elementsOfAll = getElementsOfAll();
         Trajectory trajectory = getTrajectory();
