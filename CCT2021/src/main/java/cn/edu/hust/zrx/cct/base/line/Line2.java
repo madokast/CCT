@@ -6,12 +6,9 @@ import cn.edu.hust.zrx.cct.base.point.Point2To3;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
+import cn.edu.hust.zrx.cct.base.python.PlotAble3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 
-import javax.sound.sampled.Line;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +41,7 @@ import java.util.stream.Collectors;
  * @since 2020年2月10日
  */
 
-public interface Line2 {
+public interface Line2 extends PlotAble3d {
     /**
      * 线长度
      *
@@ -70,6 +67,31 @@ public interface Line2 {
      * @since 2020年2月10日
      */
     Vector2 directAt(double s);
+
+    /*---------------------改变长度---------------------*/
+    default Line2 resetLength(double newLength) {
+
+        final Line2 agent = this;
+
+        return new Line2() {
+            private final Line2 delegate = agent;
+
+            @Override
+            public double getLength() {
+                return newLength;
+            }
+
+            @Override
+            public Point2 pointAt(double s) {
+                return delegate.pointAt(s);
+            }
+
+            @Override
+            public Vector2 directAt(double s) {
+                return delegate.directAt(s);
+            }
+        };
+    }
 
 
     /*------------------------------default方法--------------------*/
@@ -403,4 +425,5 @@ public interface Line2 {
             }
         };
     }
+
 }

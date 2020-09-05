@@ -4,7 +4,9 @@ import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
+import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
+import cn.edu.hust.zrx.cct.base.python.PlotAble3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
 import java.io.File;
@@ -14,7 +16,7 @@ import java.util.List;
 /**
  * 单层CCT
  */
-public class SoleLayerCct implements MagnetAble {
+public class SoleLayerCct implements MagnetAble, PlotAble3d {
     public final List<Point3> windings;
     public final double I;
 
@@ -27,6 +29,11 @@ public class SoleLayerCct implements MagnetAble {
     public SoleLayerCct(List<Point3> windings, double i) {
         this.windings = windings;
         I = i;
+    }
+
+    @Override
+    public void plot3d() {
+        plot3(Plot2d.RED_LINE);
     }
 
     /**

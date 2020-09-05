@@ -250,7 +250,7 @@ public class A0522初步 {
 
                     Vector2 direct = ip.getVelocity().toVector2();
 
-                    double ang = direct.angleTo(direct0);
+                    double ang = direct.angleToInRadian(direct0);
 
                     return Point2.create(I, ang);
 

@@ -2208,6 +2208,9 @@ public class A0824PSI方法优化后偏转段 {
     @Run(101)
     public void 移动QS磁铁() {
 
+        QS3_GRADIENT = 3.1809333; // 没有用啊
+
+
         Trajectory trajectoryPart2 = getTrajectoryPart2();
 
         double mid = DL2 + dipoleCct345BigR * BaseUtils.Converter.angleToRadian(dipoleCct345Angle) + GAP3 + QS3_LEN / 2;
@@ -2258,7 +2261,7 @@ public class A0824PSI方法优化后偏转段 {
         phase相椭圆画图(
                 trajectoryPart2.getLength(),
                 true,
-                -0.0 * PRESENT,
+                5.0 * PRESENT,
                 32,
                 true,
                 1.0,

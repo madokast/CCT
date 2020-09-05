@@ -1,10 +1,8 @@
 package cn.edu.hust.zrx.cct.base.cct;
 
-import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
-import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
@@ -105,7 +103,7 @@ public class CctFactory {
 
         Cct move = originCct.move(newCenter.toVector3());
 
-        return move.rotateInXYPlane(newCenter.toPoint2(), yDirect.angleTo(direct));
+        return move.rotateInXYPlane(newCenter.toPoint2(), yDirect.angleToInRadian(direct));
 
     }
 

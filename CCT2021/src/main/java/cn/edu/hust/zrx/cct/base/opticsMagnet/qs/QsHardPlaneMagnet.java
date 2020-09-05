@@ -7,6 +7,7 @@ import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
+import cn.edu.hust.zrx.cct.base.python.PlotAble3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
@@ -25,7 +26,7 @@ import java.util.stream.IntStream;
  * @version 1.0
  */
 
-public class QsHardPlaneMagnet implements MagnetAble {
+public class QsHardPlaneMagnet implements MagnetAble, PlotAble3d {
     //硬边模型长度 m
     private double length_m;
     //梯度 四极场
@@ -234,5 +235,11 @@ public class QsHardPlaneMagnet implements MagnetAble {
                 });
 
 
+    }
+
+
+    @Override
+    public void plot3d() {
+        plot3d(Plot2d.BLUE_LINE);
     }
 }

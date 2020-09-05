@@ -9,5 +9,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Run {
     int value() default 0;
+
     String code() default "";
+
+    boolean validate() default true;
 }

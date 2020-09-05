@@ -130,7 +130,7 @@ public class A0619增大CCT孔径 {
                     Vector2 v2 = v3.toVector2().changeLengthSelf(1);
 
 
-                    double angle = yDirect.angleTo(v2);
+                    double angle = yDirect.angleToInRadian(v2);
 
                     return Point2.create(i, angle);
                 })

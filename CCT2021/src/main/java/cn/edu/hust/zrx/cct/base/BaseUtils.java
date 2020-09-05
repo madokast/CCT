@@ -1093,6 +1093,20 @@ public class BaseUtils {
 
     public static class Constant {
         public static final double LIGHT_SPEED = 299792458.0;
+
+        public static final double M = 1.;
+
+        public static final double MM = 1e-3 * M;
+
+        public static final double PRESENT = 1e-2;
+
+        public static final double A = 1.;
+
+        public static final double kA = 1e3 * A;
+
+        public static final double RAD = 1.;
+
+        public static final double MRAD = MM * RAD;
     }
 
     public static class Doubles {

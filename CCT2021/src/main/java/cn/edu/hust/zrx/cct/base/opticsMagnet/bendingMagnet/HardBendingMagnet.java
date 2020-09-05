@@ -202,8 +202,8 @@ public class HardBendingMagnet implements MagnetAble {
     public boolean isInTheMagnet(Point2 p) {
         Vector2 center2P = Vector2.from(center).to(p);
 
-        double angle2Starting = center2P.angleTo(center2StartingPoint);
-        double angle2Ending = center2P.angleTo(center2EndingPoint);
+        double angle2Starting = center2P.angleToInRadian(center2StartingPoint);
+        double angle2Ending = center2P.angleToInRadian(center2EndingPoint);
 
 //        Logger.getLogger().info("angle2Starting = " + angle2Starting);
 //        Logger.getLogger().info("angle2Ending = " + angle2Ending);

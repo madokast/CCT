@@ -5,6 +5,7 @@ import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
+import cn.edu.hust.zrx.cct.base.python.PlotAble3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.Objects;
 /**
  * 各种CCT
  */
-public class Cct implements MagnetAble {
+public class Cct implements MagnetAble, PlotAble3d {
     public final List<SoleLayerCct> soleLayerCctList;
 
     /**
@@ -104,6 +105,11 @@ public class Cct implements MagnetAble {
 
         BaseUtils.StreamTools.forZeroToN(plotTimes)
                 .forEach(i -> this.soleLayerCctList.get(i).plot3(temps[i]));
+    }
+
+    @Override
+    public void plot3d() {
+        plot3(Plot2d.RED_LINE);
     }
 
     public int cctLayerNumber() {

@@ -1,7 +1,6 @@
 package cn.edu.hust.zrx.cct.base.vector;
 
 import cn.edu.hust.zrx.cct.base.point.Point2;
-import org.apache.commons.math3.analysis.function.Acos;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -261,13 +260,27 @@ public class Vector2 {
     /**
      * 计算 this 到 v2 的夹角。弧度制
      * 取值范围 [0, pi]
+     * <p>
+     * 2020年9月4日 —— 发现bug
+     * 代码中 theta 得到一个大于 0 的数（theta = 1.0000000000000002）
+     * 导致 FastMath.acos(theta) = NaN
+     * 查 arccos 函数，果然在 [-1,1] 之外没有定义
+     * 不打算解决这个问题，只是写下来
+     *
+     *
      * @param v2 矢量
      * @return this 到 v2 的夹角
      */
-    public double angleTo(Vector2 v2){
-        double theta = this.dot(v2)/(this.length()*v2.length());
+    public double angleToInRadian(Vector2 v2) {
+        double theta = this.dot(v2) / (this.length() * v2.length());
 
-        return FastMath.acos(theta);
+//        System.out.println("theta = " + theta);
+
+        double acos = FastMath.acos(theta);
+
+//        System.out.println("acos = " + acos);
+
+        return acos;
     }
 
 

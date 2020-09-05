@@ -493,6 +493,10 @@ public class Plot2d {
         }
     }
 
+    public static void legend(int size, List<String> labels) {
+        legend(size, labels.toArray(String[]::new));
+    }
+
     public static void grid() {
         if (pyPrintWriter != null) {
             pyPrintWriter.println("plt.grid()");
