@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Description
@@ -35,5 +37,26 @@ public class BaseUtilsTest {
     @Test
     public void repeat(){
         BaseUtils.StreamTools.repeat(5).forEach(System.out::println);
+    }
+
+
+    @Test
+    public void mapTest(){
+        BaseUtils.Content.BiContent<String, Integer> bi = BaseUtils.Content.BiContent.create("123", 321);
+
+        BaseUtils.Content.BiContent<String, String> bi2 = BaseUtils.Content.BiContent.map(bi, s -> s + s, i -> String.valueOf(i + 5));
+
+        Logger.getLogger().info("bi2 = " + bi2);
+    }
+
+    @Test
+    public void mapTest2(){
+        List<BaseUtils.Content.BiContent<Double, String>> bis = BaseUtils.Python.linspaceStream(0, 10, 10).mapToObj(
+                v -> BaseUtils.Content.BiContent.create(v, v + "")
+        ).collect(Collectors.toList());
+
+        List<BaseUtils.Content.BiContent<Integer, Double>> map = BaseUtils.Content.BiContent.map(bis, v -> (int) (v * 10), s -> Double.parseDouble(s) * 2);
+
+        map.forEach(System.out::println);
     }
 }

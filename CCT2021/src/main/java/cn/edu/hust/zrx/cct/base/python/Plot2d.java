@@ -564,5 +564,4 @@ public class Plot2d {
 
         return sb.toString();
     }
-
 }

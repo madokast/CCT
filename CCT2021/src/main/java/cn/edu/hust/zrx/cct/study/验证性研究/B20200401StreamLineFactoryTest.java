@@ -3,11 +3,8 @@ package cn.edu.hust.zrx.cct.study.验证性研究;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.line.StreamLineFactory;
-import cn.edu.hust.zrx.cct.base.particle.PhaseSpaceParticle;
-import cn.edu.hust.zrx.cct.base.particle.PhaseSpaceParticles;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
-import cn.edu.hust.zrx.cct.study.超导机架AGCCT单独建模.A0401QS磁铁tracking;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -18,7 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * Description

@@ -736,17 +736,24 @@ public class A0903前偏转段建模 {
         Plot2d.showThread();
     }
 
-    @Run(value = 6, validate = false) // 完了
+    @Run(value = 6, validate = true) // 完了
     public void 前段粒子跟踪() {
+
+
+        agCct12BigR = 0.95 + 0.1875 * MM * 0.0;
+
+        dipoleCct12A1Inner = Math.pow(dipoleCct12SmallRInner, 2) * 0.25 * 0.0;
+        dipoleCct12A1Outer = -Math.pow(dipoleCct12SmallROuter, 2) * 0.25 * 0.0;
+
         Line2 trajectoryPart1 = getTrajectoryPart1();
 
         Elements elementsOfAllPart1 = getElementsOfAllPart1();
 
-        trajectoryPart1 = trajectoryPart1.resetLength(DL1 + CCT12_LENGTH + GAP1);
+//        trajectoryPart1 = trajectoryPart1.resetLength(DL1 + CCT12_LENGTH + GAP1);
 
-        Logger.getLogger().info("DL1 = " + DL1);
-        Logger.getLogger().info("CCT12_LENGTH = " + CCT12_LENGTH);
-        Logger.getLogger().info("GAP1 = " + GAP1);
+//        Logger.getLogger().info("DL1 = " + DL1);
+//        Logger.getLogger().info("CCT12_LENGTH = " + CCT12_LENGTH);
+//        Logger.getLogger().info("GAP1 = " + GAP1);
 
         Logger.getLogger().info("trajectoryPart1 = " + trajectoryPart1.describe());
 
@@ -754,12 +761,12 @@ public class A0903前偏转段建模 {
                 trajectoryPart1.getLength(),
                 true, 0 * PRESENT,
                 32, true,
-                1e-3,
-                Elements.of(getCct12_1()),
+                1.,
+                Elements.of(elementsOfAllPart1),
                 trajectoryPart1,
                 512, 5,
                 List.of(
-                        BaseUtils.Content.BiContent.create("part 1 before First QS1", COSY_MAP.part1beforeFirstQS1.map)
+                        BaseUtils.Content.BiContent.create("part 1", COSY_MAP.part1Optics.map)
                 )
         );
 
@@ -822,13 +829,13 @@ public class A0903前偏转段建模 {
         Plot2d.showThread();
     }
 
-    @Run(10)
-    public void 消除二极CCT四极场(){
+    @Run(value = 10000, validate = false) // k=0.25
+    public void 消除二极CCT四极场() {
 
         Line2 line2 = getTrajectoryPart1().resetLength(DL1 + CCT12_LENGTH + GAP1);
 
         agCct12IInner = 0;
-        agCct12IOuter  = 0;
+        agCct12IOuter = 0;
 
         //    private double dipoleCct12A1Inner = Math.pow(dipoleCct12SmallRInner, 2) * 0.225;
         //    private double dipoleCct12A1Outer = -Math.pow(dipoleCct12SmallROuter, 2) * 0.225;
@@ -868,16 +875,134 @@ public class A0903前偏转段建模 {
                 .collect(Collectors.toList())
                 .toArray(String[]::new);
 
-        Plot2d.info("s/m","T/m","二极CCT四极场",18);
+        Plot2d.info("s/m", "T/m", "二极CCT四极场", 18);
 
-        Plot2d.legend(18,des);
+        Plot2d.legend(18, des);
 
         Plot2d.showThread();
     }
 
-    @Run(11)
-    public void 调整四极CCT偏转半径(){
-        // TODO
+    @Run(value = 11000, validate = false) // 950mm + 0.1875mm
+    public void 调整四极CCT偏转半径() {
+        dipoleCct12IOuter = 0;
+        dipoleCct12IInner = 0;
+
+        final double agCct12BigR0 = 0.95;
+
+        Line2 line2 = getTrajectoryPart1().resetLength(DL1 + CCT12_LENGTH + GAP1);
+
+        List<String> des = BaseUtils.Python.linspaceStream(agCct12BigR0 - 0. * MM, agCct12BigR0 + 0.3 * MM, switcher.getSize())
+                .sequential()
+                .mapToObj(R -> {
+                    agCct12BigR = R;
+                    Cct cct = getCct12_1();
+
+                    return BaseUtils.Content.BiContent.create(R, cct);
+                }).collect(Collectors.toList())
+                .stream()
+                .parallel()
+                .map(bi -> {
+                    Cct cct = bi.getT2();
+                    Double r = bi.getT1();
+
+                    List<Point2> bz = cct.magnetBzAlongTrajectory(line2);
+
+                    return BaseUtils.Content.BiContent.create(r, bz);
+                }).collect(Collectors.toList())
+                .stream()
+                .sequential()
+                .sorted(Comparator.comparingDouble(BaseUtils.Content.BiContent::getT1))
+                .peek(bi -> {
+                    Plot2d.plot2(bi.getT2(), switcher.getAndSwitch());
+                }).map(BaseUtils.Content.BiContent::getT1)
+                .map(r -> "R=" + r)
+                .collect(Collectors.toList());
+
+
+        Plot2d.info("s/m", "T", "四极CCT二极场", 18);
+
+        Plot2d.legend(18, des);
+
+        Plot2d.showThread();
+
+    }
+
+    @Run(value = 12, validate = true) // ok
+    public void 前段粒子跟踪仅仅第一个CCT() {
+        agCct12BigR = 0.95;
+//        agCct12BigR = 0.95 + 0.1875 * MM;
+
+//        dipoleCct12A1Inner = Math.pow(dipoleCct12SmallRInner, 2) * 0.25;
+//        dipoleCct12A1Outer = -Math.pow(dipoleCct12SmallROuter, 2) * 0.25;
+
+        dipoleCct12A1Inner = Math.pow(dipoleCct12SmallRInner, 2) * 0.225;
+        dipoleCct12A1Outer = -Math.pow(dipoleCct12SmallROuter, 2) * 0.225;
+
+//        dipoleCct12A1Inner = 0;
+//        dipoleCct12A1Outer = 0;
+
+
+        Line2 trajectoryPart1 = getTrajectoryPart1();
+
+       // Elements elementsOfAllPart1 = getElementsOfAllPart1();
+
+        trajectoryPart1 = trajectoryPart1.resetLength(DL1 + CCT12_LENGTH + GAP1);
+
+        Logger.getLogger().info("DL1 = " + DL1);
+        Logger.getLogger().info("CCT12_LENGTH = " + CCT12_LENGTH);
+        Logger.getLogger().info("GAP1 = " + GAP1);
+
+        Logger.getLogger().info("trajectoryPart1 = " + trajectoryPart1.describe());
+
+        phase相椭圆画图(
+                trajectoryPart1.getLength(),
+                true, 0 * PRESENT,
+                32, false,
+                1.,
+                Elements.of(getCct12_1()),
+                trajectoryPart1,
+                512, 5,
+                List.of(
+                        BaseUtils.Content.BiContent.create("part 1 before First QS1", COSY_MAP.part1beforeFirstQS1.map)
+                )
+        );
+
+//        track多粒子3d(
+//                32,
+//                0 * PRESENT,
+//                trajectoryPart1,
+//                trajectoryPart1.getLength(),
+//                elementsOfAllPart1,
+//                true
+//        ).forEach(point3s -> Plot3d.plot3(point3s, Plot2d.GREY_DASH));
+//
+//        trajectoryPart1.plot3d(Plot2d.BLACK_LINE);
+//
+//        elementsOfAllPart1.plot3d();
+//
+//        Plot3d.setCenter(Point3.create(2, 2, 0), 4);
+//
+//        Plot3d.offAxisAndBgColor();
+//
+//        Plot3d.removeAxis();
+//
+//        Plot3d.showThread();
+    }
+
+
+    @Run(value = 6, validate = false) // 完了
+    public void 前段粒子跟踪track图() {
+        Line2 trajectoryPart1 = getTrajectoryPart1();
+
+        Elements elementsOfAllPart1 = getElementsOfAllPart1();
+
+
+        track多粒子并画图(32,
+                0, trajectoryPart1,
+                trajectoryPart1.getLength(),
+                elementsOfAllPart1,
+                true
+        );
     }
 
     // ------------------- method ----------------
@@ -1593,7 +1718,7 @@ public class A0903前偏转段建模 {
     private final double trajectoryBigRPart2 = 0.95;
     private final double dipoleCct12BigR = 0.95;
     private final double dipoleCct345BigR = 0.95;
-    private double agCct12BigR = 0.95;
+    private double agCct12BigR = 0.95 + 0.1875 * MM;
     private double agCct345BigR = 0.95;
 
     // 初始绕线位置
@@ -1664,7 +1789,7 @@ public class A0903前偏转段建模 {
     private double[] agCct345A2Inners = BaseUtils.ArrayUtils.repeat(0.0, 3);
     private double[] agCct345A2Outers = BaseUtils.ArrayUtils.repeat(0.0, 3);
 
-    // 匝数 TODO
+    // 匝数
     private final int dipoleCct12WindingNumber = 71;
     private final int agCctWindingNumber1 = 30;
     private final int agCctWindingNumber2 = 39; // sum = 69
@@ -1678,7 +1803,7 @@ public class A0903前偏转段建模 {
     private final double dipoleCct12Angle = 22.5;
     private final double agCctAngle1 = 22.5 * agCctWindingNumber1 / (agCctWindingNumber1 + agCctWindingNumber2);//9.782608695652174
     private final double agCctAngle2 = 22.5 * agCctWindingNumber2 / (agCctWindingNumber1 + agCctWindingNumber2);//12.717391304347826
-    // TODO
+    //
     private final double dipoleCct345Angle = 67.5;
     private final double agCctAngle3 = 0.0;
     private final double agCctAngle4 = 0.0;
@@ -1702,7 +1827,7 @@ public class A0903前偏转段建模 {
     private final double CCT345_LENGTH_PART4 = trajectoryBigRPart2 * BaseUtils.Converter.angleToRadian(agCctAngle4);
     private final double CCT345_LENGTH_PART5 = trajectoryBigRPart2 * BaseUtils.Converter.angleToRadian(agCctAngle5);
 
-    // 电流 TODO
+    // 电流
     private double dipoleCct12IInner = 6191.87824; // 求解获得 2020年9月5日
     private double dipoleCct12IOuter = dipoleCct12IInner;
     private double agCct12IInner = -3319.43418579895;// 观察图像活得 2020年9月5日

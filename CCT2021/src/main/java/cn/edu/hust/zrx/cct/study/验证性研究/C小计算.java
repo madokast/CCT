@@ -3,7 +3,6 @@ package cn.edu.hust.zrx.cct.study.验证性研究;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.particle.Protons;
-import cn.edu.hust.zrx.cct.study.前45偏转段.A20200416强行消除左手磁场;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

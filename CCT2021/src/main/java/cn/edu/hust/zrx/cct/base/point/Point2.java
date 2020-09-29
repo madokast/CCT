@@ -12,6 +12,8 @@ import java.util.function.DoubleFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.MM;
+
 /**
  * Description
  * 二维坐标的点
@@ -384,6 +386,10 @@ public class Point2 implements Cloneable, Serializable, Comparable<Point2> {
                                  double xScale,
                                  double yScale) {
         return convert(p, (x, y) -> x * xScale, (x, y) -> y * yScale);
+    }
+
+    public static List<Point2> mm2mmm(List<Point2> mm) {
+        return Point2.convert(mm, 1, 1 / MM);
     }
 
 

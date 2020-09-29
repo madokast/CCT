@@ -6,8 +6,6 @@ import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 
 import java.io.*;
 import java.lang.reflect.Array;
@@ -15,6 +13,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -729,6 +728,14 @@ public class BaseUtils {
 
             return list;
         }
+
+        @SafeVarargs
+        public static <E> List<E> append(List<E> list, E... es) {
+            ArrayList<E> ret = new ArrayList<>(list);
+            ret.addAll(Arrays.asList(es));
+
+            return ret;
+        }
     }
 
     public static class Switcher<Obj> {
@@ -813,6 +820,38 @@ public class BaseUtils {
                 return create(t1List, t2List);
             }
 
+            public static <T1, T2> List<BiContent<T1, T2>> createList(List<T1> t1List, List<T2> t2List) {
+                int s1 = t1List.size();
+                int s2 = t2List.size();
+
+                int s = Math.min(s1, s2);
+
+                List<BiContent<T1, T2>> ans = new ArrayList<>(s1);
+
+                for (int i = 0; i < s; i++) {
+                    T1 t1 = t1List.get(i);
+                    T2 t2 = t2List.get(i);
+
+                    ans.add(create(t1, t2));
+                }
+
+                return ans;
+            }
+
+            // 2020年9月17日
+            public static <T1, T2, R1, R2> BiContent<T1, T2> map(BiContent<R1, R2> origin,
+                                                                 Function<R1, T1> map0, Function<R2, T2> map1) {
+                return BiContent.create(
+                        map0.apply(origin.getT1()),
+                        map1.apply(origin.getT2())
+                );
+            }
+
+            public static <T1, T2, R1, R2> List<BiContent<T1, T2>> map(List<BiContent<R1, R2>> origin,
+                                                                       Function<R1, T1> map0, Function<R2, T2> map1) {
+                return origin.stream().map(bi -> map(bi, map0, map1)).collect(Collectors.toList());
+            }
+
             public T1 getT1() {
                 return t1;
             }
@@ -829,6 +868,12 @@ public class BaseUtils {
                 this.t2 = t2;
             }
 
+            public void setT2If(Predicate<T2> p, T2 newVal) {
+                if (p.test(this.t2)) {
+                    this.t2 = newVal;
+                }
+            }
+
             @Override
             public String toString() {
                 return toStringWithInfo(t1.getClass().getName(), t2.getClass().getName());
@@ -836,6 +881,13 @@ public class BaseUtils {
 
             public String toStringWithInfo(String infoT1, String infoT2) {
                 return "[" + infoT1 + " = " + t1.toString() + ", " + infoT2 + " = " + t2.toString() + "]";
+            }
+
+            public static Point2 doubleDoubleBiContentToPoint2(BiContent<Double, Double> doubleDoubleBiContent) {
+                return Point2.create(
+                        doubleDoubleBiContent.getT1(),
+                        doubleDoubleBiContent.getT2()
+                );
             }
         }
 
@@ -1139,6 +1191,14 @@ public class BaseUtils {
                 return str.substring(0, length);
             }
 
+        }
+
+        public static double max(Collection<Double> doubles) {
+            return doubles.stream().mapToDouble(Double::doubleValue).max().orElseThrow();
+        }
+
+        public static double min(Collection<Double> doubles) {
+            return doubles.stream().mapToDouble(Double::doubleValue).min().orElseThrow();
         }
     }
 
