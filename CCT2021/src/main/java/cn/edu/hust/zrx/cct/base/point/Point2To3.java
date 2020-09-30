@@ -35,6 +35,11 @@ public interface Point2To3 extends Function<Point2, Point3> {
             this.smallR = smallR;
         }
 
+        /**
+         * refer Superconducting toroidal combined-function magnet for a compact ion
+         * beam cancer therapy gantry
+         * @return 二维 theta phi 到三维映射
+         */
         @Override
         public Point3 convert(Point2 p) {
             return Point3.create(

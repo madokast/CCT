@@ -8,10 +8,7 @@ import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
 import cn.edu.hust.zrx.cct.base.cct.Elements;
 import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
-import cn.edu.hust.zrx.cct.base.line.Arcs;
-import cn.edu.hust.zrx.cct.base.line.Line2;
-import cn.edu.hust.zrx.cct.base.line.Trajectory;
-import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
+import cn.edu.hust.zrx.cct.base.line.*;
 import cn.edu.hust.zrx.cct.base.opticsMagnet.qs.QsHardPlaneMagnet;
 import cn.edu.hust.zrx.cct.base.particle.*;
 import cn.edu.hust.zrx.cct.base.point.Point2;
@@ -1576,7 +1573,7 @@ public class A0906廖益诚机架后偏转段建模 {
                     MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
 
                     List<Point2> list = CctUtils.trackingPhaseEllipse(trajectoryPart2.getLength(),
-                            xPlane, -7* PRESENT, 16, false,
+                            xPlane, -7 * PRESENT, 16, false,
                             1, elementsOfAllPart2, trajectoryPart2);
 
                     Plot2d.plot2circle(list, switcher.getAndSwitch());
@@ -1648,7 +1645,7 @@ public class A0906廖益诚机架后偏转段建模 {
         Plot2d.showThread();
     }
 
-    @Run(value = 1000,validate = false)
+    @Run(value = 1000, validate = false)
     public void 前偏转段的关键() {
 //        agCct12BigR = 0.95;
 //
@@ -1791,6 +1788,81 @@ public class A0906廖益诚机架后偏转段建模 {
 
         Plot2d.showThread();
 
+    }
+
+    // CCT 近物所 文档
+    @Run(10000)
+    public void cct345画图() {
+
+        Cct dipoleCct345 = createDipoleCct345();
+        Cct agCct345 = createAgCct345();
+
+        dipoleCct345.plot3(BaseUtils.ArrayUtils.repeat(",'b',linewidth=0.1,alpha=0", 2));
+
+        agCct345.plot3(BaseUtils.ArrayUtils.repeat(2, ",'r',linewidth=0.1", ",'g',linewidth=0.1", ",'r',linewidth=0.1"));
+
+        Plot3d.setCenter(BaseUtils.Geometry.unitCircle(BaseUtils.Converter.angleToRadian(67.5 / 2)).toVector2().changeLengthSelf(0.95).toPoint2().toPoint3(),
+                1.0);
+
+        Plot3d.offBgColor();
+
+        Plot3d.showThread();
+    }
+
+    @Run(value = 10001, validate = false)
+    public void 理想磁场分布() {
+        if (false) {
+            Plot2d.plot2(List.of(
+                    Point2.create(-20, 0),
+                    Point2.create(0, 0),
+                    Point2.create(0, 2.43 / 0.95),
+                    Point2.create(67.5, 2.43 / 0.95),
+                    Point2.create(67.5, 0),
+                    Point2.create(67.5 + 20, 0)
+            ), Plot2d.GREEN_LINE);
+
+            Plot2d.plot2(List.of(
+                    Point2.create(-20, 0),
+                    Point2.create(0, 0),
+                    Point2.create(0, 17.466),
+                    Point2.create(8 + 4.386, 17.466),
+                    Point2.create(8 + 4.386, -17.466),
+                    Point2.create(8 + 4.386 + 8 + 19.344, -17.466),
+                    Point2.create(8 + 4.386 + 8 + 19.344, 17.466),
+                    Point2.create(8 + 4.386 + 8 + 19.344 + 8 + 19.770, 17.466),
+                    Point2.create(8 + 4.386 + 8 + 19.344 + 8 + 19.770, 0),
+                    Point2.create(67.5 + 20, 0)
+            ), Plot2d.BLUE_DASH);
+        }
+
+        if (true) {
+
+            Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+            Line2 line2 = trajectoryPart2.resetLength(DL2 + CCT345_LENGTH + DL2);
+
+
+            Cct cct345_1 = getCct345_1();
+
+            List<List<Point2>> m = cct345_1.multiplePoleMagnetAlongTrajectoryBreak(line2, MM,
+                    10 * MM, 1, 6);
+
+            List<Point2> b = m.get(0);
+            List<Point2> g = m.get(1);
+
+            b = Point2.convert(b,x->(x-DL2)*67.5/CCT345_LENGTH,Function.identity()).stream().filter(p->p.x>=-20&&p.x<=67.5+20).collect(Collectors.toList());
+            g = Point2.convert(g,x->(x-DL2)*67.5/CCT345_LENGTH,Function.identity()).stream().filter(p->p.x>=-20&&p.x<=67.5+20).collect(Collectors.toList());
+
+
+
+            Plot2d.plot2(b, Plot2d.GREEN_LINE);
+
+            Plot2d.plot2(g, Plot2d.BLUE_DASH);
+        }
+
+        Plot2d.legend(18, "dipole CCT", "AG-CCT");
+
+        Plot2d.showThread();
     }
 
     // ------------------- method ----------------

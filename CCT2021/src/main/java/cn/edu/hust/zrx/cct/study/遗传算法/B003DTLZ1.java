@@ -1,6 +1,7 @@
 package cn.edu.hust.zrx.cct.study.遗传算法;
 
 import cn.edu.hust.zrx.cct.base.point.Point3;
+import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import io.jenetics.DoubleGene;
 import io.jenetics.Mutator;
@@ -79,7 +80,7 @@ public class B003DTLZ1 {
 
     public static void main(String[] args) {
         List<Point3> point3s = engine.stream()
-                .limit(2500)
+                .limit(25000)
                 .collect(MOEA.toParetoSet(IntRange.of(1000, 1100)))
                 .map(Phenotype::fitness)
                 .asList()
@@ -88,7 +89,7 @@ public class B003DTLZ1 {
                 .map(v -> Point3.create(v[0], v[1], v[2]))
                 .collect(Collectors.toList());
 
-        Plot3d.plot3(point3s);
+        Plot3d.plot3(point3s, Plot2d.BLUE_POINT);
 
         Plot3d.showThread();
     }

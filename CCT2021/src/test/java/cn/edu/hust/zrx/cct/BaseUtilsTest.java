@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
  * @version 1.0
  */
 
-@SpringBootTest
+
 public class BaseUtilsTest {
     @Test
     public void streamCombineTest(){
@@ -58,5 +58,18 @@ public class BaseUtilsTest {
         List<BaseUtils.Content.BiContent<Integer, Double>> map = BaseUtils.Content.BiContent.map(bis, v -> (int) (v * 10), s -> Double.parseDouble(s) * 2);
 
         map.forEach(System.out::println);
+    }
+
+    @Test
+    public void repeatTest(){
+        BaseUtils.Equal.requireEqual(
+                new String[]{"a","a","a"},
+                BaseUtils.ArrayUtils.repeat(3,"a")
+        );
+
+        BaseUtils.Equal.requireEqual(
+                new String[]{"a","b","a","b"},
+                BaseUtils.ArrayUtils.repeat(2,"a","b")
+        );
     }
 }

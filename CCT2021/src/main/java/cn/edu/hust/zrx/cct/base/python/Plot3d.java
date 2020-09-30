@@ -123,6 +123,20 @@ public class Plot3d {
         });
     }
 
+    public static void offBgColor(){
+        prepareHead();
+        try {
+            pyPrintWriter.println("""
+                    ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+                    ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+                    ax.w_zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+                    """);
+        }catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
     public static void offAxisAndBgColor(){
         prepareHead();
         try {

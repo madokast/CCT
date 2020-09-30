@@ -213,6 +213,10 @@ public class BaseUtils {
             requireFalse(isEqual(a, 0.0), msg);
         }
 
+        public static void requireNonzero(int a, String msg) {
+            requireFalse(isEqual(a, 0), msg);
+        }
+
         public static void requireNonzero(double a) {
             requireFalse(isEqual(a, 0.0), a + " = 0!");
         }
@@ -224,6 +228,20 @@ public class BaseUtils {
         public static void requireEqual(int a, int b) {
             if (!isEqual(a, b))
                 throw new RuntimeException(a + "不等于" + b);
+        }
+
+        public static void requireEqual(Object a, Object b, String msg) {
+            if (a instanceof Object[] && b instanceof Object[]) {
+                if (!Arrays.deepEquals((Object[]) a, (Object[]) b)) {
+                    throw new RuntimeException(msg);
+                }
+            } else if (!Objects.equals(a, b)) {
+                throw new RuntimeException(msg);
+            }
+        }
+
+        public static void requireEqual(Object a, Object b) {
+            requireEqual(a, b, a + "不等于" + b);
         }
     }
 
@@ -514,6 +532,28 @@ public class BaseUtils {
             Arrays.fill(ret, item);
 
             return ret;
+        }
+
+        @SuppressWarnings("unchecked")
+        public static <T> T[] repeat(T item, int times) {
+            Equal.requireTrue(times >= 0, "ArrayUtils#repeat times应大于0", times);
+            T[] ret = (T[]) Array.newInstance(item.getClass(), times);
+            Arrays.fill(ret, item);
+
+            return ret;
+        }
+
+        @SuppressWarnings("unchecked")
+        public static <T> T[] repeat(int times, T... items) {
+            Equal.requireTrue(times >= 0, "ArrayUtils#repeat times应大于0", times);
+            int itemsLen = items.length;
+            Equal.requireNonzero(itemsLen, "T...items 不能为0");
+
+            return StreamTools.repeat(times)
+                    .mapToObj(ig -> items)
+                    .flatMap(Stream::of)
+                    .collect(Collectors.toList())
+                    .toArray((T[]) Array.newInstance(items[0].getClass(), times * itemsLen));
         }
 
         public static double[] add(double[] arr0, double[] arr1) {
@@ -1140,7 +1180,20 @@ public class BaseUtils {
             return ellipsePointTheta(A, B, C, D, theta);
         }
 
+        /**
+         * 单位圆（极坐标）
+         * 返回：极坐标(r=1,phi=phi)的点的直角坐标(x,y)
+         * 核心方法
+         *
+         * @param phi 极坐标phi
+         * @return 单位圆上的一点
+         */
+        public static Point2 unitCircle(double phi) {
+            double x = Math.cos(phi);
+            double y = Math.sin(phi);
 
+            return Point2.create(x, y);
+        }
     }
 
     public static class Constant {
