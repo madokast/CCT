@@ -22,6 +22,30 @@ import java.util.stream.Collectors;
 
 public class CctFactory {
 
+    /**
+     * 创建弯转的二极CCT 包络绕线方向和绕线起点
+     * @param smallRInner 内层CCT 小半径 就是半孔径 单位 m
+     * @param smallROuter 外层CCT 小半径
+     * @param bigR 大半径 CCT中轴线的偏转半径 单位 m
+     * @param angle 偏转角度 角度制
+     * @param windingNumber 匝数
+     * @param a0BipolarInner 内层CCT的绕线方程 参数 a0
+     * @param a1QuadrupleInner 内层CCT的绕线方程 参数 a1
+     * @param a2SextupleInner 内层CCT的绕线方程 参数 a2
+     * @param IInner 内层CCT电流 安培
+     * @param a0BipolarOuter 外层CCT的绕线方程 参数 a0
+     * @param a1QuadrupleOuter 外层CCT的绕线方程 参数 a1
+     * @param a2SextupleOuter 外层CCT的绕线方程 参数 a2
+     * @param IOuter 外层CCT电流 安培
+     * @param numberPerWinding 每匝线圈 分解段数 越大则计算结果越准确
+     * @param startingθInner CCT路径方程由
+     * @param startingθOuter 外层初始绕线位置，即直线 CCT 中的 θ ,周期 2pi 函数
+     * @param startingφInner 类似直线 CCT 的 Z
+     * @param startingφOuter 类似直线 CCT 的 Z
+     * @param directθInner 绕线方向，true代表逆时针
+     * @param directθOuter 绕线方向，true代表逆时针
+     * @return 弯转的二极CCT
+     */
     @SuppressWarnings("all")
     public static Cct createDipoleCctDetailed(
             double smallRInner, double smallROuter, double bigR, double angle, int windingNumber,
@@ -50,6 +74,13 @@ public class CctFactory {
                 addSoleLayerCct(soleLayerCctOuter);
     }
 
+    /**
+     * @see CctFactory#createDipoleCctDetailed(double, double, double,
+     * double, int, double, double, double, double, double, double,
+     * double, double, int, double, double, double, double, boolean,
+     * boolean)
+     *
+     */
     @SuppressWarnings("all")
     public static Cct createAgCct(
             double smallRInner, double smallROuter, double bigR, double[] angles, int[] windingNumbers,

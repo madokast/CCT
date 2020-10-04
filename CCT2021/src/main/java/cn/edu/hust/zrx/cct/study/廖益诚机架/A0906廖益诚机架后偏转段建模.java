@@ -2,6 +2,8 @@ package cn.edu.hust.zrx.cct.study.廖益诚机架;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.*;
+import cn.edu.hust.zrx.cct.advanced.combined.GantryAnalysor;
+import cn.edu.hust.zrx.cct.advanced.combined.GantryData;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.annotation.Run;
 import cn.edu.hust.zrx.cct.base.cct.Cct;
@@ -16,11 +18,13 @@ import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
+import cn.hutool.log.Log;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -43,10 +47,10 @@ import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.*;
 @SuppressWarnings("all")
 public class A0906廖益诚机架后偏转段建模 {
 
-    enum COSY_MAP {
+    public static enum COSY_MAP {
         part1Optics, part1beforeFirstQS1, part2Optics;
 
-        CosyArbitraryOrder.CosyMapArbitraryOrder map;
+        public CosyArbitraryOrder.CosyMapArbitraryOrder map;
 
         static {
             part2Optics.map = CosyArbitraryOrder.readMap(
@@ -1793,25 +1797,51 @@ public class A0906廖益诚机架后偏转段建模 {
     // CCT 近物所 文档
     @Run(10000)
     public void cct345画图() {
+        agCct345IInner = 6500; // 9799 // 2020年6月11日 *0.995 = 7811. 2020年9月11日 改为 8171
+        agCct345IOuter = agCct345IInner;
+
+        agCct345A1Inners = BaseUtils.ArrayUtils.repeat(-Math.pow(agCct345SmallRInner, 2) * 8.27357747692306, 3);
+        agCct345A1Outers = BaseUtils.ArrayUtils.repeat(Math.pow(agCct345SmallROuter, 2) * 8.27357747692306, 3);
+
 
         Cct dipoleCct345 = createDipoleCct345();
         Cct agCct345 = createAgCct345();
 
-        dipoleCct345.plot3(BaseUtils.ArrayUtils.repeat(",'b',linewidth=0.1,alpha=0", 2));
+        dipoleCct345.plot3(BaseUtils.ArrayUtils.repeat(1, ",'b',linewidth=0.5", ",'navy',linewidth=0.5"));
+//        dipoleCct345.plot3(BaseUtils.ArrayUtils.repeat(",'b',linewidth=0.1,alpha=0", 2));
 
         agCct345.plot3(BaseUtils.ArrayUtils.repeat(2, ",'r',linewidth=0.1", ",'g',linewidth=0.1", ",'r',linewidth=0.1"));
+//        agCct345.plot3(BaseUtils.ArrayUtils.repeat(6, ",'b',linewidth=0.1,alpha=0"));
 
-        Plot3d.setCenter(BaseUtils.Geometry.unitCircle(BaseUtils.Converter.angleToRadian(67.5 / 2)).toVector2().changeLengthSelf(0.95).toPoint2().toPoint3(),
-                1.0);
+        Plot3d.setCenter(
+                BaseUtils.Geometry.unitCircle(BaseUtils.Converter.angleToRadian(67.5))
+                        .toVector2()
+                        .changeLengthSelf(0.95)
+                        .toPoint2()
+                        .toPoint3(),
+                1.0
+        );
 
-        Plot3d.offBgColor();
+        Plot3d.offAxisAndBgColor();
 
         Plot3d.showThread();
     }
 
     @Run(value = 10001, validate = false)
     public void 理想磁场分布() {
-        if (false) {
+
+        agCct345SmallRInner = 69 * MM;
+        agCct345SmallROuter = 79 * MM;
+        dipoleCct345SmallRInner = 89 * MM;
+        dipoleCct345SmallROuter = 99 * MM;
+
+        agCct345IInner = 6500; // 9799 // 2020年6月11日 *0.995 = 7811. 2020年9月11日 改为 8171
+        agCct345IOuter = agCct345IInner;
+
+        agCct345A1Inners = BaseUtils.ArrayUtils.repeat(-Math.pow(agCct345SmallRInner, 2) * 8.27357747692306, 3);
+        agCct345A1Outers = BaseUtils.ArrayUtils.repeat(Math.pow(agCct345SmallROuter, 2) * 8.27357747692306, 3);
+
+        if (true) {
             Plot2d.plot2(List.of(
                     Point2.create(-20, 0),
                     Point2.create(0, 0),
@@ -1850,9 +1880,8 @@ public class A0906廖益诚机架后偏转段建模 {
             List<Point2> b = m.get(0);
             List<Point2> g = m.get(1);
 
-            b = Point2.convert(b,x->(x-DL2)*67.5/CCT345_LENGTH,Function.identity()).stream().filter(p->p.x>=-20&&p.x<=67.5+20).collect(Collectors.toList());
-            g = Point2.convert(g,x->(x-DL2)*67.5/CCT345_LENGTH,Function.identity()).stream().filter(p->p.x>=-20&&p.x<=67.5+20).collect(Collectors.toList());
-
+            b = Point2.convert(b, x -> (x - DL2) * 67.5 / CCT345_LENGTH, Function.identity()).stream().filter(p -> p.x >= -20 && p.x <= 67.5 + 20).collect(Collectors.toList());
+            g = Point2.convert(g, x -> (x - DL2) * 67.5 / CCT345_LENGTH, Function.identity()).stream().filter(p -> p.x >= -20 && p.x <= 67.5 + 20).collect(Collectors.toList());
 
 
             Plot2d.plot2(b, Plot2d.GREEN_LINE);
@@ -1861,6 +1890,111 @@ public class A0906廖益诚机架后偏转段建模 {
         }
 
         Plot2d.legend(18, "dipole CCT", "AG-CCT");
+
+        Plot2d.showThread();
+    }
+
+    @Run(value = 10002, validate = false)
+    public void 参数() {
+        //private double dipoleCct345A0Inner = -dipoleCct345SmallRInner * Math.sqrt(3) / dipoleCct345BigR;
+
+        dipoleCct345SmallRInner = 89 * MM;
+
+        //dipoleCct345BigR = 0.95;
+
+
+        dipoleCct345A0Inner = -dipoleCct345SmallRInner * Math.sqrt(3) / dipoleCct345BigR;
+
+        Logger.getLogger().info("dipoleCct345A0Inner = " + dipoleCct345A0Inner);
+
+        dipoleCct345SmallROuter = 99 * MM;
+
+        dipoleCct345A0Outer = dipoleCct345SmallROuter * Math.sqrt(3) / dipoleCct345BigR;
+
+
+        Logger.getLogger().info("dipoleCct345A0Outer = " + dipoleCct345A0Outer);
+
+
+        dipoleCct345A1Inner = Math.pow(dipoleCct345SmallRInner, 2) * 0.25;
+        dipoleCct345A1Outer = -Math.pow(dipoleCct345SmallROuter, 2) * 0.25;
+
+        Logger.getLogger().info("dipoleCct345A1Inner = " + dipoleCct345A1Inner);
+
+
+        Logger.getLogger().info("dipoleCct345A1Outer = " + dipoleCct345A1Outer);
+
+        double tanA = 89 * MM / (-0.16226581249855798 * 0.95);
+
+        Logger.getLogger().info("tanA = " + tanA);
+
+        double al = Math.atan(tanA);
+        Logger.getLogger().info("Math.atan(tanA) = " + al);
+
+        double angle = BaseUtils.Converter.radianToAngle(al);
+
+        Logger.getLogger().info("angle = " + angle);
+
+        //------------------------------------------------------------------------
+
+        agCct345SmallRInner = 69 * MM;
+
+        agCct345SmallROuter = 79 * MM;
+
+        double agCct345A1Inner = BaseUtils.ArrayUtils.repeat(-Math.pow(agCct345SmallRInner, 2) * 8.27357747692306, 3)[0];
+        double agCct345A1Outer = BaseUtils.ArrayUtils.repeat(Math.pow(agCct345SmallROuter, 2) * 8.27357747692306, 3)[0];
+
+        Logger.getLogger().info("agCct345A1Inner = " + agCct345A1Inner);
+
+        Logger.getLogger().info("agCct345A1Outer = " + agCct345A1Outer);
+
+        double tanAIn = agCct345SmallRInner / (0.95 * agCct345A1Inner * 2);
+        double tanAOu = agCct345SmallROuter / (0.95 * agCct345A1Outer * 2);
+
+        Logger.getLogger().info("BaseUtils.Converter.radianToAngle(Math.atan(tanAIn)) = " + BaseUtils.Converter.radianToAngle(Math.atan(tanAIn)));
+        Logger.getLogger().info("BaseUtils.Converter.radianToAngle(Math.atan(tanAOu)) = " + BaseUtils.Converter.radianToAngle(Math.atan(tanAOu)));
+    }
+
+    @Run(10003)
+    public void 建模正确性(){
+
+        BaseUtils.Async async = new BaseUtils.Async();
+
+        async.execute(()->{
+            dipoleCct345IOuter=0;
+            dipoleCct345IInner=0;
+            agCct345BigR = 0.95;
+
+            MagnetAble elementsOfAllPart2 = getElementsOfAllPart2();
+
+            Trajectory trajectoryPart2 = getTrajectoryPart2();
+
+            List<Point2> list = elementsOfAllPart2.magnetBzAlongTrajectory(trajectoryPart2);
+
+            Plot2d.plot2(list,Plot2d.BLUE_LINE);
+        });
+
+        async.execute(()->{
+            GantryData.FirstPart firstPart = GantryAnalysor.defaultFirstPart();
+            Line2 trajectoryFirstPart = GantryAnalysor.getTrajectoryFirstPart(firstPart);
+
+            GantryData.SecondPart secondPart = GantryAnalysor.defaultSecondPart();
+
+            secondPart.dipoleCct345IInner=0;
+            secondPart.dipoleCct345IOuter=0;
+
+            MagnetAble magnetAble = GantryAnalysor.secondPartMagnetAble(
+                    trajectoryFirstPart.pointAtEnd(),trajectoryFirstPart.directAtEnd(),secondPart);
+
+            Line2 trajectorySecondPart = GantryAnalysor.getTrajectorySecondPart(
+                    trajectoryFirstPart.pointAtEnd(),trajectoryFirstPart.directAtEnd(),secondPart);
+
+            List<Point2> list1 = magnetAble.magnetBzAlongTrajectory(trajectorySecondPart);
+
+            Plot2d.plot2(list1,Plot2d.GREEN_LINE);
+        });
+
+        async.waitForAllFinish(1, TimeUnit.MINUTES);
+
 
         Plot2d.showThread();
     }
@@ -2616,8 +2750,8 @@ public class A0906廖益诚机架后偏转段建模 {
 
     private double agCct345SmallRInner = 23.5 * MM + 40 * MM;
     private double agCct345SmallROuter = 33.5 * MM + 40 * MM;
-    private final double dipoleCct345SmallRInner = 43 * MM + 40 * MM;
-    private final double dipoleCct345SmallROuter = 52 * MM + 40 * MM;
+    private double dipoleCct345SmallRInner = 43 * MM + 40 * MM;
+    private double dipoleCct345SmallROuter = 52 * MM + 40 * MM;
 
     // CCT a0 a1 a2
     private double dipoleCct12A0Inner = -dipoleCct12SmallRInner * Math.sqrt(3) / dipoleCct12BigR; // 2020年9月4日 调整后倾斜角为30度整
@@ -2695,6 +2829,7 @@ public class A0906廖益诚机架后偏转段建模 {
 
     private double dipoleCct345IInner = -6529.971375582991; // 2020年9月9日 -6738.987300872428 。2020年9月11日 改为 -6529.971375582991
     private double dipoleCct345IOuter = dipoleCct345IInner;
+    // 调至6500A，则a1调至
     private double agCct345IInner = 8171; // 9799 // 2020年6月11日 *0.995 = 7811. 2020年9月11日 改为 8171
     private double agCct345IOuter = agCct345IInner;
 

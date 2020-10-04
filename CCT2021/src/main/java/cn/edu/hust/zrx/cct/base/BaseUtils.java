@@ -1203,6 +1203,9 @@ public class BaseUtils {
 
         public static final double MM = 1e-3 * M;
 
+        public static final double CM = 1e-2 * M;
+
+
         public static final double PRESENT = 1e-2;
 
         public static final double A = 1.;

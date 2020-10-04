@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 各种CCT
@@ -25,6 +26,10 @@ public class Cct implements MagnetAble, PlotAble3d {
      */
     public Cct() {
         this.soleLayerCctList = new ArrayList<>();
+    }
+
+    private Cct(List<SoleLayerCct> soleLayerCctList) {
+        this.soleLayerCctList = soleLayerCctList;
     }
 
     /**
@@ -47,6 +52,10 @@ public class Cct implements MagnetAble, PlotAble3d {
     public Cct addCct(Cct cct) {
         this.soleLayerCctList.addAll(cct.soleLayerCctList);
         return this;
+    }
+
+    public Cct deepCopy() {
+        return new Cct(soleLayerCctList.stream().map(SoleLayerCct::deepCopy).collect(Collectors.toList()));
     }
 
     /**

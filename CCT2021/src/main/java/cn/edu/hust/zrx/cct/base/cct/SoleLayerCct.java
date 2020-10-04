@@ -11,7 +11,9 @@ import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 单层CCT
@@ -29,6 +31,10 @@ public class SoleLayerCct implements MagnetAble, PlotAble3d {
     public SoleLayerCct(List<Point3> windings, double i) {
         this.windings = windings;
         I = i;
+    }
+
+    public SoleLayerCct deepCopy() {
+        return new SoleLayerCct(windings.stream().map(Point3::copy).collect(Collectors.toList()), I);
     }
 
     @Override
