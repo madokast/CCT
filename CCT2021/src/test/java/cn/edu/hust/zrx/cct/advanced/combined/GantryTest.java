@@ -2,12 +2,11 @@ package cn.edu.hust.zrx.cct.advanced.combined;
 
 import cn.edu.hust.zrx.cct.advanced.CctUtils;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
-import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
-import cn.edu.hust.zrx.cct.study.廖益诚机架.A0906廖益诚机架后偏转段建模;
+import cn.edu.hust.zrx.cct.study.W廖益诚机架.A0906廖益诚机架后偏转段建模;
 
 import java.util.List;
 
@@ -33,9 +32,15 @@ class GantryTest {
             Line2 trajectorySecondPart = GantryAnalysor.getTrajectorySecondPart(
                     trajectoryFirstPart.pointAtEnd(),trajectoryFirstPart.directAtEnd(),secondPart);
 
-            List<Point2> list1 = CctUtils.trackingIdealParticle(trajectorySecondPart, trajectorySecondPart.getLength(), magnetAble, true);
+//            List<Point2> list1 = CctUtils.trackingIdealParticle(trajectorySecondPart, trajectorySecondPart.getLength(), magnetAble, true);
+//
+//            Plot2d.plot2(list1,Plot2d.GREEN_LINE);
 
-            Plot2d.plot2(list1,Plot2d.GREEN_LINE);
+            List<List<Point2>> lists = magnetAble.multiplePoleMagnetAlongTrajectoryBreak(trajectorySecondPart, 1e-3, 10e-3, 1, 4);
+
+            Plot2d.plot2(lists.get(0));
+
+            Plot2d.showThread();
         }
 
     }

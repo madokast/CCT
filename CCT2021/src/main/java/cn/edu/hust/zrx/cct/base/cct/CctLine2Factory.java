@@ -1,5 +1,8 @@
 package cn.edu.hust.zrx.cct.base.cct;
 
+import cn.edu.hust.zrx.cct.Logger;
+import cn.edu.hust.zrx.cct.advanced.MathFunction;
+
 /**
  * Description
  * CctLine2Factory
@@ -12,6 +15,19 @@ package cn.edu.hust.zrx.cct.base.cct;
  */
 
 public class CctLine2Factory {
+//    @Deprecated // 屎也要吃啊
+    public static MathFunction createCct2dPathFunction(double startingφ, double startingθ, double reversed,
+                                                       double n, double a0Inner, double a1Inner, double a2Inner) {
+        Logger.getLogger().info("startingφ{},startingθ{},reversed{}",startingφ,startingθ,reversed);
+
+        return θ -> startingφ
+                + ((θ - startingθ) * reversed) / n // 这里肯定是加号
+                + a0Inner * Math.sin(θ * reversed)
+                + a1Inner * Math.sin(2 * θ * reversed)
+                + a2Inner * Math.sin(3 * θ * reversed);
+    }
+
+
     /**
      * 非交变CCT构造工厂
      *

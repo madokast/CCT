@@ -49,6 +49,96 @@ public class GantryAnalysor {
     }
 
     /**
+     * data
+     * 0 qs3 四极场 -11.78
+     * 1 qs3 六极场 -87.25
+     * <p>
+     * 2 di in a0
+     * 3 di ou a0
+     * 4 di in a1
+     * 5 di ou a1
+     * 6 di in a2
+     * 7 di ou a2
+     * <p>
+     * 8 ag in a0
+     * 9 ag ou a0
+     * 10 ag in a1
+     * 11 ag ou a1
+     * 12 ag in a2
+     * 13 ag ou a2
+     * <p>
+     * 14 di current
+     * 15 ag current
+     *
+     * @param data
+     * @return
+     */
+    public static GantryData.SecondPart getSecondPart(double[/*16*/] data) {
+        SecondPart secondPart = defaultSecondPart();
+        //     * 0 qs3 四极场
+        //     * 1 qs3 六极场
+        //        public double QS3_GRADIENT = -11.78; // -11.78 T/m
+        //
+        //        // 注意，六极场梯度一直存在错误，实际值应该乘二。由陈庚发现于 2020年5月26日
+        //        public double QS3_SECOND_GRADIENT = -87.25 * 2.0 / 2.0; // -87.25 * 2.0 / 2.0 T/m2
+        secondPart.QS3_GRADIENT = data[0];
+        secondPart.QS3_SECOND_GRADIENT = data[1];
+
+        //     * 2 di in a0
+        //     * 3 di ou a0
+        //     * 4 di in a1
+        //     * 5 di ou a1
+        //     * 6 di in a2
+        //     * 7 di ou a2
+        //        public double dipoleCct345A0Inner = -dipoleCct345SmallRInner * Math.sqrt(3) / dipoleCct345BigR; // 2020年9月4日 调整后倾斜角为30度整
+        //        public double dipoleCct345A0Outer = dipoleCct345SmallROuter * Math.sqrt(3) / dipoleCct345BigR;
+        //        public double dipoleCct345A1Inner = Math.pow(dipoleCct345SmallRInner, 2) * 0.25;
+        //        public double dipoleCct345A1Outer = -Math.pow(dipoleCct345SmallROuter, 2) * 0.25;
+        //        public double dipoleCct345A2Inner = 0.0;
+        //        public double dipoleCct345A2Outer = 0.0;
+        secondPart.dipoleCct345A0Inner = data[2];
+        secondPart.dipoleCct345A0Outer = data[3];
+        secondPart.dipoleCct345A1Inner = data[4];
+        secondPart.dipoleCct345A1Outer = data[5];
+        secondPart.dipoleCct345A2Inner = data[6];
+        secondPart.dipoleCct345A2Outer = data[7];
+
+        //     * 8 ag in a0
+        //     * 9 ag ou a0
+        //     * 10 ag in a1
+        //     * 11 ag ou a1
+        //     * 12 ag in a2
+        //     * 13 ag ou a2
+        //        public double agCct345A0Inner = 0.;
+        //        public double agCct345A0Outer = 0.;
+        //        public double agCct345A1Inner = -Math.pow(agCct345SmallRInner, 2) * Math.sqrt(3) * 20 * 0.19;
+        //        public double agCct345A1Outer = Math.pow(agCct345SmallROuter, 2) * Math.sqrt(3) * 20 * 0.19;
+        //        public double agCct345A2Inner = 0.;
+        //        public double agCct345A2Outer = 0.;
+        secondPart.agCct345A0Inner = data[8];
+        secondPart.agCct345A0Outer = data[9];
+        secondPart.agCct345A1Inner = data[10];
+        secondPart.agCct345A1Outer = data[11];
+        secondPart.agCct345A2Inner = data[12];
+        secondPart.agCct345A2Outer = data[13];
+
+        //     * 14 di current
+        //     * 15 ag current
+        //        // 电流
+        //        public double dipoleCct345IInner = -6529.971375582991; // 2020年9月9日 -6738.987300872428 。2020年9月11日 改为 -6529.971375582991
+        //        public double dipoleCct345IOuter = dipoleCct345IInner;
+        //        // 调至6500A，则a1调至
+        //        public double agCct345IInner = 8171; // 9799 // 2020年6月11日 *0.995 = 7811. 2020年9月11日 改为 8171
+        //        public double agCct345IOuter = agCct345IInner;
+        secondPart.dipoleCct345IInner = data[14];
+        secondPart.dipoleCct345IOuter = data[14];
+        secondPart.agCct345IInner = data[15];
+        secondPart.agCct345IOuter = data[15];
+
+        return secondPart;
+    }
+
+    /**
      * 获取 firstPart 相关的轨道，默认起点为原点
      *
      * @param firstPart firstPart

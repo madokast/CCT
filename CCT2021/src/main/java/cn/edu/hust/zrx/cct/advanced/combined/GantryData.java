@@ -1,6 +1,15 @@
 package cn.edu.hust.zrx.cct.advanced.combined;
 
+import cn.edu.hust.zrx.cct.advanced.MathFunction;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.cct.CctLine2Factory;
+import cn.edu.hust.zrx.cct.base.cct.EntitySoleLayerCct;
+import cn.edu.hust.zrx.cct.base.point.Point2Function;
+import cn.edu.hust.zrx.cct.base.point.Point2To3;
+import cn.edu.hust.zrx.cct.base.point.Point3Function;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.MM;
 
@@ -17,6 +26,7 @@ import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.MM;
 
 @SuppressWarnings("all")
 public class GantryData {
+
     public static class FirstPart {
 
         public double QS1_GRADIENT = 28.33; // T/m
@@ -182,5 +192,380 @@ public class GantryData {
 
         // CCT每匝分段
         public int numberPerWinding = 360;
+
+        //-------------------------------------------------------------------------------------------//
+        public MathFunction innerDipoleCctPath2d() {
+            //this.smallR = smallR;
+            //        this.bigR = bigR;
+            //        this.angle = angle;
+            //        this.windingNumber = windingNumber;
+            //        this.a0Bipolar = a0Bipolar;
+            //        this.a1Quadruple = a1Quadruple;
+            //        this.a2Sextuple = a2Sextuple;
+            //
+            //        this.startingθ = startingθ;
+            //        this.startingφ = startingφ;
+            //        this.directθ = directθ;
+            //
+            //        double radian = BaseUtils.Converter.angleToRadian(this.angle);
+            //
+            //        if (directθ) {
+            //            this.n = 2 * Math.PI * this.windingNumber / radian;
+            //        } else {
+            //            this.n = -2 * Math.PI * this.windingNumber / radian;
+            //        }
+
+            final double radian = BaseUtils.Converter.angleToRadian(dipoleCct345Angle); // 67.5
+
+            final double n;
+            final double reversed;
+            if (dipoleCct345DirectθInner) {
+                n = 2 * Math.PI * dipoleCct345WindingNumber / radian;
+                reversed = 1.;
+            } else {
+                n = -2 * Math.PI * dipoleCct345WindingNumber / radian;
+                reversed = -1.;
+            }
+
+
+            return θ -> dipoleCct345StartingφInner
+                    + (θ * reversed - dipoleCct345StartingθInner) / n
+                    + dipoleCct345A0Inner * Math.sin(θ * reversed)
+                    + dipoleCct345A1Inner * Math.sin(2 * θ * reversed)
+                    + dipoleCct345A2Inner * Math.sin(3 * θ * reversed);
+        }
+
+        public MathFunction outerDipoleCctPath2d() {
+            //
+            //        if (directθ) {
+            //            this.n = 2 * Math.PI * this.windingNumber / radian;
+            //        } else {
+            //            this.n = -2 * Math.PI * this.windingNumber / radian;
+            //        }
+
+            final double radian = BaseUtils.Converter.angleToRadian(dipoleCct345Angle); // 67.5
+
+            final double n;
+            final double reversed;
+            if (dipoleCct345DirectθOuter) {
+                n = 2 * Math.PI * dipoleCct345WindingNumber / radian;
+                reversed = 1.;
+            } else {
+                n = -2 * Math.PI * dipoleCct345WindingNumber / radian;
+                reversed = -1.;
+            }
+
+            return θ -> dipoleCct345StartingφOuter
+                    + (θ * reversed - dipoleCct345StartingθOuter) / n
+                    + dipoleCct345A0Outer * Math.sin(θ * reversed)
+                    + dipoleCct345A1Outer * Math.sin(2 * θ * reversed)
+                    + dipoleCct345A2Outer * Math.sin(3 * θ * reversed);
+        }
+
+        public Point3Function innerDipoleCctPath3d() {
+
+            MathFunction innerDipoleCctPath2d = innerDipoleCctPath2d();
+
+            Point2Function cctPath2d = Point2Function.create(MathFunction.identity(), innerDipoleCctPath2d);
+
+            return cctPath2d.convert(Point2To3.SimpleToroidalCoordinateSystemPoint2To3
+                    .create(dipoleCct345BigR, dipoleCct345SmallRInner));
+        }
+
+        public Point3Function outerDipoleCctPath3d() {
+
+            MathFunction outerDipoleCctPath2d = outerDipoleCctPath2d();
+
+            Point2Function cctPath2d = Point2Function.create(MathFunction.identity(), outerDipoleCctPath2d);
+
+            return cctPath2d.convert(Point2To3.SimpleToroidalCoordinateSystemPoint2To3
+                    .create(dipoleCct345BigR, dipoleCct345SmallROuter));
+        }
+
+        // 这也是一坨屎
+        public List<EntitySoleLayerCct> innerAgCctEntitySoleLayerCcts(double width, double depth, int brickNumberPerWinding) {
+            //        this.centerCctPath3d = centerCctPath3d;
+            //        this.centerCctPath2d = centerCctPath2d;
+            //        this.simpleToroidalCoordinateSystemPoint2To3 = simpleToroidalCoordinateSystemPoint2To3;
+            //        this.width = width;
+            //        this.depth = depth;
+            //        this.currentDensity = currentDensity;
+            //        this.startTheta = startTheta;
+            //        this.endTheta = endTheta;
+            //        this.brickNumberPerWinding = brickNumberPerWinding;
+            //        this.windNumber = windNumber;
+
+            //CctLine2 cct0 = new CctLine2(smallR, bigR, angles[0], windingNumbers[0],
+            //                a0Bipolars[0], a1Quadruples[0], a2Sextuples[0],
+            //                startingθ, startingφ, directθ);
+            //        CctLine2s cctLine2s = CctLine2s.create(cct0);
+            //
+            //        for (int i = 1; i < angles.length; i++) {
+            //            startingθ += (directθ ? 1 : -1) * windingNumbers[i - 1] * 2 * Math.PI;
+            //            startingφ += windingNumbers[i - 1] * 2 * Math.PI
+            //                    / Math.abs(cctLine2s.cctLine2s.get(cctLine2s.cctLine2s.size() - 1).getN());
+            //            directθ = !directθ;
+            //
+            //            cctLine2s.add(
+            //                    new CctLine2(smallR, bigR, angles[i], windingNumbers[i],
+            //                            a0Bipolars[i], a1Quadruples[i], a2Sextuples[i],
+            //                            startingθ, startingφ, directθ)
+            //            );
+            //        }
+            //
+            //        return cctLine2s;
+            double[] angles = new double[]{agCctAngle3, agCctAngle4, agCctAngle5};
+            int[] windingNumbers = new int[]{agCctWindingNumber3, agCctWindingNumber4, agCctWindingNumber5};
+            double startingθ = agCct345StartingθInner;
+            double startingφ = agCct345StartingφInner;
+            boolean directθ = agCct345DirectθInner;
+
+            double[] startingθs = new double[angles.length];
+            double[] endingθs = new double[angles.length];
+
+            //-----------------------------------------------------------------
+
+            startingθs[0] = startingθ;
+            double radian = BaseUtils.Converter.angleToRadian(angles[0]);
+            double n;
+            double reversed;
+            if (directθ) {
+                n = 2 * Math.PI * windingNumbers[0] / radian;
+                reversed = 1.;
+            } else {
+                n = -2 * Math.PI * windingNumbers[0] / radian;
+                reversed = -1.;
+            }
+
+//            MathFunction cct2d1 = θ -> startingφ
+//                    + (θ * reversed - startingθ) / n
+//                    + agCct345A0Inner * Math.sin(θ * reversed)
+//                    + agCct345A1Inner * Math.sin(2 * θ * reversed)
+//                    + agCct345A2Inner * Math.sin(3 * θ * reversed);
+
+            MathFunction cct2d1 = CctLine2Factory.createCct2dPathFunction(
+                    startingφ, startingθ, 1, n,
+                    agCct345A0Inner, agCct345A1Inner, agCct345A2Inner
+            );
+
+            List<Point2Function> cct2dList = new ArrayList<>(angles.length);
+            cct2dList.add(Point2Function.create(MathFunction.identity(), cct2d1));
+
+            //--------------------------------------------------------------------
+            for (int i = 1; i < angles.length; i++) {
+                startingθ += (directθ ? 1 : -1) * windingNumbers[i - 1] * 2 * Math.PI;
+                startingφ += windingNumbers[i - 1] * 2 * Math.PI / Math.abs(n);
+                directθ = !directθ;
+
+                startingθs[i] = startingθ;
+                endingθs[i - 1] = startingθ;
+                if (directθ) {
+                    n = 2 * Math.PI * windingNumbers[0] / radian;
+                    reversed = 1.;
+                } else {
+                    n = -2 * Math.PI * windingNumbers[0] / radian;
+                    reversed = -1.;
+                }
+
+                MathFunction cct2d2AndSoOn = CctLine2Factory.createCct2dPathFunction(
+                        startingφ, startingθ, 1, n,
+                        agCct345A0Inner, agCct345A1Inner, agCct345A2Inner
+                );
+
+                cct2dList.add(Point2Function.create(MathFunction.identity(), cct2d2AndSoOn));
+            }
+
+            endingθs[angles.length - 1] = startingθs[angles.length - 1] + (directθ ? 1 : -1) * windingNumbers[angles.length - 1] * 2 * Math.PI;
+            //----------------------------------------------------------------------------
+
+            //MathFunction innerDipoleCctPath2d = innerDipoleCctPath2d();
+            //
+            //            Point2Function cctPath2d = Point2Function.create(MathFunction.identity(), innerDipoleCctPath2d);
+            //
+            //            return cctPath2d.convert(Point2To3.SimpleToroidalCoordinateSystemPoint2To3
+            //                    .create(dipoleCct345BigR, dipoleCct345SmallRInner));
+
+
+            Point2To3.SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3 =
+                    Point2To3.SimpleToroidalCoordinateSystemPoint2To3.create(dipoleCct345BigR, dipoleCct345SmallRInner);
+
+            List<EntitySoleLayerCct> ret = new ArrayList<>(angles.length);
+
+            for (int i = 0; i < angles.length; i++) {
+                Point2Function centerCctPath2d = cct2dList.get(i);
+                Point3Function centerCctPath3d = centerCctPath2d.convert(simpleToroidalCoordinateSystemPoint2To3);
+
+                //OperaCct operaCct = new OperaCct(
+                //                innerDipoleCctPath3d, innerDipoleCctPath2d,
+                //                Point2To3.SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallRInner),
+                //                2 * MM, 8 * MM,
+                //                secondPart.dipoleCct345IInner / (2 * MM * 8 * MM),
+                //                0,
+                //                2 * PI * secondPart.dipoleCct345WindingNumber,
+                //                180 * secondPart.dipoleCct345WindingNumber
+                //        );
+
+
+                // double startTheta, double endTheta
+
+
+                EntitySoleLayerCct entitySoleLayerCct = new EntitySoleLayerCct(
+                        centerCctPath3d, centerCctPath2d, simpleToroidalCoordinateSystemPoint2To3,
+                        width, depth, agCct345IInner / (width * depth),
+                        startingθs[i], endingθs[i], brickNumberPerWinding, windingNumbers[i]
+                );
+
+                ret.add(entitySoleLayerCct);
+            }
+
+
+            return ret;
+        }
+
+        public List<EntitySoleLayerCct> outerAgCctEntitySoleLayerCcts(double width, double depth, int brickNumberPerWinding) {
+
+            double[] angles = new double[]{agCctAngle3, agCctAngle4, agCctAngle5};
+            int[] windingNumbers = new int[]{agCctWindingNumber3, agCctWindingNumber4, agCctWindingNumber5};
+            double startingθ = agCct345StartingθOuter;
+            double startingφ = agCct345StartingφOuter;
+            boolean directθ = agCct345DirectθOuter;
+
+            double[] startingθs = new double[angles.length];
+            double[] endingθs = new double[angles.length];
+
+            //-----------------------------------------------------------------
+
+            startingθs[0] = startingθ;
+            double radian = BaseUtils.Converter.angleToRadian(angles[0]);
+            double n;
+            double reversed;
+            if (directθ) {
+                n = 2 * Math.PI * windingNumbers[0] / radian;
+                reversed = 1.;
+            } else {
+                n = -2 * Math.PI * windingNumbers[0] / radian;
+                reversed = -1.;
+            }
+
+            MathFunction cct2d1 = CctLine2Factory.createCct2dPathFunction(
+                    startingφ, startingθ, 1, n,
+                    agCct345A0Outer, agCct345A1Outer, agCct345A2Outer
+            );
+
+            List<Point2Function> cct2dList = new ArrayList<>(angles.length);
+            cct2dList.add(Point2Function.create(MathFunction.identity(), cct2d1));
+
+            //--------------------------------------------------------------------
+            for (int i = 1; i < angles.length; i++) {
+                startingθ += (directθ ? 1 : -1) * windingNumbers[i - 1] * 2 * Math.PI;
+                startingφ += windingNumbers[i - 1] * 2 * Math.PI / Math.abs(n);
+                directθ = !directθ;
+
+                startingθs[i] = startingθ;
+                endingθs[i - 1] = startingθ;
+                if (directθ) {
+                    n = 2 * Math.PI * windingNumbers[0] / radian;
+                    reversed = 1.;
+                } else {
+                    n = -2 * Math.PI * windingNumbers[0] / radian;
+                    reversed = -1.;
+                }
+
+                MathFunction cct2d2AndSoOn = CctLine2Factory.createCct2dPathFunction(
+                        startingφ, startingθ, 1, n,
+                        agCct345A0Outer, agCct345A1Outer, agCct345A2Outer
+                );
+
+                cct2dList.add(Point2Function.create(MathFunction.identity(), cct2d2AndSoOn));
+            }
+
+            endingθs[angles.length - 1] = startingθs[angles.length - 1] + (directθ ? 1 : -1) * windingNumbers[angles.length - 1] * 2 * Math.PI;
+            //----------------------------------------------------------------------------
+
+
+            Point2To3.SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3 =
+                    Point2To3.SimpleToroidalCoordinateSystemPoint2To3.create(dipoleCct345BigR, dipoleCct345SmallROuter);
+
+            List<EntitySoleLayerCct> ret = new ArrayList<>(angles.length);
+
+            for (int i = 0; i < angles.length; i++) {
+                Point2Function centerCctPath2d = cct2dList.get(i);
+                Point3Function centerCctPath3d = centerCctPath2d.convert(simpleToroidalCoordinateSystemPoint2To3);
+
+
+                EntitySoleLayerCct entitySoleLayerCct = new EntitySoleLayerCct(
+                        centerCctPath3d, centerCctPath2d, simpleToroidalCoordinateSystemPoint2To3,
+                        width, depth, agCct345IOuter / (width * depth),
+                        startingθs[i], endingθs[i], brickNumberPerWinding, windingNumbers[i]
+                );
+
+                ret.add(entitySoleLayerCct);
+            }
+
+
+            return ret;
+        }
+
+
+        @Override
+        public String toString() {
+            return "SecondPart{" +
+                    "QS3_GRADIENT=" + QS3_GRADIENT +
+                    ", QS3_SECOND_GRADIENT=" + QS3_SECOND_GRADIENT +
+                    ", QS3_APERTURE_MM=" + QS3_APERTURE_MM +
+                    ", trajectoryBigRPart2=" + trajectoryBigRPart2 +
+                    ", dipoleCct345BigR=" + dipoleCct345BigR +
+                    ", agCct345BigR=" + agCct345BigR +
+                    ", dipoleCct345StartingθInner=" + dipoleCct345StartingθInner +
+                    ", dipoleCct345StartingθOuter=" + dipoleCct345StartingθOuter +
+                    ", dipoleCct345StartingφInner=" + dipoleCct345StartingφInner +
+                    ", dipoleCct345StartingφOuter=" + dipoleCct345StartingφOuter +
+                    ", dipoleCct345DirectθInner=" + dipoleCct345DirectθInner +
+                    ", dipoleCct345DirectθOuter=" + dipoleCct345DirectθOuter +
+                    ", agCct345StartingθInner=" + agCct345StartingθInner +
+                    ", agCct345StartingθOuter=" + agCct345StartingθOuter +
+                    ", agCct345StartingφInner=" + agCct345StartingφInner +
+                    ", agCct345StartingφOuter=" + agCct345StartingφOuter +
+                    ", agCct345DirectθInner=" + agCct345DirectθInner +
+                    ", agCct345DirectθOuter=" + agCct345DirectθOuter +
+                    ", agCct345SmallRInner=" + agCct345SmallRInner +
+                    ", agCct345SmallROuter=" + agCct345SmallROuter +
+                    ", dipoleCct345SmallRInner=" + dipoleCct345SmallRInner +
+                    ", dipoleCct345SmallROuter=" + dipoleCct345SmallROuter +
+                    ", dipoleCct345A0Inner=" + dipoleCct345A0Inner +
+                    ", dipoleCct345A0Outer=" + dipoleCct345A0Outer +
+                    ", dipoleCct345A1Inner=" + dipoleCct345A1Inner +
+                    ", dipoleCct345A1Outer=" + dipoleCct345A1Outer +
+                    ", dipoleCct345A2Inner=" + dipoleCct345A2Inner +
+                    ", dipoleCct345A2Outer=" + dipoleCct345A2Outer +
+                    ", agCct345A0Inner=" + agCct345A0Inner +
+                    ", agCct345A0Outer=" + agCct345A0Outer +
+                    ", agCct345A1Inner=" + agCct345A1Inner +
+                    ", agCct345A1Outer=" + agCct345A1Outer +
+                    ", agCct345A2Inner=" + agCct345A2Inner +
+                    ", agCct345A2Outer=" + agCct345A2Outer +
+                    ", dipoleCct345WindingNumber=" + dipoleCct345WindingNumber +
+                    ", agCctWindingNumber3=" + agCctWindingNumber3 +
+                    ", agCctWindingNumber4=" + agCctWindingNumber4 +
+                    ", agCctWindingNumber5=" + agCctWindingNumber5 +
+                    ", dipoleCct345Angle=" + dipoleCct345Angle +
+                    ", agCctAngle3=" + agCctAngle3 +
+                    ", agCctAngle4=" + agCctAngle4 +
+                    ", agCctAngle5=" + agCctAngle5 +
+                    ", DL2=" + DL2 +
+                    ", QS3_LEN=" + QS3_LEN +
+                    ", GAP3=" + GAP3 +
+                    ", CCT345_LENGTH=" + CCT345_LENGTH +
+                    ", CCT345_LENGTH_PART3=" + CCT345_LENGTH_PART3 +
+                    ", CCT345_LENGTH_PART4=" + CCT345_LENGTH_PART4 +
+                    ", CCT345_LENGTH_PART5=" + CCT345_LENGTH_PART5 +
+                    ", dipoleCct345IInner=" + dipoleCct345IInner +
+                    ", dipoleCct345IOuter=" + dipoleCct345IOuter +
+                    ", agCct345IInner=" + agCct345IInner +
+                    ", agCct345IOuter=" + agCct345IOuter +
+                    ", numberPerWinding=" + numberPerWinding +
+                    '}';
+        }
     }
+
 }

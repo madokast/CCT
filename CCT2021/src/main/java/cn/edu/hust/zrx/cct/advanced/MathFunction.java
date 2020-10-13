@@ -1,6 +1,7 @@
 package cn.edu.hust.zrx.cct.advanced;
 
 import cn.edu.hust.zrx.cct.base.point.Point2;
+import cn.edu.hust.zrx.cct.base.point.Point2Function;
 
 import java.util.function.Function;
 
@@ -24,7 +25,7 @@ public interface MathFunction extends Function<Double, Double> {
         return this;
     }
 
-    default Function<Double, Double> reverse() {
+    default MathFunction reverse() {
         return x -> -apply(x);
     }
 
@@ -34,6 +35,15 @@ public interface MathFunction extends Function<Double, Double> {
 
     static Function<Double, Double> add(Function<Double, Double> fun1, Function<Double, Double> fun2) {
         return x -> fun1.apply(x) + fun2.apply(x);
+    }
+
+    /**
+     * 微分
+     *
+     * @return 微分
+     */
+    default MathFunction differential(final double delta) {
+        return x -> (apply(x + delta) - apply(x)) / delta;
     }
 
     /**
@@ -77,4 +87,13 @@ public interface MathFunction extends Function<Double, Double> {
 
     }
 
+
+    static MathFunction identity() {
+        return x -> x;
+    }
+
+
+    default Point2Function convertToPoint2Function() {
+        return x -> Point2.create(x, apply(x));
+    }
 }

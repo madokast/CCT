@@ -35,11 +35,29 @@ import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.*;
 
 public class CctUtils {
 
+    public static Point2 beamSizeAtDp(double distance, double dp, int number,
+                                      MagnetAble magnetAble, Line2 trajectory) {
+        List<Point2> xPlane = trackingPhaseEllipse(distance, true, dp, number, false,
+                1., magnetAble, trajectory);
+        List<Point2> yPlane = trackingPhaseEllipse(distance, false, dp, number, false,
+                1., magnetAble, trajectory);
+
+        double xMax = xPlane.stream().map(Point2::getX).mapToDouble(Double::doubleValue).max().orElseThrow();
+        double xMin = xPlane.stream().map(Point2::getX).mapToDouble(Double::doubleValue).min().orElseThrow();
+
+        double yMax = yPlane.stream().map(Point2::getX).mapToDouble(Double::doubleValue).max().orElseThrow();
+        double yMin = yPlane.stream().map(Point2::getX).mapToDouble(Double::doubleValue).min().orElseThrow();
+
+        return Point2.create(
+                (xMax - xMin) / 2,
+                (yMax - yMin) / 2
+        );
+    }
+
     // 画出不同动量分散下的相椭圆
     // 2020年9月17日
     public static void multiDpPhaseEllipsesAndPlot(Trajectory trajectory, double length, MagnetAble magnetAble,
-                                                   double dpMin, double dpMax, int numberOfPart,int numberOfParticle, boolean xPlane)
-    {
+                                                   double dpMin, double dpMax, int numberOfPart, int numberOfParticle, boolean xPlane) {
         BaseUtils.Switcher<String> switcher = createPlotDescribeSwitcher();
 
         List<String> des = multiDpPhaseEllipses(trajectory, length, magnetAble, dpMin, dpMax, numberOfPart, numberOfParticle, xPlane)
@@ -66,10 +84,9 @@ public class CctUtils {
     }
 
     // 单位 mm mrad
-    public static List<BaseUtils.Content.BiContent<Double,List<Point2>>>
-    multiDpPhaseEllipses(Trajectory trajectory, double length, MagnetAble magnetAble,
-                         double dpMin, double dpMax, int numberOfPart, int numberOfParticle, boolean xPlane)
-    {
+    public static List<BaseUtils.Content.BiContent<Double, List<Point2>>>
+    multiDpPhaseEllipses(Line2 trajectory, double length, MagnetAble magnetAble,
+                         double dpMin, double dpMax, int numberOfPart, int numberOfParticle, boolean xPlane) {
 
         return BaseUtils.Python.linspaceStream(dpMin, dpMax, numberOfPart)
                 .mapToObj(dp -> {
@@ -86,6 +103,17 @@ public class CctUtils {
                     return BaseUtils.Content.BiContent.create(dp, x1);
                 })
                 .collect(Collectors.toList());
+    }
+
+    public static List<BaseUtils.Content.BiContent<Double, List<Point2>>>
+    multiDpPhaseEllipses(CosyArbitraryOrder.CosyMapArbitraryOrder map, int order, boolean moveToCenter, double scaleForParticle,
+                         double dpMin, double dpMax, int numberOfPart, int numberOfParticle, boolean xPlane) {
+        return BaseUtils.Python.linspaceStream(dpMin, dpMax, numberOfPart)
+                .mapToObj(delta -> {
+                    return BaseUtils.Content.BiContent.create(delta, cosyPhaseEllipse(
+                            xPlane, delta, numberOfParticle, order, moveToCenter, scaleForParticle, map));
+                }).collect(Collectors.toList());
+
     }
 
     public static void analysePhaseEllipseAndPlot(
@@ -310,7 +338,7 @@ public class CctUtils {
 
     // 单位 m-m
     public static List<List<Point2>> trackMultiParticlesRandom2d(int number, double delta, Line2 trajectory, double distance,
-                                                           MagnetAble magnetAble, boolean xPlane) {
+                                                                 MagnetAble magnetAble, boolean xPlane) {
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 
 //        List<PhaseSpaceParticle> pp = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInPlane(
@@ -355,7 +383,7 @@ public class CctUtils {
     }
 
     public static List<List<Point3>> trackMultiParticlesRandom3d(int number, double delta, Line2 trajectory,
-                                                           double distance, MagnetAble magnetAble, boolean xPlane) {
+                                                                 double distance, MagnetAble magnetAble, boolean xPlane) {
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
 
 //        List<PhaseSpaceParticle> pp = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInPlane(
@@ -384,7 +412,7 @@ public class CctUtils {
 
     // 画图时 单位转为 m-mm
     public static void trackMultiParticlesRandomAndDrawInMmm(int number, double delta, Line2 trajectory, double distance,
-                                                       MagnetAble magnetAble, boolean xPlane) {
+                                                             MagnetAble magnetAble, boolean xPlane) {
         List<List<Point2>> xs = trackMultiParticlesRandom2d(number, delta, trajectory, distance, magnetAble, xPlane);
 
         xs.stream().map(x -> Point2.convert(x, 1, 1 / MM))

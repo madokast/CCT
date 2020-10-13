@@ -138,6 +138,11 @@ public class BaseUtils {
             return linspaceStream(0, length, number);
         }
 
+
+        public static <E> List<E> linspaceFunction(Function<Double, E> fun, double start, double end, int number) {
+            return linspaceStream(start, end, number).mapToObj(fun::apply).collect(Collectors.toList());
+        }
+
     }
 
     public static class Equal {
@@ -1313,6 +1318,48 @@ public class BaseUtils {
 
                 return Math.abs((max - min) / average);
             }
+        }
+    }
+
+    public static class JavaCoder {
+        public static String create(String name, String[] data) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("String[] ").append(name).append(" = new String[]{");
+
+            for (int i = 0; i < data.length - 1; i++) {
+                sb.append('"').append(data[i]).append('"').append(',');
+                if (i % 20 == 0) {
+                    sb.append('\n');
+                }
+            }
+
+            sb.append('"').append(data[data.length - 1]).append('"');
+
+
+            sb.append("};");
+            return sb.toString();
+        }
+
+        public static String create(double[] arr) {
+            return "new double[]{" + Arrays.stream(arr).mapToObj(String::valueOf).collect(Collectors.joining(",")) + "}";
+        }
+
+        public static String create(double[][] arr) {
+            return "new double[][]{" + Arrays.stream(arr).map(JavaCoder::create).collect(Collectors.joining(",\n")) + "}";
+        }
+
+        public static String create(String name, double[][][] arr) {
+            StringBuilder sb = new StringBuilder();
+            int length = arr.length;
+            sb.append("double[][][] ").append(name).append(" = new double[").append(length).append("][][];");
+            for (int i = 0; i < arr.length; i++) {
+                sb.append(name).append("[").append(i).append("]=").append(create(arr[i])).append(";");
+            }
+
+            return sb.toString();
+
+
+            //return "new double[][][]{" + Arrays.stream(arr).map(JavaCoder::create).collect(Collectors.joining(",\n")) + "}";
         }
     }
 }

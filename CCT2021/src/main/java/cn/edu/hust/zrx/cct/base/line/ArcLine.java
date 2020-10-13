@@ -87,10 +87,10 @@ public class ArcLine implements Line2 {
      * @param totalAngle     总旋转度数
      */
     public ArcLine(final Point2 startingPoint,
-                      final Vector2 startingDirect,
-                      final double radius,
-                      final boolean clockwise,
-                      final double totalAngle) {
+                   final Vector2 startingDirect,
+                   final double radius,
+                   final boolean clockwise,
+                   final double totalAngle) {
 
         this.radius = radius;
         this.clockwise = clockwise;

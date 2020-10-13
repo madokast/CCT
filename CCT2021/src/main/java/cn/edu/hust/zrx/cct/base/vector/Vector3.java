@@ -214,6 +214,12 @@ public class Vector3 {
         return Vector2.create(x, y);
     }
 
+    public Vector3 reverse() {
+        return Vector3.create(
+                -x, -y, -z
+        );
+    }
+
     public static class Vector3From {
         private Point3 source;
 

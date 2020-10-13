@@ -1,7 +1,9 @@
 package cn.edu.hust.zrx.cct.base.python;
 
 
+import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.point.Point3;
+import cn.edu.hust.zrx.cct.base.point.Point3Function;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -10,6 +12,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 使用方法，调用plot3画图，可以调用若干次
@@ -57,6 +60,13 @@ public class Plot3d {
 
     public static void plot3(List<Point3> rs) {
         plot3(rs, "");
+    }
+
+    public static void plot(Point3Function p3f, double start, double end, double delta, String describe) {
+        List<Point3> collect = BaseUtils.Python.linspaceStream(start, end, (int) (Math.abs(end - start) / delta))
+                .mapToObj(p3f::apply).collect(Collectors.toList());
+
+        plot3(collect, describe);
     }
 
     /**
@@ -123,7 +133,7 @@ public class Plot3d {
         });
     }
 
-    public static void offBgColor(){
+    public static void offBgColor() {
         prepareHead();
         try {
             pyPrintWriter.println("""
@@ -131,20 +141,20 @@ public class Plot3d {
                     ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
                     ax.w_zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
                     """);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
     }
 
-    public static void offAxisAndBgColor(){
+    public static void offAxisAndBgColor() {
         prepareHead();
         try {
             pyPrintWriter.println("""
                     plt.axis('off')
 
                     ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))""");
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -263,5 +273,4 @@ public class Plot3d {
 
         return sb.toString();
     }
-
 }

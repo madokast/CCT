@@ -33,6 +33,10 @@ public class SoleLayerCct implements MagnetAble, PlotAble3d {
         I = i;
     }
 
+    public static SoleLayerCct create(List<Point3> windings, double I) {
+        return new SoleLayerCct(windings, I);
+    }
+
     public SoleLayerCct deepCopy() {
         return new SoleLayerCct(windings.stream().map(Point3::copy).collect(Collectors.toList()), I);
     }

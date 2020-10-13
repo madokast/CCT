@@ -1,10 +1,16 @@
 package cn.edu.hust.zrx.cct.base.point;
 
+import cn.edu.hust.zrx.cct.advanced.MathFunction;
+import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
+import cn.edu.hust.zrx.cct.base.vector.Vector3Function;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 
 /**
  * Description
@@ -94,6 +100,28 @@ public class Point3 {
         return ret;
     }
 
+    /**
+     * 美妙
+     *
+     * @param xFun         函数
+     * @param yFun         函数
+     * @param zFun         函数
+     * @param doubleStream 流
+     * @return List<Point3>
+     */
+    public static List<Point3> create(MathFunction xFun, MathFunction yFun, MathFunction zFun, DoubleStream doubleStream) {
+        return doubleStream.mapToObj(theta -> Point3.create(xFun.apply(theta), yFun.apply(theta), zFun.apply(theta)))
+                .collect(Collectors.toList());
+    }
+
+    public static List<Point3> create(Vector3Function vector3Function, DoubleStream doubleStream) {
+        return doubleStream.mapToObj(vector3Function::apply).map(Vector3::toPoint3).collect(Collectors.toList());
+    }
+
+    public static List<Point3> create(Point3Function point3Function, DoubleStream doubleStream) {
+        return doubleStream.mapToObj(point3Function::apply).collect(Collectors.toList());
+    }
+
     @Override
     public String toString() {
         return List.of(x, y, z).toString();
@@ -107,4 +135,21 @@ public class Point3 {
         return Point2.create(x, y);
     }
 
+    /**
+     * 返回 v3 = this -> destination
+     *
+     * @param destination 目的地
+     * @return v3 = this -> destination
+     */
+    public Vector3 to(Point3 destination) {
+        return Vector3.from(this).to(destination);
+    }
+
+    public Point3 enlarge(double times) {
+        return create(
+                x * times,
+                y * times,
+                z * times
+        );
+    }
 }
