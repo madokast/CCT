@@ -15,10 +15,7 @@ import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
-import cn.edu.hust.zrx.cct.base.point.Point2;
-import cn.edu.hust.zrx.cct.base.point.Point2Function;
-import cn.edu.hust.zrx.cct.base.point.Point2To3;
-import cn.edu.hust.zrx.cct.base.point.Point3Function;
+import cn.edu.hust.zrx.cct.base.point.*;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
@@ -58,6 +55,7 @@ public class A1006OPERA模型大孔径 {
         secondPart.dipoleCct345SmallRInner = 89 * MM + 30 * MM;
         secondPart.dipoleCct345SmallROuter = 99 * MM + 30 * MM;
 
+
         secondPart.dipoleCct345A0Inner = -secondPart.dipoleCct345SmallRInner * Math.sqrt(3) / secondPart.dipoleCct345BigR; // 2020年9月4日 调整后倾斜角为30度整
         secondPart.dipoleCct345A0Outer = secondPart.dipoleCct345SmallROuter * Math.sqrt(3) / secondPart.dipoleCct345BigR;
         secondPart.dipoleCct345A1Inner = Math.pow(secondPart.dipoleCct345SmallRInner, 2) * 0.25;
@@ -67,6 +65,9 @@ public class A1006OPERA模型大孔径 {
 
         secondPart.agCct345IInner = 6500; // from 8171
         secondPart.agCct345IOuter = 6500; // from 8171
+
+        secondPart.dipoleCct345IInner = -6529.971375582991;
+        secondPart.dipoleCct345IOuter = -6529.971375582991;
 
         //        public double agCct345A0Inner = 0.;
         //        public double agCct345A0Outer = 0.;
@@ -128,7 +129,7 @@ public class A1006OPERA模型大孔径 {
 
         OperaCct operaCct = new OperaCct(
                 innerDipoleCctPath3d, innerDipoleCctPath2d,
-                Point2To3.SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallRInner),
+                SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallRInner),
                 2 * MM, 8 * MM,
                 secondPart.dipoleCct345IInner / (2 * MM * 8 * MM),
                 0,
@@ -156,7 +157,7 @@ public class A1006OPERA模型大孔径 {
 
         OperaCct operaCct = new OperaCct(
                 outerDipoleCctPath3d, outerDipoleCctPath2d,
-                Point2To3.SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallROuter),
+                SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallROuter),
                 2 * MM, 8 * MM,
                 secondPart.dipoleCct345IOuter / (2 * MM * 8 * MM),
                 0,
@@ -278,7 +279,7 @@ public class A1006OPERA模型大孔径 {
         Plot2d.showThread();
     }
 
-    @Run(-101)
+    @Run(101)
     public void 二极磁场验证() {
         GantryData.SecondPart secondPart = secondPart();
 
@@ -290,7 +291,7 @@ public class A1006OPERA模型大孔径 {
 
         OperaCct operaCct = new OperaCct(
                 innerDipoleCctPath3d, innerDipoleCctPath2d,
-                Point2To3.SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallRInner),
+                SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallRInner),
                 2 * MM, 8 * MM,
                 secondPart.dipoleCct345IInner / (2 * MM * 8 * MM),
                 0,
@@ -321,9 +322,10 @@ public class A1006OPERA模型大孔径 {
                 trajectoryFirstPart.directAtEnd(), secondPart);
 
 
-        Trajectory trajectory = TrajectoryFactory.setStartingPoint(Point2.create(0.95, 0))
-                .setStraightLine(1e-3, Vector2.yDirect())
-                .addArcLine(0.95, false, 67.5);
+        Trajectory trajectory = TrajectoryFactory.setStartingPoint(Point2.create(0.95, -1))
+                .setStraightLine(1, Vector2.yDirect())
+                .addArcLine(0.95, false, 67.5)
+                .addStraitLine(1);
 
         List<Point2> in = inner.magnetBzAlongTrajectory(trajectory);
         List<Point2> ou = outer.magnetBzAlongTrajectory(trajectory);
@@ -339,7 +341,7 @@ public class A1006OPERA模型大孔径 {
 
     }
 
-    @Run(-102)
+    @Run(102)
     public void 四极磁场验证() {
         GantryData.SecondPart secondPart = secondPart();
 
@@ -438,13 +440,13 @@ public class A1006OPERA模型大孔径 {
     }
 
     public static void main(String[] args) throws Exception {
-        A1006OPERA模型大孔径 a = new A1006OPERA模型大孔径();
-        a.opera_agCctInner();
-        a.opera_agCctOuter();
-        a.opera_dipole345Inner();
-        a.opera_dipole345Outer();
+//        A1006OPERA模型大孔径 a = new A1006OPERA模型大孔径();
+//        a.opera_agCctInner();
+//        a.opera_agCctOuter();
+//        a.opera_dipole345Inner();
+//        a.opera_dipole345Outer();
 
-        if(false){
+        if(true){
             BaseUtils.Timer.printPeriodPerSecondCall(Logger.getLogger());
             StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[1];
             Logger.getLogger().info("{}", stackTraceElement.getClassName());

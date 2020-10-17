@@ -13,6 +13,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.IntToDoubleFunction;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -57,6 +58,10 @@ public class BaseUtils {
          */
         public static double angleToRadian(double angle) {
             return angle * Math.PI / 180.0;
+        }
+
+        public static double[] angleToRadian(double[] angles) {
+            return Arrays.stream(angles).map(Converter::angleToRadian).toArray();
         }
 
         /**
@@ -156,7 +161,7 @@ public class BaseUtils {
          * @since 2020年2月10日
          */
         public static boolean isEqual(double a, double b, double error) {
-            return Math.abs(a - b) <= Math.abs(error) || Math.abs(a / b) <= Math.abs(1 + error);
+            return Math.abs(a - b) <= Math.abs(error) || Math.max(Math.abs(a / b), Math.abs(b / a)) <= Math.abs(1 + error);
         }
 
         /**
@@ -573,15 +578,15 @@ public class BaseUtils {
             return ret;
         }
 
-        public static double[] multiple(double[] arr, double a) {
-            double[] ret = new double[arr.length];
-
-            for (int i = 0; i < ret.length; i++) {
-                ret[i] = arr[i] * a;
-            }
-
-            return ret;
-        }
+//        public static double[] multiple(double[] arr, double a) {
+//            double[] ret = new double[arr.length];
+//
+//            for (int i = 0; i < ret.length; i++) {
+//                ret[i] = arr[i] * a;
+//            }
+//
+//            return ret;
+//        }
 
         public static double[] apply(double[] arr, Function<Double, Double> fun) {
             double[] ret = new double[arr.length];
@@ -601,6 +606,43 @@ public class BaseUtils {
             System.arraycopy(appending, 0, ret, arr.length, appending.length);
 
             return ret;
+        }
+
+        /**
+         * [1,2,3] / 2 = [0.5, 1.0, 1.5]
+         *
+         * @param dividends 被除数
+         * @param divisor   除数
+         * @return 商
+         */
+        public static double[] div(double[] dividends, double divisor) {
+            return Arrays.stream(dividends).map(d -> d / divisor).toArray();
+        }
+
+        // 见上
+        public static double[] div(double[] dividends, double[] divisors) {
+            Equal.requireEqual(divisors.length, dividends.length);
+            double[] ret = new double[dividends.length];
+            for (int i = 0; i < dividends.length; i++) {
+                ret[i] = dividends[i] / divisors[i];
+            }
+            return ret;
+        }
+
+        public static double[] div(double[] dividends, int[] divisors) {
+            return div(dividends, asDoubleArr(divisors));
+        }
+
+        public static double[] asDoubleArr(int[] divisors) {
+            return Arrays.stream(divisors).mapToDouble(Double::valueOf).toArray();
+        }
+
+        public static double[] multiple(double[] arr, double fact) {
+            return Arrays.stream(arr).map(a -> a * fact).toArray();
+        }
+
+        public static double[] multiple(int[] arr, double fact) {
+            return Arrays.stream(arr).mapToDouble(a -> a * fact).toArray();
         }
     }
 

@@ -1,8 +1,8 @@
 package cn.edu.hust.zrx.cct.base.cct;
 
 import cn.edu.hust.zrx.cct.base.point.Point2Function;
-import cn.edu.hust.zrx.cct.base.point.Point2To3;
 import cn.edu.hust.zrx.cct.base.point.Point3Function;
+import cn.edu.hust.zrx.cct.base.point.SimpleToroidalCoordinateSystemPoint2To3;
 
 /**
  * Description
@@ -27,7 +27,7 @@ public class EntitySoleLayerCct {
 
     public Point2Function centerCctPath2d;
 
-    public Point2To3.SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3;
+    public SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3;
 
     public double width;
 
@@ -47,7 +47,7 @@ public class EntitySoleLayerCct {
 
     public EntitySoleLayerCct(Point3Function centerCctPath3d,
                               Point2Function centerCctPath2d,
-                              Point2To3.SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3,
+                              SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3,
                               double width, double depth, double currentDensity, double startTheta, double endTheta,
                               int brickNumberPerWinding, int windNumber) {
         this.centerCctPath3d = centerCctPath3d;
@@ -70,7 +70,7 @@ public class EntitySoleLayerCct {
         return centerCctPath2d;
     }
 
-    public Point2To3.SimpleToroidalCoordinateSystemPoint2To3 getSimpleToroidalCoordinateSystemPoint2To3() {
+    public SimpleToroidalCoordinateSystemPoint2To3 getSimpleToroidalCoordinateSystemPoint2To3() {
         return simpleToroidalCoordinateSystemPoint2To3;
     }
 
@@ -110,7 +110,7 @@ public class EntitySoleLayerCct {
         this.centerCctPath2d = centerCctPath2d;
     }
 
-    public void setSimpleToroidalCoordinateSystemPoint2To3(Point2To3.SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3) {
+    public void setSimpleToroidalCoordinateSystemPoint2To3(SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3) {
         this.simpleToroidalCoordinateSystemPoint2To3 = simpleToroidalCoordinateSystemPoint2To3;
     }
 

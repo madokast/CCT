@@ -15,10 +15,7 @@ import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
-import cn.edu.hust.zrx.cct.base.point.Point2;
-import cn.edu.hust.zrx.cct.base.point.Point2Function;
-import cn.edu.hust.zrx.cct.base.point.Point2To3;
-import cn.edu.hust.zrx.cct.base.point.Point3Function;
+import cn.edu.hust.zrx.cct.base.point.*;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
@@ -120,7 +117,7 @@ public class A1006OPERA模型 {
 
         OperaCct operaCct = new OperaCct(
                 innerDipoleCctPath3d, innerDipoleCctPath2d,
-                Point2To3.SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallRInner),
+                SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallRInner),
                 2 * MM, 8 * MM,
                 secondPart.dipoleCct345IInner / (2 * MM * 8 * MM),
                 0,
@@ -148,7 +145,7 @@ public class A1006OPERA模型 {
 
         OperaCct operaCct = new OperaCct(
                 outerDipoleCctPath3d, outerDipoleCctPath2d,
-                Point2To3.SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallROuter),
+                SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallROuter),
                 2 * MM, 8 * MM,
                 secondPart.dipoleCct345IOuter / (2 * MM * 8 * MM),
                 0,
@@ -282,7 +279,7 @@ public class A1006OPERA模型 {
 
         OperaCct operaCct = new OperaCct(
                 innerDipoleCctPath3d, innerDipoleCctPath2d,
-                Point2To3.SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallRInner),
+                SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallRInner),
                 2 * MM, 8 * MM,
                 secondPart.dipoleCct345IInner / (2 * MM * 8 * MM),
                 0,

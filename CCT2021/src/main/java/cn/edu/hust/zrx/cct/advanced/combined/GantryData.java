@@ -5,8 +5,8 @@ import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.cct.CctLine2Factory;
 import cn.edu.hust.zrx.cct.base.cct.EntitySoleLayerCct;
 import cn.edu.hust.zrx.cct.base.point.Point2Function;
-import cn.edu.hust.zrx.cct.base.point.Point2To3;
 import cn.edu.hust.zrx.cct.base.point.Point3Function;
+import cn.edu.hust.zrx.cct.base.point.SimpleToroidalCoordinateSystemPoint2To3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -268,7 +268,7 @@ public class GantryData {
 
             Point2Function cctPath2d = Point2Function.create(MathFunction.identity(), innerDipoleCctPath2d);
 
-            return cctPath2d.convert(Point2To3.SimpleToroidalCoordinateSystemPoint2To3
+            return cctPath2d.convert(SimpleToroidalCoordinateSystemPoint2To3
                     .create(dipoleCct345BigR, dipoleCct345SmallRInner));
         }
 
@@ -278,7 +278,7 @@ public class GantryData {
 
             Point2Function cctPath2d = Point2Function.create(MathFunction.identity(), outerDipoleCctPath2d);
 
-            return cctPath2d.convert(Point2To3.SimpleToroidalCoordinateSystemPoint2To3
+            return cctPath2d.convert(SimpleToroidalCoordinateSystemPoint2To3
                     .create(dipoleCct345BigR, dipoleCct345SmallROuter));
         }
 
@@ -386,8 +386,8 @@ public class GantryData {
             //                    .create(dipoleCct345BigR, dipoleCct345SmallRInner));
 
 
-            Point2To3.SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3 =
-                    Point2To3.SimpleToroidalCoordinateSystemPoint2To3.create(dipoleCct345BigR, dipoleCct345SmallRInner);
+            SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3 =
+                    SimpleToroidalCoordinateSystemPoint2To3.create(dipoleCct345BigR, dipoleCct345SmallRInner);
 
             List<EntitySoleLayerCct> ret = new ArrayList<>(angles.length);
 
@@ -483,8 +483,8 @@ public class GantryData {
             //----------------------------------------------------------------------------
 
 
-            Point2To3.SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3 =
-                    Point2To3.SimpleToroidalCoordinateSystemPoint2To3.create(dipoleCct345BigR, dipoleCct345SmallROuter);
+            SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3 =
+                    SimpleToroidalCoordinateSystemPoint2To3.create(dipoleCct345BigR, dipoleCct345SmallROuter);
 
             List<EntitySoleLayerCct> ret = new ArrayList<>(angles.length);
 

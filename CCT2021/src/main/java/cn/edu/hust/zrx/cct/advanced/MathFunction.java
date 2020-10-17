@@ -2,6 +2,7 @@ package cn.edu.hust.zrx.cct.advanced;
 
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point2Function;
+import cn.edu.hust.zrx.cct.base.vector.Vector2;
 
 import java.util.function.Function;
 
@@ -25,12 +26,36 @@ public interface MathFunction extends Function<Double, Double> {
         return this;
     }
 
-    default MathFunction reverse() {
+    /**
+     * 获得关于 x 轴对称的函数
+     *
+     * @return 关于 x 轴对称的函数
+     */
+    default MathFunction xAxisSymmetry() {
         return x -> -apply(x);
     }
 
-    default Function<Double, Double> move(Point2 p) {
-        return x -> apply(x - p.x) + p.y;
+    default MathFunction move(final Vector2 v) {
+        return x -> apply(x - v.x) + v.y;
+    }
+
+    /**
+     * 获得关于 y 轴对称的函数
+     *
+     * @return 关于 y 轴对称的函数
+     */
+    default MathFunction yAxisSymmetry() {
+        return x -> apply(-x);
+    }
+
+    /**
+     * 关于 x = x0 这条线对称的函数
+     *
+     * @param x0 x0
+     * @return 关于 x = x0 这条线对称的函数
+     */
+    default MathFunction yAxisSymmetry(double x0) {
+        return this.yAxisSymmetry().move(Vector2.yDirect(2 * x0));
     }
 
     static Function<Double, Double> add(Function<Double, Double> fun1, Function<Double, Double> fun2) {

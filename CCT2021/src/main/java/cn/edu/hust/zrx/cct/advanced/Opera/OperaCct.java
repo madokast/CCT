@@ -27,7 +27,7 @@ public class OperaCct {
 
     private final Point2Function centerCctPath2d;
 
-    private final Point2To3.SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3;
+    private final Point2To3 point2To3;
 
     private final double width;
 
@@ -46,7 +46,7 @@ public class OperaCct {
         Vector3Function tangentialDirection = centerCctPath3d.differential(1e-6).normal();
 
         // 主法向
-        Vector3Function mainNormalDirection = simpleToroidalCoordinateSystemPoint2To3.mainNormalDirection(centerCctPath2d);
+        Vector3Function mainNormalDirection = point2To3.mainNormalDirection(centerCctPath2d);
 
         // 副法线方向
         Vector3Function secondNormalDirection = tangentialDirection.cross(mainNormalDirection);
@@ -67,11 +67,11 @@ public class OperaCct {
 
 
     public OperaCct(Point3Function centerCctPath3d, Point2Function centerCctPath2d,
-                    Point2To3.SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3,
+                    Point2To3 point2To3,
                     double width, double depth, double currentDensity, double startTheta, double endTheta, int totalBrickNumber) {
         this.centerCctPath3d = centerCctPath3d;
         this.centerCctPath2d = centerCctPath2d;
-        this.simpleToroidalCoordinateSystemPoint2To3 = simpleToroidalCoordinateSystemPoint2To3;
+        this.point2To3 = point2To3;
         this.width = width;
         this.depth = depth;
         this.currentDensity = currentDensity;

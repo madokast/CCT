@@ -64,8 +64,8 @@ class Point2To3Test {
 
     public static void point() {
         GantryData.SecondPart secondPart = GantryAnalysor.defaultSecondPart();
-        Point2To3.SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3 =
-                Point2To3.SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallRInner);
+        SimpleToroidalCoordinateSystemPoint2To3 simpleToroidalCoordinateSystemPoint2To3 =
+                SimpleToroidalCoordinateSystemPoint2To3.create(secondPart.dipoleCct345BigR, secondPart.dipoleCct345SmallRInner);
 
         Point2 p0 = Point2.create(0, 0);
         Point2 p1 = Point2.create(2 * Math.PI, BaseUtils.Converter.angleToRadian(67.5));

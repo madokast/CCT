@@ -53,8 +53,9 @@ public class Elements implements MagnetAble, PlotAble3d {
         return e;
     }
 
-    public void addElement(MagnetAble m) {
+    public Elements addElement(MagnetAble m) {
         this.elements.add(m);
+        return this;
     }
 
     @Override

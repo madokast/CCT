@@ -1,10 +1,9 @@
 package cn.edu.hust.zrx.cct.base.cct;
 
-import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.point.Point2;
-import cn.edu.hust.zrx.cct.base.point.Point2To3;
 import cn.edu.hust.zrx.cct.base.point.Point3;
+import cn.edu.hust.zrx.cct.base.point.SimpleToroidalCoordinateSystemPoint2To3;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -143,7 +142,7 @@ public class CctLine2 {
     public List<Point3> disperseToPoint3(int numberPerWinding) {
         List<Point2> point2s = disperseToPoint2(numberPerWinding);
 
-        return new Point2To3.SimpleToroidalCoordinateSystemPoint2To3(bigR, smallR)
+        return new SimpleToroidalCoordinateSystemPoint2To3(bigR, smallR)
                 .convert(point2s);
     }
 
