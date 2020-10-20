@@ -41,6 +41,7 @@ public class Plot2d {
     public static final String YELLOW_LINE = ",'y'";
     public static final String GREEN_LINE = ",'g'";
     public static final String BLUE_LINE = ",'b'";
+    public static final String WHITE_LINE = ",'w'";
 
     public static final String BLACK_UP_TRI = ",'k^'";
     public static final String RED_UP_TRI = ",'r^'";
@@ -261,6 +262,17 @@ public class Plot2d {
         prepareHead();
         try {
             pyPrintWriter.println("plt.xlim(" + min + ", " + max + ")");
+            pyPrintWriter.println();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    public static void ylim(double min, double max) {
+        prepareHead();
+        try {
+            pyPrintWriter.println("plt.ylim(" + min + ", " + max + ")");
             pyPrintWriter.println();
         } catch (Exception e) {
             e.printStackTrace();

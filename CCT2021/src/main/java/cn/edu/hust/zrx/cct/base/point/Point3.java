@@ -7,7 +7,9 @@ import cn.edu.hust.zrx.cct.base.vector.Vector3;
 import cn.edu.hust.zrx.cct.base.vector.Vector3Function;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
@@ -53,6 +55,15 @@ public class Point3 {
 
     public static double distance(Point3 c, Point3 p) {
         return Vector3.from(c).to(p).length();
+    }
+
+    public static Point3 average(Point3... point3s) {
+        Objects.requireNonNull(point3s);
+        return Arrays.stream(point3s).reduce(Point3.origin(), Point3::add).toVector3().dot(1. / point3s.length).toPoint3();
+    }
+
+    public static Point3 add(Point3 p1, Point3 p2) {
+        return p1.toVector3().add(p2.toVector3()).toPoint3();
     }
 
     public Point3 copy() {

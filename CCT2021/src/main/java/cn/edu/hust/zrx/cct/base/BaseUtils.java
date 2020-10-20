@@ -407,7 +407,7 @@ public class BaseUtils {
          * @param p  需要计算磁场的点
          * @return p 点的磁场
          */
-        private static Vector3 dB(final Point3 p0, final Point3 p1, double I, final Point3 p) {
+        public static Vector3 dB(final Point3 p0, final Point3 p1, double I, final Point3 p) {
             Vector3 p01 = Vector3.subtract(p1, p0);
             Vector3 r = Vector3.subtract(p, Point3.midPoint(p0, p1));
 //            Vector3 r = Vector3.subtract(p, p0);

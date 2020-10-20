@@ -42,8 +42,8 @@ public class BipolarToroidalCoordinateSystemPoint2To3 implements Point2To3 {
         return new BipolarToroidalCoordinateSystemPoint2To3(a, eta);
     }
 
-    public static cn.edu.hust.zrx.cct.base.point.BipolarToroidalCoordinateSystemPoint2To3 createByAAndEta(double a, double η) {
-        return new cn.edu.hust.zrx.cct.base.point.BipolarToroidalCoordinateSystemPoint2To3(a, η);
+    public static BipolarToroidalCoordinateSystemPoint2To3 createByAAndEta(double a, double η) {
+        return new BipolarToroidalCoordinateSystemPoint2To3(a, η);
     }
 
     @Override

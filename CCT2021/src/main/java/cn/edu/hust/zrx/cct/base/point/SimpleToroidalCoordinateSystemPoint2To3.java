@@ -15,8 +15,8 @@ public class SimpleToroidalCoordinateSystemPoint2To3 implements Point2To3 {
         this.smallR = smallR;
     }
 
-    public static cn.edu.hust.zrx.cct.base.point.SimpleToroidalCoordinateSystemPoint2To3 create(double bigR, double smallR) {
-        return new cn.edu.hust.zrx.cct.base.point.SimpleToroidalCoordinateSystemPoint2To3(bigR, smallR);
+    public static SimpleToroidalCoordinateSystemPoint2To3 create(double bigR, double smallR) {
+        return new SimpleToroidalCoordinateSystemPoint2To3(bigR, smallR);
     }
 
     /**
