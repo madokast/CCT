@@ -45,6 +45,10 @@ public class Point2 implements Cloneable, Serializable, Comparable<Point2> {
     public double x;
     public double y;
 
+    public double distanceToOrigin() {
+        return Math.sqrt(x * x + y * y);
+    }
+
     public static double distance(Point2 p1, Point2 p2) {
         return Vector2.from(p1).to(p2).length();
     }

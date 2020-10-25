@@ -390,6 +390,24 @@ public class BaseUtils {
             Equal.requireTrue(times >= 0, times);
             return forZeroToN(times);
         }
+
+        public static class Average {
+            double sum = 0;
+            int num = 0;
+
+            public static Average create(){
+                return new Average();
+            }
+
+            public void add(double val) {
+                sum += val;
+                num++;
+            }
+
+            public double average() {
+                return sum / num;
+            }
+        }
     }
 
     public static class Magnet {
@@ -643,6 +661,10 @@ public class BaseUtils {
 
         public static double[] multiple(int[] arr, double fact) {
             return Arrays.stream(arr).mapToDouble(a -> a * fact).toArray();
+        }
+
+        public static double[] dot(double[] arr, double fact) {
+            return multiple(arr, fact);
         }
     }
 

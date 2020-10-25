@@ -65,11 +65,12 @@ public class ArcLine implements Line2 {
      * 单位圆（极坐标）
      * 返回：极坐标(r=1,phi=phi)的点的直角坐标(x,y)
      * 核心方法
+     * 2020年10月22日 这个方法我心心念想 无数遍 太有用了
      *
      * @param phi 极坐标phi
      * @return 单位圆上的一点
      */
-    private Point2 unitCircle(double phi) {
+    public static Point2 unitCircle(double phi) {
         double x = Math.cos(phi);
         double y = Math.sin(phi);
 

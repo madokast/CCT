@@ -15,7 +15,7 @@
     <description>CCT for superconducting gantry</description>
 
     <properties>
-        <java.version>13</java.version>
+        <java.version>15</java.version>
     </properties>
 
     <dependencies>
@@ -127,8 +127,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>13</source>
-                    <target>13</target>
+                    <source>15</source>
+                    <target>15</target>
                 </configuration>
             </plugin>
         </plugins>

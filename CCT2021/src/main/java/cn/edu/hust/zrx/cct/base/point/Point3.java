@@ -101,6 +101,12 @@ public class Point3 {
         return Point3.create(add.x, add.y, this.z);
     }
 
+    public Point3 symmetricXZPlane() {
+        return Point3.create(
+                x, -y, z
+        );
+    }
+
     public static List<Point3> rotateInXYPlane(final List<Point3> point3s, Point2 center, double phi) {
         List<Point3> ret = new ArrayList<>(point3s.size());
 
@@ -131,6 +137,10 @@ public class Point3 {
 
     public static List<Point3> create(Point3Function point3Function, DoubleStream doubleStream) {
         return doubleStream.mapToObj(point3Function::apply).collect(Collectors.toList());
+    }
+
+    public static List<Point3> symmetricXZPlane(List<Point3> point3s) {
+        return point3s.stream().map(Point3::symmetricXZPlane).collect(Collectors.toList());
     }
 
     @Override

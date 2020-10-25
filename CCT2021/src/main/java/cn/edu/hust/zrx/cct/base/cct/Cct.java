@@ -77,6 +77,15 @@ public class Cct implements MagnetAble, PlotAble3d {
         return this.soleLayerCctList.get(index);
     }
 
+    public Cct getCcts(int indexStartIncluding,int indexEndExcluding){
+        Cct cct = Cct.getEmptyCct();
+        for (int i = indexStartIncluding; i < indexEndExcluding; i++) {
+            cct.addSoleLayerCct(this.soleLayerCctList.get(i));
+        }
+
+        return cct;
+    }
+
     public List<SoleLayerCct> getSoleLayerCctList() {
         return soleLayerCctList;
     }
@@ -160,5 +169,13 @@ public class Cct implements MagnetAble, PlotAble3d {
         }
 
         return ret;
+    }
+
+    public Cct symmetricXZPlane() {
+        List<SoleLayerCct> collect = this.soleLayerCctList.stream()
+                .map(SoleLayerCct::symmetricXZPlane)
+                .collect(Collectors.toList());
+
+        return new Cct(collect);
     }
 }

@@ -287,6 +287,19 @@ public class Vector3 {
      * @return 是否 负平行
      */
     public static boolean parallel(Vector3 a, Vector3 b) {
+
         return positiveParallel(a, b) || negativeParallel(a, b);
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getZ() {
+        return z;
     }
 }

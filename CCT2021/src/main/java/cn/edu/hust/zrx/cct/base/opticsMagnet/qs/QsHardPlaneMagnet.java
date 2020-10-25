@@ -69,10 +69,17 @@ public class QsHardPlaneMagnet implements MagnetAble, PlotAble3d {
             double y = relative.z;
             double x;
             switch (isOnTheAxisRight(p.toPoint2())) {
-                case 0 -> x = 0;
-                case 1 -> x = Vector2.create(relative.x, relative.y).length();
-                case -1 -> x = -Vector2.create(relative.x, relative.y).length();
-                default -> throw new RuntimeException("isOnTheAxisRight");
+                case 0:
+                    x = 0;
+                    break;
+                case 1:
+                    x = Vector2.create(relative.x, relative.y).length();
+                    break;
+                case -1:
+                    x = -Vector2.create(relative.x, relative.y).length();
+                    break;
+                default:
+                    throw new RuntimeException("isOnTheAxisRight");
             }
 
             double By_quad = -gradient_T_per_m * x;

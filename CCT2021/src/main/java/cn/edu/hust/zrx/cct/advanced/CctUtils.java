@@ -9,6 +9,7 @@ import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
+import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -237,7 +238,7 @@ public class CctUtils {
         return ret;
     }
 
-
+    // mm mr
     public static List<Point2> cosyPhaseEllipse(
             boolean xPlane, double delta, int number, int order,
             boolean moveToCenter, double scaleForParticle,
@@ -305,10 +306,79 @@ public class CctUtils {
         return Point2.convert(projectionToPlaneCOSY, 1 / MM, 1 / MRAD);
     }
 
+    // mm mr
+    public static List<Point2> trackingPhaseEllipse(
+            double distance, boolean xPlane, double delta, int number,
+            boolean moveToCenter, double scaleForParticle,
+            MagnetAble magnetAble, Line2 trajectory, double kineticMeV) {
+
+        RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory(trajectory, kineticMeV);
+
+        List<PhaseSpaceParticle> pp = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInPlane(
+                xPlane, 3.5 * MM * scaleForParticle, 7.5 * MM * scaleForParticle, delta, number);
+
+        List<RunningParticle> ps = ParticleFactory.createParticlesFromPhaseSpaceParticle(ip, ip.computeNaturalCoordinateSystem(), pp);
+
+        if (distance > MM) {
+            ParticleRunner.runThread(ps, magnetAble, distance, MM);
+            //ParticleRunner.run(ip, magnetAble, distance, MM);
+        }
+
+        RunningParticle ipEnd = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory, distance);
+
+        List<PhaseSpaceParticle> ppEnd = PhaseSpaceParticles.phaseSpaceParticlesFromRunningParticles(
+                ipEnd, ipEnd.computeNaturalCoordinateSystem(), ps);
+
+        List<Point2> projectionToPlaneCOSY = PhaseSpaceParticles.projectionToPlane(xPlane, ppEnd);
+
+        if (moveToCenter) {
+            Vector2 average = Point2.average(projectionToPlaneCOSY).toVector2().reverseSelf();
+
+            projectionToPlaneCOSY.forEach(point2 -> point2.moveSelf(average));
+        }
+
+        // 改单位
+        return Point2.convert(projectionToPlaneCOSY, 1 / MM, 1 / MRAD);
+    }
+
 
     public static List<Point2> trackingIdealParticle(
             Line2 trajectory, double distance, MagnetAble magnetAble, boolean xPlane) {
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
+
+        return ParticleRunner.runGetPoint3WithDistance(ip, magnetAble, distance, MM)
+                .stream()
+                .map(point3WithDistance -> {
+
+                    if (xPlane) {
+                        double d = point3WithDistance.getDistance();
+
+                        Point2 p = point3WithDistance.getPoint3().toPoint2();
+
+                        Point2 o = trajectory.pointAt(d);
+                        Vector2 x = trajectory.directAt(d).rotateSelf(Math.PI / 2);
+
+                        return Point2.create(d, Vector2.from(o).to(p).dot(x));
+
+
+                    } else {
+                        return point3WithDistance.getDistanceWithZ();
+                    }
+                }).collect(Collectors.toList());
+    }
+
+    /**
+     * 比起上面的加了 动能 上面是是 动能默认值 250
+     * @param trajectory 理想轨道
+     * @param distance trakc距离
+     * @param magnetAble 磁场
+     * @param xPlane 平面
+     * @param kineticMeV 动能
+     * @return 轨迹
+     */
+    public static List<Point2> trackingIdealParticle(
+            Line2 trajectory, double distance, MagnetAble magnetAble, boolean xPlane, double kineticMeV) {
+        RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory(trajectory, kineticMeV);
 
         return ParticleRunner.runGetPoint3WithDistance(ip, magnetAble, distance, MM)
                 .stream()
@@ -469,6 +539,51 @@ public class CctUtils {
         ).collect(Collectors.toList());
     }
 
+    public static List<List<Point2>> trackMultiParticles2d(int number, double delta, Line2 trajectory, double distance,
+                                                           MagnetAble magnetAble, boolean xPlane, double kineticMeV) {
+        RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory(trajectory,kineticMeV);
+
+        List<PhaseSpaceParticle> pp = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInPlane(
+                xPlane, 3.5 * MM, 7.5 * MM, delta, number);
+        List<RunningParticle> ps = ParticleFactory.createParticlesFromPhaseSpaceParticle(ip, ip.computeNaturalCoordinateSystem(), pp);
+
+
+//        List<RunningParticle> ps = Arrays.stream(SR.sphericalUniformDistribution(number)).map(point3 -> {
+//
+//            PhaseSpaceParticle psp = PhaseSpaceParticle.create(
+//                    xPlane ? 3.5 * MM * point3.x : 0,
+//                    xPlane ? 7.5 * MM * point3.y : 0,
+//                    xPlane ? 0 : 3.5 * MM * point3.x,
+//                    xPlane ? 0 : 7.5 * MM * point3.y,
+//                    0,
+//                    delta * point3.z
+//            );
+//
+//            return ParticleFactory.createParticleFromPhaseSpaceParticle(ip, ip.computeNaturalCoordinateSystem(), psp);
+//        }).collect(Collectors.toList());
+
+
+        return ps.stream().parallel().map(p ->
+                ParticleRunner.runGetPoint3WithDistance(p, magnetAble, distance, MM)
+                        .stream()
+                        .map(point3WithDistance -> {
+                            if (xPlane) {
+                                double d = point3WithDistance.getDistance();
+
+                                Point2 p2 = point3WithDistance.getPoint3().toPoint2();
+
+                                Point2 o = trajectory.pointAt(d);
+                                Vector2 x = trajectory.directAt(d).rotateSelf(Math.PI / 2);
+
+                                return Point2.create(d, Vector2.from(o).to(p2).dot(x));
+                            } else {
+                                return point3WithDistance.getDistanceWithZ();
+                            }
+                        })
+                        .collect(Collectors.toList())
+        ).collect(Collectors.toList());
+    }
+
     public static List<List<Point3>> trackMultiParticles3d(int number, double delta, Line2 trajectory,
                                                            double distance, MagnetAble magnetAble, boolean xPlane) {
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
@@ -562,6 +677,46 @@ public class CctUtils {
                     return Point2.create(d, r16Trans);
                 })
                 .collect(Collectors.toList());
+    }
+
+    public static void bxByBzBmdAlong(MagnetAble magnetAble, Line2 trajectory) {
+        List<Point2> bx = new ArrayList<>();
+        List<Point2> by = new ArrayList<>();
+        List<Point2> bz = new ArrayList<>();
+        List<Point2> bmod = new ArrayList<>();
+
+        trajectory.dispersePoint3sWithDistance(MM)
+                .stream()
+                .parallel()
+                .map(point3WithDistance -> {
+                    double d = point3WithDistance.getDistance();
+                    Point3 p3 = point3WithDistance.getPoint3();
+
+                    Vector3 m = magnetAble.magnetAt(p3);
+
+                    return BaseUtils.Content.BiContent.create(d, m);
+                })
+                .collect(Collectors.toList())
+                .stream()
+                .sequential()
+                .sorted(Comparator.comparingDouble(BaseUtils.Content.BiContent::getT1))
+                .forEach(bi -> {
+                    bx.add(Point2.create(bi.getT1(), bi.getT2().x));
+                    by.add(Point2.create(bi.getT1(), bi.getT2().y));
+                    bz.add(Point2.create(bi.getT1(), bi.getT2().z));
+                    bmod.add(Point2.create(bi.getT1(), bi.getT2().length()));
+                });
+
+        Plot2d.plot2(bx, Plot2d.RED_LINE);
+        Plot2d.plot2(by, Plot2d.BLUE_LINE);
+        Plot2d.plot2(bz, Plot2d.YELLOW_LINE);
+        Plot2d.plot2(bmod, Plot2d.BLACK_DASH);
+
+        Plot2d.info("s/m", "B/T", "bx by bz bmod", 18);
+
+        Plot2d.legend(18, "bx", "by", "bz", "bmod");
+
+        Plot2d.showThread();
     }
 
 

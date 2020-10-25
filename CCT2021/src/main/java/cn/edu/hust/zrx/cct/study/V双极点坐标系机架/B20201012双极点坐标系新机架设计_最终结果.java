@@ -1,6 +1,7 @@
 package cn.edu.hust.zrx.cct.study.V双极点坐标系机架;
 
 import cn.edu.hust.zrx.cct.Logger;
+import cn.edu.hust.zrx.cct.advanced.CctUtils;
 import cn.edu.hust.zrx.cct.advanced.MathFunction;
 import cn.edu.hust.zrx.cct.advanced.PolynomialFitter;
 import cn.edu.hust.zrx.cct.advanced.opera.Brick8s;
@@ -407,6 +408,7 @@ public class B20201012双极点坐标系新机架设计_最终结果 {
             final double phi0 = bendingRadian / windingNumber;
             final double slotDepth = 12 * MM;
             final double slotWidth = 2 * MM;
+            Logger.getLogger().info("phi0 = " + phi0);
 
             MathFunction phiKsiFun = B20201012Utils.createPhiKsiFun(bigR, innerSmallR, phi0, tiltAngle);
             SoleLayerCct soleLayerCct = B20201012Utils.createSoleLayerCct(bigR, innerSmallR, phiKsiFun, I0,
@@ -460,7 +462,7 @@ public class B20201012双极点坐标系新机架设计_最终结果 {
             final double tiltRadian = BaseUtils.Converter.angleToRadian(tiltAngle);
             final int[] windingNumbers = {20, 44, 44};
             final double[] endKsis = BaseUtils.ArrayUtils.multiple(windingNumbers, Math.PI * 2);
-            final double I0 = -7037; // 2.355 T
+            final double I0 = -7037*0; // 2.355 T
             final double[] phi0 = BaseUtils.ArrayUtils.div(bendingRadians, windingNumbers);
             final double slotDepth = 12 * MM;
             final double slotWidth = 2 * MM;
@@ -567,16 +569,18 @@ public class B20201012双极点坐标系新机架设计_最终结果 {
         fileOutputStream.close();
 
 
-//        Trajectory trajectory = TrajectoryFactory.setStartingPoint(0.95, -1)
-//                .setStraightLine(1, Vector2.yDirect())
-//                .addArcLine(0.95, false, 67.5)
-//                .addStraitLine(1);
+        Trajectory trajectory = TrajectoryFactory.setStartingPoint(0.95, -1)
+                .setStraightLine(1, Vector2.yDirect())
+                .addArcLine(0.95, false, 67.5)
+                .addStraitLine(1);
 
 //        List<Point2> bz2 = cct.magnetBzAlongTrajectory(trajectory);
 //        List<Point2> g = cct.magnetGradientAlongTrajectoryFast(trajectory, 10 * MM, 10 * MM);
 
 //        Plot2d.plot2(bz2);
 //        Plot2d.plot2(g);
+
+        CctUtils.bxByBzBmdAlong(cct,trajectory);
 
 //        Plot2d.showThread();
 
@@ -616,7 +620,7 @@ public class B20201012双极点坐标系新机架设计_最终结果 {
         }
     }
 
-    @Run(100)
+    @Run(-100)
     public void 超导线材() {
         PolynomialFitter fitter = PolynomialFitter.build(2);
         double[] fit = fitter.fit(List.of(
@@ -679,7 +683,7 @@ public class B20201012双极点坐标系新机架设计_最终结果 {
         Plot2d.showThread();
     }
 
-    @Run(101)
+    @Run(-101)
     public void 超导线材2() {
         PolynomialFitter fitter = PolynomialFitter.build(2);
         double[] fit = fitter.fit(List.of(

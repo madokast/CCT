@@ -42,6 +42,7 @@ public class Plot2d {
     public static final String GREEN_LINE = ",'g'";
     public static final String BLUE_LINE = ",'b'";
     public static final String WHITE_LINE = ",'w'";
+    public static final String TRANSPARENCY_LINE = ",'w',alpha=0";
 
     public static final String BLACK_UP_TRI = ",'k^'";
     public static final String RED_UP_TRI = ",'r^'";

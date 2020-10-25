@@ -44,9 +44,30 @@ public interface MagnetAble {
                 )).collect(Collectors.toList());
     }
 
+    default List<Point2> magnetBzAlongTrajectoryParallel(
+            final Line2 trajectory, final Point2To3 point2To3, final double deltaLength) {
+        return trajectory.dispersePoint3sWithDistance(deltaLength, point2To3)
+                .stream()
+                .parallel()
+                .map(point3WithDistance -> Point2.create(
+                        point3WithDistance.getDistance(),
+                        this.magnetAt(point3WithDistance.getPoint3()).z
+                ))
+                .collect(Collectors.toList())
+                .stream()
+                .sequential()
+                .sorted(Comparator.comparingDouble(Point2::getX))
+                .collect(Collectors.toList());
+    }
+
     default List<Point2> magnetBzAlongTrajectory(
             final Line2 trajectory, final double deltaLength) {
         return magnetBzAlongTrajectory(trajectory, Point2To3.getXY0ToXYZPoint2To3(), deltaLength);
+    }
+
+    default List<Point2> magnetBzAlongTrajectoryParallel(
+            final Line2 trajectory, final double deltaLength) {
+        return magnetBzAlongTrajectoryParallel(trajectory, Point2To3.getXY0ToXYZPoint2To3(), deltaLength);
     }
 
     default List<Point3WithDistance> magnetAlongTrajectory(
@@ -61,6 +82,10 @@ public interface MagnetAble {
 
     default List<Point2> magnetBzAlongTrajectory(final Line2 trajectory) {
         return magnetBzAlongTrajectory(trajectory, MM);
+    }
+
+    default List<Point2> magnetBzAlongTrajectoryParallel(final Line2 trajectory) {
+        return magnetBzAlongTrajectoryParallel(trajectory, MM);
     }
 
     default List<Point3WithDistance> magnetAlongTrajectory(
@@ -124,6 +149,11 @@ public interface MagnetAble {
                     return Point2.create(distance, vector3.dot(left));
                 }).collect(Collectors.toList());
     }
+
+    default List<Point2> leftHandMagnetAlongTrajectory(final Line2 trajectory) {
+        return leftHandMagnetAlongTrajectory(trajectory, MM);
+    }
+
 
     default double magnetGradientAlongTrajectoryAt(
             final Line2 trajectory, final double goodFieldAreaWidth, final double s) {
