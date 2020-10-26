@@ -1,5 +1,6 @@
 package cn.edu.hust.zrx.cct.advanced;
 
+import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point2Function;
@@ -131,8 +132,10 @@ public interface MathFunction extends Function<Double, Double> {
             final double... tiltAngles // 各级倾斜角
     ) {
         final double a = Math.sqrt(bigR * bigR - smallR * smallR);
+        Logger.getLogger().info("a = " + a);
 
         final double eta = 0.5 * Math.log((bigR + a) / (bigR - a));
+        Logger.getLogger().info("eta = " + eta);
         final double eta_1 = FastMath.asinh(Math.sqrt((bigR * bigR) / (smallR * smallR) - 1)); // 另一种计算 eta 方法
 
         BaseUtils.Equal.requireEqual(eta, eta_1, "两种计算 η 的方法发生了冲突？难以置信");
