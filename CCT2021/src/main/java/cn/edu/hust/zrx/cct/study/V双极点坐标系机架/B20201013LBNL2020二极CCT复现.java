@@ -7,7 +7,7 @@ import cn.edu.hust.zrx.cct.advanced.opera.Brick8s;
 import cn.edu.hust.zrx.cct.advanced.opera.OperaCct;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.annotation.Run;
-import cn.edu.hust.zrx.cct.base.cct.Elements;
+import cn.edu.hust.zrx.cct.base.magnet.Elements;
 import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;

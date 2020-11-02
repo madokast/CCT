@@ -10,12 +10,13 @@ import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.annotation.Run;
 import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
-import cn.edu.hust.zrx.cct.base.cct.Elements;
+import cn.edu.hust.zrx.cct.base.line.DiscretePointLine3;
+import cn.edu.hust.zrx.cct.base.magnet.Elements;
 import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
-import cn.edu.hust.zrx.cct.base.opticsMagnet.qs.QsHardPlaneMagnet;
+import cn.edu.hust.zrx.cct.base.magnet.qs.QsHardPlaneMagnet;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
@@ -211,6 +212,19 @@ public class C20201026廖益诚10月机架建模双极坐标系版本_修改绕�
 //        );
     }
 
+    @Run(16)
+    public void 超导线长度(){
+        for (SoleLayerCct soleLayerCct : dipoleCct345_local_goodWindingMethod_a_as_bigR(secondBend())) {
+            double length = DiscretePointLine3.create(soleLayerCct.windings).getLength();
+            Logger.getLogger().info("length = " + length);
+        }
+
+        for (SoleLayerCct soleLayerCct : agCct345_local_goodWindingMethod_a_as_bigR(secondBend())) {
+            double length = DiscretePointLine3.create(soleLayerCct.windings).getLength();
+            Logger.getLogger().info("length = " + length);
+        }
+    }
+
     private QsHardPlaneMagnet getQs3(GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
         Trajectory trajectoryPart2 = GantryDataBipolarCoUtils.getTrajectory2(firstBend, secondBend);
 
@@ -271,7 +285,7 @@ public class C20201026廖益诚10月机架建模双极坐标系版本_修改绕�
     }
 
     // 极点 a 等于 bigR
-    private Cct dipoleCct345_local_goodWindingMethod_a_as_bigR(GantryDataBipolarCo.SecondBend secondBend) {
+    public Cct dipoleCct345_local_goodWindingMethod_a_as_bigR(GantryDataBipolarCo.SecondBend secondBend) {
         Cct cct = Cct.getEmptyCct();
 
         final double bigR = secondBend.dipoleCct345BigR;
@@ -301,7 +315,7 @@ public class C20201026廖益诚10月机架建模双极坐标系版本_修改绕�
         return cct;
     }
 
-    private Cct agCct345_local_goodWindingMethod_a_as_bigR(GantryDataBipolarCo.SecondBend secondBend) {
+    public Cct agCct345_local_goodWindingMethod_a_as_bigR(GantryDataBipolarCo.SecondBend secondBend) {
         Cct cct = Cct.getEmptyCct();
 
         final double bigR = secondBend.agCct345BigR;
@@ -369,7 +383,7 @@ public class C20201026廖益诚10月机架建模双极坐标系版本_修改绕�
         return GantryDataBipolarCo.FirstBend.getDefault();
     }
 
-    private GantryDataBipolarCo.SecondBend secondBend() {
+    public GantryDataBipolarCo.SecondBend secondBend() {
         GantryDataBipolarCo.SecondBend secondBend = GantryDataBipolarCo.SecondBend.getDefault();
 
         //// QS 磁铁

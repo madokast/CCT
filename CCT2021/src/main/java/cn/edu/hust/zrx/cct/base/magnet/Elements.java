@@ -1,4 +1,4 @@
-package cn.edu.hust.zrx.cct.base.cct;
+package cn.edu.hust.zrx.cct.base.magnet;
 
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.PlotAble3d;
@@ -60,14 +60,23 @@ public class Elements implements MagnetAble, PlotAble3d {
 
     @Override
     public Vector3 magnetAt(Point3 p) {
-        Vector3 magnet = elements.get(0).magnetAt(p);
+        // 修改
+        // magnetAt 这个函数的返回值 最好不要修改
+//        Vector3 magnet = elements.get(0).magnetAt(p);
+//
+//        for (int i = 1; i < elements.size(); i++) {
+//            magnet.addSelf(elements.get(i).magnetAt(p));
+//        }
+//
+//        return magnet;
 
-        for (int i = 1; i < elements.size(); i++) {
-            magnet.addSelf(elements.get(i).magnetAt(p));
+
+        final Vector3 m = Vector3.getZero();
+        for (MagnetAble element : elements) {
+            m.addSelf(element.magnetAt(p));
         }
-
-        return magnet;
-    }
+            return m;
+        }
 
     @Override
     public void plot3d() {

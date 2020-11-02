@@ -1,18 +1,35 @@
 package cn.edu.hust.zrx.cct.study.V双极点坐标系机架;
 
 import cn.edu.hust.zrx.cct.Logger;
+import cn.edu.hust.zrx.cct.advanced.CctUtils;
 import cn.edu.hust.zrx.cct.advanced.CosyArbitraryOrder;
 import cn.edu.hust.zrx.cct.advanced.combined.GantryDataBipolarCo;
+import cn.edu.hust.zrx.cct.advanced.combined.GantryDataBipolarCoUtils;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.annotation.Run;
-import cn.edu.hust.zrx.cct.base.line.Line2;
-import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
+import cn.edu.hust.zrx.cct.base.cct.Cct;
+import cn.edu.hust.zrx.cct.base.cct.CctFactory;
+import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
+import cn.edu.hust.zrx.cct.base.line.*;
+import cn.edu.hust.zrx.cct.base.magnet.Elements;
+import cn.edu.hust.zrx.cct.base.magnet.FarIgnoreMagnet;
+import cn.edu.hust.zrx.cct.base.magnet.MagnetAble;
+import cn.edu.hust.zrx.cct.base.magnet.qs.QsHardPlaneMagnet;
+import cn.edu.hust.zrx.cct.base.point.Point2;
+import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.MM;
+import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.PRESENT;
 
 /**
  * Description
@@ -27,8 +44,855 @@ import java.util.Arrays;
 
 public class C20201027廖益诚10月机架建模复古简单圆环坐标系版本 {
 
+    @Run(-1000)
+    private void 二极CCT测试对比之二极场() {
+        Cct cct = dipoleCct345_local_simpleToroidalCoo(secondBend());
+        Line2 line2 = testTrajectory675();
+
+        Cct cctABigR = new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().dipoleCct345_local_goodWindingMethod_a_as_bigR(
+                new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().secondBend());
+
+        Cct cctBiPoleCoo = new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().dipoleCct345_local_goodWindingMethod(
+                new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().secondBend());
+
+        List<Point2> bz = cct.magnetBzAlongTrajectoryParallel(line2);
+        List<Point2> bz1 = cctBiPoleCoo.magnetBzAlongTrajectoryParallel(line2);
+        List<Point2> bz2 = cctABigR.magnetBzAlongTrajectoryParallel(line2);
+
+        Plot2d.plot2(bz, Plot2d.BLACK_LINE);
+        Plot2d.plot2(bz1, Plot2d.BLUE_LINE);
+        Plot2d.plot2(bz2, Plot2d.RED_DASH);
+
+        Plot2d.info("s/m", "B/T", "comparison", 18);
+
+        Plot2d.legend(18, "simple toroidal coo", "bipolar coo", "bipolar coo with a as R");
+
+        Plot2d.showThread();
+    }
+
+    @Run(-2000)
+    private void 二极CCT测试对比之四极场() {
+        GantryDataBipolarCo.SecondBend secondBend = secondBend();
+        Cct cct = dipoleCct345_local_simpleToroidalCoo(secondBend);
+        Line2 line2 = testTrajectory675();
+
+        Cct cctABigR = new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().dipoleCct345_local_goodWindingMethod_a_as_bigR(
+                new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().secondBend());
+
+        Cct cctBiPoleCoo = new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().dipoleCct345_local_goodWindingMethod(
+                new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().secondBend());
+
+        List<Point2> bz = cct.magnetGradientAlongTrajectoryFast(line2);
+        List<Point2> bz1 = cctBiPoleCoo.magnetGradientAlongTrajectoryFast(line2);
+        List<Point2> bz2 = cctABigR.magnetGradientAlongTrajectoryFast(line2);
+
+        Plot2d.plot2(bz, Plot2d.BLACK_LINE);
+        Plot2d.plot2(bz1, Plot2d.BLUE_LINE);
+        Plot2d.plot2(bz2, Plot2d.RED_DASH);
+
+        Plot2d.info("s/m", "G/Tm-1", "comparison", 18);
+
+        Plot2d.legend(18, "simple toroidal coo", "bipolar coo", "bipolar coo with a as R");
+
+        Plot2d.showThread();
+    }
+
+    @Run(-3000)
+    private void 二极CCT测试对比之六极场() {
+        GantryDataBipolarCo.SecondBend secondBend = secondBend();
+        Cct cct = dipoleCct345_local_simpleToroidalCoo(secondBend);
+        Line2 line2 = testTrajectory675();
+
+        Cct cctABigR = new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().dipoleCct345_local_goodWindingMethod_a_as_bigR(
+                new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().secondBend());
+
+        Cct cctBiPoleCoo = new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().dipoleCct345_local_goodWindingMethod(
+                new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().secondBend());
+
+        List<Point2> bz = cct.magnetSecondGradientAlongTrajectory(line2);
+        List<Point2> bz1 = cctBiPoleCoo.magnetSecondGradientAlongTrajectory(line2);
+        List<Point2> bz2 = cctABigR.magnetSecondGradientAlongTrajectory(line2);
+
+        Plot2d.plot2(bz, Plot2d.BLACK_LINE);
+        Plot2d.plot2(bz1, Plot2d.BLUE_LINE);
+        Plot2d.plot2(bz2, Plot2d.RED_DASH);
+
+        Plot2d.info("s/m", "L/Tm-2", "comparison", 18);
+
+        Plot2d.legend(18, "simple toroidal coo", "bipolar coo", "bipolar coo with a as R");
+
+        Plot2d.showThread();
+    }
+
+    @Run(-4000)
+    private void 二极CCT测试对比之bx() {
+        GantryDataBipolarCo.SecondBend secondBend = secondBend();
+        Cct cct = dipoleCct345_local_simpleToroidalCoo(secondBend);
+        Line2 line2 = testTrajectory675();
+
+        Cct cctABigR = new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().dipoleCct345_local_goodWindingMethod_a_as_bigR(
+                new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().secondBend());
+
+        Cct cctBiPoleCoo = new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().dipoleCct345_local_goodWindingMethod(
+                new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().secondBend());
+
+        List<Point2> bz = cct.leftHandMagnetAlongTrajectory(line2);
+        List<Point2> bz1 = cctBiPoleCoo.leftHandMagnetAlongTrajectory(line2);
+        List<Point2> bz2 = cctABigR.leftHandMagnetAlongTrajectory(line2);
+
+        Plot2d.plot2(bz, Plot2d.BLACK_LINE);
+        Plot2d.plot2(bz1, Plot2d.BLUE_LINE);
+        Plot2d.plot2(bz2, Plot2d.RED_DASH);
+
+        Plot2d.info("s/m", "Bx/T", "comparison", 18);
+
+        Plot2d.legend(18, "simple toroidal coo", "bipolar coo", "bipolar coo with a as R");
+
+        Plot2d.showThread();
+    }
+
+    @Run(-5000)
+    private void 二极CCT测试对比之bmod() {
+        GantryDataBipolarCo.SecondBend secondBend = secondBend();
+        Cct cct = dipoleCct345_local_simpleToroidalCoo(secondBend);
+        Line2 line2 = testTrajectory675();
+
+        Cct cctABigR = new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().dipoleCct345_local_goodWindingMethod_a_as_bigR(
+                new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().secondBend());
+
+        Cct cctBiPoleCoo = new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().dipoleCct345_local_goodWindingMethod(
+                new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().secondBend());
+
+        List<Point2> bz = cct.magnetAlongTrajectory(line2).stream().map(MagnetAble.Point3WithDistance::getBmodWithDistance).collect(Collectors.toList());
+        List<Point2> bz1 = cctBiPoleCoo.magnetAlongTrajectory(line2).stream().map(MagnetAble.Point3WithDistance::getBmodWithDistance).collect(Collectors.toList());
+        List<Point2> bz2 = cctABigR.magnetAlongTrajectory(line2).stream().map(MagnetAble.Point3WithDistance::getBmodWithDistance).collect(Collectors.toList());
+
+        Plot2d.plot2(bz, Plot2d.BLACK_LINE);
+        Plot2d.plot2(bz1, Plot2d.BLUE_LINE);
+        Plot2d.plot2(bz2, Plot2d.RED_DASH);
+
+        Plot2d.info("s/m", "Bmod/T", "comparison", 18);
+
+        Plot2d.legend(18, "simple toroidal coo", "bipolar coo", "bipolar coo with a as R");
+
+        Plot2d.showThread();
+    }
+
+    @Run(-6000)
+    private void 四极CCT测试对比之二极场() {
+        Cct cct = agCct345_local_simpleToroidalCoo(secondBend());
+        Line2 line2 = testTrajectory675();
+
+        Cct cctABigR = new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().agCct345_local_goodWindingMethod_a_as_bigR(
+                new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().secondBend());
+
+        Cct cctBiPoleCoo = new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().agCct345_local_goodWindingMethod(
+                new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().secondBend());
+
+        List<Point2> bz = cct.magnetBzAlongTrajectoryParallel(line2);
+        List<Point2> bz1 = cctBiPoleCoo.magnetBzAlongTrajectoryParallel(line2);
+        List<Point2> bz2 = cctABigR.magnetBzAlongTrajectoryParallel(line2);
+
+        Plot2d.plot2(bz, Plot2d.BLACK_LINE);
+        Plot2d.plot2(bz1, Plot2d.BLUE_LINE);
+        Plot2d.plot2(bz2, Plot2d.RED_DASH);
+
+        Plot2d.info("s/m", "B/T", "comparison", 18);
+
+        Plot2d.legend(18, "simple toroidal coo", "bipolar coo", "bipolar coo with a as R");
+
+        Plot2d.showThread();
+    }
+
+    @Run(-7000)
+    private void 四极CCT测试对比之四极场() {
+        Cct cct = agCct345_local_simpleToroidalCoo(secondBend());
+        Line2 line2 = testTrajectory675();
+
+        Cct cctABigR = new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().agCct345_local_goodWindingMethod_a_as_bigR(
+                new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().secondBend());
+
+        Cct cctBiPoleCoo = new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().agCct345_local_goodWindingMethod(
+                new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().secondBend());
+
+        List<Point2> bz = cct.magnetGradientAlongTrajectoryFast(line2);
+        List<Point2> bz1 = cctBiPoleCoo.magnetGradientAlongTrajectoryFast(line2);
+        List<Point2> bz2 = cctABigR.magnetGradientAlongTrajectoryFast(line2);
+
+        Plot2d.plot2(bz, Plot2d.BLACK_LINE);
+        Plot2d.plot2(bz1, Plot2d.BLUE_LINE);
+        Plot2d.plot2(bz2, Plot2d.RED_DASH);
+
+        Plot2d.info("s/m", "G/Tm-1", "comparison", 18);
+
+        Plot2d.legend(18, "simple toroidal coo", "bipolar coo", "bipolar coo with a as R");
+
+        Plot2d.showThread();
+    }
+
+    @Run(-8000)
+    private void 四极CCT测试对比之六极场() {
+        Cct cct = agCct345_local_simpleToroidalCoo(secondBend());
+        Line2 line2 = testTrajectory675();
+
+        Cct cctABigR = new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().agCct345_local_goodWindingMethod_a_as_bigR(
+                new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().secondBend());
+
+        Cct cctBiPoleCoo = new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().agCct345_local_goodWindingMethod(
+                new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().secondBend());
+
+        List<Point2> bz = cct.magnetSecondGradientAlongTrajectory(line2);
+        List<Point2> bz1 = cctBiPoleCoo.magnetSecondGradientAlongTrajectory(line2);
+        List<Point2> bz2 = cctABigR.magnetSecondGradientAlongTrajectory(line2);
+
+        Plot2d.plot2(bz, Plot2d.BLACK_LINE);
+        Plot2d.plot2(bz1, Plot2d.BLUE_LINE);
+        Plot2d.plot2(bz2, Plot2d.RED_DASH);
+
+        Plot2d.info("s/m", "L/Tm-2", "comparison", 18);
+
+        Plot2d.legend(18, "simple toroidal coo", "bipolar coo", "bipolar coo with a as R");
+
+        Plot2d.showThread();
+    }
+
+    @Run(-9000)
+    private void 四极CCT测试对比之bx() {
+        Cct cct = agCct345_local_simpleToroidalCoo(secondBend());
+        Line2 line2 = testTrajectory675();
+
+        Cct cctABigR = new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().agCct345_local_goodWindingMethod_a_as_bigR(
+                new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().secondBend());
+
+        Cct cctBiPoleCoo = new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().agCct345_local_goodWindingMethod(
+                new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().secondBend());
+
+        List<Point2> bz = cct.leftHandMagnetAlongTrajectory(line2);
+        List<Point2> bz1 = cctBiPoleCoo.leftHandMagnetAlongTrajectory(line2);
+        List<Point2> bz2 = cctABigR.leftHandMagnetAlongTrajectory(line2);
+
+        Plot2d.plot2(bz, Plot2d.BLACK_LINE);
+        Plot2d.plot2(bz1, Plot2d.BLUE_LINE);
+        Plot2d.plot2(bz2, Plot2d.RED_DASH);
+
+        Plot2d.info("s/m", "bx/T", "comparison", 18);
+
+        Plot2d.legend(18, "simple toroidal coo", "bipolar coo", "bipolar coo with a as R");
+
+        Plot2d.showThread();
+    }
+
+    @Run(-10000)
+    private void 四极CCT测试对比之bmod() {
+        Cct cct = agCct345_local_simpleToroidalCoo(secondBend());
+        Line2 line2 = testTrajectory675();
+
+        Cct cctABigR = new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().agCct345_local_goodWindingMethod_a_as_bigR(
+                new C20201026廖益诚10月机架建模双极坐标系版本_修改绕线和smallR极点().secondBend());
+
+        Cct cctBiPoleCoo = new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().agCct345_local_goodWindingMethod(
+                new C20201023廖益诚10月机架建模双极坐标系版本_修改绕线().secondBend());
+
+        List<Point2> bz = cct.magnetAlongTrajectory(line2).stream().map(MagnetAble.Point3WithDistance::getBmodWithDistance).collect(Collectors.toList());
+        List<Point2> bz1 = cctBiPoleCoo.magnetAlongTrajectory(line2).stream().map(MagnetAble.Point3WithDistance::getBmodWithDistance).collect(Collectors.toList());
+        List<Point2> bz2 = cctABigR.magnetAlongTrajectory(line2).stream().map(MagnetAble.Point3WithDistance::getBmodWithDistance).collect(Collectors.toList());
+
+        Plot2d.plot2(bz, Plot2d.BLACK_LINE);
+        Plot2d.plot2(bz1, Plot2d.BLUE_LINE);
+        Plot2d.plot2(bz2, Plot2d.RED_DASH);
+
+        Plot2d.info("s/m", "bmod/T", "comparison", 18);
+
+        Plot2d.legend(18, "simple toroidal coo", "bipolar coo", "bipolar coo with a as R");
+
+        Plot2d.showThread();
+    }
+
+    @Run(-3)
+    private void 调整二极CCT四极倾角() {
+        BaseUtils.Switcher<String> switcher = CctUtils.createPlotDescribeSwitcher();
+        List<String> des = BaseUtils.Python.linspaceStream(85, 89, switcher.getSize())
+                .parallel()
+                .mapToObj(t -> {
+                    GantryDataBipolarCo.FirstBend firstBend = firstBend();
+                    GantryDataBipolarCo.SecondBend secondBend = secondBend();
+                    secondBend.dipoleCct345TiltAngles[1] = t;
+                    Cct cct = dipoleCct345_local_simpleToroidalCoo(secondBend);
+
+                    Line2 trajectory2 = testTrajectory675();
+
+                    List<Point2> g = cct.magnetGradientAlongTrajectoryFast(trajectory2);
+
+                    return BaseUtils.Content.BiContent.create(t, g);
+                })
+                .collect(Collectors.toList())
+                .stream()
+                .sequential()
+                .sorted(Comparator.comparingDouble(BaseUtils.Content.BiContent::getT1))
+                .peek(bi -> Plot2d.plot2(bi.getT2(), switcher.getAndSwitch()))
+                .mapToDouble(BaseUtils.Content.BiContent::getT1)
+                .mapToObj(t -> "tilt=" + t)
+                .collect(Collectors.toList());
 
 
+        Plot2d.legend(18, des);
+
+        Plot2d.info("s/m", "G/Tm-1", "", 18);
+
+        Plot2d.showThread();
+    }
+
+    @Run(4)
+    private void 单粒子跟踪() {
+        MagnetAble e = dipoleCct345_local_simpleToroidalCoo(secondBend());
+        Line2 t = testTrajectory675();
+
+        List<Point2> x = CctUtils.trackingIdealParticle(t, t.getLength(), e, true, 215);
+        List<Point2> y = CctUtils.trackingIdealParticle(t, t.getLength(), e, false, 215);
+
+        Plot2d.plot2(x);
+
+        Plot2d.plot2(y);
+
+        Plot2d.legend(18, "x", "y");
+
+        Plot2d.info("s/m", "x/mm", "", 18);
+
+        Plot2d.showThread();
+    }
+
+    @Run(5)
+    private void 调整二极CCT电流() {
+        Line2 line2 = testTrajectory675();
+
+        BaseUtils.Switcher<String> plotDescribeSwitcher = CctUtils.createPlotDescribeSwitcher();
+        List<String> des = BaseUtils.Python.linspaceStream(-9460, -9445, plotDescribeSwitcher.getSize())
+                .parallel()
+                .mapToObj(i -> {
+                    GantryDataBipolarCo.SecondBend secondBend = secondBend();
+                    secondBend.dipoleCct345I0 = i;
+                    Cct cct = dipoleCct345_local_simpleToroidalCoo(secondBend);
+
+                    List<Point2> x = CctUtils.trackingIdealParticle(line2, line2.getLength(), cct, true, 215);
+
+                    return BaseUtils.Content.BiContent.create(i, x);
+                })
+                .collect(Collectors.toList())
+                .stream()
+                .sequential()
+                .sorted(Comparator.comparingDouble(BaseUtils.Content.BiContent::getT1))
+                .peek(bi -> Plot2d.plot2(bi.getT2(), plotDescribeSwitcher.getAndSwitch()))
+                .mapToDouble(BaseUtils.Content.BiContent::getT1)
+                .mapToObj(i -> "i=" + i)
+                .collect(Collectors.toList());
+
+
+        Plot2d.legend(18, des);
+
+        Plot2d.showThread();
+    }
+
+    @Run(6)
+    private void 全磁场分布() {
+        MagnetAble e = getElementsOfAllPart2(firstBend(), secondBend());
+        Trajectory t = GantryDataBipolarCoUtils.getTrajectory2(firstBend(), secondBend());
+
+        List<List<Point2>> lists = e.multiplePoleMagnetAlongTrajectoryBreak(t, MM, 10 * MM, 2, 8);
+        List<Point2> bz = lists.get(0);
+        List<Point2> g = lists.get(1);
+        List<Point2> l = lists.get(2);
+
+
+        Plot2d.plot2(bz);
+        Plot2d.plot2(g);
+        Plot2d.plot2(l);
+
+        Plot2d.showThread();
+    }
+
+    @Run(7)
+    private void 看看四极CCT二极场() {
+        Line2 line2 = testTrajectory675();
+        Cct cct = agCct345_local_simpleToroidalCoo(secondBend());
+
+        List<Point2> bz = cct.magnetBzAlongTrajectoryParallel(line2);
+
+        Plot2d.plot2(bz);
+
+        Plot2d.showThread();
+    }
+
+    @Run(8)
+    private void 又到了相椭圆环节() {
+
+        boolean xPlane = false;
+
+        Trajectory t = GantryDataBipolarCoUtils.getTrajectory2(firstBend(), secondBend());
+
+        BaseUtils.Switcher<String> switcher = CctUtils.createPlotDescribeSwitcher();
+        List<String> des = BaseUtils.Python.linspaceStream(-5800, -6200, switcher.getSize() - 1)
+                .sequential()
+                .peek(i -> {
+                    GantryDataBipolarCo.FirstBend firstBend = firstBend();
+                    GantryDataBipolarCo.SecondBend secondBend = secondBend();
+
+
+                    secondBend.agCct345I0 = i;
+
+                    MagnetAble e = getElementsOfAllPart2(firstBend, secondBend);
+
+                    List<Point2> tps = CctUtils.trackingPhaseEllipse(
+                            t.getLength(), xPlane,
+                            0.0, 10, false, 1,
+                            e, t, 215
+                    );
+
+                    Plot2d.plot2circle(tps, switcher.getAndSwitch());
+
+                }).mapToObj(i -> "AGCCT_I = " + i)
+                .collect(Collectors.toList());
+
+        List<Point2> cps = CctUtils.cosyPhaseEllipse(
+                xPlane, 0, 512, 5, false, 1, C20201023廖益诚10月机架建模双极坐标系版本_修改绕线.COSY_MAP1021.part2.map
+        );
+
+        Plot2d.plot2circle(cps, switcher.getAndSwitch());
+
+        if (xPlane) Plot2d.info("x/mm", "xp/mr", "", 18);
+        else Plot2d.info("y/mm", "yp/mr", "", 18);
+
+
+        Plot2d.equal();
+
+        Plot2d.legend(18, des);
+
+        Plot2d.showThread();
+
+    }
+
+    @Run(9)
+    public void 动量分散下相椭圆分布() {
+        GantryDataBipolarCo.FirstBend firstBend = firstBend();
+        GantryDataBipolarCo.SecondBend secondBend = secondBend();
+        MagnetAble elements = getElementsOfAllPart2(firstBend, secondBend);
+        Trajectory trajectory2 = GantryDataBipolarCoUtils.getTrajectory2(firstBend, secondBend);
+
+        CctUtils.multiDpPhaseEllipsesAndPlot(
+                trajectory2, trajectory2.getLength(),
+                elements, -5 * PRESENT, 5 * PRESENT,
+                5, 16, false, 215
+        );
+
+//        CctUtils.multiDpPhaseEllipsesAndPlot(
+//                COSY_MAP1021.part2.map,5,false,1,-5*PRESENT,5*PRESENT,5,
+//                512,false
+//        );
+    }
+
+    @Run(10)
+    public void 建模精度和粒子跟踪结果对比() {
+        BaseUtils.Switcher<String> switcher = CctUtils.createPlotDescribeSwitcher();
+        List<String> des = Stream.of(360, 240, 180, 120, 90, 60, 45, 30)
+                .parallel()
+                .map(p -> {
+                    GantryDataBipolarCo.FirstBend firstBend = firstBend();
+                    GantryDataBipolarCo.SecondBend secondBend = secondBend();
+                    secondBend.disperseNumberPerWinding = p;
+
+                    MagnetAble elementsOfAllPart2 = getElementsOfAllPart2(firstBend, secondBend);
+                    Trajectory trajectoryPart2 = getTrajectoryPart2(firstBend, secondBend);
+
+                    List<Point2> x = CctUtils.trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(),
+                            elementsOfAllPart2, false, 200);
+
+                    return BaseUtils.Content.BiContent.create(p, Point2.convert(x, 1, 1 / MM));
+                })
+                .collect(Collectors.toList())
+                .stream()
+                .sequential()
+                .sorted(Comparator.comparingInt(BaseUtils.Content.BiContent::getT1))
+                .peek(bi -> Plot2d.plot2(bi.getT2(), switcher.getAndSwitch()))
+                .mapToInt(BaseUtils.Content.BiContent::getT1)
+                .mapToObj(p -> "part = " + p)
+                .collect(Collectors.toList());
+
+        Plot2d.info("s/m", "y/mm", "", 18);
+
+        Plot2d.legend(18, des);
+
+        Plot2d.showThread();
+    }
+
+    @Run(11)
+    public void 粒子跟踪步长和粒子跟踪结果对比() {
+        boolean xPlane = false;
+
+        BaseUtils.Switcher<String> switcher = CctUtils.createPlotDescribeSwitcher();
+        List<String> des = Stream.of(0.5 * MM, 1 * MM, 1.5 * MM, 2 * MM, 2.5 * MM, 3 * MM, 4 * MM, 6 * MM, 8 * MM)
+                .parallel()
+                .map(footStep -> {
+                    GantryDataBipolarCo.FirstBend firstBend = firstBend();
+                    GantryDataBipolarCo.SecondBend secondBend = secondBend();
+                    secondBend.disperseNumberPerWinding = 120;
+
+                    MagnetAble elementsOfAllPart2 = getElementsOfAllPart2(firstBend, secondBend);
+                    Trajectory trajectoryPart2 = getTrajectoryPart2(firstBend, secondBend);
+
+                    List<Point2> x = CctUtils.trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(),
+                            elementsOfAllPart2, xPlane, 200, footStep);
+
+                    return BaseUtils.Content.BiContent.create(footStep, Point2.convert(x, 1, 1 / MM));
+                })
+                .collect(Collectors.toList())
+                .stream()
+                .sequential()
+                .sorted(Comparator.comparingDouble(BaseUtils.Content.BiContent::getT1))
+                .peek(bi -> Plot2d.plot2(bi.getT2(), switcher.getAndSwitch()))
+                .mapToDouble(BaseUtils.Content.BiContent::getT1)
+                .mapToObj(footStep -> "foot step = " + (footStep * 1000) + "mm")
+                .collect(Collectors.toList());
+
+        Plot2d.info("s/m", xPlane ? "x/mm" : "y/mm", "", 18);
+
+        Plot2d.legend(18, des);
+
+        Plot2d.showThread();
+    }
+
+    @Run(12)
+    public void 远方磁场不计算和粒子跟踪结果对比() {
+        boolean xPlane = false;
+
+
+        BaseUtils.Switcher<String> switcher = CctUtils.createPlotDescribeSwitcher();
+        List<String> des = Stream.of(5.0, 4.5, 4.0, 3.5, 3.0, 2.5)
+                .parallel()
+                .map(ignoreDistance -> {
+                    GantryDataBipolarCo.FirstBend firstBend = firstBend();
+                    GantryDataBipolarCo.SecondBend secondBend = secondBend();
+                    secondBend.disperseNumberPerWinding = 120;
+
+                    Trajectory trajectoryPart2 = getTrajectoryPart2(firstBend, secondBend);
+
+//                    MagnetAble elementsOfAllPart2 = getElementsOfAllPart2(firstBend, secondBend);
+                    Cct cct0 = dipoleCct345_local_simpleToroidalCoo(secondBend).addCct(agCct345_local_simpleToroidalCoo(secondBend));
+                    QsHardPlaneMagnet QS3 = getQs3(firstBend, secondBend);
+                    Cct moved1 = moveCCT345_1(cct0, firstBend, secondBend);
+                    Cct moved2 = moveCCT345_2(moved1, firstBend, secondBend);
+
+                    Elements elements = Elements.empty();
+                    elements.addElement(FarIgnoreMagnet.create(
+                            moved1,
+                            trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                            ignoreDistance
+                    ));
+                    elements.addElement(FarIgnoreMagnet.create(
+                            moved2,
+                            trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH +
+                                    secondBend.GAP3 * 2 + secondBend.QS3_LEN + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                            ignoreDistance
+                    ));
+                    elements.addElement(QS3);
+
+
+                    List<Point2> x = CctUtils.trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(),
+                            elements, xPlane, 215, MM);
+
+                    return BaseUtils.Content.BiContent.create(ignoreDistance, Point2.convert(x, 1, 1 / MM));
+                })
+                .collect(Collectors.toList())
+                .stream()
+                .sequential()
+                .sorted(Comparator.comparingDouble(BaseUtils.Content.BiContent::getT1))
+                .peek(bi -> Plot2d.plot2(bi.getT2(), switcher.getAndSwitch()))
+                .mapToDouble(BaseUtils.Content.BiContent::getT1)
+                .mapToObj(ignoreDistance -> "ignoreDistance = " + ignoreDistance + "m")
+                .collect(Collectors.toList());
+
+        Plot2d.info("s/m", xPlane ? "x/mm" : "y/mm", "", 18);
+
+        Plot2d.legend(18, des);
+
+        Plot2d.showThread();
+    }
+
+    @Run(13)
+    public void 看看时间优化到了多少之优化前() {
+        GantryDataBipolarCo.FirstBend firstBend = firstBend();
+        GantryDataBipolarCo.SecondBend secondBend = secondBend();
+        MagnetAble e = getElementsOfAllPart2(firstBend, secondBend);
+        Trajectory t = getTrajectoryPart2(firstBend, secondBend);
+        BaseUtils.Timer timer = new BaseUtils.Timer();
+
+        BaseUtils.StreamTools.repeat(20)
+                .forEach(ig -> {
+                    timer.resetInitialTime();
+                    List<Point2> point2s = CctUtils.trackingIdealParticle(t, t.getLength(), e, true, 215, MM);
+                    System.out.println(point2s.size());
+                    timer.printPeriodAfterInitial(null);
+                });
+    }
+
+    @Run(14)
+    public void 看看时间优化到了多少之优化后() {
+        GantryDataBipolarCo.FirstBend firstBend = firstBend();
+        GantryDataBipolarCo.SecondBend secondBend = secondBend();
+        secondBend.disperseNumberPerWinding = 120;
+        Trajectory trajectoryPart2 = getTrajectoryPart2(firstBend, secondBend);
+        BaseUtils.Timer timer = new BaseUtils.Timer();
+        double ignoreDistance = 3.5;
+
+
+        Cct cct0 = dipoleCct345_local_simpleToroidalCoo(secondBend).addCct(agCct345_local_simpleToroidalCoo(secondBend));
+        QsHardPlaneMagnet QS3 = getQs3(firstBend, secondBend);
+        Cct moved1 = moveCCT345_1(cct0, firstBend, secondBend);
+        Cct moved2 = moveCCT345_2(moved1, firstBend, secondBend);
+
+        Elements elements = Elements.empty();
+        elements.addElement(FarIgnoreMagnet.create(
+                moved1,
+                trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                ignoreDistance
+        ));
+        elements.addElement(FarIgnoreMagnet.create(
+                moved2,
+                trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH +
+                        secondBend.GAP3 * 2 + secondBend.QS3_LEN + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                ignoreDistance
+        ));
+        elements.addElement(QS3);
+
+
+        BaseUtils.StreamTools.repeat(20)
+                .forEach(ig -> {
+                    timer.resetInitialTime();
+                    List<Point2> point2s = CctUtils.trackingIdealParticle(trajectoryPart2, trajectoryPart2.getLength(),
+                            elements, true, 215, MM);
+                    System.out.println(point2s.size());
+                    timer.printPeriodAfterInitial(null);
+                });
+
+    }
+
+    @Run(15)
+    public void 优化后相椭圆画一画(){
+        GantryDataBipolarCo.FirstBend firstBend = firstBend();
+        GantryDataBipolarCo.SecondBend secondBend = secondBend();
+        secondBend.disperseNumberPerWinding = 120;
+        Trajectory trajectoryPart2 = getTrajectoryPart2(firstBend, secondBend);
+        BaseUtils.Timer timer = new BaseUtils.Timer();
+        double ignoreDistance = 3.5;
+
+
+        Cct cct0 = dipoleCct345_local_simpleToroidalCoo(secondBend).addCct(agCct345_local_simpleToroidalCoo(secondBend));
+        QsHardPlaneMagnet QS3 = getQs3(firstBend, secondBend);
+        Cct moved1 = moveCCT345_1(cct0, firstBend, secondBend);
+        Cct moved2 = moveCCT345_2(moved1, firstBend, secondBend);
+
+        Elements elements = Elements.empty();
+        elements.addElement(FarIgnoreMagnet.create(
+                moved1,
+                trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                ignoreDistance
+        ));
+        elements.addElement(FarIgnoreMagnet.create(
+                moved2,
+                trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH +
+                        secondBend.GAP3 * 2 + secondBend.QS3_LEN + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                ignoreDistance
+        ));
+        elements.addElement(QS3);
+
+
+
+        CctUtils.multiDpPhaseEllipsesAndPlot(
+                trajectoryPart2, trajectoryPart2.getLength(),
+                elements, -5 * PRESENT, 5 * PRESENT,
+                5, 32, false, 215
+        );
+    }
+
+    @Run(16)
+    public void 超导线长度(){
+        for (SoleLayerCct soleLayerCct : dipoleCct345_local_simpleToroidalCoo(secondBend())) {
+            double length = DiscretePointLine3.create(soleLayerCct.windings).getLength();
+            Logger.getLogger().info("length = " + length);
+        }
+
+        for (SoleLayerCct soleLayerCct : agCct345_local_simpleToroidalCoo(secondBend())) {
+            double length = DiscretePointLine3.create(soleLayerCct.windings).getLength();
+            Logger.getLogger().info("length = " + length);
+        }
+    }
+
+    private MagnetAble getElementsOfAllPart2(GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
+        Trajectory trajectoryPart2 = getTrajectoryPart2(firstBend, secondBend);
+
+        Cct cct = dipoleCct345_local_simpleToroidalCoo(secondBend).addCct(agCct345_local_simpleToroidalCoo(secondBend));
+
+//        Cct cct345_1 = getCct345_1(firstBend,secondBend);
+//        Cct cct345_2 = getCct345_2(firstBend,secondBend);
+
+        QsHardPlaneMagnet QS3 = getQs3(firstBend, secondBend);
+
+        Elements elements = Elements.empty();
+
+        Cct moved1 = moveCCT345_1(cct, firstBend, secondBend);
+        elements.addElement(moved1);
+        elements.addElement(moveCCT345_2(moved1, firstBend, secondBend));
+        elements.addElement(QS3);
+
+        return elements;
+    }
+
+    private QsHardPlaneMagnet getQs3(GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
+        Trajectory trajectoryPart2 = GantryDataBipolarCoUtils.getTrajectory2(firstBend, secondBend);
+
+
+        return QsHardPlaneMagnet.create(secondBend.QS3_LEN, secondBend.QS3_GRADIENT, secondBend.QS3_SECOND_GRADIENT,
+                secondBend.QS3_APERTURE_MM,
+                trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH + secondBend.GAP3),
+                trajectoryPart2.directAt(secondBend.DL2 + secondBend.CCT345_LENGTH + secondBend.GAP3));
+    }
+
+    private Cct getCct345_1(GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
+        Trajectory trajectoryPart2 = getTrajectoryPart2(firstBend, secondBend);
+
+        Point2 p1 = trajectoryPart2.pointAt(secondBend.DL2);
+        Point2 p2 = trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH / 2);
+        Point2 p3 = trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH);
+
+        Point2 center3 = Arcs.center(p1, p2, p3);
+
+        Cct dipoleCct345 = dipoleCct345_local_simpleToroidalCoo(secondBend);
+        Cct agCct345 = agCct345_local_simpleToroidalCoo(secondBend);
+
+
+        dipoleCct345 = CctFactory.positionInXYPlane(dipoleCct345, center3, BaseUtils.Converter.angleToRadian(180 - secondBend.dipoleCct345Angle - 45));
+        agCct345 = CctFactory.positionInXYPlane(agCct345, center3, BaseUtils.Converter.angleToRadian(180 - secondBend.dipoleCct345Angle - 45));
+
+
+        return CctFactory.combineCct(dipoleCct345, agCct345);
+    }
+
+    private Cct getCct345_2(GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
+        Trajectory trajectoryPart2 = getTrajectoryPart2(firstBend, secondBend);
+
+        Point2 p = trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH + secondBend.GAP3 + secondBend.QS3_LEN / 2);
+        Vector2 d = trajectoryPart2.directAt(secondBend.DL2 + secondBend.CCT345_LENGTH + secondBend.GAP3 + secondBend.QS3_LEN / 2).rotateSelf(Math.PI / 2);
+
+        Cct cct345_1 = getCct345_1(firstBend, secondBend);
+
+        return CctFactory.symmetryInXYPlaneByLine(cct345_1, p, d);
+    }
+
+    private Cct moveCCT345_1(Cct local, GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
+        Trajectory trajectory2 = GantryDataBipolarCoUtils.getTrajectory2(firstBend, secondBend);
+        Point2 afterDl2 = trajectory2.pointAt(secondBend.DL2).copy();
+        Vector2 directDl2 = trajectory2.directAt(secondBend.DL2).copy();
+
+        return local.symmetricXZPlane().rotateInXYPlane(Point2.origin(), BaseUtils.Converter.angleToRadian(
+                135
+        )).move(
+                afterDl2.moveSelf(
+                        directDl2.rotateSelf(BaseUtils.Converter.angleToRadian(-90))
+                                .changeLengthSelf(secondBend.trajectoryBigRPart2))
+                        .toVector3()
+        );
+    }
+
+    private Cct moveCCT345_2(Cct moved1, GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
+        Trajectory trajectory2 = GantryDataBipolarCoUtils.getTrajectory2(firstBend, secondBend);
+
+        //Cct cct12_1 = getCct12_1();
+        //
+        //        Trajectory trajectoryPart1 = getTrajectoryPart1();
+        //        return CctFactory.symmetryInXYPlaneByLine(
+        //                cct12_1,
+        //                trajectoryPart1.pointAt(DL1 + CCT12_LENGTH + GAP1 + QS1_LEN + GAP2 + QS2_LEN / 2),
+        //                trajectoryPart1.directAt(DL1 + CCT12_LENGTH + GAP1 + QS1_LEN + GAP2 + QS2_LEN / 2).rotateSelf(Math.PI / 2)
+        //        );
+
+        double mid = secondBend.DL2 + secondBend.CCT345_LENGTH + secondBend.GAP3 + secondBend.QS3_LEN / 2;
+
+        return CctFactory.symmetryInXYPlaneByLine(
+                moved1,
+                trajectory2.pointAt(mid),
+                trajectory2.directAt(mid).rotateSelf(Math.PI / 2)
+        );
+    }
+
+    private Trajectory getTrajectoryPart2(GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
+        return GantryDataBipolarCoUtils.getTrajectory2(firstBend, secondBend);
+    }
+
+    private Cct dipoleCct345_local_simpleToroidalCoo(GantryDataBipolarCo.SecondBend secondBend) {
+        double dipoleCct345SmallRInner = secondBend.dipoleCct345SmallRInner;
+        double dipoleCct345SmallROuter = secondBend.dipoleCct345SmallROuter;
+        double dipoleCct345BigR = secondBend.dipoleCct345BigR;
+        double dipoleCct345Angle = secondBend.dipoleCct345Angle;
+        int dipoleCct345WindingNumber = secondBend.dipoleCct345WindingNumber;
+
+        double dipoleCct345A0Inner = -dipoleCct345SmallRInner / (dipoleCct345BigR * Math.tan(BaseUtils.Converter.angleToRadian(secondBend.dipoleCct345TiltAngles[0])));// -dipoleCct345SmallRInner * Math.sqrt(3) / dipoleCct345BigR
+        double dipoleCct345A1Inner = dipoleCct345SmallRInner / (2 * dipoleCct345BigR * Math.tan(BaseUtils.Converter.angleToRadian(secondBend.dipoleCct345TiltAngles[1])));// Math.pow(dipoleCct345SmallRInner, 2) * 0.25;
+        double dipoleCct345A2Inner = dipoleCct345SmallRInner / (3 * dipoleCct345BigR * Math.tan(BaseUtils.Converter.angleToRadian(secondBend.dipoleCct345TiltAngles[2])));
+        double dipoleCct345IInner = -secondBend.dipoleCct345I0;
+
+
+        double dipoleCct345A0Outer = dipoleCct345SmallROuter / (dipoleCct345BigR * Math.tan(BaseUtils.Converter.angleToRadian(secondBend.dipoleCct345TiltAngles[0])));
+        double dipoleCct345A1Outer = -dipoleCct345SmallROuter / (2 * dipoleCct345BigR * Math.tan(BaseUtils.Converter.angleToRadian(secondBend.dipoleCct345TiltAngles[1])));
+        double dipoleCct345A2Outer = -dipoleCct345SmallROuter / (3 * dipoleCct345BigR * Math.tan(BaseUtils.Converter.angleToRadian(secondBend.dipoleCct345TiltAngles[2])));
+        double dipoleCct345IOuter = -secondBend.dipoleCct345I0;
+        int numberPerWinding = secondBend.disperseNumberPerWinding;
+
+
+        return createDipoleCct(
+                dipoleCct345SmallRInner, dipoleCct345SmallROuter, dipoleCct345BigR,
+                dipoleCct345Angle, dipoleCct345WindingNumber,
+                dipoleCct345A0Inner, dipoleCct345A1Inner, dipoleCct345A2Inner, dipoleCct345IInner,
+                dipoleCct345A0Outer, dipoleCct345A1Outer, dipoleCct345A2Outer, dipoleCct345IOuter,
+                numberPerWinding,
+                0.0, 0.0,
+                0.0, 0.0,
+                true, false
+        );
+    }
+
+    private Cct agCct345_local_simpleToroidalCoo(GantryDataBipolarCo.SecondBend secondBend) {
+        double agCct345SmallRInner = secondBend.agCct345SmallRInner;
+        double agCct345SmallROuter = secondBend.agCct345SmallROuter;
+        double agCct345BigR = secondBend.agCct345BigR;
+        double agCctAngle5 = secondBend.agCctAngle5;
+        double agCctAngle4 = secondBend.agCctAngle4;
+        double agCctAngle3 = secondBend.agCctAngle3;
+        int agCctWindingNumber5 = secondBend.agCctWindingNumber5;
+        int agCctWindingNumber4 = secondBend.agCctWindingNumber4;
+        int agCctWindingNumber3 = secondBend.agCctWindingNumber3;
+
+        double agCct345A0Inners = -agCct345SmallRInner / (agCct345BigR * Math.tan(BaseUtils.Converter.angleToRadian(secondBend.agCct345TiltAngles[0])));
+        double agCct345A1Inners = agCct345SmallRInner / (2 * agCct345BigR * Math.tan(BaseUtils.Converter.angleToRadian(secondBend.agCct345TiltAngles[1])));
+        double agCct345A2Inners = agCct345SmallRInner / (3 * agCct345BigR * Math.tan(BaseUtils.Converter.angleToRadian(secondBend.agCct345TiltAngles[2])));
+        double agCct345IInner = -secondBend.agCct345I0;
+
+        double agCct345A0Outers = agCct345SmallROuter / (agCct345BigR * Math.tan(BaseUtils.Converter.angleToRadian(secondBend.agCct345TiltAngles[0])));
+        double agCct345A1Outers = -agCct345SmallROuter / (2 * agCct345BigR * Math.tan(BaseUtils.Converter.angleToRadian(secondBend.agCct345TiltAngles[1])));
+        double agCct345A2Outers = -agCct345SmallROuter / (3 * agCct345BigR * Math.tan(BaseUtils.Converter.angleToRadian(secondBend.agCct345TiltAngles[2])));
+        double agCct345IOuter = -secondBend.agCct345I0;
+
+        int numberPerWinding = secondBend.disperseNumberPerWinding;
+
+        return createAgCct(
+                agCct345SmallRInner, agCct345SmallROuter, agCct345BigR,
+                new double[]{agCctAngle3, agCctAngle4, agCctAngle5},
+                new int[]{agCctWindingNumber3, agCctWindingNumber4, agCctWindingNumber5},
+                agCct345A0Inners, agCct345A1Inners, agCct345A2Inners, agCct345IInner,
+                agCct345A0Outers, agCct345A1Outers, agCct345A2Outers, agCct345IOuter,
+                numberPerWinding,
+                0.0, 0.0,
+                0.0, 0.0,
+                false, true
+        );
+    }
 
     private Line2 testTrajectory675() {
         return TrajectoryFactory.setStartingPoint(0.95, -1)
@@ -109,16 +973,19 @@ public class C20201027廖益诚10月机架建模复古简单圆环坐标系版�
 
 
         //电流调整
-        secondBend.dipoleCct345I0 = -9664;
+        // 2020年10月28日 改为 -9458 from -9664
+        secondBend.dipoleCct345I0 = -9458;
         // 2020年10月25日 得到 -6428
         // 2020年10月27日 改为 -6214
-        secondBend.agCct345I0 = -6214;
+        // 2020年10月28日 简单坐标系，改为 -6050
+        secondBend.agCct345I0 = -6050;
 
         // 2020年10月22日 二极CCT四极倾角 = 25
         // 2020年10月24日 改成 80 // 25 的是因为建模错了
         // 2020年10月26日 让设计轨道通过极点 a 后，二级CCT的四极场变差了，姑且改为较好的80.625
-        secondBend.dipoleCct345TiltAngles[1] = 80.625;
-
+        // 2020年10月28日 简单圆环系 86.5
+        secondBend.dipoleCct345TiltAngles[1] = 86.5;
+//
         return secondBend;
     }
 
@@ -133,7 +1000,7 @@ public class C20201027廖益诚10月机架建模复古简单圆环坐标系版�
 
         Class<Run> runAnnotation = Run.class;
 
-        Method[] methods = currentClass.getMethods();
+        Method[] methods = currentClass.getDeclaredMethods();
         Arrays.stream(methods)
                 .filter(method -> method.isAnnotationPresent(runAnnotation))
                 .filter(method -> method.getAnnotation(runAnnotation).validate())
@@ -154,7 +1021,7 @@ public class C20201027廖益诚10月机架建模复古简单圆环坐标系版�
         BaseUtils.Timer.printPeriodPerSecondCall(Logger.getLogger());
     }
 
-    public static enum COSY_MAP1021 {
+    private static enum COSY_MAP1021 {
         part2,
         cct345WithDl2TwoSides;
 
@@ -671,5 +1538,73 @@ public class C20201027廖益诚10月机架建模复古简单圆环坐标系版�
                             "  0.3617380     0.3103731     0.0000000E+00 0.0000000E+00  1.242357     000005"
             );
         }
+    }
+
+
+    private Cct createDipoleCct(
+            double smallRInner, double smallROuter, double bigR, double angle, int windingNumber,
+            double a0BipolarInner, double a1QuadrupleInner, double a2SextupleInner, double IInner,
+            double a0BipolarOuter, double a1QuadrupleOuter, double a2SextupleOuter, double IOuter,
+            int numberPerWinding,
+            double startingθInner, double startingθOuter,
+            double startingφInner, double startingφOuter,
+            boolean directθInner, boolean directθOuter
+    ) {
+        return CctFactory.createDipoleCctDetailed(
+                smallRInner, smallROuter, bigR, angle, windingNumber,
+                a0BipolarInner, a1QuadrupleInner, a2SextupleInner, IInner,
+                a0BipolarOuter, a1QuadrupleOuter, a2SextupleOuter, IOuter,
+                numberPerWinding,
+                startingθInner, startingθOuter,
+                startingφInner, startingφOuter,
+                directθInner, directθOuter
+        );
+    }
+
+    private Cct createAgCct(
+            double smallRInner, double smallROuter, double bigR, double[] angles, int[] windingNumbers,
+            double a0BipolarInners, double a1QuadrupleInners, double a2SextupleInners, double IInner,
+            double a0BipolarOuters, double a1QuadrupleOuters, double a2SextupleOuters, double IOuter,
+            int numberPerWinding,
+            double startingθInner, double startingθOuter,
+            double startingφInner, double startingφOuter,
+            boolean directθInner, boolean directθOuter
+    ) {
+//        double smallRInner, double smallROuter, double bigR, double[] angles, int[] windingNumbers,
+//        double a0BipolarInners, double a1QuadrupleInners, double a2SextupleInners, double IInner,
+//        double a0BipolarOuters, double a1QuadrupleOuters, double a2SextupleOuters, double IOuter,
+//        int numberPerWinding,
+//        double startingθInner, double startingθOuter,
+//        double startingφInner, double startingφOuter,
+//        boolean directθInner, boolean directθOuter
+        return CctFactory.createAgCct(
+                smallRInner, smallROuter, bigR, angles, windingNumbers,
+                a0BipolarInners, a1QuadrupleInners, a2SextupleInners, IInner,
+                a0BipolarOuters, a1QuadrupleOuters, a2SextupleOuters, IOuter,
+                numberPerWinding,
+                startingθInner, startingθOuter,
+                startingφInner, startingφOuter,
+                directθInner, directθOuter
+        );
+    }
+
+    private Cct createAgCct(
+            double smallRInner, double smallROuter, double bigR, double[] angles, int[] windingNumbers,
+            double[] a0BipolarInners, double[] a1QuadrupleInners, double[] a2SextupleInners, double IInner,
+            double[] a0BipolarOuters, double[] a1QuadrupleOuters, double[] a2SextupleOuters, double IOuter,
+            int numberPerWinding,
+            double startingθInner, double startingθOuter,
+            double startingφInner, double startingφOuter,
+            boolean directθInner, boolean directθOuter
+    ) {
+        return CctFactory.createAgCct(
+                smallRInner, smallROuter, bigR, angles, windingNumbers,
+                a0BipolarInners, a1QuadrupleInners, a2SextupleInners, IInner,
+                a0BipolarOuters, a1QuadrupleOuters, a2SextupleOuters, IOuter,
+                numberPerWinding,
+                startingθInner, startingθOuter,
+                startingφInner, startingφOuter,
+                directθInner, directθOuter
+        );
     }
 }

@@ -3,6 +3,7 @@ package cn.edu.hust.zrx.cct.base.cct;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.MathFunction;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.magnet.MagnetAble;
 import cn.edu.hust.zrx.cct.base.point.*;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
@@ -12,7 +13,6 @@ import org.apache.commons.math3.util.FastMath;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -395,7 +395,7 @@ public class BaseUtils {
             double sum = 0;
             int num = 0;
 
-            public static Average create(){
+            public static Average create() {
                 return new Average();
             }
 
@@ -454,6 +454,7 @@ public class BaseUtils {
             }
 
             //用于累加磁场
+            //代码写得很好 —— 2020年10月29日
             Vector3 B = Vector3.getZero();
 
             //获得段数
@@ -1092,6 +1093,10 @@ public class BaseUtils {
             } else {
                 logger.info("[{}]计时后运行时间： {}ms", msg, period);
             }
+        }
+
+        public void resetInitialTime(){
+            initialTime = System.currentTimeMillis();
         }
     }
 

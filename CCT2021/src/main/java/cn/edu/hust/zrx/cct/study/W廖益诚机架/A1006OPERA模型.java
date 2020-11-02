@@ -10,7 +10,7 @@ import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.annotation.Run;
 import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.EntitySoleLayerCct;
-import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
+import cn.edu.hust.zrx.cct.base.magnet.MagnetAble;
 import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;

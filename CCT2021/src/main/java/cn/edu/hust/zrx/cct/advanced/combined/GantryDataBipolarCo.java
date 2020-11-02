@@ -2,6 +2,11 @@ package cn.edu.hust.zrx.cct.advanced.combined;
 
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.M;
 import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.MM;
 
 /**
@@ -59,10 +64,10 @@ public class GantryDataBipolarCo {
 
     public static class SecondBend {
         // QS 磁铁
-        public double QS3_GRADIENT = -11.78; // -11.78 T/m
+        public double QS3_GRADIENT = -7.3733; // -11.78 T/m
 
         // 注意，六极场梯度一直存在错误，实际值应该乘二。由陈庚发现于 2020年5月26日
-        public double QS3_SECOND_GRADIENT = -87.25 * 2.0 / 2.0; // -87.25 * 2.0 / 2.0 T/m2
+        public double QS3_SECOND_GRADIENT = -45.31 * 2.0 / 2.0; // -87.25 * 2.0 / 2.0 T/m2
 
         public double QS3_APERTURE_MM = 60;
 
@@ -82,18 +87,18 @@ public class GantryDataBipolarCo {
 
         // 匝数
         public int dipoleCct345WindingNumber = 128;
-        public int agCctWindingNumber3 = 20;
-        public int agCctWindingNumber4 = 44;
-        public int agCctWindingNumber5 = 44;  // sum 158
+        public int agCctWindingNumber3 = 21;
+        public int agCctWindingNumber4 = 50;
+        public int agCctWindingNumber5 = 50;  // sum 158
 
         // cct 角度
         public double dipoleCct345Angle = 67.5;
-        public double agCctAngle3 = 12.386;
-        public double agCctAngle4 = 27.344;
-        public double agCctAngle5 = 27.770;
+        public double agCctAngle3 = 8 + 3.716404;
+        public double agCctAngle4 = 8 + 19.93897;
+        public double agCctAngle5 = 8 + 19.844626;
 
         // 倾角 90 度表示不倾斜
-        public double[] dipoleCct345TiltAngles = {30, 90, 90, 90};
+        public double[] dipoleCct345TiltAngles = {30, 80, 90, 90};
         public double[] agCct345TiltAngles = {90, 30, 90, 90};
 
 
@@ -107,18 +112,54 @@ public class GantryDataBipolarCo {
         public double CCT345_LENGTH_PART5 = trajectoryBigRPart2 * BaseUtils.Converter.angleToRadian(agCctAngle5);
 
         // 电流
-        public double dipoleCct345I0 = -9206;
+        public double dipoleCct345I0 = -9664;
         //        public double dipoleCct345IOuter = dipoleCct345IInner;
         // 调至6500A，则a1调至
-        public double agCct345I0 = -7037;
+        public double agCct345I0 = -6000;
 //        public double agCct345IOuter = agCct345IInner;
 
 
-        public int disperseNumberPerWinding = 360;
+        // 2020年10月29日 从 360 改为 120
+        public int disperseNumberPerWinding = 120;
 
 
         public static SecondBend getDefault() {
             return new GantryDataBipolarCo.SecondBend();
+        }
+
+        @Override
+        public String toString() {
+            return "SecondBend{" +
+                    "QS3_GRADIENT=" + QS3_GRADIENT +
+                    ", QS3_SECOND_GRADIENT=" + QS3_SECOND_GRADIENT +
+                    ", QS3_APERTURE_MM=" + QS3_APERTURE_MM +
+                    ", trajectoryBigRPart2=" + trajectoryBigRPart2 +
+                    ", dipoleCct345BigR=" + dipoleCct345BigR +
+                    ", agCct345BigR=" + agCct345BigR +
+                    ", smallRGap=" + smallRGap +
+                    ", innerestSmallR=" + innerestSmallR +
+                    ", agCct345SmallRInner=" + agCct345SmallRInner +
+                    ", agCct345SmallROuter=" + agCct345SmallROuter +
+                    ", dipoleCct345SmallRInner=" + dipoleCct345SmallRInner +
+                    ", dipoleCct345SmallROuter=" + dipoleCct345SmallROuter +
+                    ", dipoleCct345WindingNumber=" + dipoleCct345WindingNumber +
+                    ", agCctWindingNumber3=" + agCctWindingNumber3 +
+                    ", agCctWindingNumber4=" + agCctWindingNumber4 +
+                    ", agCctWindingNumber5=" + agCctWindingNumber5 +
+                    ", dipoleCct345Angle=" + dipoleCct345Angle +
+                    ", agCctAngle3=" + agCctAngle3 +
+                    ", agCctAngle4=" + agCctAngle4 +
+                    ", agCctAngle5=" + agCctAngle5 +
+                    ", dipoleCct345TiltAngles=" + Arrays.toString(dipoleCct345TiltAngles) +
+                    ", agCct345TiltAngles=" + Arrays.toString(agCct345TiltAngles) +
+                    ", DL2=" + DL2 +
+                    ", QS3_LEN=" + QS3_LEN +
+                    ", GAP3=" + GAP3 +
+                    ", CCT345_LENGTH=" + CCT345_LENGTH +
+                    ", dipoleCct345I0=" + dipoleCct345I0 +
+                    ", agCct345I0=" + agCct345I0 +
+                    ", disperseNumberPerWinding=" + disperseNumberPerWinding +
+                    '}';
         }
     }
 }

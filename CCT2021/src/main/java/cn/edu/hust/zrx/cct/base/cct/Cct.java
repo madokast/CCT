@@ -2,22 +2,20 @@ package cn.edu.hust.zrx.cct.base.cct;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
+import cn.edu.hust.zrx.cct.base.magnet.MagnetAble;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.PlotAble3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * 各种CCT
  */
-public class Cct implements MagnetAble, PlotAble3d {
+public class Cct implements MagnetAble, PlotAble3d, Iterable<SoleLayerCct> {
     public final List<SoleLayerCct> soleLayerCctList;
 
     /**
@@ -58,6 +56,11 @@ public class Cct implements MagnetAble, PlotAble3d {
         return new Cct(soleLayerCctList.stream().map(SoleLayerCct::deepCopy).collect(Collectors.toList()));
     }
 
+    @Override
+    public Iterator<SoleLayerCct> iterator() {
+        return this.soleLayerCctList.iterator();
+    }
+
     /**
      * 空工厂方法，获得空CCT
      *
@@ -77,7 +80,7 @@ public class Cct implements MagnetAble, PlotAble3d {
         return this.soleLayerCctList.get(index);
     }
 
-    public Cct getCcts(int indexStartIncluding,int indexEndExcluding){
+    public Cct getCcts(int indexStartIncluding, int indexEndExcluding) {
         Cct cct = Cct.getEmptyCct();
         for (int i = indexStartIncluding; i < indexEndExcluding; i++) {
             cct.addSoleLayerCct(this.soleLayerCctList.get(i));

@@ -14,7 +14,7 @@ import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
-import cn.edu.hust.zrx.cct.base.opticsMagnet.qs.QsHardPlaneMagnet;
+import cn.edu.hust.zrx.cct.base.magnet.qs.QsHardPlaneMagnet;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 
 import java.lang.annotation.ElementType;

@@ -4,13 +4,13 @@ import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
-import cn.edu.hust.zrx.cct.base.cct.Elements;
+import cn.edu.hust.zrx.cct.base.magnet.Elements;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
-import cn.edu.hust.zrx.cct.base.opticsMagnet.qs.QsHardPlaneMagnet;
+import cn.edu.hust.zrx.cct.base.magnet.qs.QsHardPlaneMagnet;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 
 import java.io.IOException;

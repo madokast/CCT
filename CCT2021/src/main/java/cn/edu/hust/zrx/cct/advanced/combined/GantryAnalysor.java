@@ -3,19 +3,17 @@ package cn.edu.hust.zrx.cct.advanced.combined;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
-import cn.edu.hust.zrx.cct.base.cct.Elements;
-import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
+import cn.edu.hust.zrx.cct.base.magnet.Elements;
+import cn.edu.hust.zrx.cct.base.magnet.MagnetAble;
 import cn.edu.hust.zrx.cct.base.line.Arcs;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
-import cn.edu.hust.zrx.cct.base.opticsMagnet.qs.QsHardPlaneMagnet;
+import cn.edu.hust.zrx.cct.base.magnet.qs.QsHardPlaneMagnet;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 
 import static cn.edu.hust.zrx.cct.advanced.combined.GantryData.FirstPart;
 import static cn.edu.hust.zrx.cct.advanced.combined.GantryData.SecondPart;
-
-import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.MM;
 
 /**
  * Description

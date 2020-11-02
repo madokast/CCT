@@ -3,7 +3,6 @@ package cn.edu.hust.zrx.cct.study.V双极点坐标系机架;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.CctUtils;
 import cn.edu.hust.zrx.cct.advanced.CosyArbitraryOrder;
-import cn.edu.hust.zrx.cct.advanced.FFT;
 import cn.edu.hust.zrx.cct.advanced.MathFunction;
 import cn.edu.hust.zrx.cct.advanced.combined.GantryDataBipolarCo;
 import cn.edu.hust.zrx.cct.advanced.combined.GantryDataBipolarCoUtils;
@@ -11,28 +10,24 @@ import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.annotation.Run;
 import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.CctFactory;
-import cn.edu.hust.zrx.cct.base.cct.Elements;
+import cn.edu.hust.zrx.cct.base.magnet.Elements;
 import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
-import cn.edu.hust.zrx.cct.base.line.ArcLine;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
-import cn.edu.hust.zrx.cct.base.opticsMagnet.qs.QsHardPlaneMagnet;
-import cn.edu.hust.zrx.cct.base.particle.ParticleFactory;
-import cn.edu.hust.zrx.cct.base.particle.ParticleRunner;
-import cn.edu.hust.zrx.cct.base.particle.RunningParticle;
+import cn.edu.hust.zrx.cct.base.magnet.FarIgnoreMagnet;
+import cn.edu.hust.zrx.cct.base.magnet.qs.QsHardPlaneMagnet;
 import cn.edu.hust.zrx.cct.base.point.Point2;
-import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
-import cn.edu.hust.zrx.cct.base.vector.Vector3;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -811,7 +806,7 @@ public class C20201023廖益诚10月机架建模双极坐标系版本_修改绕�
     }
 
     @Run(-200) //
-    public void 查看二极CCT四极场分布和倾角(){
+    public void 查看二极CCT四极场分布和倾角() {
         BaseUtils.Switcher<String> switcher = CctUtils.createPlotDescribeSwitcher();
         List<String> des = BaseUtils.Python.linspaceStream(80, 82.5, switcher.getSize())
                 .parallel()
@@ -838,15 +833,15 @@ public class C20201023廖益诚10月机架建模双极坐标系版本_修改绕�
                 .collect(Collectors.toList());
 
 
-        Plot2d.legend(18,des);
+        Plot2d.legend(18, des);
 
-        Plot2d.info("s/m","G/Tm-1","",18);
+        Plot2d.info("s/m", "G/Tm-1", "", 18);
 
         Plot2d.showThread();
     }
 
     @Run(-1000) //after 2020年10月26日 发现巨大错误 外层CCT却使用内层半径建模
-    public void 先调整二极电流吧(){
+    public void 先调整二极电流吧() {
         GantryDataBipolarCo.FirstBend firstBend = firstBend();
 
         BaseUtils.Switcher<String> s = CctUtils.createPlotDescribeSwitcher();
@@ -931,7 +926,7 @@ public class C20201023廖益诚10月机架建模双极坐标系版本_修改绕�
     @Run(101)
     public void 四极CCT二极场() {
         Cct cct = agCct345_local_goodWindingMethod(secondBend());
-        cct = moveCCT345_1(cct,firstBend(),secondBend());
+        cct = moveCCT345_1(cct, firstBend(), secondBend());
         Trajectory trajectory2 = GantryDataBipolarCoUtils.getTrajectory2(firstBend(), secondBend());
 
 //        List<Point2> g = cct.magnetGradientAlongTrajectoryFast(trajectory2, 10 * MM, 10 * MM);
@@ -943,13 +938,263 @@ public class C20201023廖益诚10月机架建模双极坐标系版本_修改绕�
         Plot2d.showThread();
     }
 
+    @Run(200)
+    public void 遗传算法验证1() {
+        GantryDataBipolarCo.FirstBend firstBend = firstBend();
+        GantryDataBipolarCo.SecondBend secondBend = secondBend();
+        double[] objectives = C20201029准备充分遗传算法开始.objectives(secondBend);
+        System.out.println("objectives = " + Arrays.toString(objectives));
+        //195.00488973672483, 189.89112412969385, 186.3169079598514,  avg size
+        // 2.2952260061366303, 3.5546578817364747, 1.2594318755998444,  diff size x
+        // -4.665415839887748, -3.344274774145919, -1.7257780902309154,
+        // 0.6510018804065005, 0.7302045666480819, 0.07920268624158222
+    }
 
+    @Run(-201)
+    public void 遗传算法验证2() {
+        GantryDataBipolarCo.FirstBend FIRST_BEND = firstBend();
+        GantryDataBipolarCo.SecondBend secondBend = secondBend();
+        double ignoreDistance = 3.5;
+        Line2 trajectoryPart2 = GantryDataBipolarCoUtils.getTrajectory2(FIRST_BEND, secondBend);
+
+        // ---------------- create magnet ----------------------
+        Cct cct = dipoleCct345_local_goodWindingMethod(secondBend)
+                .addCct(agCct345_local_goodWindingMethod(secondBend));
+
+        QsHardPlaneMagnet qs3 = getQs3(FIRST_BEND, secondBend);
+
+        Cct moved1 = moveCCT345_1(cct, FIRST_BEND, secondBend);
+        Cct moved2 = moveCCT345_2(moved1, FIRST_BEND, secondBend);
+
+        Elements elements = Elements.empty();
+        elements.addElement(FarIgnoreMagnet.create(
+                moved1,
+                trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                ignoreDistance
+        ));
+        elements.addElement(FarIgnoreMagnet.create(
+                moved2,
+                trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH +
+                        secondBend.GAP3 * 2 + secondBend.QS3_LEN + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                ignoreDistance
+        ));
+        elements.addElement(qs3);
+
+//        CctUtils.multiDpPhaseEllipsesAndPlot(
+//                trajectoryPart2, trajectoryPart2.getLength(),
+//                elements, -5 * PRESENT, 5 * PRESENT, 3, 6,
+//                true, 215
+//        );
+
+        CctUtils.multiDpPhaseEllipses(
+                trajectoryPart2, trajectoryPart2.getLength(),
+                elements, -5 * PRESENT, 5 * PRESENT, 3, 6,
+                true, 215
+        ).stream().sequential().map(BaseUtils.Content.BiContent::getT2).forEach(point2s -> {
+            System.out.println("point2s = " + point2s);
+            DoubleSummaryStatistics statistics = point2s.stream().mapToDouble(Point2::getX).summaryStatistics();
+            System.out.println("statistics.getAverage() = " + statistics.getAverage());
+        });
+    }
+
+
+    @Run(202) // 2020年10月30日 16点46分
+    public void 遗传算法结果3(){
+        //data = [-5.701555295261043, -10.65243266022442, 79.67307962992949,
+        // 82.97380927127077, 76.62290896168838, 89.96934768198793,
+        // 81.37161550311507, 84.88725485921334, -9457.839096854243,
+        // -6708.036597249025
+
+        double[] data = {-5.701555295261043, -10.65243266022442, 79.67307962992949, 82.97380927127077,
+                76.62290896168838, 89.96934768198793, 81.37161550311507, 84.88725485921334, -9457.839096854243,
+                -6708.036597249025};
+
+        GantryDataBipolarCo.SecondBend secondBend = C20201029准备充分遗传算法开始.create(data);
+        Logger.getLogger().info("secondBend = " + secondBend);
+
+
+        Elements elements = allElementPart2(firstBend(), secondBend);
+        Trajectory trajectoryPart2 = trajectory2Default();
+
+        CctUtils.multiDpPhaseEllipsesAndPlot(
+                trajectoryPart2, trajectoryPart2.getLength(),
+                elements, -7 * PRESENT, 7 * PRESENT, 8, 32,
+                false, 215
+        );
+//                .stream().sequential().map(BaseUtils.Content.BiContent::getT2).forEach(point2s -> {
+//            System.out.println("point2s = " + point2s);
+//            DoubleSummaryStatistics statistics = point2s.stream().mapToDouble(Point2::getX).summaryStatistics();
+//            System.out.println("statistics.getAverage() = " + statistics.getAverage());
+//        });
+    }
+
+    @Run(-300)
+    public void 二极CCT对四极倾斜角() {
+        BaseUtils.Switcher<String> s = CctUtils.createPlotDescribeSwitcher();
+        List<String> des = BaseUtils.Python.linspaceStream(60, 90, s.getSize())
+                .parallel()
+                .mapToObj(t -> {
+                    GantryDataBipolarCo.FirstBend FIRST_BEND = firstBend();
+                    GantryDataBipolarCo.SecondBend secondBend = secondBend();
+                    double ignoreDistance = 3.5;
+                    Trajectory trajectoryPart2 = GantryDataBipolarCoUtils.getTrajectory2(FIRST_BEND, secondBend);
+                    secondBend.dipoleCct345TiltAngles[1] = t;
+
+                    Cct cct = dipoleCct345_local_goodWindingMethod(secondBend)
+                            .addCct(agCct345_local_goodWindingMethod(secondBend));
+
+                    QsHardPlaneMagnet qs3 = getQs3(FIRST_BEND, secondBend);
+
+                    Cct moved1 = moveCCT345_1(cct, FIRST_BEND, secondBend);
+                    Cct moved2 = moveCCT345_2(moved1, FIRST_BEND, secondBend);
+
+                    Elements elements = Elements.empty();
+                    elements.addElement(FarIgnoreMagnet.create(
+                            moved1,
+                            trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                            ignoreDistance
+                    ));
+                    elements.addElement(FarIgnoreMagnet.create(
+                            moved2,
+                            trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH +
+                                    secondBend.GAP3 * 2 + secondBend.QS3_LEN + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                            ignoreDistance
+                    ));
+                    elements.addElement(qs3);
+
+                    List<Point2> g = elements.magnetGradientAlongTrajectoryFast(trajectoryPart2);
+
+                    return BaseUtils.Content.BiContent.create(t, g);
+                })
+                .collect(Collectors.toList())
+                .stream()
+                .sequential()
+                .sorted(Comparator.comparingDouble(BaseUtils.Content.BiContent::getT1))
+                .peek(bi -> Plot2d.plot2(bi.getT2(), s.getAndSwitch()))
+                .mapToDouble(BaseUtils.Content.BiContent::getT1)
+                .mapToObj(t -> "t=" + t)
+                .collect(Collectors.toList());
+
+        Plot2d.info("s/m", "G/Tm-1", "", 18);
+
+        Plot2d.legend(18, des);
+
+        Plot2d.showThread();
+    }
+
+    @Run(-301)
+    public void 二极CCT对六极倾斜角() {
+        BaseUtils.Switcher<String> s = CctUtils.createPlotDescribeSwitcher();
+        List<String> des = BaseUtils.Python.linspaceStream(60, 90, s.getSize())
+                .parallel()
+                .mapToObj(t -> {
+                    GantryDataBipolarCo.FirstBend FIRST_BEND = firstBend();
+                    GantryDataBipolarCo.SecondBend secondBend = secondBend();
+                    double ignoreDistance = 3.5;
+                    Trajectory trajectoryPart2 = GantryDataBipolarCoUtils.getTrajectory2(FIRST_BEND, secondBend);
+                    secondBend.dipoleCct345TiltAngles[2] = t;
+
+                    Cct cct = dipoleCct345_local_goodWindingMethod(secondBend)
+                            .addCct(agCct345_local_goodWindingMethod(secondBend));
+
+                    QsHardPlaneMagnet qs3 = getQs3(FIRST_BEND, secondBend);
+
+                    Cct moved1 = moveCCT345_1(cct, FIRST_BEND, secondBend);
+                    Cct moved2 = moveCCT345_2(moved1, FIRST_BEND, secondBend);
+
+                    Elements elements = Elements.empty();
+                    elements.addElement(FarIgnoreMagnet.create(
+                            moved1,
+                            trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                            ignoreDistance
+                    ));
+                    elements.addElement(FarIgnoreMagnet.create(
+                            moved2,
+                            trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH +
+                                    secondBend.GAP3 * 2 + secondBend.QS3_LEN + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                            ignoreDistance
+                    ));
+                    elements.addElement(qs3);
+
+                    List<Point2> g = elements.magnetSecondGradientAlongTrajectory(trajectoryPart2);
+
+                    return BaseUtils.Content.BiContent.create(t, g);
+                })
+                .collect(Collectors.toList())
+                .stream()
+                .sequential()
+                .sorted(Comparator.comparingDouble(BaseUtils.Content.BiContent::getT1))
+                .peek(bi -> Plot2d.plot2(bi.getT2(), s.getAndSwitch()))
+                .mapToDouble(BaseUtils.Content.BiContent::getT1)
+                .mapToObj(t -> "t=" + t)
+                .collect(Collectors.toList());
+
+        Plot2d.info("s/m", "L/Tm-2", "", 18);
+
+        Plot2d.legend(18, des);
+
+        Plot2d.showThread();
+    }
+
+    @Run(-302)
+    public void 四极CCT对六极倾斜角() {
+        BaseUtils.Switcher<String> s = CctUtils.createPlotDescribeSwitcher();
+        List<String> des = BaseUtils.Python.linspaceStream(60, 90, s.getSize())
+                .parallel()
+                .mapToObj(t -> {
+                    GantryDataBipolarCo.FirstBend FIRST_BEND = firstBend();
+                    GantryDataBipolarCo.SecondBend secondBend = secondBend();
+                    double ignoreDistance = 3.5;
+                    Trajectory trajectoryPart2 = GantryDataBipolarCoUtils.getTrajectory2(FIRST_BEND, secondBend);
+                    secondBend.agCct345TiltAngles[2] = t;
+
+                    Cct cct = dipoleCct345_local_goodWindingMethod(secondBend)
+                            .addCct(agCct345_local_goodWindingMethod(secondBend));
+
+                    QsHardPlaneMagnet qs3 = getQs3(FIRST_BEND, secondBend);
+
+                    Cct moved1 = moveCCT345_1(cct, FIRST_BEND, secondBend);
+                    Cct moved2 = moveCCT345_2(moved1, FIRST_BEND, secondBend);
+
+                    Elements elements = Elements.empty();
+                    elements.addElement(FarIgnoreMagnet.create(
+                            moved1,
+                            trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                            ignoreDistance
+                    ));
+                    elements.addElement(FarIgnoreMagnet.create(
+                            moved2,
+                            trajectoryPart2.pointAt(secondBend.DL2 + secondBend.CCT345_LENGTH +
+                                    secondBend.GAP3 * 2 + secondBend.QS3_LEN + secondBend.CCT345_LENGTH / 2).toPoint3(),
+                            ignoreDistance
+                    ));
+                    elements.addElement(qs3);
+
+                    List<Point2> g = elements.magnetSecondGradientAlongTrajectory(trajectoryPart2);
+
+                    return BaseUtils.Content.BiContent.create(t, g);
+                })
+                .collect(Collectors.toList())
+                .stream()
+                .sequential()
+                .sorted(Comparator.comparingDouble(BaseUtils.Content.BiContent::getT1))
+                .peek(bi -> Plot2d.plot2(bi.getT2(), s.getAndSwitch()))
+                .mapToDouble(BaseUtils.Content.BiContent::getT1)
+                .mapToObj(t -> "t=" + t)
+                .collect(Collectors.toList());
+
+        Plot2d.info("s/m", "L/Tm-2", "", 18);
+
+        Plot2d.legend(18, des);
+
+        Plot2d.showThread();
+    }
 
     //----------------------tools--------------------------------------------------
 
 
     // 这才是正确的绕线方法
-    private Cct dipoleCct345_local_goodWindingMethod(GantryDataBipolarCo.SecondBend secondBend) {
+    public Cct dipoleCct345_local_goodWindingMethod(GantryDataBipolarCo.SecondBend secondBend) {
         Cct cct = Cct.getEmptyCct();
 
         final double bigR = secondBend.dipoleCct345BigR;
@@ -980,7 +1225,7 @@ public class C20201023廖益诚10月机架建模双极坐标系版本_修改绕�
     }
 
     // 2020年10月26日 发现巨大错误 外层CCT却使用内层半径建模
-    private Cct agCct345_local_goodWindingMethod(GantryDataBipolarCo.SecondBend secondBend) {
+    public Cct agCct345_local_goodWindingMethod(GantryDataBipolarCo.SecondBend secondBend) {
         Cct cct = Cct.getEmptyCct();
 
         final double bigR = secondBend.agCct345BigR;
@@ -1122,7 +1367,7 @@ public class C20201023廖益诚10月机架建模双极坐标系版本_修改绕�
         return GantryDataBipolarCo.FirstBend.getDefault();
     }
 
-    private GantryDataBipolarCo.SecondBend secondBend() {
+    public GantryDataBipolarCo.SecondBend secondBend() {
         GantryDataBipolarCo.SecondBend secondBend = GantryDataBipolarCo.SecondBend.getDefault();
 
         //// QS 磁铁

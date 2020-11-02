@@ -1,4 +1,4 @@
-package cn.edu.hust.zrx.cct.base.cct;
+package cn.edu.hust.zrx.cct.base.magnet;
 
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.PolynomialFitter;
@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 /**
  * 可以求磁场，接口： Vector3 magnetAt(Point3 p);
+ * 这是本程序中写得最好的一个类
+ * 2020年10月28日 —— 感叹道
  */
 
 @FunctionalInterface
@@ -96,6 +98,10 @@ public interface MagnetAble {
                         point3WithDistance.getDistance(),
                         this.magnetAt(point3WithDistance.getPoint3()).toPoint3()
                 )).collect(Collectors.toList());
+    }
+
+    default List<Point3WithDistance> magnetAlongTrajectory(final Line2 trajectory) {
+        return magnetAlongTrajectory(trajectory, 10 * MM);
     }
 
     /**
@@ -187,6 +193,10 @@ public interface MagnetAble {
                 }).collect(Collectors.toList());
     }
 
+    default List<Point2> magnetGradientAlongTrajectoryFast(final Line2 trajectory) {
+        return magnetGradientAlongTrajectoryFast(trajectory, 10 * MM, 10 * MM);
+    }
+
     default List<Point2> magnetGradientAlongTrajectory(
             final Line2 trajectory, final double deltaLength, final double goodFieldAreaWidth) {
         int dotNumber = 16;
@@ -246,6 +256,10 @@ public interface MagnetAble {
 
                     return Point2.create(distance, fitter.fit(fitted)[2]);
                 }).collect(Collectors.toList());
+    }
+
+    default List<Point2> magnetSecondGradientAlongTrajectory(final Line2 trajectory) {
+        return magnetSecondGradientAlongTrajectory(trajectory, 10 * MM, 10 * MM);
     }
 
     // 多级场
@@ -657,6 +671,10 @@ public interface MagnetAble {
 
         public Point2 getDistanceWithZ() {
             return Point2.create(distance, point3.z);
+        }
+
+        public Point2 getBmodWithDistance() {
+            return Point2.create(distance, point3.toVector3().length());
         }
     }
 }

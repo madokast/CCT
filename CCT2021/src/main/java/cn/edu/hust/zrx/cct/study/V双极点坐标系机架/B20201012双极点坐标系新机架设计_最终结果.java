@@ -10,7 +10,7 @@ import cn.edu.hust.zrx.cct.advanced.opera.OperaCct;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.annotation.Run;
 import cn.edu.hust.zrx.cct.base.cct.Cct;
-import cn.edu.hust.zrx.cct.base.cct.Elements;
+import cn.edu.hust.zrx.cct.base.magnet.Elements;
 import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -462,7 +462,7 @@ public class B20201012双极点坐标系新机架设计_最终结果 {
             final double tiltRadian = BaseUtils.Converter.angleToRadian(tiltAngle);
             final int[] windingNumbers = {20, 44, 44};
             final double[] endKsis = BaseUtils.ArrayUtils.multiple(windingNumbers, Math.PI * 2);
-            final double I0 = -7037*0; // 2.355 T
+            final double I0 = -7037; // 2.355 T
             final double[] phi0 = BaseUtils.ArrayUtils.div(bendingRadians, windingNumbers);
             final double slotDepth = 12 * MM;
             final double slotWidth = 2 * MM;
@@ -683,7 +683,7 @@ public class B20201012双极点坐标系新机架设计_最终结果 {
         Plot2d.showThread();
     }
 
-    @Run(-101)
+    @Run(101)
     public void 超导线材2() {
         PolynomialFitter fitter = PolynomialFitter.build(2);
         double[] fit = fitter.fit(List.of(
@@ -708,31 +708,39 @@ public class B20201012双极点坐标系新机架设计_最终结果 {
 
         Function<Double, Double> polynomialFunction = MathFunction.createPolynomialFunction(fit);
 
+        double dipoleMax = 4.09;
+        double agcctMax = 4.36;
+        double dipoleSingleI = 9206. / 20;
+        double agcctSingleI = 7037./ 20;
+
+        Logger.getLogger().info("dipoleSingleI = " + dipoleSingleI);
+        Logger.getLogger().info("agcctSingleI = " + agcctSingleI);
+
         {
             Plot2d.plot2(List.of(
                     Point2.origin(),
-                    Point2.create(4.60, 418)
+                    Point2.create(dipoleMax, dipoleSingleI)
             ), Plot2d.RED_LINE);
 
-            Plot2d.plotPoint(Point2.create(4.60, 418), Plot2d.RED_POINT);
+            Plot2d.plotPoint(Point2.create(dipoleMax, dipoleSingleI), Plot2d.RED_POINT);
 
             Plot2d.plot2(List.of(
                     Point2.origin(),
-                    Point2.create(4.60 / 418 * 547, 547)
+                    Point2.create(dipoleMax / dipoleSingleI * 620, 620)
             ), Plot2d.RED_DASH);
         }
 
         {
             Plot2d.plot2(List.of(
                     Point2.origin(),
-                    Point2.create(4.85, 320)
+                    Point2.create(agcctMax, agcctSingleI)
             ), Plot2d.RED_LINE);
 
-            Plot2d.plotPoint(Point2.create(4.85, 320), Plot2d.RED_POINT);
+            Plot2d.plotPoint(Point2.create(agcctMax, agcctSingleI), Plot2d.RED_POINT);
 
             Plot2d.plot2(List.of(
                     Point2.origin(),
-                    Point2.create(4.85 / 320 * 436, 436)
+                    Point2.create(agcctMax / agcctSingleI * 505, 505)
             ), Plot2d.RED_DASH);
         }
 

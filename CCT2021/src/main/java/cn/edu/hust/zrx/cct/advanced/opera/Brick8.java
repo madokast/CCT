@@ -1,14 +1,12 @@
 package cn.edu.hust.zrx.cct.advanced.opera;
 
 import cn.edu.hust.zrx.cct.base.BaseUtils;
-import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
+import cn.edu.hust.zrx.cct.base.magnet.MagnetAble;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.python.PlotAble3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
-
-import javax.swing.text.Utilities;
 
 /**
  * Description

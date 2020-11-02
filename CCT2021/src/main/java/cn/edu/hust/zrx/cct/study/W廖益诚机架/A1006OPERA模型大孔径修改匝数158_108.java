@@ -10,7 +10,7 @@ import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.annotation.Run;
 import cn.edu.hust.zrx.cct.base.cct.Cct;
 import cn.edu.hust.zrx.cct.base.cct.EntitySoleLayerCct;
-import cn.edu.hust.zrx.cct.base.cct.MagnetAble;
+import cn.edu.hust.zrx.cct.base.magnet.MagnetAble;
 import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Line2;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
@@ -57,7 +57,7 @@ import static java.lang.Math.atan;
     // 新电流 9509
 public class A1006OPERA模型大孔径修改匝数158_108 {
 
-    public final int numberPerWinding = 30;
+    public final int numberPerWinding = 180;
 
     private GantryData.SecondPart secondPart() {
         GantryData.SecondPart secondPart = GantryAnalysor.defaultSecondPart();
@@ -302,7 +302,7 @@ public class A1006OPERA模型大孔径修改匝数158_108 {
         Plot2d.showThread();
     }
 
-    @Run(101)
+    @Run(-101)
     public void 二极磁场验证() {
         GantryData.SecondPart secondPart = secondPart();
 
@@ -469,7 +469,7 @@ public class A1006OPERA模型大孔径修改匝数158_108 {
         a.opera_dipole345Inner();
         a.opera_dipole345Outer();
 
-        if(true){
+        if(false){
             BaseUtils.Timer.printPeriodPerSecondCall(Logger.getLogger());
             StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[1];
             Logger.getLogger().info("{}", stackTraceElement.getClassName());

@@ -8,7 +8,6 @@ import cn.edu.hust.zrx.cct.advanced.opera.OperaCct;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.annotation.Run;
 import cn.edu.hust.zrx.cct.base.cct.Cct;
-import cn.edu.hust.zrx.cct.base.cct.Elements;
 import cn.edu.hust.zrx.cct.base.cct.SoleLayerCct;
 import cn.edu.hust.zrx.cct.base.line.Trajectory;
 import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
@@ -19,7 +18,6 @@ import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import org.apache.commons.math3.util.FastMath;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -29,7 +27,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.MM;
-import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.kA;
 
 /**
  * Description
@@ -44,7 +41,7 @@ import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.kA;
 
 public class B20201019双极点坐标系新机架设计_分析原CCT6T以上怎么就降低了呢 {
 
-    private static final int numberPerWinding = 12;
+    private static final int numberPerWinding = 60;
 
     private static class B20201012Utils {
         public static SoleLayerCct createSoleLayerCct(
@@ -1141,6 +1138,12 @@ public class B20201019双极点坐标系新机架设计_分析原CCT6T以上怎�
 
     @Run(15) // 和 B20201012双极点坐标系新机架设计_最终结果 一致 略
     public Brick8sSet operaWindingNumber() throws IOException {
+        Trajectory trajectory = TrajectoryFactory.setStartingPoint(0.95, -1)
+                .setStraightLine(1, Vector2.yDirect())
+                .addArcLine(0.95, false, 67.5)
+                .addStraitLine(1);
+
+
         Brick8sSet brick8sSet = Brick8sSet.empty();
         Cct cct = Cct.getEmptyCct();
 
@@ -1149,8 +1152,8 @@ public class B20201019双极点坐标系新机架设计_分析原CCT6T以上怎�
 
         {
             final double bigR = 0.95;
-            final double innerSmallR = inner + GAP * 2;
-            final double outerSmall = inner + GAP * 3;
+            final double innerSmallR = inner + GAP * 2; // 83+30
+            final double outerSmall = inner + GAP * 3; // 83+45
             final double bendingAngle = 67.5;
             final double bendingRadian = BaseUtils.Converter.angleToRadian(bendingAngle);
             final double tiltAngle = 30;
@@ -1174,14 +1177,7 @@ public class B20201019双极点坐标系新机架设计_分析原CCT6T以上怎�
                     Math.PI, Math.PI + endKsi, windingNumber * 360);
             cct.addSoleLayerCct(soleLayerCct1);
 
-//                final double I,
-//                final int totalDisperseNumber,
-//                final double slotDepth, // 放线圈的槽的深度 如 8mm
-//                final double slotWidth, // 放线圈的槽的宽度 如 2mm
-//                final MathFunction phiKsiFun,
-//                final double startKsi,
-//                final double endKsi,
-//                final BipolarToroidalCoordinateSystemPoint2To3 bipolarToroidalCoordinateSystemPoint2To3
+
             brick8sSet.add(
                     B20201012Utils.createBrick8s(
                             I0, windingNumber * numberPerWinding, slotDepth, slotWidth,
@@ -1195,7 +1191,7 @@ public class B20201019双极点坐标系新机架设计_分析原CCT6T以上怎�
                     B20201012Utils.createBrick8s(
                             -I0, windingNumber * numberPerWinding, slotDepth, slotWidth,
                             phiKsiFun1, Math.PI, Math.PI + endKsi,
-                            B20201012Utils.createBipolarToroidalCoordinateSystemPoint2To3(bigR, innerSmallR)
+                            B20201012Utils.createBipolarToroidalCoordinateSystemPoint2To3(bigR, outerSmall)
                     ),
                     "bicctout"
             );
@@ -1236,6 +1232,7 @@ public class B20201019双极点坐标系新机架设计_分析原CCT6T以上怎�
             SoleLayerCct soleLayerCctInner3 = B20201012Utils.createSoleLayerCct(bigR, innerSmallR, phiKsiFunInner3, I0,
                     endKsis[0] - endKsis[1], endKsis[0] - endKsis[1] + endKsis[2], windingNumbers[2] * 360);
             cct.addSoleLayerCct(soleLayerCctInner3);
+            soleLayerCctInner3.plot3(Plot2d.BLUE_LINE);
 
             brick8sSet.add(
                     B20201012Utils.createBrick8s(
@@ -1264,28 +1261,31 @@ public class B20201019双极点坐标系新机架设计_分析原CCT6T以上怎�
             );
 
 
-            MathFunction phiKsiFunOuter1 = B20201012Utils.createPhiKsiFun(bigR, outerSmallR, phi0[0], 90, tiltAngle)
+            MathFunction phiKsiFunOuter1 = B20201012Utils.createPhiKsiFun(bigR, outerSmallR, phi0[0], 90, -tiltAngle)
                     .move(Vector2.xDirect(Math.PI));
-            SoleLayerCct soleLayerCctOuter1 = B20201012Utils.createSoleLayerCct(bigR, outerSmallR, phiKsiFunOuter1, I0,
+            SoleLayerCct soleLayerCctOuter1 = B20201012Utils.createSoleLayerCct(bigR, outerSmallR, phiKsiFunOuter1, -I0,
                     Math.PI, Math.PI + endKsis[0], windingNumbers[0] * 360);
             cct.addSoleLayerCct(soleLayerCctOuter1);
-            MathFunction phiKsiFunOuter2 = B20201012Utils.createPhiKsiFun(bigR, outerSmallR, phi0[1], 90, -tiltAngle)
+
+            MathFunction phiKsiFunOuter2 = B20201012Utils.createPhiKsiFun(bigR, outerSmallR, phi0[1], 90, tiltAngle)
                     .yAxisSymmetry().move(Vector2.create(endKsis[0], bendingRadians[0] + phi0[0]))
                     .move(Vector2.xDirect(Math.PI));
-            SoleLayerCct soleLayerCctOuter2 = B20201012Utils.createSoleLayerCct(bigR, outerSmallR, phiKsiFunOuter2, I0,
+            SoleLayerCct soleLayerCctOuter2 = B20201012Utils.createSoleLayerCct(bigR, outerSmallR, phiKsiFunOuter2, -I0,
                     endKsis[0] + Math.PI, endKsis[0] - endKsis[1] + Math.PI, windingNumbers[1] * 360);
             cct.addSoleLayerCct(soleLayerCctOuter2);
-            MathFunction phiKsiFunOuter3 = B20201012Utils.createPhiKsiFun(bigR, outerSmallR, phi0[2], 90, tiltAngle)
+            MathFunction phiKsiFunOuter3 = B20201012Utils.createPhiKsiFun(bigR, outerSmallR, phi0[2], 90, -tiltAngle)
                     .move(Vector2.create(endKsis[0] - endKsis[1],
                             bendingRadians[0] + bendingRadians[1] + phi0[0] + phi0[1]))
                     .move(Vector2.xDirect(Math.PI));
-            SoleLayerCct soleLayerCctOuter3 = B20201012Utils.createSoleLayerCct(bigR, outerSmallR, phiKsiFunOuter3, I0,
+            SoleLayerCct soleLayerCctOuter3 = B20201012Utils.createSoleLayerCct(bigR, outerSmallR, phiKsiFunOuter3, -I0,
                     endKsis[0] - endKsis[1] + Math.PI, endKsis[0] - endKsis[1] + endKsis[2] + Math.PI, windingNumbers[2] * 360);
             cct.addSoleLayerCct(soleLayerCctOuter3);
+            soleLayerCctOuter3.plot3(Plot2d.RED_LINE);
+            Plot3d.showThread();
 
             brick8sSet.add(
                     B20201012Utils.createBrick8s(
-                            I0, windingNumbers[0] * numberPerWinding, slotDepth, slotWidth,
+                            -I0, windingNumbers[0] * numberPerWinding, slotDepth, slotWidth,
                             phiKsiFunOuter1,
                             Math.PI,
                             Math.PI + endKsis[0],
@@ -1295,7 +1295,7 @@ public class B20201019双极点坐标系新机架设计_分析原CCT6T以上怎�
 
             brick8sSet.add(
                     B20201012Utils.createBrick8s(
-                            I0, windingNumbers[1] * numberPerWinding, slotDepth, slotWidth,
+                            -I0, windingNumbers[1] * numberPerWinding, slotDepth, slotWidth,
                             phiKsiFunOuter2,
                             endKsis[0] + Math.PI,
                             endKsis[0] - endKsis[1] + Math.PI,
@@ -1305,7 +1305,7 @@ public class B20201019双极点坐标系新机架设计_分析原CCT6T以上怎�
 
             brick8sSet.add(
                     B20201012Utils.createBrick8s(
-                            I0, windingNumbers[2] * numberPerWinding, slotDepth, slotWidth,
+                            -I0, windingNumbers[2] * numberPerWinding, slotDepth, slotWidth,
                             phiKsiFunOuter3,
                             endKsis[0] - endKsis[1] + Math.PI,
                             endKsis[0] - endKsis[1] + endKsis[2] + Math.PI,
@@ -1315,24 +1315,10 @@ public class B20201019双极点坐标系新机架设计_分析原CCT6T以上怎�
 
         }
 
-        FileOutputStream fileOutputStream = new FileOutputStream("bipoleCoCCT-operaTiltAngle.txt");
+        FileOutputStream fileOutputStream = new FileOutputStream("bipoleCoCCT-final.txt");
         fileOutputStream.write(brick8sSet.toString().getBytes());
         fileOutputStream.flush();
         fileOutputStream.close();
-
-
-//        Trajectory trajectory = TrajectoryFactory.setStartingPoint(0.95, -1)
-//                .setStraightLine(1, Vector2.yDirect())
-//                .addArcLine(0.95, false, 67.5)
-//                .addStraitLine(1);
-
-//        List<Point2> bz2 = cct.magnetBzAlongTrajectory(trajectory);
-//        List<Point2> g = cct.magnetGradientAlongTrajectoryFast(trajectory, 10 * MM, 10 * MM);
-
-//        Plot2d.plot2(bz2);
-//        Plot2d.plot2(g);
-
-//        Plot2d.showThread();
 
         return brick8sSet;
     }
