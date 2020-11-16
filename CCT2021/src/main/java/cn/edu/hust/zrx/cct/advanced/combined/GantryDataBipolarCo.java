@@ -103,9 +103,9 @@ public class GantryDataBipolarCo {
 
 
         // 长度
-        public double DL2 = 2.000;
-        public double QS3_LEN = 0.163;
-        public double GAP3 = 0.176;
+        public double DL2 = 2.1162209;
+        public double QS3_LEN = 0.2382791;
+        public double GAP3 = 0.1978111;
         public double CCT345_LENGTH = trajectoryBigRPart2 * BaseUtils.Converter.angleToRadian(dipoleCct345Angle);
         public double CCT345_LENGTH_PART3 = trajectoryBigRPart2 * BaseUtils.Converter.angleToRadian(agCctAngle3);
         public double CCT345_LENGTH_PART4 = trajectoryBigRPart2 * BaseUtils.Converter.angleToRadian(agCctAngle4);

@@ -386,6 +386,10 @@ public class Point2 implements Cloneable, Serializable, Comparable<Point2> {
         return convert(ps, x -> x * xScale, y -> y * yScale);
     }
 
+    public static List<Point2> convert(final List<Point2> ps,double xyScale) {
+        return convert(ps, x -> x * xyScale, y -> y * xyScale);
+    }
+
     public static Point2 convert(final Point2 p,
                                  double xScale,
                                  double yScale) {

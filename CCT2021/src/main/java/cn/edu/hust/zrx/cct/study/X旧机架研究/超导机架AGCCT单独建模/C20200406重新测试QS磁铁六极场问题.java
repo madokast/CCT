@@ -40,24 +40,32 @@ public class C20200406重新测试QS磁铁六极场问题 {
         boolean xPlane = false;
         double delta = 0.;
         int number = 640;
-        QsHardPlaneMagnet qsHardPlaneMagnet = QsHardPlaneMagnet.create(0.2, 0, 10000, 30,
+        QsHardPlaneMagnet qsHardPlaneMagnet = QsHardPlaneMagnet.create(
+                0.2, 0, 10000, 30,
                 Point2.origin(), Vector2.yDirect());
 
         Trajectory trajectory = TrajectoryFactory.setStartingPoint(0, -0.5).setStraightLine(1.2, Vector2.yDirect());
 
         RunningParticle rp = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory);
         RunningParticle rp1 = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory, trajectory.getLength());
-        List<RunningParticle> pp = ParticleFactory.createParticlesFromPhaseSpaceParticle(rp, rp.computeNaturalCoordinateSystem(), getPPs(xPlane, delta, 32));
+        List<PhaseSpaceParticle> psps = getPPs(xPlane, delta, 6);
+        psps.forEach(System.out::println);
+        List<RunningParticle> pp = ParticleFactory.createParticlesFromPhaseSpaceParticle(rp,
+                rp.computeNaturalCoordinateSystem(), psps);
+        pp.forEach(System.out::println);
 
         ParticleRunner.run(rp, qsHardPlaneMagnet, trajectory.getLength(), MM);
         ParticleRunner.runThread(pp, qsHardPlaneMagnet, trajectory.getLength(), MM);
+
+        System.out.println();
+        pp.forEach(System.out::println);
+
 
         List<PhaseSpaceParticle> phaseSpaceParticles = PhaseSpaceParticles.phaseSpaceParticlesFromRunningParticles(rp, rp.computeNaturalCoordinateSystem(), pp);
 
         List<Point2> list = PhaseSpaceParticles.projectionToPlane(xPlane, phaseSpaceParticles);
 
         list = Point2.convert(list, 1 / MM, 1 / MRAD);
-
 
 
         List<Point2> first = PhaseSpaceParticles.projectionToPlane(xPlane,
@@ -77,7 +85,6 @@ public class C20200406重新测试QS磁铁六极场问题 {
         forth = Point2.convert(forth, 1 / MM, 1 / MRAD);
 
 
-
         Plot2d.plot2circle(first, Plot2d.RED_LINE);
         Plot2d.plot2circle(second, Plot2d.YELLOW_DASH);
         Plot2d.plot2circle(third, Plot2d.BLUE_LINE);
@@ -90,7 +97,7 @@ public class C20200406重新测试QS磁铁六极场问题 {
         } else {
             Plot2d.info("y/mm", "yp/mrad", "y/yp plane", 18);
         }
-        Plot2d.legend(18,  "COSY-1st", "COSY-2nd", "COSY-3rd", "COSY-4th","Tracking");
+        Plot2d.legend(18, "COSY-1st", "COSY-2nd", "COSY-3rd", "COSY-4th", "Tracking");
 
         Plot2d.equal();
 

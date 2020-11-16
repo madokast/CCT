@@ -92,7 +92,7 @@ public class SoleLayerCct implements MagnetAble, PlotAble3d {
 
         Point3Function path3P3F = bipolarToroidalCoordinateSystemPoint2To3.convert(path2P2F);
 
-        List<Point3> dispersedPath3 = path3P3F.disperse(startKsi, endKsi, totalDisperseNumber);
+        List<Point3> dispersedPath3 = path3P3F.disperse(startKsi, endKsi, totalDisperseNumber + 1);
 
         return SoleLayerCct.create(dispersedPath3, I);
     }

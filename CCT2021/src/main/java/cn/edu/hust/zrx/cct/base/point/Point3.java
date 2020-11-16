@@ -173,4 +173,16 @@ public class Point3 {
                 z * times
         );
     }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getZ() {
+        return z;
+    }
 }

@@ -46,4 +46,9 @@ public class GantryDataBipolarCoUtils {
                 .addStraitLine(secondBend.DL2);
     }
 
+    public static Trajectory getTrajectory2(){
+        return GantryDataBipolarCoUtils.getTrajectory2(GantryDataBipolarCo.FirstBend.getDefault(),
+                GantryDataBipolarCo.SecondBend.getDefault());
+    }
+
 }

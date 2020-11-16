@@ -725,6 +725,15 @@ public class C20201027廖益诚10月机架建模复古简单圆环坐标系版�
         }
     }
 
+    @Run(20)
+    public  void 轨迹长度(){
+        Trajectory trajectoryPart2 = getTrajectoryPart2(firstBend(), secondBend());
+
+        double length = trajectoryPart2.getLength();
+
+        Logger.getLogger().info("length = " + length);
+    }
+
     private MagnetAble getElementsOfAllPart2(GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
         Trajectory trajectoryPart2 = getTrajectoryPart2(firstBend, secondBend);
 

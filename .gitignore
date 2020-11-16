@@ -7,3 +7,8 @@ CCT2019/pyScript/plot3.py
 *.py
 *.txt
 *.txt
+*.pyc
+*.bin
+*.exe
+*.obj
+*.py

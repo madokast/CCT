@@ -204,6 +204,7 @@ public class Protons {
         return 动量分散 / k;
     }
 
+
     /**
      * 上方法的英文版
      *
@@ -213,6 +214,26 @@ public class Protons {
      */
     public static double convertMomentumDispersionToEnergyDispersion(double momentumDispersion, double kineticEnergy_MeV) {
         return convert动量分散_TO_能量分散(momentumDispersion, kineticEnergy_MeV);
+    }
+
+    /**
+     * 上面方法的逆函数
+     */
+    public static double convert能量分散_TO_动量分散(double 能量分散, double 动能_MeV) {
+        double k = (动能_MeV + STATIC_ENERGY_MeV) / (动能_MeV + 2 * STATIC_ENERGY_MeV);
+
+        return 能量分散 * k;
+    }
+
+    /**
+     * 上方法的英文版
+     *
+     * @param EnergyDispersion 能量分散
+     * @param kineticEnergy_MeV  动能_MeV
+     * @return 动量分散
+     */
+    public static double convertEnergyDispersionToMomentumDispersion(double EnergyDispersion, double kineticEnergy_MeV) {
+        return convert能量分散_TO_动量分散(EnergyDispersion, kineticEnergy_MeV);
     }
 
 

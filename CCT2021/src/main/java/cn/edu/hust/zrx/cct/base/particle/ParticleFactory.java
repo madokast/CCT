@@ -222,5 +222,8 @@ public class ParticleFactory {
                 .collect(Collectors.toList());
     }
 
+    public static List<RunningParticle> copy(List<RunningParticle> particles) {
+        return particles.stream().map(RunningParticle::copy).collect(Collectors.toList());
+    }
 }
 

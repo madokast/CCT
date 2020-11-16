@@ -191,9 +191,34 @@ public class PhaseSpaceParticles {
 
     }
 
-    public static List<PhaseSpaceParticle> convertDeltaFromMomentumDispersionToEnergyDispersion(List<PhaseSpaceParticle> phaseSpaceParticles, double centerKineticEnergy_MeV) {
+    public static PhaseSpaceParticle convertDeltaFromEnergyDispersionToEnergyDispersionMomentumDispersion(
+            PhaseSpaceParticle phaseSpaceParticle, double centerKineticEnergy_MeV) {
+        PhaseSpaceParticle copy = phaseSpaceParticle.copy();
+
+        double EnergyDispersion = copy.getDelta();
+
+        double MomentumDispersion = Protons.convertEnergyDispersionToMomentumDispersion(
+                EnergyDispersion, centerKineticEnergy_MeV);
+
+        copy.setDelta(MomentumDispersion);
+
+        return copy;
+
+    }
+
+
+
+    public static List<PhaseSpaceParticle> convertDeltaFromMomentumDispersionToEnergyDispersion(
+            List<PhaseSpaceParticle> phaseSpaceParticles, double centerKineticEnergy_MeV) {
         return phaseSpaceParticles.stream()
                 .map(p -> convertDeltaFromMomentumDispersionToEnergyDispersion(p, centerKineticEnergy_MeV))
+                .collect(Collectors.toList());
+    }
+
+    public static List<PhaseSpaceParticle> convertDeltaFromEnergyDispersionToEnergyDispersionMomentumDispersion(
+            List<PhaseSpaceParticle> phaseSpaceParticles, double centerKineticEnergy_MeV) {
+        return phaseSpaceParticles.stream()
+                .map(p -> convertDeltaFromEnergyDispersionToEnergyDispersionMomentumDispersion(p, centerKineticEnergy_MeV))
                 .collect(Collectors.toList());
     }
 
@@ -216,4 +241,7 @@ public class PhaseSpaceParticles {
         }).collect(Collectors.toList());
     }
 
+    public static List<PhaseSpaceParticle> copy(List<PhaseSpaceParticle> pps) {
+        return pps.stream().map(PhaseSpaceParticle::copy).collect(Collectors.toList());
+    }
 }

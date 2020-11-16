@@ -214,6 +214,29 @@ public class CctUtils {
     }
 
     public static List<BaseUtils.Content.BiContent<Double, List<Point2>>>
+    multiDpPhaseEllipsesSequential(Line2 trajectory, double length, MagnetAble magnetAble,
+                         double dpMin, double dpMax, int numberOfPart,
+                         int numberOfParticle, boolean xPlane, double kineticMeV,double stepLen){
+        return BaseUtils.Python.linspaceStream(dpMin, dpMax, numberOfPart)
+                .mapToObj(dp -> {
+                    List<Point2> x1 = trackingPhaseEllipseSequential(
+                            length,
+                            xPlane,
+                            dp,
+                            numberOfParticle,
+                            false,
+                            1,
+                            magnetAble,
+                            trajectory,
+                            kineticMeV,
+                            stepLen
+                    );
+                    return BaseUtils.Content.BiContent.create(dp, x1);
+                })
+                .collect(Collectors.toList());
+    }
+
+    public static List<BaseUtils.Content.BiContent<Double, List<Point2>>>
     multiDpPhaseEllipses(CosyArbitraryOrder.CosyMapArbitraryOrder map, int order, boolean moveToCenter, double scaleForParticle,
                          double dpMin, double dpMax, int numberOfPart, int numberOfParticle, boolean xPlane) {
         return BaseUtils.Python.linspaceStream(dpMin, dpMax, numberOfPart)
@@ -461,6 +484,38 @@ public class CctUtils {
 
         if (distance > stepLen) {
             ParticleRunner.runThread(ps, magnetAble, distance, stepLen);
+        }
+
+        RunningParticle ipEnd = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory, distance);
+
+        List<PhaseSpaceParticle> ppEnd = PhaseSpaceParticles.phaseSpaceParticlesFromRunningParticles(
+                ipEnd, ipEnd.computeNaturalCoordinateSystem(), ps);
+
+        List<Point2> projectionToPlaneCOSY = PhaseSpaceParticles.projectionToPlane(xPlane, ppEnd);
+
+        if (moveToCenter) {
+            Vector2 average = Point2.average(projectionToPlaneCOSY).toVector2().reverseSelf();
+
+            projectionToPlaneCOSY.forEach(point2 -> point2.moveSelf(average));
+        }
+
+        // 改单位
+        return Point2.convert(projectionToPlaneCOSY, 1 / MM, 1 / MRAD);
+    }
+
+    public static List<Point2> trackingPhaseEllipseSequential(
+            double distance, boolean xPlane, double delta, int number,
+            boolean moveToCenter, double scaleForParticle,
+            MagnetAble magnetAble, Line2 trajectory, double kineticMeV,double stepLen){
+        RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory(trajectory, kineticMeV);
+
+        List<PhaseSpaceParticle> pp = PhaseSpaceParticles.phaseSpaceParticlesAlongPositiveEllipseInPlane(
+                xPlane, 3.5 * MM * scaleForParticle, 7.5 * MM * scaleForParticle, delta, number);
+
+        List<RunningParticle> ps = ParticleFactory.createParticlesFromPhaseSpaceParticle(ip, ip.computeNaturalCoordinateSystem(), pp);
+
+        if (distance > stepLen) {
+            ParticleRunner.run(ps, magnetAble, distance, stepLen);
         }
 
         RunningParticle ipEnd = ParticleFactory.createIdealProtonAtTrajectory250MeV(trajectory, distance);

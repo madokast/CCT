@@ -119,9 +119,9 @@ public class C20201102GeneRunner {
     public static double[] objectives(GantryDataBipolarCo.SecondBend secondBend) {
         GantryDataBipolarCo.FirstBend FIRST_BEND = GantryDataBipolarCo.FirstBend.getDefault();
         Line2 trajectoryPart2 = GantryDataBipolarCoUtils.getTrajectory2(FIRST_BEND, secondBend);
-        final double ignoreDistance = 1.5;
-        final double stepLen = 5 * MM;
-        final int numberPerWinding = 12;
+        final double ignoreDistance = 1.2;
+        final double stepLen = 8 * MM;
+        final int numberPerWinding = 10;
         // ---------------- create magnet ----------------------
         secondBend.disperseNumberPerWinding = numberPerWinding;
 
@@ -151,7 +151,7 @@ public class C20201102GeneRunner {
         List<Double> result = new ArrayList<>();
 
         // x 方向 mm  == > 束斑中心 + 束斑大小（半径）
-        CctUtils.multiDpPhaseEllipses(
+        CctUtils.multiDpPhaseEllipsesSequential(
                 trajectoryPart2, trajectoryPart2.getLength(),
                 elements, -5 * PRESENT, 5 * PRESENT, 3, 6,
                 true, 215, stepLen
@@ -162,10 +162,10 @@ public class C20201102GeneRunner {
         });
 
         // y 方向 mm
-        CctUtils.multiDpPhaseEllipses(
+        CctUtils.multiDpPhaseEllipsesSequential(
                 trajectoryPart2, trajectoryPart2.getLength(),
                 elements, -5 * PRESENT, 5 * PRESENT, 3, 6,
-                false, 215
+                false, 215, stepLen
         ).stream().sequential().map(BaseUtils.Content.BiContent::getT2).forEach(point2s -> {
             DoubleSummaryStatistics statistics = point2s.stream().mapToDouble(Point2::getX).summaryStatistics();
             result.add(statistics.getAverage());

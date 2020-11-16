@@ -431,8 +431,12 @@ public class BaseUtils {
 //            Vector3 r = Vector3.subtract(p, p0);
             double rr = r.length();
 
-            return Vector3.dot(Vector3.cross(p01, r),
+            Vector3 ret = Vector3.dot(Vector3.cross(p01, r),
                     I * 1e-7 / rr / rr / rr);
+
+//            Logger.getLogger().info("ret = " + ret);
+
+            return ret;
         }
 
         /**
@@ -459,6 +463,8 @@ public class BaseUtils {
 
             //获得段数
             int num = windings.size() - 1;
+
+//            Logger.getLogger().info("num = " + num);
 
             for (int i = 0; i < num; i++) {
                 B.addSelf(dB(windings.get(i), windings.get(i + 1), I, p));
@@ -1131,7 +1137,7 @@ public class BaseUtils {
     }
 
     public static class Geometry {
-        private static final double ESP_0 = 1e-8;
+        public static final double ESP_0 = 1e-8;
 
         // 几何相关工具
 
@@ -1164,7 +1170,7 @@ public class BaseUtils {
          * @param D 椭圆方程参数
          * @return 周长
          */
-        private static double ellipseCircumference(double A, double B, double C, double D) {
+        public static double ellipseCircumference(double A, double B, double C, double D) {
             int num = 3600 * 4;
             double c = 0.0;
             for (int i = 0; i < num; i++) {
@@ -1188,7 +1194,7 @@ public class BaseUtils {
          * @param theta 方向th弧度
          * @return 交点
          */
-        private static Point2 ellipsePointTheta(double A, double B, double C, double D, double theta) {
+        public static Point2 ellipsePointTheta(double A, double B, double C, double D, double theta) {
             double pi = Math.PI;
             Point2 d = Point2.origin();
 
@@ -1239,7 +1245,7 @@ public class BaseUtils {
          * @param length 行走长度
          * @return 终点
          */
-        private static Point2 ellipseWalkPoint(double A, double B, double C, double D, double length) {
+        public static Point2 ellipseWalkPoint(double A, double B, double C, double D, double length) {
             double stepTheta = Converter.angleToRadian(0.05);
             double theta = 0.0;
             while (length > 0.0) {

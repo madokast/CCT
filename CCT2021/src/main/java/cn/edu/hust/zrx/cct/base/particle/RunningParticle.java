@@ -1,6 +1,5 @@
 package cn.edu.hust.zrx.cct.base.particle;
 
-import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.CoordinateSystem3d;
 import cn.edu.hust.zrx.cct.base.point.Point3;
@@ -26,7 +25,7 @@ public class RunningParticle {
     public Point3 position;
     //velocity
     public Vector3 velocity;
-    //running mass
+    //running mass 相对论质量 relativistic mass
     public double runMass;
     //chargeQuantity
     public double e;
@@ -82,7 +81,9 @@ public class RunningParticle {
      */
     protected RunningParticle(Point3 position, Vector3 velocity,
                               double runMass, double e, double speed, double distance) {
-        BaseUtils.Equal.requireEqual(speed, velocity.length(), "建立RunningParticle，velocity.len!=speed (" + velocity.length() + " / " + speed + ")");
+        BaseUtils.Equal.requireTrue(Math.abs(speed - velocity.length()) < 1e-4 ||
+                        Math.abs((speed - velocity.length()) / speed) < 1e-4,
+                "建立RunningParticle，velocity.len!=speed (" + velocity.length() + " / " + speed + ")");
         this.position = position.copy();
         this.velocity = velocity.copy();
         this.runMass = runMass;
