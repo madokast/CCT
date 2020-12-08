@@ -239,7 +239,9 @@ public class Vector2 {
      * @since 2020年2月10日
      */
     public double angleToXAxis() {
-        return Math.atan2(y, x);
+        double a = Math.atan2(y, x);
+        // 2020年11月23日 fix
+        return a > 0 ? a : 2 * Math.PI + a;
     }
 
 
@@ -266,7 +268,6 @@ public class Vector2 {
      * 导致 FastMath.acos(theta) = NaN
      * 查 arccos 函数，果然在 [-1,1] 之外没有定义
      * 不打算解决这个问题，只是写下来
-     *
      *
      * @param v2 矢量
      * @return this 到 v2 的夹角

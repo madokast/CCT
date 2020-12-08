@@ -12,12 +12,14 @@ import cn.edu.hust.zrx.cct.base.magnet.Elements;
 import cn.edu.hust.zrx.cct.base.particle.ParticleFactory;
 import cn.edu.hust.zrx.cct.base.particle.ParticleRunner;
 import cn.edu.hust.zrx.cct.base.particle.RunningParticle;
+import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -177,7 +179,9 @@ class C20201113GeneRunnerAllGantryTest {
 
         Cct a = C20201113GeneRunnerAllGantry.agCct345_local_goodWindingMethod(secondBend);
 
-        Elements e = Elements.of(a, b);
+        Cct e = Cct.getEmptyCct().addCct(a).addCct(b);
+
+        e = C20201113GeneRunnerAllGantry.moveCCT345_1(e, GantryDataBipolarCo.FirstBend.getDefault(),secondBend);
 
         Trajectory t = GantryDataBipolarCoUtils.getTrajectory2(GantryDataBipolarCo.FirstBend.getDefault(), secondBend);
 
@@ -187,6 +191,9 @@ class C20201113GeneRunnerAllGantryTest {
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory(t, 215);
 
+        Vector3 m0 = e.magnetAt(ip.position);
+        Logger.getLogger().info("m0 = " + m0);
+
         Logger.getLogger().info("ip = " + ip);
 
         ParticleRunner.run(ip, e, len, 0.001);
@@ -194,5 +201,141 @@ class C20201113GeneRunnerAllGantryTest {
         Logger.getLogger().info("ip = " + ip);
 
         BaseUtils.Timer.printPeriodPerSecondCall(Logger.getLogger());
+    }
+
+    @Test
+    void test_moveCCT345_1(){
+        GantryDataBipolarCo.FirstBend firstBend = GantryDataBipolarCo.FirstBend.getDefault();
+        GantryDataBipolarCo.SecondBend secondBend = GantryDataBipolarCo.SecondBend.getDefault();
+
+        Cct local = Cct.getEmptyCct();
+
+        Trajectory trajectory2 = GantryDataBipolarCoUtils.getTrajectory2(firstBend, secondBend);
+        Point2 afterDl2 = trajectory2.pointAt(secondBend.DL2).copy();
+        Vector2 directDl2 = trajectory2.directAt(secondBend.DL2).copy();
+
+        Vector3 movedLen = afterDl2.moveSelf(
+                directDl2.rotateSelf(BaseUtils.Converter.angleToRadian(-90))
+                        .changeLengthSelf(secondBend.trajectoryBigRPart2))
+                .toVector3();
+
+        Logger.getLogger().info("movedLen = " + movedLen);
+
+        Cct moved =  local.symmetricXZPlane().rotateInXYPlane(Point2.origin(), BaseUtils.Converter.angleToRadian(
+                135
+        )).move(
+                movedLen
+        );
+    }
+
+    @Test
+    void moveCCT345_2() {
+
+        //double mid = secondBend.DL2 + secondBend.CCT345_LENGTH + secondBend.GAP3 + secondBend.QS3_LEN / 2;
+        //
+        //        return CctFactory.symmetryInXYPlaneByLine(
+        //                moved1,
+        //                trajectory2.pointAt(mid),
+        //                trajectory2.directAt(mid).rotateSelf(Math.PI / 2)
+        //        );
+
+        GantryDataBipolarCo.FirstBend firstBend = GantryDataBipolarCo.FirstBend.getDefault();
+        GantryDataBipolarCo.SecondBend secondBend = GantryDataBipolarCo.SecondBend.getDefault();
+
+        Trajectory trajectory2 = GantryDataBipolarCoUtils.getTrajectory2(firstBend, secondBend);
+
+        double mid = secondBend.DL2 + secondBend.CCT345_LENGTH + secondBend.GAP3 + secondBend.QS3_LEN / 2;
+
+        Point2 p = trajectory2.pointAt(mid);
+
+        Vector2 v = trajectory2.directAt(mid).rotateSelf(Math.PI / 2).normalSelf();
+
+        Logger.getLogger().info("p = " + p);
+
+        Logger.getLogger().info("v = " + v);
+
+
+        /////////////////////////
+
+        Cct b = C20201113GeneRunnerAllGantry.dipoleCct345_local_goodWindingMethod(secondBend);
+
+        Cct a = C20201113GeneRunnerAllGantry.agCct345_local_goodWindingMethod(secondBend);
+
+        Cct cct0 = Cct.getEmptyCct().addCct(a).addCct(b);
+
+        Cct cct1 = C20201113GeneRunnerAllGantry.moveCCT345_1(cct0, GantryDataBipolarCo.FirstBend.getDefault(), secondBend);
+
+        Cct cct2 = C20201113GeneRunnerAllGantry.moveCCT345_2(cct1, firstBend, secondBend);
+
+        Point2 p0 = trajectory2.pointAt(trajectory2.getLength()/2+1.1);
+
+        Logger.getLogger().info("p0 = " + p0);
+
+        Vector3 m_cct2_1 = cct1.magnetAt(p0.toPoint3());
+        Vector3 m_cct2_2 = cct2.magnetAt(p0.toPoint3());
+
+        Logger.getLogger().info("m_cct2_1 = " + m_cct2_1);
+        Logger.getLogger().info("m_cct2_2 = " + m_cct2_2);
+
+
+    }
+
+    @Test
+    void moveCCT345_1_and_2() {
+
+        GantryDataBipolarCo.FirstBend firstBend = GantryDataBipolarCo.FirstBend.getDefault();
+        GantryDataBipolarCo.SecondBend secondBend = GantryDataBipolarCo.SecondBend.getDefault();
+
+        Trajectory trajectory2 = GantryDataBipolarCoUtils.getTrajectory2(firstBend, secondBend);
+
+
+        /////////////////////////
+
+        Cct b = C20201113GeneRunnerAllGantry.dipoleCct345_local_goodWindingMethod(secondBend);
+
+        Cct a = C20201113GeneRunnerAllGantry.agCct345_local_goodWindingMethod(secondBend);
+
+        Cct cct0 = Cct.getEmptyCct().addCct(a).addCct(b);
+
+        Cct cct1 = C20201113GeneRunnerAllGantry.moveCCT345_1(cct0, GantryDataBipolarCo.FirstBend.getDefault(), secondBend);
+
+        Cct cct2 = C20201113GeneRunnerAllGantry.moveCCT345_2(cct1, firstBend, secondBend);
+
+        Cct cct12 = Cct.getEmptyCct().addCct(cct1).addCct(cct2);
+
+        Point3 p0 = trajectory2.midPoint().toPoint3();
+
+        Vector3 m1 = cct1.magnetAt(p0);
+        Vector3 m2 = cct2.magnetAt(p0);
+
+        Vector3 m = cct12.magnetAt(p0);
+        Logger.getLogger().info("p0 = " + p0);
+        Logger.getLogger().info("m1 = " + m1);
+        Logger.getLogger().info("m2 = " + m2);
+        Logger.getLogger().info("m = " + m);
+
+    }
+
+    @Test
+    void particlesAtEntry() {
+        List<RunningParticle> runningParticles = C20201113GeneRunnerAllGantry.particlesAtEntry(GantryDataBipolarCo.SecondBend.getDefault());
+
+        runningParticles.forEach(System.out::println);
+    }
+
+    @Test
+    void ip_isoc(){
+        Trajectory trajectory2 = GantryDataBipolarCoUtils.getTrajectory2();
+        RunningParticle ipisoc = ParticleFactory.createIdealProtonAtTrajectory(trajectory2, trajectory2.getLength(), 215);
+
+        Logger.getLogger().info("ipisoc = " + ipisoc);
+    }
+
+    @Test
+    void ip_part2_entry(){
+        Trajectory trajectory2 = GantryDataBipolarCoUtils.getTrajectory2();
+        RunningParticle ip_part2_entry = ParticleFactory.createIdealProtonAtTrajectory(trajectory2, 215);
+
+        Logger.getLogger().info("ip_part2_entry = " + ip_part2_entry);
     }
 }

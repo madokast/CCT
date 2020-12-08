@@ -44,14 +44,11 @@ public class GantryDataBipolarCo {
         // 长度
         public double trajectoryBigRPart1 = 0.95;
 
-        public double DL1 = 0.825;
-        public double DL2 = 2.000;
-        public double QS1_LEN = 0.250;
-        public double QS2_LEN = 0.250;
-        public double QS3_LEN = 0.163;
-        public double GAP1 = 0.200;
-        public double GAP2 = 0.200;
-        public double GAP3 = 0.176;
+        public double DL1 = 0.8001322;
+        public double QS1_LEN = 0.2997797;
+        public double QS2_LEN = 0.2585548;
+        public double GAP1 = 0.1765959;
+        public double GAP2 = 0.2960518;
         public double BETWEEN_CCT225 = GAP1 * 2 + QS1_LEN * 2 + GAP2 * 2 + QS2_LEN;
         public double CCT12_LENGTH = trajectoryBigRPart1 * BaseUtils.Converter.angleToRadian(dipoleCct12Angle);
         public double CCT12_LENGTH_PART1 = trajectoryBigRPart1 * BaseUtils.Converter.angleToRadian(agCctAngle1);

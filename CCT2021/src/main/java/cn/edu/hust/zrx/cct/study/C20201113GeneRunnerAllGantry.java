@@ -1,5 +1,6 @@
 package cn.edu.hust.zrx.cct.study;
 
+import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.advanced.CosyArbitraryOrder;
 import cn.edu.hust.zrx.cct.advanced.MathFunction;
 import cn.edu.hust.zrx.cct.advanced.combined.GantryDataBipolarCo;
@@ -26,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.MM;
 import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.PRESENT;
@@ -43,6 +45,12 @@ import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.PRESENT;
 
 public class C20201113GeneRunnerAllGantry {
 
+    static final boolean plot = true; // 是否绘图
+
+    static final boolean gantry_parallel = false;
+
+    static final boolean particle_parallel = true;
+
     static final int VAR_NUMBER = 10; // 变量数目
 
     static double STEP_LENGTH = 1 * MM;
@@ -56,6 +64,8 @@ public class C20201113GeneRunnerAllGantry {
     static double RUN_LENGTH = GantryDataBipolarCoUtils.getTrajectory2().getLength();
 
     public static void main(String[] args) throws IOException {
+        long startTime = System.currentTimeMillis();
+
         readMetaInfo("meta.txt");
 
         File inputFile = new File("input.txt");
@@ -75,18 +85,20 @@ public class C20201113GeneRunnerAllGantry {
         in.close();
 
         // 计算
-        List<double[]> results = datas.stream()
-//                .parallel() // TODO
-                .map(bi -> {
-                    double[] data = bi.getT2();
-                    double[] result = compute(data);
-                    Integer index = bi.getT1();
-                    System.out.println("[" + new Date().toString() + "]" + " index = " + index + '\n' +
-                            "data = " + Arrays.toString(data) + '\n' +
-                            "result = " + Arrays.toString(result)
-                    );
-                    return BaseUtils.Content.BiContent.create(index, result);
-                })
+        Stream<BaseUtils.Content.BiContent<Integer, double[]>> stream = datas.stream();
+        if (gantry_parallel) {
+            stream = stream.parallel();
+        }
+        List<double[]> results = stream.map(bi -> {
+            double[] data = bi.getT2();
+            double[] result = compute(data);
+            Integer index = bi.getT1();
+            System.out.println("[" + new Date().toString() + "]" + " index = " + index + '\n' +
+                    "data = " + Arrays.toString(data) + '\n' +
+                    "result = " + Arrays.toString(result)
+            );
+            return BaseUtils.Content.BiContent.create(index, result);
+        })
                 .collect(Collectors.toList())
                 .stream().sequential()
                 .sorted(Comparator.comparingInt(BaseUtils.Content.BiContent::getT1))
@@ -105,6 +117,9 @@ public class C20201113GeneRunnerAllGantry {
         }
         out.flush();
         out.close();
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("用时" + (endTime - startTime) / 1000.0);
     }
 
     // 2020年11月12日 OK
@@ -137,7 +152,7 @@ public class C20201113GeneRunnerAllGantry {
         map.put("IGNORE_DISTANCE", IGNORE_DISTANCE);
         map.put("PARTICLE_NUMBER_PER_PLANE_PER_DP", PARTICLE_NUMBER_PER_PLANE_PER_DP);
 
-        System.out.println(new Date() +  "\n读取元信息成功 = " + map);
+        System.out.println(new Date() + "\n读取元信息成功 = " + map);
     }
 
     // 2020年11月12日 OK
@@ -162,7 +177,7 @@ public class C20201113GeneRunnerAllGantry {
         secondBend.agCct345TiltAngles[2] = data[6]; // 90
         secondBend.agCct345TiltAngles[3] = data[7]; // 90
         secondBend.dipoleCct345I0 = data[8]; // -9457
-        secondBend.agCct345I0 = data[9]; // -6700
+        secondBend.agCct345I0 = data[9]; // -6700-966
 
         return secondBend;
     }
@@ -212,7 +227,12 @@ public class C20201113GeneRunnerAllGantry {
 
         List<RunningParticle> particles = particlesAtEntry(secondBend); // 存在结构 x-dp0 x-dp5 y-dp0 y-dp5
 
-        ParticleRunner.runThread(particles, e, LENGTH, stepLen); // TODO
+        if (particle_parallel) {
+            ParticleRunner.runThread(particles, e, LENGTH, stepLen);
+        } else {
+
+            ParticleRunner.run(particles, e, LENGTH, stepLen);
+        }
 
         RunningParticle ip_end = ParticleFactory.createIdealProtonAtTrajectory(trajectoryPart2, LENGTH, 215);
 
@@ -233,7 +253,7 @@ public class C20201113GeneRunnerAllGantry {
         List<Point2> ppy_cosy = cosyBeforeQs3.stream().map(PhaseSpaceParticle::projectionToYYpPlane)
                 .collect(Collectors.toList());
 
-        if (true) { // plot
+        if (plot) { // plot
             Plot2d.plot2(Point2.convert(ppx_track, 1 / MM, 1 / MM), Plot2d.BLACK_DASH);
             Plot2d.plot2(Point2.convert(ppy_track, 1 / MM, 1 / MM), Plot2d.RED_DASH);
             Plot2d.plot2(Point2.convert(ppx_cosy, 1 / MM, 1 / MM), Plot2d.YELLOW_LINE);
@@ -241,6 +261,7 @@ public class C20201113GeneRunnerAllGantry {
 
             Plot2d.info("X-Y/mm", "XP-YP/mm", "TRACK-COSY", 18);
 
+            Plot2d.legend(18, "TRACK-X", "TRACK-Y", "COSY-X", "COSY-Y");
             Plot2d.legend(18, "TRACK-X", "TRACK-Y", "COSY-X", "COSY-Y");
 
             Plot2d.show();
@@ -332,6 +353,8 @@ public class C20201113GeneRunnerAllGantry {
             GantryDataBipolarCo.FirstBend FIRST_BEND = GantryDataBipolarCo.FirstBend.getDefault();
             Line2 trajectoryPart2 = GantryDataBipolarCoUtils.getTrajectory2(FIRST_BEND, secondBend);
             RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory(trajectoryPart2, 215);
+            Logger.getLogger().info("ip = " + ip);
+            ;
 
             PARTICLES_AT_ENTRY = ParticleFactory.createParticlesFromPhaseSpaceParticle(
                     ip, ip.computeNaturalCoordinateSystem(), ppEnd);
@@ -466,7 +489,7 @@ public class C20201113GeneRunnerAllGantry {
         return cct;
     }
 
-    private static Cct moveCCT345_1(Cct local, GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
+    public static Cct moveCCT345_1(Cct local, GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
         Trajectory trajectory2 = GantryDataBipolarCoUtils.getTrajectory2(firstBend, secondBend);
         Point2 afterDl2 = trajectory2.pointAt(secondBend.DL2).copy();
         Vector2 directDl2 = trajectory2.directAt(secondBend.DL2).copy();
@@ -491,7 +514,7 @@ public class C20201113GeneRunnerAllGantry {
                 trajectoryPart2.directAt(secondBend.DL2 + secondBend.CCT345_LENGTH + secondBend.GAP3));
     }
 
-    private static Cct moveCCT345_2(Cct moved1, GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
+    public static Cct moveCCT345_2(Cct moved1, GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
         Trajectory trajectory2 = GantryDataBipolarCoUtils.getTrajectory2(firstBend, secondBend);
 
         //Cct cct12_1 = getCct12_1();
@@ -521,7 +544,7 @@ public class C20201113GeneRunnerAllGantry {
         beforeQS3WithPart1,
         all;
 
-        CosyArbitraryOrder.CosyMapArbitraryOrder map;
+        public CosyArbitraryOrder.CosyMapArbitraryOrder map;
 
         static {
             all.map = CosyArbitraryOrder.readMap(

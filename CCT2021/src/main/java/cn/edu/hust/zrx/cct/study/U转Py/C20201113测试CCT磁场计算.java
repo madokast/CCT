@@ -19,6 +19,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Description
@@ -32,7 +33,7 @@ import java.util.Arrays;
 
 public class C20201113测试CCT磁场计算 {
 
-    @Run
+    @Run(100)
     public void test01() {
         GantryDataBipolarCo.SecondBend secondBend = GantryDataBipolarCo.SecondBend.getDefault();
 
@@ -51,6 +52,8 @@ public class C20201113测试CCT磁场计算 {
         MathFunction phiKsiFun = MathFunction.createPhiKsiFun(bigR, innerSmallR, phi0, tiltAngles);
         SoleLayerCct soleLayerCct = SoleLayerCct.createSoleLayerCct(bigR, innerSmallR, phiKsiFun, I0,
                 0, endKsi, windingNumber * disperseNumberPerWinding);
+
+        List<Point3> windings = soleLayerCct.getWindings();
 
 
         Vector3 m = soleLayerCct.magnetAt(Point3.origin());

@@ -205,7 +205,6 @@ public interface MagnetAble {
 
         List<Double> xList = BaseUtils.Python.linspaceStream(-goodFieldAreaWidth, goodFieldAreaWidth, dotNumber)
                 .boxed().collect(Collectors.toList());
-        ;
 
         final Line2 rightHandSideLine2 = trajectory.rightHandSideLine2(goodFieldAreaWidth);
         final Line2 leftHandSideLine2 = trajectory.rightHandSideLine2(-goodFieldAreaWidth);
@@ -675,6 +674,23 @@ public interface MagnetAble {
 
         public Point2 getBmodWithDistance() {
             return Point2.create(distance, point3.toVector3().length());
+        }
+
+
+        public void setDistance(double distance) {
+            this.distance = distance;
+        }
+
+        public void setPoint3(Point3 point3) {
+            this.point3 = point3;
+        }
+
+        @Override
+        public String toString() {
+            return "{" +
+                    "d=" + distance +
+                    ", m=" + point3 +
+                    '}';
         }
     }
 }

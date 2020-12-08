@@ -66,6 +66,29 @@ public class ParticleFactory {
         );
     }
 
+    /**
+     * 基本工厂方法，获得一个质子
+     *
+     * @param position 位置
+     * @param vector   速度
+     * @return 质子
+     */
+    public static RunningParticle createProton(
+            final Point3 position, final Vector3 vector) {
+        //计算速率
+        double speed = vector.length();
+
+        //计算质量kg
+        double runMass = ProtonStaticMassKg / Math.sqrt(1.0 -
+                speed * speed / (LightSpeed * LightSpeed)
+        );
+
+        return new RunningParticle(position.copy(),
+                vector.copy(),
+                runMass, ProtonChargeQuantity, speed, 0.0
+        );
+    }
+
 
     /**
      * 生成一个质子。动能250MeV

@@ -19,7 +19,6 @@ import cn.edu.hust.zrx.cct.base.particle.*;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
-import cn.edu.hust.zrx.cct.study.C20201113GeneRunnerAllGantry;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -57,7 +56,7 @@ import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.PRESENT;
  * @version 1.0
  */
 
-public class C20201116据说CCT匹配好了手调QS {
+public class C20201118CUDA匹配结果 {
 
     static int PARTICLE_NUMBER_PER_PLANE_PER_DP = 5;
 
@@ -70,120 +69,10 @@ public class C20201116据说CCT匹配好了手调QS {
 
     double LEN_ALL_PART2 = t.getLength();
 
-    @Run
-    public void 先看看QS3之前() {
-        int number = 16;
-        boolean xPlane = true;
-        double dp_1 = -0.05;
-        double dp_2 = 0.0;
-        double dp_3 = 0.05;
+    static GantryDataBipolarCo.FirstBend firstBend = GantryDataBipolarCo.FirstBend.getDefault();
 
-        String title = "before qs30";
+    static BaseUtils.Switcher<String> sw = CctUtils.createPlotDescribeSwitcher();
 
-        double[] data = null;
-
-        if (true) { // data
-            // 第一组
-//            data = new double[]{
-//                    defaultSecond.QS3_GRADIENT,
-//                    defaultSecond.QS3_SECOND_GRADIENT,
-//                    79.9994983916676,
-//                    89.71467369157179,
-//                    93.28943422028492,
-//                    107.85356245082038,
-//                    82.1458121707251,
-//                    76.22099082209427,
-//                    -9506.95159304137,
-//                    -5608.105788609928
-//            };
-            // 第2组
-//            data = new double[]{
-//                    defaultSecond.QS3_GRADIENT,
-//                    defaultSecond.QS3_SECOND_GRADIENT,
-//                    80.54075854,
-//                    89.64226862,
-//                    103.2307016,
-//                    107.900851,
-//                    82.49504415,
-//                    77.76704167,
-//                    -9507.433977,
-//                    -5552.908825
-//
-//            };
-
-            // 第3组
-            data = new double[]{
-                    defaultSecond.QS3_GRADIENT,
-                    defaultSecond.QS3_SECOND_GRADIENT,
-                    80.34187201,
-                    92.18543964,
-                    93.28943422,
-                    108.0286392,
-                    85.16321456,
-                    76.33493029,
-                    -9495.939031,
-                    -5609.543464
-            };
-        }
-
-
-        GantryDataBipolarCo.SecondBend secondBend = create(data);
-
-        List<PhaseSpaceParticle> pps_dp1 = pp_cosy_after(COSY_MAP1021.part1.map, number, xPlane, dp_1);
-        List<PhaseSpaceParticle> pps_dp2 = pp_cosy_after(COSY_MAP1021.part1.map, number, xPlane, dp_2);
-        List<PhaseSpaceParticle> pps_dp3 = pp_cosy_after(COSY_MAP1021.part1.map, number, xPlane, dp_3);
-        List<PhaseSpaceParticle> pps_cosy_qs3_dp1 = pp_cosy_after(COSY_MAP1021.beforeQS3WithPart1.map, 512, xPlane, dp_1);
-        List<PhaseSpaceParticle> pps_cosy_qs3_dp2 = pp_cosy_after(COSY_MAP1021.beforeQS3WithPart1.map, 512, xPlane, dp_2);
-        List<PhaseSpaceParticle> pps_cosy_qs3_dp3 = pp_cosy_after(COSY_MAP1021.beforeQS3WithPart1.map, 512, xPlane, dp_3);
-
-        RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory(t, 215);
-
-        List<RunningParticle> ps_dp1 = ParticleFactory.createParticlesFromPhaseSpaceParticle(
-                ip, ip.computeNaturalCoordinateSystem(), pps_dp1);
-        List<RunningParticle> ps_dp2 = ParticleFactory.createParticlesFromPhaseSpaceParticle(
-                ip, ip.computeNaturalCoordinateSystem(), pps_dp2);
-        List<RunningParticle> ps_dp3 = ParticleFactory.createParticlesFromPhaseSpaceParticle(
-                ip, ip.computeNaturalCoordinateSystem(), pps_dp3);
-
-
-        Elements e = allElementPart2(GantryDataBipolarCo.FirstBend.getDefault(), secondBend);
-
-        ParticleRunner.runThread(ps_dp1, e, LEN_TO_QS3, MM);
-        ParticleRunner.runThread(ps_dp2, e, LEN_TO_QS3, MM);
-        ParticleRunner.runThread(ps_dp3, e, LEN_TO_QS3, MM);
-
-        RunningParticle ipEnd = ParticleFactory.createIdealProtonAtTrajectory(t, LEN_TO_QS3, 215);
-
-        List<PhaseSpaceParticle> ppsEnd_dp1 = PhaseSpaceParticles.phaseSpaceParticlesFromRunningParticles(ipEnd,
-                ipEnd.computeNaturalCoordinateSystem(), ps_dp1);
-        List<PhaseSpaceParticle> ppsEnd_dp2 = PhaseSpaceParticles.phaseSpaceParticlesFromRunningParticles(ipEnd,
-                ipEnd.computeNaturalCoordinateSystem(), ps_dp2);
-        List<PhaseSpaceParticle> ppsEnd_dp3 = PhaseSpaceParticles.phaseSpaceParticlesFromRunningParticles(ipEnd,
-                ipEnd.computeNaturalCoordinateSystem(), ps_dp3);
-
-        List<Point2> p2_track1 = PhaseSpaceParticles.projectionToPlane(xPlane, ppsEnd_dp1);
-        List<Point2> p2_track2 = PhaseSpaceParticles.projectionToPlane(xPlane, ppsEnd_dp2);
-        List<Point2> p2_track3 = PhaseSpaceParticles.projectionToPlane(xPlane, ppsEnd_dp3);
-        List<Point2> p2_cosy_qs31 = PhaseSpaceParticles.projectionToPlane(xPlane, pps_cosy_qs3_dp1);
-        List<Point2> p2_cosy_qs32 = PhaseSpaceParticles.projectionToPlane(xPlane, pps_cosy_qs3_dp2);
-        List<Point2> p2_cosy_qs33 = PhaseSpaceParticles.projectionToPlane(xPlane, pps_cosy_qs3_dp3);
-
-        Plot2d.plot2(Point2.convert(p2_track1, 1 / MM), Plot2d.BLACK_POINT);
-        Plot2d.plot2(Point2.convert(p2_track2, 1 / MM), Plot2d.RED_POINT);
-        Plot2d.plot2(Point2.convert(p2_track3, 1 / MM), Plot2d.GREEN_POINT);
-        Plot2d.plot2(Point2.convert(p2_cosy_qs31, 1 / MM), Plot2d.BLACK_LINE);
-        Plot2d.plot2(Point2.convert(p2_cosy_qs32, 1 / MM), Plot2d.RED_LINE);
-        Plot2d.plot2(Point2.convert(p2_cosy_qs33, 1 / MM), Plot2d.GREEN_LINE);
-
-        if (xPlane) Plot2d.info("x/mm", "xp/mrad", title, 18);
-        else Plot2d.info("y/mm", "yp/mrad", title, 18);
-
-        Plot2d.legend(18, "track-5", "track0", "track5", "cosy-5", "cosy0", "cosy5");
-
-        Plot2d.equal();
-
-        Plot2d.show();
-    }
 
     @Run(1)
     public void 直接看ISOC() {
@@ -200,45 +89,17 @@ public class C20201116据说CCT匹配好了手调QS {
         if (true) { // data
             //第一组
             data = new double[]{
-                    defaultSecond.QS3_GRADIENT,
-                    defaultSecond.QS3_SECOND_GRADIENT,
-                    79.9994983916676,
-                    89.71467369157179,
-                    93.28943422028492,
-                    107.85356245082038,
-                    82.1458121707251,
-                    76.22099082209427,
-                    -9506.95159304137,
-                    -5608.105788609928
+                    3.783635947369436,
+                    -27.649905631921364,
+                    82.78260131282005,
+                    89.84507383418705,
+                    86.29162039917983,
+                    108.27507040839,
+                    79.2200607737933,
+                    92.77975612600653,
+                    -9297.39311135724,
+                    -6415.603789731997
             };
-            // 第2组
-//            data = new double[]{
-//                    defaultSecond.QS3_GRADIENT,
-//                    defaultSecond.QS3_SECOND_GRADIENT,
-//                    80.54075854,
-//                    89.64226862,
-//                    103.2307016,
-//                    107.900851,
-//                    82.49504415,
-//                    77.76704167,
-//                    -9507.433977,
-//                    -5552.908825
-//
-//            };
-
-            // 第3组
-//            data = new double[]{
-//                    defaultSecond.QS3_GRADIENT,
-//                    defaultSecond.QS3_SECOND_GRADIENT,
-//                    80.34187201,
-//                    92.18543964,
-//                    93.28943422,
-//                    108.0286392,
-//                    85.16321456,
-//                    76.33493029,
-//                    -9495.939031,
-//                    -5609.543464
-//            };
         }
 
 
@@ -300,118 +161,66 @@ public class C20201116据说CCT匹配好了手调QS {
         Plot2d.show();
     }
 
-    @Run(2)
-    public void 尝试调整QS3_Q() {
-        int number = 16;
-        boolean xPlane = false;
-        double dp_1 = 0.0;
-        String title = "qs3_q";
-
-
-        RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory(t, 215);
-        RunningParticle ipEnd = ParticleFactory.createIdealProtonAtTrajectory(t, LEN_ALL_PART2, 215);
-
-        BaseUtils.Switcher<String> sw = CctUtils.createPlotDescribeSwitcher();
-        List<String> le = BaseUtils.Python.linspaceStream(-8, 8, 6)
-                .sequential()
-                .mapToObj(qs3q -> {
-                    double[] data = new double[]{
-                            qs3q,
-                            defaultSecond.QS3_SECOND_GRADIENT,
-                            79.9994983916676,
-                            89.71467369157179,
-                            93.28943422028492,
-                            107.85356245082038,
-                            82.1458121707251,
-                            76.22099082209427,
-                            -9506.95159304137,
-                            -5608.105788609928
-                    };
-
-                    GantryDataBipolarCo.SecondBend secondBend = create(data);
-
-                    Elements e = allElementPart2(GantryDataBipolarCo.FirstBend.getDefault(), secondBend);
-
-                    List<PhaseSpaceParticle> pps_dp1 = pp_cosy_after(COSY_MAP1021.part1.map, number, xPlane, dp_1);
-
-                    List<RunningParticle> ps_dp1 = ParticleFactory.createParticlesFromPhaseSpaceParticle(
-                            ip, ip.computeNaturalCoordinateSystem(), pps_dp1);
-
-                    ParticleRunner.runThread(ps_dp1, e, LEN_ALL_PART2, MM);
-
-
-                    List<PhaseSpaceParticle> ppsEnd_dp1 = PhaseSpaceParticles.phaseSpaceParticlesFromRunningParticles(ipEnd,
-                            ipEnd.computeNaturalCoordinateSystem(), ps_dp1);
-
-                    List<Point2> p2_track1 = PhaseSpaceParticles.projectionToPlane(xPlane, ppsEnd_dp1);
-
-                    Plot2d.plot2circle(Point2.convert(p2_track1, 1 / MM), sw.getAndSwitch());
-
-                    return "qs3_q = " + qs3q;
-                }).collect(Collectors.toList());
-
-
-        if (xPlane) Plot2d.info("x/mm", "xp/mrad", title, 18);
-        else Plot2d.info("y/mm", "yp/mrad", title, 18);
-
-        Plot2d.legend(18, le);
-
-        Plot2d.equal();
-
-        Plot2d.show();
-
-    }
-
     @Run(3)
-    public void 尝试调整QS3_S() {
-        int number = 16;
+    public void 查看dp稳定性() {
+        int number = 6;
         boolean xPlane = false;
-        double dp_1 = 0.0;
-        String title = "qs3_s";
 
+        String title = "isoc-track";
+
+        double[] data = null;
+
+        if (true) { // data
+            data = new double[]{
+                    -5.330807324879234699e+00,
+                    -6.000000000000000000e+01,
+                    7.912255157251667015e+01,
+                    9.197982716336892395e+01,
+                    9.448942695446721984e+01,
+                    1.062166895755869405e+02,
+                    7.851700406608058813e+01,
+                    8.493805327912733105e+01,
+                    -9.497093384612648151e+03,
+                    -5.780263245335943793e+03
+            };
+        }
+
+
+        GantryDataBipolarCo.SecondBend secondBend = create(data);
+
+        Elements e = allElementPart2(firstBend, secondBend);
 
         RunningParticle ip = ParticleFactory.createIdealProtonAtTrajectory(t, 215);
         RunningParticle ipEnd = ParticleFactory.createIdealProtonAtTrajectory(t, LEN_ALL_PART2, 215);
 
-        BaseUtils.Switcher<String> sw = CctUtils.createPlotDescribeSwitcher();
-        List<String> le = BaseUtils.Python.linspaceStream(-50, 50, 6)
-                .sequential()
-                .mapToObj(qs3s -> {
-                    double[] data = new double[]{
-                            defaultSecond.QS3_GRADIENT,
-                            qs3s,
-                            79.9994983916676,
-                            89.71467369157179,
-                            93.28943422028492,
-                            107.85356245082038,
-                            82.1458121707251,
-                            76.22099082209427,
-                            -9506.95159304137,
-                            -5608.105788609928
-                    };
 
-                    GantryDataBipolarCo.SecondBend secondBend = create(data);
+        List<String> le = BaseUtils.Python.linspaceStream(-5 * PRESENT, 5 * PRESENT, 5)
+                .mapToObj(dp -> {
+                    List<PhaseSpaceParticle> pp = pp_cosy_after(COSY_MAP1021.part1.map, number, xPlane, dp);
 
-                    Elements e = allElementPart2(GantryDataBipolarCo.FirstBend.getDefault(), secondBend);
+                    List<RunningParticle> ps = ParticleFactory.createParticlesFromPhaseSpaceParticle(
+                            ip, ip.computeNaturalCoordinateSystem(), pp);
 
-                    List<PhaseSpaceParticle> pps_dp1 = pp_cosy_after(COSY_MAP1021.part1.map, number, xPlane, dp_1);
+                    ParticleRunner.runThread(ps, e, LEN_ALL_PART2, MM);
 
-                    List<RunningParticle> ps_dp1 = ParticleFactory.createParticlesFromPhaseSpaceParticle(
-                            ip, ip.computeNaturalCoordinateSystem(), pps_dp1);
+                    List<PhaseSpaceParticle> ppEnd = PhaseSpaceParticles.phaseSpaceParticlesFromRunningParticles(
+                            ipEnd, ipEnd.computeNaturalCoordinateSystem(), ps);
 
-                    ParticleRunner.runThread(ps_dp1, e, LEN_ALL_PART2, MM);
+                    List<Point2> point2s = PhaseSpaceParticles.projectionToPlane(xPlane, ppEnd);
 
+                    point2s = Point2.convert(point2s, 1 / MM, 1 / MM);
 
-                    List<PhaseSpaceParticle> ppsEnd_dp1 = PhaseSpaceParticles.phaseSpaceParticlesFromRunningParticles(ipEnd,
-                            ipEnd.computeNaturalCoordinateSystem(), ps_dp1);
+                    Plot2d.plot2circle(point2s, sw.getAndSwitch());
 
-                    List<Point2> p2_track1 = PhaseSpaceParticles.projectionToPlane(xPlane, ppsEnd_dp1);
+                    Logger.getLogger().info("dp={}, {}={}mm", dp, xPlane ? "x_size" : "y_size",
+                            (
+                                    Point2.getXs(point2s).stream().mapToDouble(Double::doubleValue).max().orElse(0.0) -
+                                            Point2.getXs(point2s).stream().mapToDouble(Double::doubleValue).min().orElse(0.0)
+                            ) / 2.0
+                    );
 
-                    Plot2d.plot2circle(Point2.convert(p2_track1, 1 / MM), sw.getAndSwitch());
-
-                    return "qs3_s = " + qs3s;
+                    return "dp = " + ((Math.round(dp * 1000) / 1000.0) / PRESENT) + "%";
                 }).collect(Collectors.toList());
-
 
         if (xPlane) Plot2d.info("x/mm", "xp/mrad", title, 18);
         else Plot2d.info("y/mm", "yp/mrad", title, 18);
@@ -420,7 +229,8 @@ public class C20201116据说CCT匹配好了手调QS {
 
         Plot2d.equal();
 
-        Plot2d.show();
+        Plot2d.showThread();
+
 
     }
 
@@ -683,7 +493,7 @@ public class C20201116据说CCT匹配好了手调QS {
         );
     }
 
-    public Elements allElementPart2(GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
+    public static Elements allElementPart2(GantryDataBipolarCo.FirstBend firstBend, GantryDataBipolarCo.SecondBend secondBend) {
         Cct all = dipoleCct345_local_goodWindingMethod(secondBend).addCct(agCct345_local_goodWindingMethod(secondBend));
 
         Cct move = moveCCT345_1(all, firstBend, secondBend);

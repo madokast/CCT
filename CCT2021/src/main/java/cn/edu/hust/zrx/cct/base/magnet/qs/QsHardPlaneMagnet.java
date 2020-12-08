@@ -127,7 +127,9 @@ public class QsHardPlaneMagnet implements MagnetAble, PlotAble3d {
      * @return p1
      */
     public Point2 projectToAxisPoint(Point2 p) {
-        return this.location.toVector2().add(this.direct.dot(projectToAxisK(p))).toPoint2();
+        return this.location.toVector2().add(
+                this.direct.dot(projectToAxisK(p))
+        ).toPoint2();
     }
 
     /**
@@ -248,5 +250,34 @@ public class QsHardPlaneMagnet implements MagnetAble, PlotAble3d {
     @Override
     public void plot3d() {
         plot3d(Plot2d.BLUE_LINE);
+    }
+
+
+    public double getLength_m() {
+        return length_m;
+    }
+
+    public double getGradient_T_per_m() {
+        return gradient_T_per_m;
+    }
+
+    public double getSecond_gradient_T_per_m2() {
+        return second_gradient_T_per_m2;
+    }
+
+    public double getAperture_radius_mm() {
+        return aperture_radius_mm;
+    }
+
+    public Point2 getLocation() {
+        return location;
+    }
+
+    public Vector2 getDirect() {
+        return direct;
+    }
+
+    public double getMM() {
+        return MM;
     }
 }

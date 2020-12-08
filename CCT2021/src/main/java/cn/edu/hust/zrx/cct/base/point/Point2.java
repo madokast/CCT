@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.DoubleFunction;
@@ -424,12 +425,14 @@ public class Point2 implements Cloneable, Serializable, Comparable<Point2> {
         return point2AtLine.copy().moveSelf(spp);
     }
 
-    public double getX() {
-        return x;
+
+    public static List<Double> getXs(Collection<Point2> ps) {
+        return ps.stream().map(p->p.x).collect(Collectors.toList());
     }
 
-    public double getY() {
-        return y;
+
+    public static List<Double> getYs(Collection<Point2> ps) {
+        return ps.stream().map(p->p.y).collect(Collectors.toList());
     }
 
     /**
@@ -441,5 +444,13 @@ public class Point2 implements Cloneable, Serializable, Comparable<Point2> {
     @Override
     public int compareTo(@NotNull Point2 o) {
         return Double.compare(this.x, o.x);
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 }

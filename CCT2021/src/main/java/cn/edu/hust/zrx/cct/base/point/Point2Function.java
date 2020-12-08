@@ -24,4 +24,8 @@ public interface Point2Function extends Function<Double, Point2> {
     default Point3Function convert(Point2To3 point2To3) {
         return s -> point2To3.apply(this.apply(s));
     }
+
+    default Point2Function yAxisSymmetry() {
+        return s -> Point2.create(-this.apply(s).x, this.apply(s).y);
+    }
 }

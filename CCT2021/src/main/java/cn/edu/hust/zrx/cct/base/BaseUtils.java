@@ -361,6 +361,10 @@ public class BaseUtils {
 
                 return Arrays.stream(arr);
             }
+
+            public IntStream toExcluding(int endExcluding) {
+                return to(endExcluding - 1);
+            }
         }
 
         /*-----------------------for-n-------------------------*/
@@ -406,6 +410,10 @@ public class BaseUtils {
 
             public double average() {
                 return sum / num;
+            }
+
+            public static double compute(List<Double> doubles) {
+                return doubles.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
             }
         }
     }
@@ -673,6 +681,8 @@ public class BaseUtils {
         public static double[] dot(double[] arr, double fact) {
             return multiple(arr, fact);
         }
+
+
     }
 
     public static class ListUtils {
@@ -1101,7 +1111,7 @@ public class BaseUtils {
             }
         }
 
-        public void resetInitialTime(){
+        public void resetInitialTime() {
             initialTime = System.currentTimeMillis();
         }
     }

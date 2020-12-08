@@ -84,6 +84,9 @@ public class RunningParticle {
         BaseUtils.Equal.requireTrue(Math.abs(speed - velocity.length()) < 1e-4 ||
                         Math.abs((speed - velocity.length()) / speed) < 1e-4,
                 "建立RunningParticle，velocity.len!=speed (" + velocity.length() + " / " + speed + ")");
+
+        System.out.println("abs(v-s)/s = " + Math.abs(speed - velocity.length()) / speed);
+
         this.position = position.copy();
         this.velocity = velocity.copy();
         this.runMass = runMass;
@@ -189,9 +192,13 @@ public class RunningParticle {
         //神来之笔 改变标量动量
         this.changeScalarMomentum(deployedScalarMomentum);
 
-        //速度变化x' y'
+        // 速度变化x' y'
+        // 此处有 bud 啊
         velocity.addSelf(Vector3.dot(naturalCoordinateSystem.xDirect, xp * speed));
         velocity.addSelf(Vector3.dot(naturalCoordinateSystem.yDirect, yp * speed));
+
+        // 解决 bug 干脆再加一个这个
+        this.changeScalarMomentum(deployedScalarMomentum);
     }
 
     @Override
