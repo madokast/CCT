@@ -14,12 +14,9 @@ import cn.edu.hust.zrx.cct.base.point.Point3;
 import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Description
@@ -32,7 +29,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 
-@SpringBootTest
+//@SpringBootTest
 public class CctLine2Test {
 
     //@Test

@@ -1,6 +1,6 @@
 package cn.edu.hust.zrx.cct.advanced.geneticAlgorithm.base;
 
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +85,7 @@ public class Chromosome implements Comparable<Chromosome> {
     }
 
     @Override
-    public int compareTo(@NotNull Chromosome o) {
+    public int compareTo( Chromosome o) {
         return Double.compare(this.fitness(), o.fitness());
     }
 

@@ -3,7 +3,7 @@ package others;
 import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.BaseUtils;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.management.Attribute;
 import javax.management.AttributeList;
@@ -22,7 +22,7 @@ import java.lang.management.ManagementFactory;
  * @version 1.0
  */
 
-@SpringBootTest
+//@SpringBootTest
 public class CpuLoad {
 
     public static void main(String[] args) {

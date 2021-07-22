@@ -210,7 +210,7 @@ public class A20200402对比研究 {
         Plot2d.showThread();
     }
 
-    @run(5)
+    @run(500)
     public void 单粒子跟踪() {
         Elements elementsOfAll = getElementsOfAll();
         Trajectory trajectory = getTrajectory();

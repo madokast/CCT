@@ -4,7 +4,7 @@ import cn.edu.hust.zrx.cct.Logger;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
 /**

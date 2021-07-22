@@ -5,7 +5,7 @@ import cn.edu.hust.zrx.cct.base.BaseUtils;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
 /**
@@ -19,7 +19,7 @@ import org.springframework.util.Assert;
  * @version 1.0
  */
 
-@SpringBootTest
+//@SpringBootTest
 public class Vector3Test {
     @Test
     public void angleIncludingTest(){

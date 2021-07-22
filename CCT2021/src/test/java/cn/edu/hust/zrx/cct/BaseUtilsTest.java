@@ -10,11 +10,9 @@ import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static cn.edu.hust.zrx.cct.base.BaseUtils.Constant.MM;
 import static cn.edu.hust.zrx.cct.base.BaseUtils.Magnet.dB;

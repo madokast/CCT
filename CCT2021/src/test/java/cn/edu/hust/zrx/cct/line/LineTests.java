@@ -6,7 +6,7 @@ import cn.edu.hust.zrx.cct.base.line.TrajectoryFactory;
 import cn.edu.hust.zrx.cct.base.point.Point2;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
  * @version 1.0
  */
 
-@SpringBootTest
+//@SpringBootTest
 public class LineTests {
     @Test
     public void trajectoryTest(){

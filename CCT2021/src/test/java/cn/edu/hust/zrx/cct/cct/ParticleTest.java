@@ -16,7 +16,7 @@ import cn.edu.hust.zrx.cct.base.python.Plot2d;
 import cn.edu.hust.zrx.cct.base.python.Plot3d;
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ import java.util.List;
  * @author zrx
  * @version 1.0
  */
-@SpringBootTest
+//@SpringBootTest
 public class ParticleTest {
     //@Test
     public void test02(){

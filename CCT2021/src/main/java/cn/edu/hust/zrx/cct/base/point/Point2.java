@@ -2,7 +2,7 @@ package cn.edu.hust.zrx.cct.base.point;
 
 import cn.edu.hust.zrx.cct.base.vector.Vector2;
 import cn.edu.hust.zrx.cct.base.vector.Vector3;
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -442,7 +442,7 @@ public class Point2 implements Cloneable, Serializable, Comparable<Point2> {
      * @return Double.compare(this.x, o.x)
      */
     @Override
-    public int compareTo(@NotNull Point2 o) {
+    public int compareTo( Point2 o) {
         return Double.compare(this.x, o.x);
     }
 
